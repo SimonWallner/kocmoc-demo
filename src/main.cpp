@@ -172,7 +172,7 @@ int main(void)
 	GLuint vbo_id[2], vao_id;
 
 	// Load and compile Shader files
-	Shader minimal("../shader/minimal");
+	Shader minimal("shader/minimal");
 
 	if (!minimal) {
 		cerr << "Could not compile minimal shader program." << endl;
@@ -189,13 +189,13 @@ int main(void)
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//		draw(minimal, vao_id);
+		draw(minimal, vao_id);
 
 		glfwSwapBuffers();
 
 		// Get OGL errors
 
-//		get_errors();
+		get_errors();
 
 		// Check if the window has been closed
 
