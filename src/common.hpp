@@ -7,6 +7,9 @@
 #define GLFW_NO_GLU
 #include <GL/glfw.h>
 
+#include "utility.hpp"
+
+
 #include <iostream>
 #include <string>
 
@@ -15,4 +18,4 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-#endif //#ifndef _COMMON_HPP_
+#endif

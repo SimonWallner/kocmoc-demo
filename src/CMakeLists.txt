@@ -2,9 +2,10 @@
 
 include_directories(
     ../external/glfw/include
-    ../external/gl3w/include)
+    ../external/gl3w/include
+    ../external/glm/include)
 
-add_executable(kocmoc-demo main utility)
+add_executable(kocmoc-demo main utility shader)
 
 link_directories(/home/simon/Daten/Studium/kocmoc/repo/external/glfw/lib)
 
