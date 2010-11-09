@@ -1,9 +1,39 @@
-#include "common.hpp"
-#include "shader.hpp"
+#include "kocmoc.hpp"
+#include "ConfigFileParser.hpp"
+#include "Context.hpp"
+#include "Exception.hpp"
 
-#include <glm.hpp>
-#include <gtx/transform.hpp>
-#include <gtc/type_ptr.hpp>
+
+int main (void)
+{
+	if (!ConfigFileParser::GetInstance().parse())
+	{
+		cout << "CRITICAL: Failed to parse config file, using default values!" << endl;
+		cout << "note: values may have been paritally parsed, so not all values are drfaults." << endl;
+	}
+
+	try
+	{
+		Context::getInstance().setupGLFW();
+		Context::getInstance().testOpenGL();
+		Context::getInstance().setGLStates();
+
+		cout << "glfw/glew/gl setup complete" << endl << endl;
+
+		Kocmoc::getInstance().init();
+		Kocmoc::getInstance().start();
+
+	} catch (Exception e)
+	{
+		cout << "A fatal exception was encountered during the execution of the application!" << endl;
+		cout << e.getMessage() << endl;
+		glfwTerminate();
+		return 1;
+	}
+
+    glfwTerminate();
+    return 0;
+}
 
 
 // Test if we got a valid forward compatible context (FCC)
@@ -138,74 +168,74 @@ void draw (const Shader &shader, GLuint vao_id)
 }
 
 
-int main(void)
-{
-	cout << "starting KOCMOC, please stand by" << endl;
-
-	int width=800,
-		height=800;
-
-	glfwInit();
-
-
-	// Set flags so GLFW creates the desired OpenGL context
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-
-	if (glfwOpenWindow(	width,height,
-		0,0,0,0,
-		24, 8,
-		GLFW_WINDOW) != GL_TRUE) {
-			cerr << "Failed to initialize OpenGL window." << endl;
-			glfwTerminate();
-			return 1;
-	}
-
-	glfwSetWindowTitle("KOCMOC");
-
-
-	test_ogl3();
-	setGLOptions();
-
-	GLuint vbo_id[2], vao_id;
-
-	// Load and compile Shader files
-	Shader minimal("shader/minimal");
-
-	if (!minimal) {
-		cerr << "Could not compile minimal shader program." << endl;
-		return 1;
-	}
-
-	minimal.bind_frag_data_location("out_color");
-
-	init_vbo_vao(minimal, vbo_id, &vao_id);
-
-
-	bool running = true;
-	while (running)
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		draw(minimal, vao_id);
-
-		glfwSwapBuffers();
-
-		// Get OGL errors
-
-		get_errors();
-
-		// Check if the window has been closed
-
-		running = running && !glfwGetKey( GLFW_KEY_ESC );
-		running = running && !glfwGetKey( 'Q' );
-		running = running && glfwGetWindowParam( GLFW_OPENED );
-	}
-
-	cout << "returning to earth..." << endl;
-}
+//int main(void)
+//{
+//	cout << "starting KOCMOC, please stand by" << endl;
+//
+//	int width=800,
+//		height=800;
+//
+//	glfwInit();
+//
+//
+//	// Set flags so GLFW creates the desired OpenGL context
+//	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+//	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+//	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+//
+//
+//	if (glfwOpenWindow(	width,height,
+//		0,0,0,0,
+//		24, 8,
+//		GLFW_WINDOW) != GL_TRUE) {
+//			cerr << "Failed to initialize OpenGL window." << endl;
+//			glfwTerminate();
+//			return 1;
+//	}
+//
+//	glfwSetWindowTitle("KOCMOC");
+//
+//
+//	test_ogl3();
+//	setGLOptions();
+//
+//	GLuint vbo_id[2], vao_id;
+//
+//	// Load and compile Shader files
+//	Shader minimal("minimal.vert", "minimal.frag");
+//
+//	if (!minimal) {
+//		cerr << "Could not compile minimal shader program." << endl;
+//		return 1;
+//	}
+//
+//	minimal.bind_frag_data_location("out_color");
+//
+//	init_vbo_vao(minimal, vbo_id, &vao_id);
+//
+//
+//	bool running = true;
+//	while (running)
+//	{
+//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//
+//		draw(minimal, vao_id);
+//
+//		glfwSwapBuffers();
+//
+//		// Get OGL errors
+//
+//		get_errors();
+//
+//		// Check if the window has been closed
+//
+//		running = running && !glfwGetKey( GLFW_KEY_ESC );
+//		running = running && !glfwGetKey( 'Q' );
+//		running = running && glfwGetWindowParam( GLFW_OPENED );
+//	}
+//
+//	cout << "returning to earth..." << endl;
+//}
 
 
 

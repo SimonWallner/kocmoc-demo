@@ -3,6 +3,8 @@
 
 #include "common.hpp"
 
+#define SHADER_PATH_PREFIX "shader/"
+
 
 /**
  * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
@@ -14,28 +16,48 @@ public:
 	// Loads shaders from files and compiles them.
 	// When path is "hello", the files "hello.frag" & "hello.vert"
 	// will be loaded.
-	Shader(const string &path);
+	/**
+	 * Load and compile the files into a shader. All shaders are assumed
+	 * to reside in the same folder and use a common path prefix.
+	 *
+	 * @param vertexShaderFile the name of  the vertex shader file
+	 * @param fragmentShaderFile the name of the fragment shader file
+	 */
+	Shader(const string &vertexShaderFile, const string &fragmentShaderFile);
+
 	~Shader();
 
-	// Bind the shader to the OGL state-machine
+	/**
+	 * Bind the shader to OpenGL
+	 */
 	void bind() const
 	{
 		glUseProgram(program);
 	}
 
-	// Unbind the shader
+	/**
+	 * Unbind the shader
+	 */
 	void unbind() const
 	{
 		glUseProgram(0);
 	}
 
-	// Query the location of a vertex attribute inside the shader.
+	/**
+	 * Query the location of a vertex attribute inside the shader.
+	 * @param name The name of the attribute
+	 * @return the attribute location.
+	 */
 	GLint get_attrib_location(const std::string &name) const
 	{
 		return glGetAttribLocation(program, name.c_str());
 	}
 
-	// Query the location of a uniform variable inside the shader.
+	/**
+	 * Query the location of a uniform inside the shader.
+	 * @param name The name of the uniform
+	 * @return the uniform location.
+	 */
 	GLint get_uniform_location(const std::string &name) const
 	{
 		return glGetUniformLocation(program, name.c_str());
@@ -46,25 +68,27 @@ public:
 	{
 		if(program > 0)
 		{
-			glBindFragDataLocation(program, 0, name.c_str() );
+			glBindFragDataLocation(program, 0, name.c_str());
 			link();
 		}
 	}
 
-	// A little cast helper.
-	// With this you can simply do "if (shader) {...}" to test if a
-	// shader has been compiled successfully.
+	/**
+	 * A little cast helper.
+	 * With this you can simply do "if (shader) {...}" to test if a
+	 * shader has been compiled successfully.
+	 */
 	operator bool ()
 	{
-		return _success;
+		return success;
 	}
 
 private:
 
-	bool _success;
+	bool success;
 
-	GLuint _vertex_shader;
-	GLuint _fragment_shader;
+	GLuint vertexShader;
+	GLuint fragmentShader;
 	GLuint program;
 
 	GLuint compile(GLenum type, const string &source);

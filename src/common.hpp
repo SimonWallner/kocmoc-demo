@@ -10,6 +10,11 @@
 #include "utility.hpp"
 
 
+#include <glm.hpp>
+#include <gtx/transform.hpp>
+#include <gtc/type_ptr.hpp>
+
+
 #include <iostream>
 #include <string>
 

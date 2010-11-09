@@ -2,39 +2,38 @@
 
 #include "shader.hpp"
 
-Shader::Shader(const string &path) :
-_success(false)
+Shader::Shader(const string &vertexShaderName, const string &fragmentShaderName) :
+success(false)
 {
 	// Load the shader files
-
-	string vertex_shader_source;
-	if (file_exists(path+".vert")) {
-		vertex_shader_source = read_file(path+".vert");
+	string vertexShaderPath = SHADER_PATH_PREFIX + vertexShaderName;
+	string vertexShaderSource;
+	if (file_exists(vertexShaderPath)) {
+		vertexShaderSource = read_file(vertexShaderPath);
 	} else {
-		cerr << "Vertex shader file "
-			<< path <<".vert does not exist." << endl;
+		cerr << "Vertex shader file " << vertexShaderPath <<" does not exist." << endl;
 		return;
 	}
 
-	string fragment_shader_source;
-	if (file_exists(path+".frag")) {
-		fragment_shader_source = read_file(path+".frag");
+	string fragmentShaderPath = SHADER_PATH_PREFIX + fragmentShaderName;
+	string fragmentShaderSource;
+	if (file_exists(fragmentShaderPath)) {
+		fragmentShaderSource = read_file(fragmentShaderPath);
 	} else {
-		cerr << "Fragment shader file "
-			<< path <<".frag does not exist." << endl;
+		cerr << "Fragment shader file " << fragmentShaderPath <<" does not exist." << endl;
 		return;
 	}
+
 
 	// Compile the shaders
-
-	_vertex_shader = compile(GL_VERTEX_SHADER, vertex_shader_source);
-	if (_vertex_shader == 0)
+	vertexShader = compile(GL_VERTEX_SHADER, vertexShaderSource);
+	if (vertexShader == 0)
 		return;
 
 	get_errors();
 
-	_fragment_shader = compile(GL_FRAGMENT_SHADER, fragment_shader_source);
-	if (_fragment_shader == 0)
+	fragmentShader = compile(GL_FRAGMENT_SHADER, fragmentShaderSource);
+	if (fragmentShader == 0)
 		return;
 
 	get_errors();
@@ -45,15 +44,15 @@ _success(false)
 	if (program == 0)
 		return;
 
-	_success = true;
+	success = true;
 	get_errors();
 }
 
 Shader::~Shader()
 {
 	glDeleteProgram(program);
-	glDeleteShader(_vertex_shader);
-	glDeleteShader(_fragment_shader);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 }
 
 GLuint Shader::compile (GLenum type, const string &source)
@@ -99,8 +98,8 @@ void Shader::link(void)
 
 	// Attach shaders and link
 
-	glAttachShader(program, _vertex_shader);
-	glAttachShader(program, _fragment_shader);
+	glAttachShader(program, vertexShader);
+	glAttachShader(program, fragmentShader);
 
 	glLinkProgram(program);
 
