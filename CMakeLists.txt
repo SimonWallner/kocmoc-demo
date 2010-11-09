@@ -3,5 +3,6 @@
 cmake_minimum_required(VERSION 2.6)
 project(kocmoc CXX)
 
+add_subdirectory(external/gl3w)
 add_subdirectory(src)
 

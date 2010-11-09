@@ -1,7 +1,5 @@
-#include <iostream>
-#include <GL/glfw.h>
+#include "common.hpp"
 
-using namespace std;
 
 // Test if we got a valid forward compatible context (FCC)
 void test_ogl3(void)
@@ -20,7 +18,7 @@ void test_ogl3(void)
 	}
 
 	//gl3w doesn't expose deprecated functions anymore!
-	/*
+
 	// Try doing a fixed-function operation.
 	// Since this is a FCC, this should create an error.
 	cout << "Doing illegal operation (glTranslate) now..." << endl;
@@ -32,12 +30,13 @@ void test_ogl3(void)
 	cout << "Illegal operation caused an error message. :)" << endl;
 	else
 	cerr << "Illegal operation did NOT cause an error message. :(" << endl;
-	*/
+
 }
 
 void setGLOptions(void)
 {
-	glClearColor(0.69f, 0.65f, 0.63f, 1.0f);
+	glClearColor(0.442047, 0.387623, 0.361867, 1.0f);
+	glEnable(GL_FRAMEBUFFER_SRGB);
 }
 
 int main(void)
@@ -67,6 +66,18 @@ int main(void)
 
 	glfwSetWindowTitle("KOCMOC");
 
+//	if (gl3wInit())
+//	{
+//		cerr << "failed to initialize OpenGL" << endl;
+//		return 1;
+//	}
+//	if (!gl3wIsSupported(3, 2))
+//	{
+//		cerr << "OpenGL 3.2 not supported" << endl;
+//		return 1;
+//	}
+
+
 	test_ogl3();
 	setGLOptions();
 
@@ -89,6 +100,8 @@ int main(void)
 		running = running && !glfwGetKey( 'Q' );
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 	}
+
+	cout << "returning to earth..." << endl;
 }
 
 
