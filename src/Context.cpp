@@ -115,7 +115,8 @@ void Context::testOpenGL()
 		if (glGetError() != GL_NO_ERROR)
 		{
 			cout << "An error occured querying the OpenGL version: ";
-			cout << gluErrorString(error) << endl;
+//			cout << gluErrorString(error) << endl;
+			get_errors();
 		}
 
 	}
@@ -184,13 +185,13 @@ void Context::toggleWireframe(void)
 	if(wireframeMode)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		FontTool::getInstance().print("wireframe ON");
+//		FontTool::getInstance().print("wireframe ON");
 	}
 	else 
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//glPolygonMode(GL_FRONT, GL_FILL);
-		FontTool::getInstance().print("wireframe OFF");
+//		FontTool::getInstance().print("wireframe OFF");
 	}
 }
 

@@ -1,6 +1,8 @@
+#include "kocmoc.hpp"
+
 #include "Context.hpp"
 #include "ConfigFileParser.hpp"
-
+#include "Exception.hpp"
 
 Kocmoc* Kocmoc::instance = NULL;
 
@@ -33,32 +35,28 @@ bool Kocmoc::isRunning(){
 void Kocmoc::start()
 {
 	while (running)
-		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	{
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			draw(minimal, vao_id);
+		draw(*minimal, vao_id);
 
-			Context::getInstance().swapBuffers();
-
-			// Get OGL errors
-
-			get_errors();
-
-			// Check if the window has been closed
-
-			running = running && !glfwGetKey( GLFW_KEY_ESC );
-			running = running && !glfwGetKey( 'Q' );
-			running = running && glfwGetWindowParam( GLFW_OPENED );
-		}
+		Context::getInstance().swapBuffers();
 
 		// Get OGL errors
+
 		get_errors();
 
+		// Check if the window has been closed
+
+		running = running && !glfwGetKey( GLFW_KEY_ESC );
+		running = running && !glfwGetKey( 'Q' );
+		running = running && glfwGetWindowParam( GLFW_OPENED );
 	}
-	
-	// wait for the input thread to finish
-	glfwWaitThread(inputLoop, GLFW_WAIT);
+
+	// Get OGL errors
+	get_errors();
 }
+
 
 void Kocmoc::stop(){
 	running = false;
@@ -67,24 +65,24 @@ void Kocmoc::stop(){
 
 void Kocmoc::init()
 {
-	GLuint vbo_id[2], vao_id;
+	GLuint vbo_id[2];
 
 	// Load and compile Shader files
-	Shader minimal("minimal.vert", "minimal.frag");
+	minimal = new Shader("minimal.vert", "minimal.frag");
 
 	if (!minimal) {
 		cerr << "Could not compile minimal shader program." << endl;
-		return 1;
+		throw Exception("failed to compile minimal shader");
 	}
 
-	minimal.bind_frag_data_location("out_color");
+	minimal->bind_frag_data_location("out_color");
 
-	init_vbo_vao(minimal, vbo_id, &vao_id);
+	init_vbo_vao(*minimal, vbo_id, &vao_id);
 	
 	running = true;
 }
 
-void Kocmoc::draw(){
+void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 
 	glm::mat4 rotation_matrix =
 		glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(),
@@ -113,3 +111,63 @@ void Kocmoc::draw(){
 
 	shader.unbind();
 }
+
+void Kocmoc::init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id)
+{
+	// Our triangle data
+	static GLfloat triangle_positions[] = {	 0.0f,		  1.0f, 0.0f, 1.0f,
+		0.8660254f, -0.5f, 0.0f, 1.0f,
+		-0.8660254f, -0.5f, 0.0f, 1.0f	};
+
+	static GLfloat triangle_colors[] = {	1, 0, 0,
+		0, 1, 0,
+		0, 0, 1	};
+
+	// Allocate and assign a Vertex Array Object to our handle
+
+	glGenVertexArrays(1, vao_id);
+
+	// Bind our Vertex Array Object as the current used object
+
+	glBindVertexArray(*vao_id);
+
+	// Allocate and assign two Vertex Buffer Objects (VBOs) to our handle
+	glGenBuffers(2, vbo_id);
+
+	// Bind our first VBO as being the active buffer and storing vertex attributes (coordinates)
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[0]);
+	glBufferData(GL_ARRAY_BUFFER, 3 * 4 * sizeof(GLfloat), triangle_positions, GL_STATIC_DRAW);
+
+	GLint vertex_location = shader.get_attrib_location("in_position");
+	glEnableVertexAttribArray(vertex_location);
+	glVertexAttribPointer(	vertex_location, 4, GL_FLOAT,
+		GL_FALSE, 0, NULL);
+
+	// Repeat for second VBO storing vertex colors
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[1]);
+	glBufferData(GL_ARRAY_BUFFER, 3 * 3 * sizeof(GLfloat), triangle_colors, GL_STATIC_DRAW);
+
+	GLint color_location = shader.get_attrib_location("in_color");
+	glEnableVertexAttribArray(color_location);
+	glVertexAttribPointer(	color_location, 3, GL_FLOAT,
+		GL_FALSE, 0, NULL);
+
+	// unbind VAO
+
+	glBindVertexArray(0);
+
+	// Unbind VBOs
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+}
+
+void Kocmoc::release_vbo_vao(GLuint *vbo_id, GLuint *vao_id)
+{
+	glDeleteVertexArrays(1, vao_id);
+
+	glDeleteBuffers(2, vbo_id);
+
+	*vao_id = 0;
+	vbo_id[0] = vbo_id[1] = 0;
+}
+

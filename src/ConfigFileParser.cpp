@@ -1,4 +1,4 @@
-#include "ConfigFileParser.h"
+#include "ConfigFileParser.hpp"
 #include <fstream>
 
 ConfigFileParser::ConfigFileParser(void)

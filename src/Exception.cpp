@@ -1,4 +1,4 @@
-#include "Exception.h"
+#include "Exception.hpp"
 
 Exception::Exception(string msg)
 {

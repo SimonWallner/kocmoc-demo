@@ -1,3 +1,5 @@
+#include "shader.hpp"
+
 /**
  * Singleton game object. All game related magic happens in here.
  */
@@ -23,12 +25,14 @@ public:
 	/**
 	 * draw the current frame
 	 */
-	void draw();
+	void draw(const Shader &shader, GLuint vao_id);
 
 	/**
 	 * init everything that is needed for the game
 	 */
 	void init();
+
+	bool isRunning();
 
 
 private:
@@ -40,5 +44,11 @@ private:
 	static Kocmoc *instance;
 
 	bool running;
+	Shader *minimal;
+	GLuint vao_id;
+
+	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
+	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
+
 
 };
