@@ -1,0 +1,167 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/765/trunk/COLLADASaxFrameworkLoader/include/generated15
+END
+COLLADASaxFWLLibraryAnimationsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryAnimationsLoader15.h
+END
+COLLADASaxFWLFormulasLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/586/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLFormulasLoader15.h
+END
+COLLADASaxFWLLibraryImagesLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryImagesLoader15.h
+END
+COLLADASaxFWLGeometryLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLGeometryLoader15.h
+END
+COLLADASaxFWLLibraryJointsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/589/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryJointsLoader15.h
+END
+COLLADASaxFWLLibraryControllersLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryControllersLoader15.h
+END
+COLLADASaxFWLMeshLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLMeshLoader15.h
+END
+COLLADASaxFWLLibraryNodesLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryNodesLoader15.h
+END
+COLLADASaxFWLSceneLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/739/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLSceneLoader15.h
+END
+COLLADASaxFWLSourceArrayLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLSourceArrayLoader15.h
+END
+COLLADASaxFWLLibraryCamerasLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryCamerasLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15Private.h
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15Private.h
+END
+COLLADASaxFWLLibraryEffectsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/765/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryEffectsLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15FunctionMapFactory.h
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15FunctionMapFactory.h
+END
+COLLADASaxFWLLibraryMaterialsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryMaterialsLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15.h
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15.h
+END
+COLLADASaxFWLLibraryFormulasLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/586/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryFormulasLoader15.h
+END
+COLLADASaxFWLLibraryKinematicsScenesLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/739/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryKinematicsScenesLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15ValidationData.h
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15ValidationData.h
+END
+COLLADASaxFWLLibraryArticulatedSystemsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/!svn/ver/589/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryArticulatedSystemsLoader15.h
+END
+COLLADASaxFWLAssetLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLAssetLoader15.h
+END
+COLLADASaxFWLLibraryLightsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryLightsLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15Attributes.h
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15Attributes.h
+END
+COLLADASaxFWLLibraryKinematicsModelsLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/589/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLLibraryKinematicsModelsLoader15.h
+END
+COLLADASaxFWLColladaParserAutoGen15Enums.h
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLColladaParserAutoGen15Enums.h
+END
+COLLADASaxFWLVisualSceneLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svn/!svn/ver/569/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLVisualSceneLoader15.h
+END
+COLLADASaxFWLNodeLoader15.h
+K 25
+svn:wc:ra_dav:version-url
+V 97
+/svn/!svn/ver/586/trunk/COLLADASaxFrameworkLoader/include/generated15/COLLADASaxFWLNodeLoader15.h
+END

@@ -1,9 +1,12 @@
-# cmake list for /src
+# cmake list for src/
 
 include_directories(
     ../external/glfw/include
     ../external/gl3w/include
-    ../external/glm/include)
+    ../external/glm/include
+    ../external/opencollada/framework/include
+    ../external/opencollada/baseUtils/include
+    ../external/opencollada/saxFWLoader/include)
 
 add_executable(kocmoc-demo
     main
@@ -12,8 +15,13 @@ add_executable(kocmoc-demo
     Context
     PropertiesFileParser
     Exception
-    kocmoc)
+    kocmoc
+    Loader
+    PolyMesh
+    Scene
+    OpenColladaImporter)
 
-link_directories(/home/simon/Daten/Studium/kocmoc/repo/external/glfw/lib)
+link_directories(../external/glfw/lib
+    ../external/opencollada/lib)
 
 target_link_libraries(kocmoc-demo glfw )

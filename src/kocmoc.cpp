@@ -26,6 +26,7 @@ Kocmoc::Kocmoc()
 
 Kocmoc::~Kocmoc()
 {
+	delete minimal;
 }
 
 bool Kocmoc::isRunning(){
@@ -43,7 +44,6 @@ void Kocmoc::start()
 		Context::getInstance().swapBuffers();
 
 		// Get OGL errors
-
 		get_errors();
 
 		// Check if the window has been closed

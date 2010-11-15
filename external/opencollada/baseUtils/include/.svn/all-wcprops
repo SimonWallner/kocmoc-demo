@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/770/trunk/COLLADABaseUtils/include
+END
+COLLADABUPlatform.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/497/trunk/COLLADABaseUtils/include/COLLADABUPlatform.h
+END
+COLLADABUPcreCompiledPattern.h
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/586/trunk/COLLADABaseUtils/include/COLLADABUPcreCompiledPattern.h
+END
+COLLADABUPrerequisites.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/770/trunk/COLLADABaseUtils/include/COLLADABUPrerequisites.h
+END
+COLLADABUStableHeaders.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/741/trunk/COLLADABaseUtils/include/COLLADABUStableHeaders.h
+END
+COLLADABUStringUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/739/trunk/COLLADABaseUtils/include/COLLADABUStringUtils.h
+END
+COLLADABUIDList.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/569/trunk/COLLADABaseUtils/include/COLLADABUIDList.h
+END
+COLLADABUHashFunctions.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/741/trunk/COLLADABaseUtils/include/COLLADABUHashFunctions.h
+END
+COLLADABUNativeString.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/497/trunk/COLLADABaseUtils/include/COLLADABUNativeString.h
+END
+COLLADABUException.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/497/trunk/COLLADABaseUtils/include/COLLADABUException.h
+END
+COLLADABU.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/686/trunk/COLLADABaseUtils/include/COLLADABU.h
+END
+COLLADABUURI.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/685/trunk/COLLADABaseUtils/include/COLLADABUURI.h
+END
+COLLADABUhash_map.h
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/741/trunk/COLLADABaseUtils/include/COLLADABUhash_map.h
+END
+COLLADABUUtils.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/667/trunk/COLLADABaseUtils/include/COLLADABUUtils.h
+END
