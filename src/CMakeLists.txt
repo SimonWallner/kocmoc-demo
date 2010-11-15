@@ -10,7 +10,7 @@ add_executable(kocmoc-demo
     utility
     shader
     Context
-    ConfigFileParser
+    PropertiesFileParser
     Exception
     kocmoc)
 

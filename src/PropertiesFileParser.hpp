@@ -2,6 +2,7 @@
 #define _CONFIG_PARSER_H_
 
 #include "common.hpp"
+#include <map>
 
 
 /**
@@ -9,15 +10,15 @@
  */
 
 /** define the path to the config file */
-#define CONFIG_PARSER_FILE_PATH "kocmoc.cfg"
+#define CONFIG_PARSER_FILE_PATH "kocmoc.properties"
 
-class ConfigFileParser
+class PropertiesFileParser
 {
 public:
 	/**
 	 * Get the singleton instance
 	 */
-	static ConfigFileParser& GetInstance(void);
+	static PropertiesFileParser& GetInstance(void);
 
 	/**
 	 * parse the config file. Make sure to call this method bevore accessing
@@ -27,28 +28,28 @@ public:
 	 */
 	bool parse(void);
 
-	~ConfigFileParser(void);
+	~PropertiesFileParser(void);
 
-	// config options, default values are provided in the c'tor
-	GLint width;
-	GLint height;
-	bool fullscreen;
-	bool forceCaptureMouse;
-	bool debugShowBulletWireframe;
-	bool forceInstancingOff;
-	bool enableFBOs;
-	bool showFrameRate;
-	bool muteAudio;
-	bool forceTerrainOff;
-	bool forceFreeLookCamera;
-	bool forceHDRNoMipMap;
+	/**
+	 * Get a property with the given name.
+	 */
+	void getProperty(string name, string* value);
+	void getProperty(string name, int* value);
+	void getProperty(string name, bool* value);
+
+	/**
+	 * Print the contents of the cache to the std out
+	 */
+	void list(void);
 
 private:
-		ConfigFileParser(void);
-		ConfigFileParser(const ConfigFileParser &cc);
+		PropertiesFileParser(void);
+		PropertiesFileParser(const PropertiesFileParser &cc);
 
 		bool isspacesonly(const string& line);
 		void getnextline(std::istream& is, string& line);
+
+		std::map<string, string> cache;
 };
 
 #endif

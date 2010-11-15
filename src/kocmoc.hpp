@@ -50,5 +50,11 @@ private:
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
 
+	/**
+	 * Poll the keyboard and process the inputs. should only be used for simple
+	 * stuff. More sophisticated input would need its own input thread.
+	 */
+	void pollKeyboard(void);
+
 
 };

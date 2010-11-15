@@ -1,7 +1,7 @@
 #include "kocmoc.hpp"
 
 #include "Context.hpp"
-#include "ConfigFileParser.hpp"
+#include "PropertiesFileParser.hpp"
 #include "Exception.hpp"
 
 Kocmoc* Kocmoc::instance = NULL;
@@ -47,10 +47,9 @@ void Kocmoc::start()
 		get_errors();
 
 		// Check if the window has been closed
-
-		running = running && !glfwGetKey( GLFW_KEY_ESC );
-		running = running && !glfwGetKey( 'Q' );
 		running = running && glfwGetWindowParam( GLFW_OPENED );
+
+		pollKeyboard();
 	}
 
 	// Get OGL errors
@@ -171,3 +170,11 @@ void Kocmoc::release_vbo_vao(GLuint *vbo_id, GLuint *vao_id)
 	vbo_id[0] = vbo_id[1] = 0;
 }
 
+void Kocmoc::pollKeyboard(void)
+{
+	running = running && !glfwGetKey( GLFW_KEY_ESC );
+	running = running && !glfwGetKey( 'Q' );
+
+	if (glfwGetKey('W'))
+		Context::getInstance().toggleWireframe();
+}
