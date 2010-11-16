@@ -4,13 +4,14 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/external/glfw/include
     ${PROJECT_SOURCE_DIR}/external/gl3w/include
     ${PROJECT_SOURCE_DIR}/external/glm/include
-    ${PROJECT_SOURCE_DIR}/external/opencollada/framework/include
-    ${PROJECT_SOURCE_DIR}/external/opencollada/baseUtils/include
-    ${PROJECT_SOURCE_DIR}/external/opencollada/saxFWLoader/include)
+    ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADAFramework/include
+    ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADABaseUtils/include
+    ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADASaxFrameworkLoader/include)
 
 link_directories(
     ${PROJECT_SOURCE_DIR}/external/glfw/lib
-    ${PROJECT_SOURCE_DIR}/external/opencollada/lib)
+    ${PROJECT_SOURCE_DIR}/external/opencollada/lib
+    )
 
 add_executable(kocmoc-demo
     main

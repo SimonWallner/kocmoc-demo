@@ -5,7 +5,7 @@
 #ifndef KOCMOC_COLLADA_ERROR_HANDLER_HPP_
 #define KOCMOC_COLLADA_ERROR_HANDLER_HPP_
 
-#include "COLLADASaxFWLIErrorHandler.h"
+#include <COLLADASaxFWLIErrorHandler.h>
 
 class KocmocColladaErrorHandler :  public COLLADASaxFWL::IErrorHandler
 {

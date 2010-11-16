@@ -5,5 +5,6 @@ project(kocmoc CXX)
 
 # add_subdirectory(external/gl3w)
 # add_subdirectory(external/glm)
+add_subdirectory(external/opencollada)
 add_subdirectory(src)
 
