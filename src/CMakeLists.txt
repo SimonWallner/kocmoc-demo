@@ -16,11 +16,11 @@ add_executable(kocmoc-demo
     PropertiesFileParser
     Exception
     kocmoc
-    Loader
+    KocmocLoader
     PolyMesh
     Scene
     KocmocColladaImporter
-    OpenColladaErrorHandler)
+    KocmocColladaErrorHandler)
 
 link_directories(../external/glfw/lib
     ../external/opencollada/lib)
