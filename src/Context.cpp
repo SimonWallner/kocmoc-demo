@@ -67,6 +67,8 @@ void Context::setupGLFW()
 	if (!gl3wIsSupported(3, 2)) 
 		throw Exception("OpenGL 3.2 not supported");
 
+	cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+
 #endif
 
 
