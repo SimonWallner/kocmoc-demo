@@ -1,28 +1,29 @@
 /*
- * Loader.hpp
+ * KocmocLoader.hpp
  *
  *  Created on: 15 Nov 2010
  *      Author: simon
  */
 
-#ifndef LOADER_HPP_
-#define LOADER_HPP_
+#ifndef KOCMOC_LOADER_HPP_
+#define KOCMOC_LOADER_HPP_
 
 #include <string>
 #include "PolyMesh.hpp"
-#include "OpenColladaImporter.hpp"
+#include "KocmocColladaImporter.hpp"
 
-#include <COLLADASaxFWL.h>
+#include <COLLADASaxFWLLoader.h>
+#include <COLLADAFWRoot.h>
 
 
-class Loader
+class KocmocLoader
 {
 public:
 
 	/**
 	 * Get the singleton instance
 	 */
-	static Loader &getInstance(void);
+	static KocmocLoader &getInstance(void);
 
 	/**
 	 * Destroy the singleton instance
@@ -38,15 +39,15 @@ public:
 
 private:
 
-	static Loader *instance;
+	static KocmocLoader *instance;
 
-	OpenColladaImporter importer;
+	KocmocColladaImporter importer;
 	COLLADAFW::Root colladaRoot;
 	COLLADASaxFWL::Loader saxLoader;
 
-	Loader(void);
-	Loader(const Loader &cc);
-	~Loader();
+	KocmocLoader(void);
+	KocmocLoader(const KocmocLoader &cc);
+	~KocmocLoader();
 };
 
-#endif /* LOADER_HPP_ */
+#endif /* KOCMOC_LOADER_HPP_ */

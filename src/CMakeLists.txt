@@ -19,7 +19,8 @@ add_executable(kocmoc-demo
     Loader
     PolyMesh
     Scene
-    OpenColladaImporter)
+    KocmocColladaImporter
+    OpenColladaErrorHandler)
 
 link_directories(../external/glfw/lib
     ../external/opencollada/lib)
