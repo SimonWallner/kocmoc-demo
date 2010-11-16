@@ -1,3 +1,3 @@
 [submodule "external/gl3w"]
 	path = external/gl3w
-	url = git@github.com:SimonWallner/gl3w.git
+	url = https://SimonWallner@github.com/SimonWallner/gl3w.git
