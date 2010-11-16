@@ -11,6 +11,7 @@ include_directories(
 link_directories(
     ${PROJECT_SOURCE_DIR}/external/glfw/lib
     ${PROJECT_SOURCE_DIR}/external/opencollada/lib
+    ${PROJECT_SOURCE_DIR}/external/libxml/
     )
 
 add_executable(kocmoc-demo
@@ -30,6 +31,7 @@ add_executable(kocmoc-demo
 target_link_libraries(
     kocmoc-demo
     glfw
+    gl3w
     OpenCOLLADAFramework
     OpenCOLLADASaxFrameworkLoader
     OpenCOLLADABaseUtils
@@ -40,4 +42,7 @@ target_link_libraries(
     ftoa
     MathMLSolver
     OpenCOLLADAStreamWriter
-    xml2)
+    # xml2
+    openGL32
+    libXML
+    )

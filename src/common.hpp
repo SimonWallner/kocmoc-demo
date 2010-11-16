@@ -1,8 +1,12 @@
 #ifndef _COMMON_HPP_
 #define _COMMON_HPP_
 
-#define GL3_PROTOTYPES 1
-#include <GL3/gl3.h>
+#ifdef _WINDOWS
+	#include <GL3/gl3w.h>
+#else
+	#define GL3_PROTOTYPES 1
+	#include <GL3/gl3.h>
+#endif
 
 #define GLFW_NO_GLU
 #include <GL/glfw.h>

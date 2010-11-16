@@ -58,19 +58,18 @@ void Context::setupGLFW()
 	glfwSetWindowPos(200, 20);
 	glfwSetWindowTitle("KOCMOC");
 
-	// Load extensions and OGL>1.1 functions with GLEW
+#ifdef _WINDOWS
+	// Load extensions and OGL>1.1 functions with gl3w
+	// http://github.com/skaslev/gl3w
 
-//	GLenum err = glewInit();
-//	if (GLEW_OK != err) {
-//		/* Problem: glewInit failed, something is seriously wrong. */
-//		cout <<  "Error: " << glewGetErrorString(err) << endl;
-//		throw Exception("Failed to init glew (glewInit)!");
-//	}
-//
-//    // Clear errors. GLFW setup seems to cause an opengl error while setup.
-//	int error = glGetError();
-//	if (error != GL_NO_ERROR)
-//		cout << "post init error: " << gluErrorString(error) << endl;
+	if (gl3wInit()) 
+		throw Exception("failed to initialize OpenGL");
+	if (!gl3wIsSupported(3, 2)) 
+		throw Exception("OpenGL 3.2 not supported");
+
+#endif
+
+
 }
 
 

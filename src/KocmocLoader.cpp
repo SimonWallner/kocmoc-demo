@@ -42,4 +42,6 @@ KocmocLoader::~KocmocLoader()
 
 PolyMesh KocmocLoader::load(string name)
 {
+	PolyMesh mesh;
+	return mesh;
 }

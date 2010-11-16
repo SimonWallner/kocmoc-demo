@@ -32,6 +32,7 @@ void KocmocColladaImporter::finish()
 bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
 	cout << "receiving geometry: " << endl;
+	return true;
 }
 
 
