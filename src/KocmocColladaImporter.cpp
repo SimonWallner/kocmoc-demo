@@ -35,21 +35,20 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 }
 
 
-bool KocmocColladaImporter::writeGlobalAsset ( const FileInfo* asset ) {return true;}
-bool KocmocColladaImporter::writeScene ( const Scene* scene ) {return true;}
-bool KocmocColladaImporter::writeVisualScene ( const VisualScene* visualScene ) {return true;}
-bool KocmocColladaImporter::writeLibraryNodes ( const LibraryNodes* libraryNodes ) {return true;}
-bool KocmocColladaImporter::writeGeometry ( const Geometry* geometry ) {return true;}
-bool KocmocColladaImporter::writeMaterial( const Material* material ) {return true;}
-bool KocmocColladaImporter::writeEffect( const Effect* effect ) {return true;}
-bool KocmocColladaImporter::writeCamera( const Camera* camera ) {return true;}
-bool KocmocColladaImporter::writeImage( const Image* image ) {return true;}
-bool KocmocColladaImporter::writeLight( const Light* light ) {return true;}
-bool KocmocColladaImporter::writeAnimation( const Animation* animation ) {return true;}
-bool KocmocColladaImporter::writeAnimationList( const AnimationList* animationList ) {return true;}
-bool KocmocColladaImporter::writeSkinControllerData( const SkinControllerData* skinControllerData ) {return true;}
-bool KocmocColladaImporter::writeController( const Controller* controller ) {return true;}
-bool KocmocColladaImporter::writeFormulas( const Formulas* formulas ) {return true;}
-bool KocmocColladaImporter::writeKinematicsScene( const KinematicsScene* kinematicsScene ) {return true;}
+bool KocmocColladaImporter::writeGlobalAsset ( const COLLADAFW::FileInfo* asset ) {return true;}
+bool KocmocColladaImporter::writeScene ( const COLLADAFW::Scene* scene ) {return true;}
+bool KocmocColladaImporter::writeVisualScene ( const COLLADAFW::VisualScene* visualScene ) {return true;}
+bool KocmocColladaImporter::writeLibraryNodes ( const COLLADAFW::LibraryNodes* libraryNodes ) {return true;}
+bool KocmocColladaImporter::writeMaterial( const COLLADAFW::Material* material ) {return true;}
+bool KocmocColladaImporter::writeEffect( const COLLADAFW::Effect* effect ) {return true;}
+bool KocmocColladaImporter::writeCamera( const COLLADAFW::Camera* camera ) {return true;}
+bool KocmocColladaImporter::writeImage( const COLLADAFW::Image* image ) {return true;}
+bool KocmocColladaImporter::writeLight( const COLLADAFW::Light* light ) {return true;}
+bool KocmocColladaImporter::writeAnimation( const COLLADAFW::Animation* animation ) {return true;}
+bool KocmocColladaImporter::writeAnimationList( const COLLADAFW::AnimationList* animationList ) {return true;}
+//bool KocmocColladaImporter::writeSkinControllerData( const COLLADAFW::SkinControllerData* skinControllerData ) {return true;}
+//bool KocmocColladaImporter::writeController( const COLLADAFW::Controller* controller ) {return true;}
+bool KocmocColladaImporter::writeFormulas( const COLLADAFW::Formulas* formulas ) {return true;}
+bool KocmocColladaImporter::writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene ) {return true;}
 
 

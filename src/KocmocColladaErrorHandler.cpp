@@ -14,5 +14,5 @@ KocmocColladaErrorHandler::~KocmocColladaErrorHandler()
 
 bool KocmocColladaErrorHandler::handleError(const COLLADASaxFWL::IError* error)
 {
-	cout << "An error occured: " << error->getFullErrorMessage();
+	cout << "some error occured! " << endl;
 }

@@ -11,6 +11,7 @@
 #include <string>
 #include "PolyMesh.hpp"
 #include "KocmocColladaImporter.hpp"
+#include "KocmocColladaErrorHandler.hpp"
 
 #include <COLLADASaxFWLLoader.h>
 #include <COLLADAFWRoot.h>
@@ -44,6 +45,7 @@ private:
 	KocmocColladaImporter importer;
 	COLLADAFW::Root colladaRoot;
 	COLLADASaxFWL::Loader saxLoader;
+	KocmocColladaErrorHandler errorHandler;
 
 	KocmocLoader(void);
 	KocmocLoader(const KocmocLoader &cc);

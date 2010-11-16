@@ -27,7 +27,10 @@ void KocmocLoader::Destroy()
 }
 
 
-KocmocLoader::KocmocLoader()
+KocmocLoader::KocmocLoader() :
+		importer(),
+		saxLoader(&errorHandler),
+		colladaRoot(&saxLoader, &importer)
 {
 	// TODO Auto-generated constructor stub
 }
@@ -39,5 +42,4 @@ KocmocLoader::~KocmocLoader()
 
 PolyMesh KocmocLoader::load(string name)
 {
-	colladaRoot = COLLADAFW::Root(saxLoader, importer);
 }
