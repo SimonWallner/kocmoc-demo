@@ -26,4 +26,17 @@ add_executable(kocmoc-demo
     KocmocColladaImporter
     KocmocColladaErrorHandler)
 
-target_link_libraries(kocmoc-demo glfw OpenCOLLADAFramework OpenCOLLADASaxFrameworkLoader)
+target_link_libraries(
+    kocmoc-demo
+    glfw
+    OpenCOLLADAFramework
+    OpenCOLLADASaxFrameworkLoader
+    OpenCOLLADABaseUtils
+    GeneratedSaxParser
+    pcre
+    UTF
+    buffer
+    ftoa
+    MathMLSolver
+    OpenCOLLADAStreamWriter
+    xml2)
