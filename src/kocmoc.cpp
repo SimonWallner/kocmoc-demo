@@ -80,6 +80,9 @@ void Kocmoc::init()
 	minimal->bind_frag_data_location("out_color");
 
 	init_vbo_vao(*minimal, vbo_id, &vao_id);
+
+	camera = new Camera(dvec3(0.0), dvec3(0.0), dvec3(0.0));
+	camera->updateViewMatrix();
 	
 	running = true;
 }
