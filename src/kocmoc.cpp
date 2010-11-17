@@ -38,6 +38,8 @@ void Kocmoc::start()
 {
 	while (running)
 	{
+		timer.tic();
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		draw(*minimal, vao_id);
@@ -181,4 +183,7 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey('S'))
 		ImageLoader::getInstance().screenShot();
+
+	if (glfwGetKey('F'))
+		timer.print();
 }

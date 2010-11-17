@@ -1,4 +1,5 @@
 #include "shader.hpp"
+#include "Timer.hpp"
 
 /**
  * Singleton game object. All game related magic happens in here.
@@ -46,6 +47,8 @@ private:
 	bool running;
 	Shader *minimal;
 	GLuint vao_id;
+
+	Timer timer;
 
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);

@@ -77,6 +77,8 @@ add_executable(kocmoc-demo
     KocmocColladaImporter.cpp
     KocmocColladaErrorHandler.cpp
     ImageLoader.cpp
+    Timer.cpp
+    Timer.hpp
 )
 
 target_link_libraries(
