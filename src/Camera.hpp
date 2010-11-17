@@ -1,49 +1,64 @@
-/*
- * A basic camera modelled after a real 35mm camera.
- */
+#ifndef _CAMERA_H_
+#define _CAMERA_H_
 
-#ifndef CAMERA_HPP_
-#define CAMERA_HPP_
+#include "common.hpp"
 
 class Camera
 {
 public:
-	Camera();
-	virtual ~Camera();
-
-private:
 	/**
-	 * Set the film gate in pixel
-	 * Set the film gate to specific size in pixels. This will mostly be the
-	 * final output resolution, or the visual area in a letterboxed output.
-	 * @param width The width of the gate
-	 * @param height The height of the gate
+	 * Construct a new camera from the given params
+	 * @param eyePosition The point from where the camera looks into the
+	 * scene
+	 * @param targetPosition The point the camera looks at
+	 * @param upVector the up-vector of the camera
 	 */
-	void setGateInPixel(int width, int height);
+	Camera(dvec3 eyePosition, dvec3 targetPosition, dvec3 upVector);
 
-	/**
-	 * The filter margin of the camera.
-	 * A field wider than the final gate is rendered to provide some
-	 * margin for post processing filters.
+	virtual ~Camera(void);
+
+	/** 
+	 * Get the view matrix of this camera
+	 * @return the view matrix of the camera
 	 */
-	void setFilterMargininPixel(int horizontalMargin, int verticalMargin);
+	dmat4x4 getViewMatrix();
 
 	/**
-	 * Set the 35mm equivalent focal length of the lens.
-	 * @param The focal length as it would be in a standard 35mm film camera.
+	 * Get the untranslated view matrix that only reflects the viewing
+	 * direction. made for the skybox.
+	 * @return the untranslated view matrix
 	 */
-	void setFocalLength(double mm);
+	dmat4x4 getUntraslatedViewMatrix();
 
 	/**
-	 * The counterpart to setFocalLength. Directly set the horizontal AOV
-	 * @param radians The horizontal AOV in radians.
+	 * Update the view matrix of this camera with the current values. 
+	 * You should call this method at the beginning of every frame. Camera
+	 * parameters (eyePsition, targetPosition, etc.) my change during a 
+	 * frame due to user inputs, but the viewMatrix remains constant until
+	 * <code>updateViewMatrix()</code> is called.
+	 * Also updates the untranslated view Matrix.
 	 */
-	void setAngleOfView(double radians);
+	void updateViewMatrix();
 
-	//TODO: position, orientation, movement
-	//TODO: focus, vertigo
+	/**
+	 * Get position of the eye in form of dvec3
+	 */
+	dvec3 getEyeVector();
 
-	//TODO: color correction post thingys
+	dvec3 getLookAtVector();
+
+	dvec3 getUpVector();
+	
+protected:
+	dmat4x4 viewMatrix;
+
+	/** this is for the skybox and things alike */
+	dmat4x4 untranslatedViewMatrix;
+
+	dvec3 eyePosition;
+	dvec3 targetPosition;
+	dvec3 upVector;
+
 };
 
-#endif /* CAMERA_HPP_ */
+#endif

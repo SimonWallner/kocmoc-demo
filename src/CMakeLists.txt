@@ -52,6 +52,7 @@ SET(SOURCE_FILES
 
 # add_executable(kocmoc-demo ${HEADER_FILES_MSVC} ${SOURCE_FILES})
 add_executable(kocmoc-demo
+	common.hpp
     utility.hpp
     shader.hpp
     Context.hpp
@@ -79,6 +80,10 @@ add_executable(kocmoc-demo
     ImageLoader.cpp
     Timer.cpp
     Timer.hpp
+    Camera.hpp
+    Camera.cpp
+    FilmCamera.cpp
+    FilmCamera.hpp
 )
 
 target_link_libraries(

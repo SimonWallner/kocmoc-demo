@@ -18,6 +18,10 @@
 #include <gtx/transform.hpp>
 #include <gtc/type_ptr.hpp>
 
+using glm::dvec3;
+using glm::dvec4;
+using glm::dmat4x4;
+
 
 #include <iostream>
 #include <string>
