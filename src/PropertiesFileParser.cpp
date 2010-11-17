@@ -44,7 +44,6 @@ void PropertiesFileParser::getnextline(std::istream& is, string& line)
 bool PropertiesFileParser::parse()
 {
 	cout << "parsing properties file: " << CONFIG_PARSER_FILE_PATH << endl;
-	return false;
 
 	std::ifstream file(CONFIG_PARSER_FILE_PATH);
 	if (!file)
@@ -56,8 +55,7 @@ bool PropertiesFileParser::parse()
 	try
 	{
 		string line = "";
-		char* key = '\0';
-		char* value = '\0';
+		string key, value;
 
 		while(!file.eof())
 		{
@@ -68,13 +66,16 @@ bool PropertiesFileParser::parse()
 			if (cString[0] == '#' || cString[0] == '!')
 				continue;
 
-			if (sscanf(cString, "%s", key) > 0 && sscanf(cString, "%*s = %s", value) > 0)
+			size_t pos = line.find(" = ");
+			if ((int)pos > 0)
 			{
-//				cache[key] = value;
-				cout << "inserted: " << key << " = " << value << endl;
+				key = line.substr(0, pos);
+				value = line.substr(pos+3);
+				if(_DEBUG)
+					cout << "parsed pair: " << key << " = " << value << endl;
 			}
 			else
-				cout << "failed to match: " << cString;
+				cout << "failed to parse line: " << line << endl;
 
 		}
 	} catch (...) {
