@@ -71,6 +71,8 @@ bool PropertiesFileParser::parse()
 			{
 				key = line.substr(0, pos);
 				value = line.substr(pos+3);
+				cache[key] = value;
+
 				if(_DEBUG)
 					cout << "parsed pair: " << key << " = " << value << endl;
 			}
