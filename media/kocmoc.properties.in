@@ -26,3 +26,4 @@ GeometryRootFolder = ${MEDIA_PATH}/geometry/
 # screen resolution and weather to start in full screen mode or not
 width = 800
 height = 450
+fullscreen = 0

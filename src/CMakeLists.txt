@@ -17,74 +17,24 @@ link_directories(
     ${PROJECT_SOURCE_DIR}/external/devil/lib
     )
 
-SET(HEADER_FILES_MSVC 
-    utility.hpp
-    shader.hpp
-    Context.hpp
-    PropertiesFileParser.hpp
-    Exception.hpp
-    kocmoc.hpp
-    KocmocLoader.hpp
-    PolyMesh.hpp
-    Scene.hpp
-    KocmocColladaImporter.hpp
-    KocmocColladaErrorHandler.hpp
-    ImageLoader.hpp
-	)
+# collect the files
+file(GLOB HEADER_FILES_MSVC *.hpp)
+file(GLOB SOURCE_FILES *.cpp)
 
-SET(SOURCE_FILES
-	main.cpp
-    utility.cpp
-    shader.cpp
-    Context.cpp
-    PropertiesFileParser.cpp
-    Exception.cpp
-    kocmoc.cpp
-    KocmocLoader.cpp
-    PolyMesh.cpp
-    Scene.cpp
-    KocmocColladaImporter.cpp
-    KocmocColladaErrorHandler.cpp
-    ImageLoader.cpp
-)
 
-# SET(SOURCE_FILES ${HEADER_FILES_MSVC})
 
-# add_executable(kocmoc-demo ${HEADER_FILES_MSVC} ${SOURCE_FILES})
-add_executable(kocmoc-demo
-	common.hpp
-    utility.hpp
-    shader.hpp
-    Context.hpp
-    PropertiesFileParser.hpp
-    Exception.hpp
-    kocmoc.hpp
-    KocmocLoader.hpp
-    PolyMesh.hpp
-    Scene.hpp
-    KocmocColladaImporter.hpp
-    KocmocColladaErrorHandler.hpp
-    ImageLoader.hpp
-	main.cpp
-    utility.cpp
-    shader.cpp
-    Context.cpp
-    PropertiesFileParser.cpp
-    Exception.cpp
-    kocmoc.cpp
-    KocmocLoader.cpp
-    PolyMesh.cpp
-    Scene.cpp
-    KocmocColladaImporter.cpp
-    KocmocColladaErrorHandler.cpp
-    ImageLoader.cpp
-    Timer.cpp
-    Timer.hpp
-    Camera.hpp
-    Camera.cpp
-    FilmCamera.cpp
-    FilmCamera.hpp
-)
+if (WIN32)
+	# join the header files so that the VS can display them
+	SET(SOURCE_FILES ${SOURCE_FILES} ${HEADER_FILES_MSVC})
+
+	# MSVC resources stuff
+#	file(GLOB RESOURCES_SHADERS_MSVC ../media/shaders/*)
+#	source_group(foo FILES ../media/shaders/base.frag)
+
+endif (WIN32)
+
+add_executable(kocmoc-demo ${SOURCE_FILES})
+
 
 target_link_libraries(
     kocmoc-demo
