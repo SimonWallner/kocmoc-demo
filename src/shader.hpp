@@ -3,8 +3,6 @@
 
 #include "common.hpp"
 
-#define SHADER_PATH_PREFIX "shader/"
-
 
 /**
  * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
@@ -86,6 +84,8 @@ public:
 private:
 
 	bool success;
+
+	string pathPrefix;
 
 	GLuint vertexShader;
 	GLuint fragmentShader;

@@ -1,12 +1,15 @@
 #include <fstream>
 
 #include "shader.hpp"
+#include "PropertiesFileParser.hpp"
 
 Shader::Shader(const string &vertexShaderName, const string &fragmentShaderName) :
 success(false)
 {
+	PropertiesFileParser::GetInstance().getProperty("shadersRootFolder", &pathPrefix);
+
 	// Load the shader files
-	string vertexShaderPath = SHADER_PATH_PREFIX + vertexShaderName;
+	string vertexShaderPath = pathPrefix + vertexShaderName;
 	string vertexShaderSource;
 	if (file_exists(vertexShaderPath)) {
 		vertexShaderSource = read_file(vertexShaderPath);
@@ -15,7 +18,7 @@ success(false)
 		return;
 	}
 
-	string fragmentShaderPath = SHADER_PATH_PREFIX + fragmentShaderName;
+	string fragmentShaderPath = pathPrefix + fragmentShaderName;
 	string fragmentShaderSource;
 	if (file_exists(fragmentShaderPath)) {
 		fragmentShaderSource = read_file(fragmentShaderPath);

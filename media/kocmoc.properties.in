@@ -18,9 +18,9 @@
 # can not be found in this config file.
 
 # configure path to media folders
-shadersRootFolder = ${MEDIA_PATH}/shaders
-TexturesRootFolder = ${MEDIA_PATH}/textures 
-GeometryRootFolder = ${MEDIA_PATH}/geometry
+shadersRootFolder = ${MEDIA_PATH}/shaders/
+TexturesRootFolder = ${MEDIA_PATH}/textures/ 
+GeometryRootFolder = ${MEDIA_PATH}/geometry/
 
 
 # screen resolution and weather to start in full screen mode or not
