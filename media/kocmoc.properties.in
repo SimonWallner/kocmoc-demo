@@ -1,0 +1,32 @@
+# config file for kocmoc
+# 
+# syntax description:
+# comments are denoted by the '#' character and affect only the current line
+# config file for The Great escape
+# 
+# syntax description:
+# comments are denoted by the '#' character and affect only the current line
+# config pairs are given in a <name> = <value> manner, with ONE spaces between 
+# the tokens. Only ONE name/value pair is allowed per line. No additional spaces
+# are allowed on the line. Blank lines are ignored, lines that cann not be
+# parsed are ignored, but a warning message is issued.
+#
+# Boolean variables are given as 0/1, numbers as 123 or 132.456. Precission of
+# decimal values is nor garanteed.
+#
+# Default values are definded for all properties and used if the property
+# can not be found in this config file.
+
+# configure path to media folders
+shadersRootFolder = ${MEDIA_PATH}/shaders
+TexturesRootFolder = ${MEDIA_PATH}/textures 
+GeometryRootFolder = ${MEDIA_PATH}/geometry
+
+
+# screen resolution and weather to start in full screen mode or not
+width = 1280
+height = 72
+fullscreen = 0
+foo=bar
+buz
+x
