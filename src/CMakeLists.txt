@@ -33,24 +33,51 @@ SET(HEADER_FILES_MSVC
 	)
 
 SET(SOURCE_FILES
-	main
-    utility
-    shader
-    Context
-    PropertiesFileParser
-    Exception
-    kocmoc
-    KocmocLoader
-    PolyMesh
-    Scene
-    KocmocColladaImporter
-    KocmocColladaErrorHandler
-    ImageLoader
+	main.cpp
+    utility.cpp
+    shader.cpp
+    Context.cpp
+    PropertiesFileParser.cpp
+    Exception.cpp
+    kocmoc.cpp
+    KocmocLoader.cpp
+    PolyMesh.cpp
+    Scene.cpp
+    KocmocColladaImporter.cpp
+    KocmocColladaErrorHandler.cpp
+    ImageLoader.cpp
 )
 
 # SET(SOURCE_FILES ${HEADER_FILES_MSVC})
 
-add_executable(kocmoc-demo ${SOURCE_FILES})
+# add_executable(kocmoc-demo ${HEADER_FILES_MSVC} ${SOURCE_FILES})
+add_executable(kocmoc-demo
+    utility.hpp
+    shader.hpp
+    Context.hpp
+    PropertiesFileParser.hpp
+    Exception.hpp
+    kocmoc.hpp
+    KocmocLoader.hpp
+    PolyMesh.hpp
+    Scene.hpp
+    KocmocColladaImporter.hpp
+    KocmocColladaErrorHandler.hpp
+    ImageLoader.hpp
+	main.cpp
+    utility.cpp
+    shader.cpp
+    Context.cpp
+    PropertiesFileParser.cpp
+    Exception.cpp
+    kocmoc.cpp
+    KocmocLoader.cpp
+    PolyMesh.cpp
+    Scene.cpp
+    KocmocColladaImporter.cpp
+    KocmocColladaErrorHandler.cpp
+    ImageLoader.cpp
+)
 
 target_link_libraries(
     kocmoc-demo
@@ -70,6 +97,8 @@ target_link_libraries(
     openGL32
     libXML
 	devIL
+	ILU
+	ILUT
     )
 
 

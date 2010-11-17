@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "PropertiesFileParser.hpp"
 #include "Exception.hpp"
+#include "ImageLoader.hpp"
 
 Kocmoc* Kocmoc::instance = NULL;
 
@@ -177,4 +178,7 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey('W'))
 		Context::getInstance().toggleWireframe();
+
+	if (glfwGetKey('S'))
+		ImageLoader::getInstance().screenShot();
 }

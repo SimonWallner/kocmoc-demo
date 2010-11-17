@@ -41,8 +41,7 @@ public:
 	 *		returned instead
 	 */
 	GLuint loadImage(string filename);
-	ImageData* getImageData(string filename);
-	GLuint getTexUnit();
+
 
 	/**
 	 * Take a screenshot and save it to disk
@@ -52,34 +51,32 @@ public:
 	/**
 	 * Change the texture quality: nearest/bilinear
 	 */
-	void changeTextureQuality(void);
+	//void changeTextureQuality(void);
 
 	/**
 	 * Change the mip map quality: off/nearest/linear
 	 */
-	void changeMipMapQuality(void);
+	//void changeMipMapQuality(void);
 
 	/**
 	 * Apply the changes to the texture quality from the right thread!
 	 */
-	void contextThreadApplyChanges(void);
+	//void contextThreadApplyChanges(void);
 
 	/**
 	 * en/disable anisotropic filtering
 	 */
-	void toggleAnisotropicFiltering(void);
+	//void toggleAnisotropicFiltering(void);
 
 private:
 	ImageLoader(void);
 	ImageLoader(const ImageLoader &cc);
-	GLuint texunit;
+
 	std::map<string, GLuint> cache;
 
 	GLint currentTextureQuality;
 	bool texOptionsChanged;
-
 	GLfloat maxAnisotropy;
-
 	bool useAF;
 	
 };
