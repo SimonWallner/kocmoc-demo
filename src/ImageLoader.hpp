@@ -72,6 +72,8 @@ private:
 	ImageLoader(void);
 	ImageLoader(const ImageLoader &cc);
 
+	string texturePathPrefix;
+
 	std::map<string, GLuint> cache;
 
 	GLint currentTextureQuality;

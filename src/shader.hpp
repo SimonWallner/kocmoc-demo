@@ -58,7 +58,10 @@ public:
 	 */
 	GLint get_uniform_location(const std::string &name) const
 	{
-		return glGetUniformLocation(program, name.c_str());
+		GLint location = glGetUniformLocation(program, name.c_str());
+		if (location < 0 && _DEBUG)
+			cout << "uniform location: " << name << " not found!" << endl;
+		return location;
 	}
 
 	// Define the name of the variable inside the shader which represents the final color for each fragment.

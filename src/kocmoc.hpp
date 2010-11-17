@@ -46,7 +46,7 @@ private:
 	static Kocmoc *instance;
 
 	bool running;
-	Shader *minimal;
+	Shader *base;
 	GLuint vao_id;
 
 	Timer timer;

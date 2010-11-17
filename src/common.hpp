@@ -21,6 +21,9 @@
 using glm::dvec3;
 using glm::dvec4;
 using glm::dmat4x4;
+using glm::mat4;
+using glm::vec3;
+using glm::vec4;
 
 
 #include <iostream>
