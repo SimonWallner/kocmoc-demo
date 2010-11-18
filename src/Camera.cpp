@@ -2,7 +2,7 @@
 
 #include <gtc/matrix_projection.hpp>
 
-Camera::Camera(dvec3 _eyePosition, dvec3 _targetPosition, dvec3 _upVector) :
+Camera::Camera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) :
 eyePosition(_eyePosition), targetPosition(_targetPosition), upVector(_upVector)
 {	
 }
@@ -14,31 +14,31 @@ Camera::~Camera()
 
 void Camera::updateViewMatrix() 
 {
-	dmat4x4 translation;
+	mat4 translation;
 
-	untranslatedViewMatrix = dmat4x4(1.0);
+	untranslatedViewMatrix = mat4(1.0);
 
-	viewMatrix = viewMatrix = glm::translate(untranslatedViewMatrix, glm::dvec3(0.0, 0.0, -5.0)); 
+	viewMatrix = viewMatrix = glm::translate(untranslatedViewMatrix, glm::vec3(0.0, 0.0, -5.0)); 
 }
 
 
-dmat4x4 Camera::getViewMatrix()
+mat4 Camera::getViewMatrix()
 {
 	return viewMatrix;
 }
 
-dmat4x4 Camera::getUntraslatedViewMatrix()
+mat4 Camera::getUntraslatedViewMatrix()
 {
 	return untranslatedViewMatrix;
 }
 
-dvec3 Camera::getEyeVector(){
+vec3 Camera::getEyeVector(){
 	return eyePosition;
 }
-dvec3 Camera::getLookAtVector(){
+vec3 Camera::getLookAtVector(){
 	return targetPosition;
 }
 
-dvec3 Camera::getUpVector(){
+vec3 Camera::getUpVector(){
 	return upVector;
 }

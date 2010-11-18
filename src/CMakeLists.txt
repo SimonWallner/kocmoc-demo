@@ -3,6 +3,7 @@
 include_directories(
     ${PROJECT_SOURCE_DIR}/external/glfw/include
     ${PROJECT_SOURCE_DIR}/external/gl3w/include
+#	${PROJECT_SOURCE_DIR}/external/glew/include
     ${PROJECT_SOURCE_DIR}/external/glm/include
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADAFramework/include
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADABaseUtils/include
@@ -15,6 +16,7 @@ link_directories(
     ${PROJECT_SOURCE_DIR}/external/opencollada/lib
     ${PROJECT_SOURCE_DIR}/external/libxml/
     ${PROJECT_SOURCE_DIR}/external/devil/lib
+#	${PROJECT_SOURCE_DIR}/external/glew/lib
     )
 
 # collect the files
@@ -40,6 +42,7 @@ target_link_libraries(
     kocmoc-demo
     glfw
     gl3w
+#	glew32
     OpenCOLLADAFramework
     OpenCOLLADASaxFrameworkLoader
     OpenCOLLADABaseUtils

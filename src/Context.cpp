@@ -69,6 +69,13 @@ void Context::setupGLFW()
 
 	cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
 
+	//GLenum err = glewInit();
+	//if (GLEW_OK != err) {
+	//	/* Problem: glewInit failed, something is seriously wrong. */
+	//	cout <<  "Error: " << glewGetErrorString(err) << endl;
+	//	throw Exception("Failed to init glew (glewInit)!");
+	//}
+
 #endif
 
 

@@ -3,6 +3,7 @@
 
 #ifdef _WINDOWS
 	#include <GL3/gl3w.h>
+//	#include <GL/glew.h>
 #else
 	#define GL3_PROTOTYPES 1
 	#include <GL3/gl3.h>

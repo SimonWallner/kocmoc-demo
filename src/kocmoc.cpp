@@ -90,7 +90,7 @@ void Kocmoc::init()
 
 	init_vbo_vao(*base, vbo_id, &vao_id);
 
-	camera = new Camera(dvec3(0.0), dvec3(0.0), dvec3(0.0));
+	camera = new Camera(vec3(0.0), vec3(0.0), vec3(0.0));
 	camera->updateViewMatrix();
 	
 	running = true;
@@ -112,7 +112,7 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
 
 	GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
-	glUniformMatrix4dv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
 	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
 	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));

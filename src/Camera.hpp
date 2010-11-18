@@ -13,7 +13,7 @@ public:
 	 * @param targetPosition The point the camera looks at
 	 * @param upVector the up-vector of the camera
 	 */
-	Camera(dvec3 eyePosition, dvec3 targetPosition, dvec3 upVector);
+	Camera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
 
 	virtual ~Camera(void);
 
@@ -21,14 +21,14 @@ public:
 	 * Get the view matrix of this camera
 	 * @return the view matrix of the camera
 	 */
-	dmat4x4 getViewMatrix();
+	mat4 getViewMatrix();
 
 	/**
 	 * Get the untranslated view matrix that only reflects the viewing
 	 * direction. made for the skybox.
 	 * @return the untranslated view matrix
 	 */
-	dmat4x4 getUntraslatedViewMatrix();
+	mat4 getUntraslatedViewMatrix();
 
 	/**
 	 * Update the view matrix of this camera with the current values. 
@@ -41,23 +41,23 @@ public:
 	void updateViewMatrix();
 
 	/**
-	 * Get position of the eye in form of dvec3
+	 * Get position of the eye in form of vec3
 	 */
-	dvec3 getEyeVector();
+	vec3 getEyeVector();
 
-	dvec3 getLookAtVector();
+	vec3 getLookAtVector();
 
-	dvec3 getUpVector();
+	vec3 getUpVector();
 	
 protected:
-	dmat4x4 viewMatrix;
+	mat4 viewMatrix;
 
 	/** this is for the skybox and things alike */
-	dmat4x4 untranslatedViewMatrix;
+	mat4 untranslatedViewMatrix;
 
-	dvec3 eyePosition;
-	dvec3 targetPosition;
-	dvec3 upVector;
+	vec3 eyePosition;
+	vec3 targetPosition;
+	vec3 upVector;
 
 };
 
