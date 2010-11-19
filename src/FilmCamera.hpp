@@ -5,13 +5,22 @@
 #ifndef FILM_CAMERA_HPP_
 #define FILM_CAMERA_HPP_
 
-class FilmCamera
+#include "Camera.hpp"
+
+class FilmCamera : public Camera
 {
 public:
-	FilmCamera();
+	/**
+	 * Construct a new camera from the given params
+	 * @param eyePosition The point from where the camera looks into the
+	 * scene
+	 * @param targetPosition The point the camera looks at
+	 * @param upVector the up-vector of the camera
+	 */
+	FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
+
 	virtual ~FilmCamera();
 
-private:
 	/**
 	 * Set the film gate in pixel
 	 * Set the film gate to specific size in pixels. This will mostly be the
@@ -40,10 +49,25 @@ private:
 	 */
 	void setAngleOfView(double radians);
 
+	// override fuctions from camera
+	mat4 getViewMatrix();
+	mat4 getProjectionMatrix();
+	mat4 getUntraslatedViewMatrix();
+	void updateMatrixes();
+
 	//TODO: position, orientation, movement
 	//TODO: focus, vertigo
 
 	//TODO: color correction post thingys
+
+private:
+	mat4 viewMatrix;
+	mat4 untranslatedViewMatrix; /** this is for the skybox and things alike */
+	mat4 projectionMatrix;
+
+	vec3 eyePosition;
+	vec3 targetPosition;
+	vec3 upVector;
 };
 
 #endif /* FILM_CAMERA_HPP_ */

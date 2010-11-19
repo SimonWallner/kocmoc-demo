@@ -89,8 +89,8 @@ void Kocmoc::init()
 
 	init_vbo_vao(*base, vbo_id, &vao_id);
 
-	camera = new Camera(vec3(0.0), vec3(0.0), vec3(0.0));
-	camera->updateViewMatrix();
+	camera = new FilmCamera(vec3(0.0), vec3(0.0), vec3(0.0));
+	camera->updateMatrixes();
 	
 	running = true;
 }
@@ -105,19 +105,19 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 
 	glBindVertexArray(vao_id);
 
-
+	
 	// Set uniforms
-	//GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
-	//glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
+	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
 
-	//GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
-	//glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+	GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
+	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
-	//GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
-	//glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
+	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
 
-	//GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
-	//glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
+	GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
+	glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
 
 	// Draw triangle in VAO
 

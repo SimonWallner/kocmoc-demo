@@ -3,32 +3,30 @@
 
 #include "common.hpp"
 
+/**
+ * Abstract camera class
+ */
 class Camera
 {
 public:
-	/**
-	 * Construct a new camera from the given params
-	 * @param eyePosition The point from where the camera looks into the
-	 * scene
-	 * @param targetPosition The point the camera looks at
-	 * @param upVector the up-vector of the camera
-	 */
-	Camera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
-
-	virtual ~Camera(void);
 
 	/** 
 	 * Get the view matrix of this camera
 	 * @return the view matrix of the camera
 	 */
-	mat4 getViewMatrix();
+	virtual mat4 getViewMatrix() = 0;
+
+	/**
+	 * Get the projection matrix of this camera
+	 */
+	virtual mat4 getProjectionMatrix() = 0;
 
 	/**
 	 * Get the untranslated view matrix that only reflects the viewing
 	 * direction. made for the skybox.
 	 * @return the untranslated view matrix
 	 */
-	mat4 getUntraslatedViewMatrix();
+	virtual mat4 getUntraslatedViewMatrix() = 0;
 
 	/**
 	 * Update the view matrix of this camera with the current values. 
@@ -38,27 +36,7 @@ public:
 	 * <code>updateViewMatrix()</code> is called.
 	 * Also updates the untranslated view Matrix.
 	 */
-	void updateViewMatrix();
-
-	/**
-	 * Get position of the eye in form of vec3
-	 */
-	vec3 getEyeVector();
-
-	vec3 getLookAtVector();
-
-	vec3 getUpVector();
-	
-protected:
-	mat4 viewMatrix;
-
-	/** this is for the skybox and things alike */
-	mat4 untranslatedViewMatrix;
-
-	vec3 eyePosition;
-	vec3 targetPosition;
-	vec3 upVector;
-
+	virtual void updateMatrixes() = 0;
 };
 
 #endif
