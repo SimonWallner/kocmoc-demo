@@ -80,13 +80,12 @@ void Kocmoc::init()
 	base->bind_frag_data_location("fragmentColor");
 
 	// load and bind texture
-	//GLint texture = ImageLoader::getInstance().loadImage("color.png");
-	//GLint sTex0_location = base->get_uniform_location("sTex0");
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, texture);
-	//glUniform1i(sTex0_location, 0);
+	GLint texture = ImageLoader::getInstance().loadImage("color.png");
 
-
+	GLint sTex0_location = base->get_uniform_location("sTex0");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glUniform1i(sTex0_location, 0);
 
 	init_vbo_vao(*base, vbo_id, &vao_id);
 

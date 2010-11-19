@@ -61,19 +61,18 @@ GLuint ImageLoader::loadImage(string filename)
 
 	if (error == IL_NO_ERROR) /* If no error occured: */
 	{
-get_errors();
+
 		/* Convert every colour component into unsigned byte. If your textureHandle contains
 		alpha channel you can replace IL_RGB with IL_RGBA */
 		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
-get_errors();
+
 		glGenTextures(1, &textureHandle); /* Texture name generation */
-get_errors();
 		glBindTexture(GL_TEXTURE_2D, textureHandle); /* Binding of texture name */
-get_errors();		
-		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_BPP), ilGetInteger(IL_IMAGE_WIDTH),
+
+		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
 			ilGetData()); /* Texture specification */
-get_errors();
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, currentTextureQuality);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
