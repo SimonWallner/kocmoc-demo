@@ -52,6 +52,8 @@ private:
 	Timer timer;
 
 	FilmCamera* camera;
+	
+	int mouseOldX, mouseOldY;
 
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
@@ -61,6 +63,8 @@ private:
 	 * stuff. More sophisticated input would need its own input thread.
 	 */
 	void pollKeyboard(void);
+
+	void pollMouse(void);
 
 
 };

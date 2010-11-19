@@ -56,6 +56,20 @@ public:
 	void updateMatrixes();
 
 	//TODO: position, orientation, movement
+
+	/**
+	 * Rotate the camera around the eye position. input params have no unit!
+	 * @param vertical The vertical rotation
+	 * @param horizontal The horizontal rotation
+	 */
+	void tumble(float vertical, float horizontal);
+
+	/**
+	 * translate the camera. i.e. the postion and the target
+	 */
+	void dolly(vec3 direction);
+	
+	
 	//TODO: focus, vertigo
 
 	//TODO: color correction post thingys

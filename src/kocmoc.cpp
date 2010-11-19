@@ -53,6 +53,8 @@ void Kocmoc::start()
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
 		pollKeyboard();
+		pollMouse();
+		camera->updateMatrixes();
 	}
 
 	// Get OGL errors
@@ -89,7 +91,10 @@ void Kocmoc::init()
 
 	init_vbo_vao(*base, vbo_id, &vao_id);
 
-	camera = new FilmCamera(vec3(0.0), vec3(0.0), vec3(0.0));
+	camera = new FilmCamera(vec3(0, 0, 0), //eye
+		vec3(0), // target
+		vec3(0, 1, 0)); // up
+
 	camera->updateMatrixes();
 	
 	running = true;
@@ -213,4 +218,22 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey('F'))
 		timer.print();
+
+	if (glfwGetKey(GLFW_KEY_UP))
+		camera->dolly(vec3(0, 0, -0.01f));
+
+	if (glfwGetKey(GLFW_KEY_DOWN))
+		camera->dolly(vec3(0, 0, 0.01f));
+}
+
+
+void Kocmoc::pollMouse()
+{
+	int newX, newY;
+	glfwGetMousePos(&newX, &newY);
+
+	camera->tumble(newY - mouseOldY, newX - mouseOldX);
+
+	mouseOldX = newX;
+	mouseOldY = newY;
 }
