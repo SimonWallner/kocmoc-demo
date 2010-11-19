@@ -80,11 +80,11 @@ void Kocmoc::init()
 	base->bind_frag_data_location("fragmentColor");
 
 	// load and bind texture
-	GLint texture = ImageLoader::getInstance().loadImage("color.png");
-	GLint sTex0_location = base->get_uniform_location("sTex0");
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glUniform1i(sTex0_location, 0);
+	//GLint texture = ImageLoader::getInstance().loadImage("color.png");
+	//GLint sTex0_location = base->get_uniform_location("sTex0");
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D, texture);
+	//glUniform1i(sTex0_location, 0);
 
 
 
@@ -108,17 +108,17 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 
 
 	// Set uniforms
-	GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
-	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	//GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
+	//glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
 
-	GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
-	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+	//GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
+	//glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
-	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
-	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	//GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
+	//glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
 
-	GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
-	glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
+	//GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
+	//glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
 
 	// Draw triangle in VAO
 
