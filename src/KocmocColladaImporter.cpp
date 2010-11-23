@@ -42,7 +42,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		//cast to mesh
 		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
 		
-		PolyMesh poly(mesh->getPositions().getValuesCount());
+		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount());
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
 
 		
@@ -53,9 +53,9 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		{
 			positions[i] = data[i];
 		}
-		poly.setVertexPositions(positions);
+		poly->setVertexPositions(positions);
 		
-		scene.addPolyMesh(poly);
+		scene->addPolyMesh(poly);
 	}
 
 	return true;
@@ -64,9 +64,10 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 void KocmocColladaImporter::prepare()
 {
 	cout << "preparing..." << endl;
+	scene = new KocmocScene;
 }
 
-KocmocScene KocmocColladaImporter::getScene()
+KocmocScene* KocmocColladaImporter::getScene()
 {
 	return scene;
 }

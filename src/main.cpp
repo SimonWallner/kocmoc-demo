@@ -22,6 +22,7 @@ int main (void)
 
 		Kocmoc::getInstance().init();
 		Kocmoc::getInstance().start();
+		Kocmoc::Destroy();
 
 	} catch (Exception e)
 	{

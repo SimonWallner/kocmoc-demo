@@ -38,7 +38,7 @@ public:
 	 * @param name The name of the model
 	 * @return the polyMesh representing that model
 	 */
-	KocmocScene load(std::string name);
+	KocmocScene* load(std::string name);
 
 private:
 

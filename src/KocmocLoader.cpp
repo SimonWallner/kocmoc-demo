@@ -40,7 +40,7 @@ KocmocLoader::~KocmocLoader()
 	// TODO Auto-generated destructor stub
 }
 
-KocmocScene KocmocLoader::load(string name)
+KocmocScene* KocmocLoader::load(string name)
 {
 	importer.prepare();
 

@@ -1,6 +1,7 @@
 #include "shader.hpp"
 #include "Timer.hpp"
 #include "FilmCamera.hpp"
+#include "KocmocScene.hpp"
 
 /**
  * Singleton game object. All game related magic happens in here.
@@ -52,6 +53,8 @@ private:
 	Timer timer;
 
 	FilmCamera* camera;
+
+	KocmocScene* scene;
 	
 	int mouseOldX, mouseOldY;
 

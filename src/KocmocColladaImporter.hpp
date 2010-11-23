@@ -27,7 +27,7 @@ public:
 	/**
 	 * Get the resulting scene
 	 */
-	KocmocScene getScene(void);
+	KocmocScene* getScene(void);
 
 
 	// overwrite functions from IWriter
@@ -68,7 +68,7 @@ public:
 	virtual bool writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene );
 
 private:
-	KocmocScene scene;
+	KocmocScene* scene;
 };
 
 #endif /* KOCMOC_COLLADA_IMPORTER_HPP_ */

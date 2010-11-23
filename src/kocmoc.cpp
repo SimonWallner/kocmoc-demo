@@ -30,6 +30,7 @@ Kocmoc::Kocmoc()
 Kocmoc::~Kocmoc()
 {
 	delete base;
+	delete scene;
 }
 
 bool Kocmoc::isRunning(){
@@ -103,7 +104,8 @@ void Kocmoc::init()
 
 	//glfwDisable(GLFW_MOUSE_CURSOR);
 
-	KocmocLoader::getInstance().load("multi.dae");
+	scene = KocmocLoader::getInstance().load("multi.dae");
+
 }
 
 void Kocmoc::draw(const Shader &shader, GLuint vao_id){

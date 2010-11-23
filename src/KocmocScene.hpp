@@ -4,6 +4,7 @@
 #include "common.hpp"
 #include "PolyMesh.hpp"
 #include <list>
+#include "Shader.hpp"
 
 /**
  * A loose structure of a scene. No scenegraph, justs lists.
@@ -15,12 +16,16 @@ public:
 	KocmocScene(string _name) : name(_name) {};
 	~KocmocScene(void);
 
-	void addPolyMesh(PolyMesh mesh);
-	std::list<PolyMesh> getPolyMeshList(void);
+	void addPolyMesh(PolyMesh* mesh);
+	std::list<PolyMesh* > getPolyMeshList(void);
+
+	void transferData(Shader shader);
+	void draw(void);
 
 private:
-	std::list<PolyMesh> polyMeshList;
+	std::list<PolyMesh* > polyMeshList;
 	string name;
+	GLuint **vao_ids; 
 };
 
 #endif
