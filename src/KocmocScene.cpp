@@ -20,22 +20,28 @@ std::list<PolyMesh*> KocmocScene::getPolyMeshList()
 
 void KocmocScene::transferData(Shader shader)
 {
-	vao_ids = new GLuint *[polyMeshList.size()];
+	shader.bind();
+	vao_ids = new GLuint [polyMeshList.size()];
+	glGenVertexArrays(polyMeshList.size(), vao_ids);
 
 	int i = 0;
 	for (std::list<PolyMesh* >::iterator it = polyMeshList.begin(); it != polyMeshList.end(); it++)
 	{
-		(*it)->transferData(shader, vao_ids[i]);
+		(*it)->transferData(shader, &vao_ids[i]);
 		i++;
 	}
+	shader.unbind();
 }
 
 void KocmocScene::draw()
 {
 	for (unsigned int i = 0; i < polyMeshList.size(); i++)
 	{
-		glBindVertexArray(*vao_ids[i]);
+		glBindVertexArray(vao_ids[i]);
+	get_errors();
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+	get_errors();
 		glBindVertexArray(0);
+		get_errors();
 	}
 }

@@ -105,6 +105,7 @@ void Kocmoc::init()
 	//glfwDisable(GLFW_MOUSE_CURSOR);
 
 	scene = KocmocLoader::getInstance().load("multi.dae");
+	scene->transferData(*base);
 
 }
 
@@ -116,9 +117,6 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 
 	shader.bind();
 
-	glBindVertexArray(vao_id);
-
-	
 	// Set uniforms
 	GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
 	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
@@ -129,17 +127,23 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
 	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
 
-	//GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
-	//glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
+	scene->draw();
 
-	// Draw triangle in VAO
+	//glBindVertexArray(vao_id);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//
 
-	glBindVertexArray(0);
+	////GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
+	////glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
 
-	// Unbind VBOs
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//// Draw triangle in VAO
+
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
+
+	//glBindVertexArray(0);
+
+	//// Unbind VBOs
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	shader.unbind();
 }
