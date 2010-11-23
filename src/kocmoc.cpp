@@ -91,13 +91,15 @@ void Kocmoc::init()
 
 	init_vbo_vao(*base, vbo_id, &vao_id);
 
-	camera = new FilmCamera(vec3(0, 0, 0), //eye
-		vec3(0), // target
+	camera = new FilmCamera(vec3(0, 0, 10.0f), //eye
+		vec3(0, 0, 0), // target
 		vec3(0, 1, 0)); // up
 
 	camera->updateMatrixes();
 	
 	running = true;
+
+	//glfwDisable(GLFW_MOUSE_CURSOR);
 }
 
 void Kocmoc::draw(const Shader &shader, GLuint vao_id){
@@ -113,16 +115,16 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 	
 	// Set uniforms
 	GLint projectionMatrix_location = shader.get_uniform_location("projectionMatrix");
-	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 
 	GLint viewMatrix_location = shader.get_uniform_location("viewMatrix");
 	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
 	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
-	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
+	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
 
-	GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
-	glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
+	//GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
+	//glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
 
 	// Draw triangle in VAO
 
@@ -140,8 +142,8 @@ void Kocmoc::init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id)
 {
 	// Our triangle data
 	static GLfloat triangle_positions[] = {0.0f, 1.0f, 0.0f, 1.0f,
-		0.8660254f, -0.5f, 0.0f, 1.0f,
-		-0.8660254f, -0.5f, 0.0f, 1.0f};
+		0.8660254f, -0.5f, -1.0f, 1.0f,
+		-0.8660254f, -0.5f, 1.0f, 1.0f};
 
 	static GLfloat triangle_texCoord0[] = {1.0f, 0.0f,
 		0.0f, 1.0f,
@@ -224,6 +226,12 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey(GLFW_KEY_DOWN))
 		camera->dolly(vec3(0, 0, 0.01f));
+	
+	if (glfwGetKey(GLFW_KEY_LEFT))
+		camera->dolly(vec3(-0.001f, 0, 0.f));
+	
+	if (glfwGetKey(GLFW_KEY_RIGHT))
+		camera->dolly(vec3(0.001f, 0, 0.0f));
 }
 
 
@@ -232,7 +240,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble(newY - mouseOldY, newX - mouseOldX);
+	camera->tumble((newY - mouseOldY)*0.001f, (newX - mouseOldX)*0.001f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;

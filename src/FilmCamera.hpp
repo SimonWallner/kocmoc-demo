@@ -82,6 +82,9 @@ private:
 	vec3 eyePosition;
 	vec3 targetPosition;
 	vec3 upVector;
+
+	float nearPlane;
+	float farPlane;
 };
 
 #endif /* FILM_CAMERA_HPP_ */

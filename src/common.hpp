@@ -35,4 +35,6 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
+#define KOCMOC_PI 3.141592653589793238462643383279502884197169399375
+
 #endif
