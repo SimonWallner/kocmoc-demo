@@ -35,13 +35,13 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
-	vec3 f = glm::normalize(targetPosition - eyePosition);
+	vec3 f = glm::normalize(eyePosition - targetPosition);
 	vec3 s = glm::cross(f, upVector);
 	vec3 u = glm::cross(s, f);
 
 	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(f, 0), vec4(0, 0, 0, 1.0f));
-	//viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
-	viewMatrix = glm::translate(mat4(1.0f), -eyePosition);
+	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
+	//viewMatrix = glm::translate(mat4(1.0f), -eyePosition);
 	
 	// as found in hearn & baker
 	float x0 = (1/(tan(KOCMOC_PI/4))) / (16.0f/9.0f);
@@ -54,9 +54,6 @@ void FilmCamera::updateMatrixes()
 		0, y1, 0, 0, 
 		0, 0, z2, w2,
 		0, 0, z3, 0);
-
-
-
 }
 
 void FilmCamera::tumble(float vertical, float horizontal)
@@ -66,14 +63,22 @@ void FilmCamera::tumble(float vertical, float horizontal)
 	vec3 f = glm::normalize(targetPosition - eyePosition);
 	vec3 s = glm::cross(f, upVector);
 	
-	targetPosition = targetPosition + (horizontal * s);
+	targetPosition = targetPosition + (-horizontal * s);
 	targetPosition = targetPosition + (vertical * upVector);
 
-	upVector = glm::cross(glm::normalize(targetPosition - eyePosition), s);
+	upVector = glm::cross(glm::normalize(eyePosition - targetPosition), s);
 }
 
 void FilmCamera::dolly(vec3 direction)
 {
-	targetPosition += direction;
-	eyePosition += direction;
+	vec3 f = glm::normalize(targetPosition - eyePosition);
+	vec3 s = glm::cross(f, upVector);
+	
+	targetPosition += (-direction.x * s);
+	targetPosition += (direction.y * upVector);
+	targetPosition += (-direction.z * f);
+
+	eyePosition += (-direction.x * s);
+	eyePosition += (direction.y * upVector);
+	eyePosition += (-direction.z * f);
 }

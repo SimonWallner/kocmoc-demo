@@ -23,6 +23,7 @@ void Kocmoc::Destroy()
 
 Kocmoc::Kocmoc()
 {
+	glfwGetMousePos(&mouseOldX, &mouseOldY);
 }
 
 Kocmoc::~Kocmoc()
@@ -121,7 +122,7 @@ void Kocmoc::draw(const Shader &shader, GLuint vao_id){
 	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
 	GLint modelMatrix_location = shader.get_uniform_location("modelMatrix");
-	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
 
 	//GLint lightPosition_location = shader.get_uniform_location("inLightPosition");
 	//glUniform3fv(lightPosition_location, 3, glm::value_ptr(vec3(1.0f)));
@@ -212,26 +213,32 @@ void Kocmoc::pollKeyboard(void)
 	running = running && !glfwGetKey( GLFW_KEY_ESC );
 	running = running && !glfwGetKey( 'Q' );
 
-	if (glfwGetKey('W'))
+	if (glfwGetKey('1'))
 		Context::getInstance().toggleWireframe();
 
-	if (glfwGetKey('S'))
+	if (glfwGetKey('.'))
 		ImageLoader::getInstance().screenShot();
 
-	if (glfwGetKey('F'))
+	if (glfwGetKey('2'))
 		timer.print();
 
-	if (glfwGetKey(GLFW_KEY_UP))
+	if (glfwGetKey('W'))
 		camera->dolly(vec3(0, 0, -0.01f));
 
-	if (glfwGetKey(GLFW_KEY_DOWN))
+	if (glfwGetKey('S'))
 		camera->dolly(vec3(0, 0, 0.01f));
 	
-	if (glfwGetKey(GLFW_KEY_LEFT))
-		camera->dolly(vec3(-0.001f, 0, 0.f));
+	if (glfwGetKey('A'))
+		camera->dolly(vec3(-0.01f, 0, 0.f));
 	
-	if (glfwGetKey(GLFW_KEY_RIGHT))
-		camera->dolly(vec3(0.001f, 0, 0.0f));
+	if (glfwGetKey('D'))
+		camera->dolly(vec3(0.01f, 0, 0.0f));
+
+	if (glfwGetKey(GLFW_KEY_SPACE))
+		camera->dolly(vec3(0.0f, 0.01f, 0.0f));
+
+	if (glfwGetKey(GLFW_KEY_LSHIFT))
+		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
 }
 
 
@@ -240,7 +247,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newY - mouseOldY)*0.001f, (newX - mouseOldX)*0.001f);
+	camera->tumble((newY - mouseOldY)*0.05f, (newX - mouseOldX)*0.05f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;
