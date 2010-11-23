@@ -21,10 +21,10 @@
 # beware of trailing whitespace!
 shadersRootFolder = ${MEDIA_PATH}/shaders/
 TexturesRootFolder = ${MEDIA_PATH}/textures/
-GeometryRootFolder = ${MEDIA_PATH}/geometry/
+ModelsRootFolder = ${MEDIA_PATH}/models/
 
 
 # screen resolution and weather to start in full screen mode or not
-width = 800
-height = 450
+width = 1280
+height = 720
 fullscreen = 0

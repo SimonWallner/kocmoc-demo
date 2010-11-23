@@ -11,8 +11,15 @@
 class PolyMesh
 {
 public:
-	PolyMesh();
+	PolyMesh(int vertexCount);
 	virtual ~PolyMesh();
+	void setVertexPositions(float * p);
+
+private:
+	int vertexCount;
+	float * vertexPositions;
+	float * vertexNormals;
+	float * vertexUVs;
 };
 
 #endif /* POLYMESH_HPP_ */

@@ -10,8 +10,10 @@
 
 #include <string>
 #include "PolyMesh.hpp"
+#include "KocmocScene.hpp"
 #include "KocmocColladaImporter.hpp"
 #include "KocmocColladaErrorHandler.hpp"
+#include "common.hpp"
 
 #include <COLLADASaxFWLLoader.h>
 #include <COLLADAFWRoot.h>
@@ -36,7 +38,7 @@ public:
 	 * @param name The name of the model
 	 * @return the polyMesh representing that model
 	 */
-	PolyMesh load(std::string name);
+	KocmocScene load(std::string name);
 
 private:
 
@@ -46,6 +48,8 @@ private:
 	COLLADAFW::Root colladaRoot;
 	COLLADASaxFWL::Loader saxLoader;
 	KocmocColladaErrorHandler errorHandler;
+
+	string pathPrefix;
 
 	KocmocLoader(void);
 	KocmocLoader(const KocmocLoader &cc);

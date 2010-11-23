@@ -66,5 +66,4 @@ private:
 
 	void pollMouse(void);
 
-
 };

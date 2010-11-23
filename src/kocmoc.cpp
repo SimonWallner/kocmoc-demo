@@ -4,6 +4,7 @@
 #include "PropertiesFileParser.hpp"
 #include "Exception.hpp"
 #include "ImageLoader.hpp"
+#include "KocmocLoader.hpp"
 
 Kocmoc* Kocmoc::instance = NULL;
 
@@ -101,6 +102,8 @@ void Kocmoc::init()
 	running = true;
 
 	//glfwDisable(GLFW_MOUSE_CURSOR);
+
+	KocmocLoader::getInstance().load("multi.dae");
 }
 
 void Kocmoc::draw(const Shader &shader, GLuint vao_id){

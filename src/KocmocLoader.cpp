@@ -6,7 +6,7 @@
  */
 
 #include "KocmocLoader.hpp"
-#include "common.hpp"
+#include "PropertiesFileParser.hpp"
 
 #include <COLLADAFW.h>
 
@@ -32,7 +32,7 @@ KocmocLoader::KocmocLoader() :
 		saxLoader(&errorHandler),
 		colladaRoot(&saxLoader, &importer)
 {
-	// TODO Auto-generated constructor stub
+	PropertiesFileParser::GetInstance().getProperty("ModelsRootFolder", &pathPrefix);
 }
 
 KocmocLoader::~KocmocLoader()
@@ -40,8 +40,12 @@ KocmocLoader::~KocmocLoader()
 	// TODO Auto-generated destructor stub
 }
 
-PolyMesh KocmocLoader::load(string name)
+KocmocScene KocmocLoader::load(string name)
 {
-	PolyMesh mesh;
-	return mesh;
+	importer.prepare();
+
+	string path = pathPrefix + name;
+	bool success = colladaRoot.loadDocument(path);
+
+	return importer.getScene();
 }

@@ -2,6 +2,10 @@
 
 #include "common.hpp"
 
+#include <COLLADAFWGeometry.h>
+#include <COLLADAFWMesh.h>
+#include <COLLADAFWVisualScene.h>
+
 KocmocColladaImporter::KocmocColladaImporter()
 {
 	// TODO Auto-generated constructor stub
@@ -31,14 +35,48 @@ void KocmocColladaImporter::finish()
 
 bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
-	cout << "receiving geometry: " << endl;
+	cout << "receiving geometry... " << endl;
+
+	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
+	{
+		//cast to mesh
+		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
+		
+		PolyMesh poly(mesh->getPositions().getValuesCount());
+		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
+
+		
+		float* positions = new float[arr->getCount()];
+		const float* data = arr->getData();
+
+		for (unsigned int i = 0; i < arr->getCount(); i++)
+		{
+			positions[i] = data[i];
+		}
+		poly.setVertexPositions(positions);
+		
+		scene.addPolyMesh(poly);
+	}
+
 	return true;
 }
 
+void KocmocColladaImporter::prepare()
+{
+	cout << "preparing..." << endl;
+}
 
+KocmocScene KocmocColladaImporter::getScene()
+{
+	return scene;
+}
+
+
+
+
+bool KocmocColladaImporter::writeVisualScene(const COLLADAFW::VisualScene* visualScene) {return true;}
 bool KocmocColladaImporter::writeGlobalAsset ( const COLLADAFW::FileInfo* asset ) {return true;}
 bool KocmocColladaImporter::writeScene ( const COLLADAFW::Scene* scene ) {return true;}
-bool KocmocColladaImporter::writeVisualScene ( const COLLADAFW::VisualScene* visualScene ) {return true;}
 bool KocmocColladaImporter::writeLibraryNodes ( const COLLADAFW::LibraryNodes* libraryNodes ) {return true;}
 bool KocmocColladaImporter::writeMaterial( const COLLADAFW::Material* material ) {return true;}
 bool KocmocColladaImporter::writeEffect( const COLLADAFW::Effect* effect ) {return true;}

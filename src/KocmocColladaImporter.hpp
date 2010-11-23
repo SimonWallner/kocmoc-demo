@@ -10,6 +10,8 @@
 #include <COLLADAFWIWriter.h>
 #include <COLLADAFWPrerequisites.h>
 
+#include "KocmocScene.hpp"
+
 using COLLADAFW::String;
 using COLLADAFW::Geometry;
 
@@ -19,6 +21,13 @@ public:
 	KocmocColladaImporter();
 	virtual ~KocmocColladaImporter();
 
+	/** prepare the scene etc... */
+	void prepare(void);
+
+	/**
+	 * Get the resulting scene
+	 */
+	KocmocScene getScene(void);
 
 
 	// overwrite functions from IWriter
@@ -39,11 +48,12 @@ public:
 	@return The writer should return true, if writing succeeded, false otherwise.*/
 	bool writeGeometry(const Geometry* geometry);
 
+	
 
 	// unimplemented methods
+	virtual bool writeVisualScene ( const COLLADAFW::VisualScene* visualScene );
 	virtual bool writeGlobalAsset ( const COLLADAFW::FileInfo* asset );
 	virtual bool writeScene ( const COLLADAFW::Scene* scene );
-	virtual bool writeVisualScene ( const COLLADAFW::VisualScene* visualScene );
 	virtual bool writeLibraryNodes ( const COLLADAFW::LibraryNodes* libraryNodes );
 	virtual bool writeMaterial( const COLLADAFW::Material* material );
 	virtual bool writeEffect( const COLLADAFW::Effect* effect );
@@ -57,6 +67,8 @@ public:
     virtual bool writeFormulas( const COLLADAFW::Formulas* formulas );
 	virtual bool writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene );
 
+private:
+	KocmocScene scene;
 };
 
 #endif /* KOCMOC_COLLADA_IMPORTER_HPP_ */

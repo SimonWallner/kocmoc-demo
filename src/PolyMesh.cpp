@@ -7,13 +7,23 @@
 
 #include "PolyMesh.hpp"
 
-PolyMesh::PolyMesh()
+PolyMesh::PolyMesh(int _vertexCount) : vertexCount(_vertexCount)
 {
-	// TODO Auto-generated constructor stub
-
+	vertexPositions = new float[vertexCount * 3];
+	vertexNormals = new float[vertexCount * 3];
+	vertexUVs = new float[vertexCount * 2];
 }
 
 PolyMesh::~PolyMesh()
 {
-	// TODO Auto-generated destructor stub
+	delete [] vertexPositions;
+	delete [] vertexNormals;
+	delete [] vertexUVs;
+}
+
+
+void PolyMesh::setVertexPositions(float * p)
+{
+	delete [] vertexPositions;
+	vertexPositions = p;
 }
