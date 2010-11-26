@@ -66,74 +66,74 @@ void Kocmoc::init()
 
 	get_errors();
 
-	camera = new FilmCamera(vec3(0, 0, 10.0f), //eye
+	camera = new FilmCamera(vec3(0, 0, 3.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0)); // up
 	camera->updateMatrixes();
 	
-	if (!_DEBUG)
+	if (KOCMOC_DEBUG_CAPTURE_MOUSE)
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
-	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
+	
+	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
+
+	scene = new KocmocScene();
+	PolyMesh *poly = new PolyMesh(16);
+	static GLfloat positions[] = {
+			0.5f, 0.5f, 0.5f, // front 
+			-0.5f, 0.5f, 0.5f,
+			-0.5f, -0.5f, 0.5f,
+			
+			-0.5f, -0.5f, 0.5f,
+			0.5f, -0.5f, 0.5f,
+			0.5f, 0.5f, 0.5f,
+
+			0.5f, 0.5f, -0.5f, // back 
+			-0.5f, 0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			
+			-0.5f, -0.5f, -0.5f,
+			0.5f, -0.5f, -0.5f,
+			0.5f, 0.5f, -0.5f,
+
+			-0.5f, 0.5f, 0.5f, // left 
+			-0.5f, 0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, 0.5f,
+			-0.5f, 0.5f, 0.5f};
+
+	static GLfloat uv0[] = {
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+			
+			0.5f, -0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f};
+
+	poly->setVertexPositions(positions);
+	poly->setUV0(uv0);
+
+	scene->addPolyMesh(poly);
 	scene->transferData(base);
-
-	//scene = new KocmocScene();
-	//PolyMesh *poly = new PolyMesh(16);
-	//static GLfloat positions[] = {
-	//		0.5f, 0.5f, 0.5f, // front 
-	//		-0.5f, 0.5f, 0.5f,
-	//		-0.5f, -0.5f, 0.5f,
-	//		
-	//		-0.4f, -0.4f, 0.5f,
-	//		0.4f, -0.4f, 0.5f,
-	//		0.4f, 0.4f, 0.5f,
-
-	//		0.5f, 0.5f, -0.5f, // back 
-	//		-0.5f, 0.5f, -0.5f,
-	//		-0.5f, -0.5f, -0.5f,
-	//		
-	//		-0.4f, -0.4f, -0.5f,
-	//		0.4f, -0.4f, -0.5f,
-	//		0.4f, 0.4f, -0.5f,
-
-	//		-0.5f, 0.5f, 0.5f, // left 
-	//		-0.5f, 0.5f, -0.5f,
-	//		-0.5f, -0.5f, -0.5f,
-	//		
-	//		-0.4f, -0.4f, -0.5f,
-	//		-0.4f, -0.4f, 0.5f,
-	//		-0.4f, 0.4f, 0.5f};
-
-	//static GLfloat uv0[] = {
-	//		0.5f, 0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f,
-
-	//		0.5f, 0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f,
-
-	//		0.5f, 0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f,
-
-	//		0.5f, 0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f,
-
-	//		0.5f, 0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f,
-	//		
-	//		0.5f, -0.5f,
-	//		-0.5f, 0.5f,
-	//		-0.5f, -0.5f};
-
-	//poly->setVertexPositions(positions);
-	//poly->setUV0(uv0);
-
-	//scene->addPolyMesh(poly);
-	//scene->transferData(base);
 	
 	running = true;
 }
@@ -157,7 +157,7 @@ void Kocmoc::start()
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
 		pollKeyboard();
-		//pollMouse();
+		pollMouse();
 		camera->updateMatrixes();
 	}
 
@@ -215,7 +215,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newY - mouseOldY)*0.05f, (newX - mouseOldX)*0.05f);
+	camera->tumble((newY - mouseOldY)*-0.05f, (newX - mouseOldX)*0.05f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;

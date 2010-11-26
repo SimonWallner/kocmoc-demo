@@ -2,7 +2,6 @@
 
 #version 150 core
 
-in vec4 fragmentPos;
 in vec2 texCoord0;
 in vec3 fragmentNormal;
 in vec3 lightDirection;

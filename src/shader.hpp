@@ -71,7 +71,7 @@ public:
 	GLint get_uniform_location(const std::string &name) const
 	{
 		GLint location = glGetUniformLocation(program, name.c_str());
-		if (location < 0 && _DEBUG)
+		if (location < 0 && _DEBUG && KOCMOC_DEBUG_VERBOSE_OUTPUT)
 			cout << "uniform location: " << name << " not found!" << endl;
 		return location;
 	}
