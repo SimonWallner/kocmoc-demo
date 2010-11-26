@@ -23,6 +23,8 @@ public:
 	 */
 	void transferData(Shader *shader, GLuint * vao_id);
 
+	unsigned int getVertexCount(void);
+
 
 
 private:

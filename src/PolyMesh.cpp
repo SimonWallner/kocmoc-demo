@@ -54,3 +54,8 @@ void PolyMesh::transferData(Shader *shader, GLuint *vao_id)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
+
+unsigned int PolyMesh::getVertexCount()
+{
+	return vertexCount;
+}

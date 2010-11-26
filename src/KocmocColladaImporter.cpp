@@ -56,6 +56,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 			positions[i] = data[i];
 		}
 		poly->setVertexPositions(positions);
+		poly->setUV0(positions);
 		
 		scene->addPolyMesh(poly);
 	}

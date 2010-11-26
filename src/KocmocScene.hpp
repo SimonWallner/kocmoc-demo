@@ -25,7 +25,8 @@ public:
 private:
 	std::list<PolyMesh* > polyMeshList;
 	string name;
-	GLuint *vao_ids; 
+	GLuint *vao_ids;
+	unsigned int * vertexCounts;
 };
 
 #endif

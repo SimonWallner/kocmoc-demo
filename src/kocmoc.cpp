@@ -74,66 +74,66 @@ void Kocmoc::init()
 	if (!_DEBUG)
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
-	//scene = KocmocLoader::getInstance().load("multi.dae");
-	//scene->transferData(base);
-
-	scene = new KocmocScene();
-	PolyMesh *poly = new PolyMesh(16);
-	static GLfloat positions[] = {
-			0.5f, 0.5f, 0.5f, // front 
-			-0.5f, 0.5f, 0.5f,
-			-0.5f, -0.5f, 0.5f,
-			
-			-0.4f, -0.4f, 0.5f,
-			0.4f, -0.4f, 0.5f,
-			0.4f, 0.4f, 0.5f,
-
-			0.5f, 0.5f, -0.5f, // back 
-			-0.5f, 0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			
-			-0.4f, -0.4f, -0.5f,
-			0.4f, -0.4f, -0.5f,
-			0.4f, 0.4f, -0.5f,
-
-			-0.5f, 0.5f, 0.5f, // left 
-			-0.5f, 0.5f, -0.5f,
-			-0.5f, -0.5f, -0.5f,
-			
-			-0.4f, -0.4f, -0.5f,
-			-0.4f, -0.4f, 0.5f,
-			-0.4f, 0.4f, 0.5f};
-
-	static GLfloat uv0[] = {
-			0.5f, 0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f,
-
-			0.5f, 0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f,
-
-			0.5f, 0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f,
-
-			0.5f, 0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f,
-
-			0.5f, 0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f,
-			
-			0.5f, -0.5f,
-			-0.5f, 0.5f,
-			-0.5f, -0.5f};
-
-	poly->setVertexPositions(positions);
-	poly->setUV0(uv0);
-
-	scene->addPolyMesh(poly);
+	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene->transferData(base);
+
+	//scene = new KocmocScene();
+	//PolyMesh *poly = new PolyMesh(16);
+	//static GLfloat positions[] = {
+	//		0.5f, 0.5f, 0.5f, // front 
+	//		-0.5f, 0.5f, 0.5f,
+	//		-0.5f, -0.5f, 0.5f,
+	//		
+	//		-0.4f, -0.4f, 0.5f,
+	//		0.4f, -0.4f, 0.5f,
+	//		0.4f, 0.4f, 0.5f,
+
+	//		0.5f, 0.5f, -0.5f, // back 
+	//		-0.5f, 0.5f, -0.5f,
+	//		-0.5f, -0.5f, -0.5f,
+	//		
+	//		-0.4f, -0.4f, -0.5f,
+	//		0.4f, -0.4f, -0.5f,
+	//		0.4f, 0.4f, -0.5f,
+
+	//		-0.5f, 0.5f, 0.5f, // left 
+	//		-0.5f, 0.5f, -0.5f,
+	//		-0.5f, -0.5f, -0.5f,
+	//		
+	//		-0.4f, -0.4f, -0.5f,
+	//		-0.4f, -0.4f, 0.5f,
+	//		-0.4f, 0.4f, 0.5f};
+
+	//static GLfloat uv0[] = {
+	//		0.5f, 0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f,
+
+	//		0.5f, 0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f,
+
+	//		0.5f, 0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f,
+
+	//		0.5f, 0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f,
+
+	//		0.5f, 0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f,
+	//		
+	//		0.5f, -0.5f,
+	//		-0.5f, 0.5f,
+	//		-0.5f, -0.5f};
+
+	//poly->setVertexPositions(positions);
+	//poly->setUV0(uv0);
+
+	//scene->addPolyMesh(poly);
+	//scene->transferData(base);
 	
 	running = true;
 }
