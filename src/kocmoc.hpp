@@ -28,7 +28,7 @@ public:
 	/**
 	 * draw the current frame
 	 */
-	void draw(const Shader &shader, GLuint vao_id);
+	void draw(void);
 
 	/**
 	 * init everything that is needed for the game

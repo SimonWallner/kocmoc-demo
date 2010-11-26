@@ -42,7 +42,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		//cast to mesh
 		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
 		
-		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount());
+		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount()/3);
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
 
 		int count = mesh->getPositions().getValuesCount();

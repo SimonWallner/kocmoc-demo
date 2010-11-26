@@ -16,6 +16,7 @@ public:
 	PolyMesh(int vertexCount);
 	virtual ~PolyMesh();
 	void setVertexPositions(float * p);
+	void setUV0(float * uv);
 	
 	/**
 	 * Transfer the data to the gpu, i.e. write the vbos, etc...
@@ -30,7 +31,7 @@ private:
 	float * vertexNormals;
 	float * vertexUVs;
 	
-	GLuint vbo_id;
+	GLuint * vbo_id;
 };
 
 #endif /* POLYMESH_HPP_ */

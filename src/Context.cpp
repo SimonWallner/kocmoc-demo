@@ -189,6 +189,6 @@ void Context::toggleWireframe(void)
 	if(wireframeMode)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else 
-		glPolygonMode(GL_FRONT, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 

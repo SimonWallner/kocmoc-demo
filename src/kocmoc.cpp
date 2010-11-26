@@ -53,17 +53,18 @@ void Kocmoc::init()
 		throw Exception("failed to compile base shader");
 	}
 
-//	// load and bind texture
-//	GLint texture = ImageLoader::getInstance().loadImage("color.png");
-//get_errors();
-//	GLint sTex0_location = base->get_uniform_location("sTex0");
-//get_errors();
-//	glActiveTexture(GL_TEXTURE0);
-//get_errors();
-//	glBindTexture(GL_TEXTURE_2D, texture);
-//get_errors();
-//	glUniform1i(sTex0_location, 0);
-//get_errors();
+	base->bind();
+
+	// load and bind texture
+	GLint texture = ImageLoader::getInstance().loadImage("color.png");
+	GLint sTex0_location = base->get_uniform_location("sTex0");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	//base->bind();
+	glUniform1i(sTex0_location, 0);
+
+	get_errors();
 
 	camera = new FilmCamera(vec3(0, 0, 10.0f), //eye
 		vec3(0, 0, 0), // target
@@ -73,7 +74,65 @@ void Kocmoc::init()
 	if (!_DEBUG)
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
-	scene = KocmocLoader::getInstance().load("cube.dae");
+	//scene = KocmocLoader::getInstance().load("multi.dae");
+	//scene->transferData(base);
+
+	scene = new KocmocScene();
+	PolyMesh *poly = new PolyMesh(16);
+	static GLfloat positions[] = {
+			0.5f, 0.5f, 0.5f, // front 
+			-0.5f, 0.5f, 0.5f,
+			-0.5f, -0.5f, 0.5f,
+			
+			-0.4f, -0.4f, 0.5f,
+			0.4f, -0.4f, 0.5f,
+			0.4f, 0.4f, 0.5f,
+
+			0.5f, 0.5f, -0.5f, // back 
+			-0.5f, 0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			
+			-0.4f, -0.4f, -0.5f,
+			0.4f, -0.4f, -0.5f,
+			0.4f, 0.4f, -0.5f,
+
+			-0.5f, 0.5f, 0.5f, // left 
+			-0.5f, 0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			
+			-0.4f, -0.4f, -0.5f,
+			-0.4f, -0.4f, 0.5f,
+			-0.4f, 0.4f, 0.5f};
+
+	static GLfloat uv0[] = {
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+
+			0.5f, 0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f,
+			
+			0.5f, -0.5f,
+			-0.5f, 0.5f,
+			-0.5f, -0.5f};
+
+	poly->setVertexPositions(positions);
+	poly->setUV0(uv0);
+
+	scene->addPolyMesh(poly);
 	scene->transferData(base);
 	
 	running = true;
@@ -86,8 +145,8 @@ void Kocmoc::start()
 		timer.tic();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		scene->draw();
+		
+		draw();
 
 		Context::getInstance().swapBuffers();
 
@@ -98,13 +157,23 @@ void Kocmoc::start()
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
 		pollKeyboard();
-		pollMouse();
+		//pollMouse();
 		camera->updateMatrixes();
 	}
 
 	get_errors();
 }
 
+void Kocmoc::draw()
+{
+	glm::mat4 rotation_matrix =		glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(),		0.0f, 0.0f, 1.0f);
+	GLint projectionMatrix_location = base->get_uniform_location("projectionMatrix");	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+	GLint viewMatrix_location = base->get_uniform_location("viewMatrix");	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+	GLint modelMatrix_location = base->get_uniform_location("modelMatrix");	glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
+	
+
+	scene->draw();
+}
 
 
 void Kocmoc::pollKeyboard(void)

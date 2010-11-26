@@ -7,10 +7,10 @@
 #define VERTEX_ATTR_NAME_POSITION		"inPosition"
 
 #define VERTEX_ATTR_INDEX_NORMAL		(GLuint)1
-#define VERTEX_ATTR_NAME_NORMAL			"inPosition"
+#define VERTEX_ATTR_NAME_NORMAL			"inNormal"
 
 #define VERTEX_ATTR_INDEX_UV0			(GLuint)2
-#define VERTEX_ATTR_NAME_UV0			"inPosition"
+#define VERTEX_ATTR_NAME_UV0			"inTexCoord0"
 
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor"
 
