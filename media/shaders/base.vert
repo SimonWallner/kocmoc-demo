@@ -22,7 +22,7 @@ out vec3 incidentlightDirection;
 void main(void)
 {
 //	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(inPosition, 1.0f);
-	gl_Position = viewMatrix * vec4(inPosition, 1.0f);
+	gl_Position = vec4(inPosition, 1.0f);
 
 	fragmentNormal = viewMatrix * modelMatrix * vec4(inNormal, 1.0f);
 	texCoord0 = inTexCoord0;
