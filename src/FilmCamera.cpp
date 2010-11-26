@@ -8,6 +8,7 @@ FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) 
 	targetPosition(_targetPosition),
 	upVector(glm::normalize(_upVector))
 {
+	targetVector = glm::normalize(targetPosition - eyePosition);
 	nearPlane = -0.1f;
 	farPlane = -1000.0f;
 }
@@ -35,11 +36,10 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
-	vec3 f = glm::normalize(eyePosition - targetPosition);
-	vec3 s = glm::cross(f, upVector);
-	vec3 u = glm::cross(s, f);
+	vec3 s = glm::normalize(glm::cross(-targetVector, upVector));
+	vec3 u = glm::normalize(glm::cross(s, -targetVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(f, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -59,26 +59,20 @@ void FilmCamera::tumble(float vertical, float horizontal)
 {
 	// FIXME: evil hack !!!! it only moves the target along the view plane
 	// no true rotation.
-	vec3 f = glm::normalize(targetPosition - eyePosition);
-	vec3 s = glm::cross(f, vec3(0, 1, 0));
-	vec3 u = glm::cross(f, s);
-	
-	targetPosition = targetPosition + (-horizontal * s);
-	targetPosition = targetPosition + (vertical * u);
+	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
-	upVector = glm::cross(-f, s);
+	targetVector += s * -horizontal;
+	targetVector += upVector * vertical;
+
+	targetVector = glm::normalize(targetVector);
+	upVector = glm::normalize(glm::cross(s, targetVector));
 }
 
 void FilmCamera::dolly(vec3 direction)
 {
-	vec3 f = glm::normalize(targetPosition - eyePosition);
-	vec3 s = glm::cross(f, vec3(0, 1, 0));
+	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 	
-	targetPosition += (-direction.x * s);
-	targetPosition += (direction.y * vec3(0, 1, 0));
-	targetPosition += (-direction.z * f);
-
 	eyePosition += (-direction.x * s);
 	eyePosition += (direction.y * vec3(0, 1, 0));
-	eyePosition += (-direction.z * f);
+	eyePosition += (-direction.z * targetVector);
 }

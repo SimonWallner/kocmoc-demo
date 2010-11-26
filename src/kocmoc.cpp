@@ -75,9 +75,9 @@ void Kocmoc::init()
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
 	
-	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
+	scene = KocmocLoader::getInstance().load("icosphere.dae");
+	//scene = new KocmocScene();
 
-	scene = new KocmocScene();
 	PolyMesh *poly = new PolyMesh(16);
 	static GLfloat positions[] = {
 			0.5f, 0.5f, 0.5f, // front 
@@ -132,7 +132,7 @@ void Kocmoc::init()
 	poly->setVertexPositions(positions);
 	poly->setUV0(uv0);
 
-	scene->addPolyMesh(poly);
+	//scene->addPolyMesh(poly);
 	scene->transferData(base);
 	
 	running = true;
@@ -215,7 +215,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newY - mouseOldY)*-0.05f, (newX - mouseOldX)*0.05f);
+	camera->tumble((newY - mouseOldY)*0.01f, (newX - mouseOldX)*0.01f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;
