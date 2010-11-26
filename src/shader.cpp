@@ -42,7 +42,6 @@ success(false)
 	get_errors();
 
 	// Link the shaders into a program
-
 	link();
 	if (program == 0)
 		return;
@@ -103,6 +102,12 @@ void Shader::link(void)
 
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, fragmentShader);
+
+	// bind attribute and frag data locations to indexes
+	glBindAttribLocation(program, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
+	glBindAttribLocation(program, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
+	glBindAttribLocation(program, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
+	glBindFragDataLocation(program, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
 	glLinkProgram(program);
 

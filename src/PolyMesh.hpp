@@ -20,12 +20,12 @@ public:
 	/**
 	 * Transfer the data to the gpu, i.e. write the vbos, etc...
 	 */
-	void transferData(Shader shader, GLuint * vao_id);
+	void transferData(Shader *shader, GLuint * vao_id);
 
 
 
 private:
-	int vertexCount;
+	const int vertexCount;
 	float * vertexPositions;
 	float * vertexNormals;
 	float * vertexUVs;

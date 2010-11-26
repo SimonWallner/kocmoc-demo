@@ -19,7 +19,7 @@ public:
 	void addPolyMesh(PolyMesh* mesh);
 	std::list<PolyMesh* > getPolyMeshList(void);
 
-	void transferData(Shader shader);
+	void transferData(Shader *shader);
 	void draw(void);
 
 private:

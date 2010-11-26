@@ -3,6 +3,18 @@
 
 #include "common.hpp"
 
+#define VERTEX_ATTR_INDEX_POSITION		(GLuint)0
+#define VERTEX_ATTR_NAME_POSITION		"inPosition"
+
+#define VERTEX_ATTR_INDEX_NORMAL		(GLuint)1
+#define VERTEX_ATTR_NAME_NORMAL			"inPosition"
+
+#define VERTEX_ATTR_INDEX_UV0			(GLuint)2
+#define VERTEX_ATTR_NAME_UV0			"inPosition"
+
+#define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor"
+
+
 
 /**
  * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
@@ -64,16 +76,6 @@ public:
 		return location;
 	}
 
-	// Define the name of the variable inside the shader which represents the final color for each fragment.
-	void bind_frag_data_location(const std::string &name)
-	{
-		if(program > 0)
-		{
-			glBindFragDataLocation(program, 0, name.c_str());
-			link();
-		}
-	}
-
 	/**
 	 * A little cast helper.
 	 * With this you can simply do "if (shader) {...}" to test if a
@@ -85,6 +87,16 @@ public:
 	}
 
 private:
+
+	// Define the name of the variable inside the shader which represents the final color for each fragment.
+	void bind_frag_data_location(const std::string &name)
+	{
+		if(program > 0)
+		{
+			glBindFragDataLocation(program, 0, name.c_str());
+			link();
+		}
+	}
 
 	bool success;
 
