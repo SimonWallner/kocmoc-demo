@@ -73,7 +73,7 @@ void Kocmoc::init()
 	if (!_DEBUG)
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
-	scene = KocmocLoader::getInstance().load("multi.dae");
+	scene = KocmocLoader::getInstance().load("cube.dae");
 	scene->transferData(base);
 	
 	running = true;

@@ -45,7 +45,9 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount());
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
 
-		
+		int count = mesh->getPositions().getValuesCount();
+		int countb = arr->getCount();
+
 		float* positions = new float[arr->getCount()];
 		const float* data = arr->getData();
 

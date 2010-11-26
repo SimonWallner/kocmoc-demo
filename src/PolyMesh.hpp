@@ -25,7 +25,7 @@ public:
 
 
 private:
-	const int vertexCount;
+	const unsigned int vertexCount;
 	float * vertexPositions;
 	float * vertexNormals;
 	float * vertexUVs;
