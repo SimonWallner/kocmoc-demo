@@ -8,7 +8,7 @@
 #ifndef POLYMESH_HPP_
 #define POLYMESH_HPP_
 
-#include "Shader.hpp"
+#include "shader.hpp"
 
 class PolyMesh
 {

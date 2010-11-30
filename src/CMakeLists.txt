@@ -37,12 +37,9 @@ endif (WIN32)
 
 add_executable(kocmoc-demo ${SOURCE_FILES})
 
-
-target_link_libraries(
-    kocmoc-demo
+set (TARGET_LINK_LIBRARIES 
+ kocmoc-demo
     glfw
-    gl3w
-#	glew32
     OpenCOLLADAFramework
     OpenCOLLADASaxFrameworkLoader
     OpenCOLLADABaseUtils
@@ -53,13 +50,27 @@ target_link_libraries(
     ftoa
     MathMLSolver
     OpenCOLLADAStreamWriter
-    # xml2
-    openGL32
-    libXML
-	devIL
 	ILU
 	ILUT
-    )
+)
+
+# platform dependent linking
+if (WIN32)
+	set(TARGET_LINK_LIBRARIES ${TARGET_LINK_LIBRARIES}
+	gl3w
+    openGL32
+    libXML
+    devIL
+)
+else (WIN32)
+	set(TARGET_LINK_LIBRARIES ${TARGET_LINK_LIBRARIES}
+	xml2
+	IL
+)
+endif (WIN32)
+
+
+target_link_libraries(${TARGET_LINK_LIBRARIES})
 
 
 

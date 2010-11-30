@@ -1,7 +1,7 @@
 #ifndef _IMAGE_LOADER_H_
 #define _IMAGE_LOADER_H_
 
-#include "il/il.h"
+#include "IL/il.h"
 #include "common.hpp"
 
 #include <map>

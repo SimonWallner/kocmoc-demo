@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include "PolyMesh.hpp"
 #include <list>
-#include "Shader.hpp"
+#include "shader.hpp"
 
 /**
  * A loose structure of a scene. No scenegraph, justs lists.

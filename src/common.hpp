@@ -39,4 +39,6 @@ using std::endl;
 #define KOCMOC_DEBUG_VERBOSE_OUTPUT false
 #define KOCMOC_DEBUG_CAPTURE_MOUSE true
 
+#define _DEBUG 1
+
 #endif

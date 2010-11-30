@@ -1,8 +1,9 @@
 #include "ImageLoader.hpp"
 #include "PropertiesFileParser.hpp"
 
-#include "il/ilu.h"
-#include "il/ilut.h"
+#define ILUT_USE_OPENGL
+#include "IL/ilu.h"
+#include "IL/ilut.h"
 
 #include <time.h>
 #include <sstream>
@@ -114,23 +115,16 @@ void ImageLoader::screenShot()
 
 	ILenum error = ilGetError();
 
-	char date[9];
-	char time[9];
-	_strdate(date);
-	_strtime(time);
 
-	date[2] = date[5] = '-';
-	time[2] = time[5] = '-';
+	time_t t = time(0);
+	struct tm * now = localtime(&t);
 
-	string fileName = "screenshot_";
-
-	fileName.append(date);
-	fileName.append("_");
-	fileName.append(time);
-	fileName.append(".png");
+	std::stringstream fileName;
+	fileName << "screenshot_" << (now->tm_year + 1900) << (now->tm_mon + 1) << now->tm_mday <<
+			now->tm_hour << ":" + now->tm_min << ":" + now->tm_sec << ".png";
 
 
-	if(ilSave(IL_PNG, fileName.c_str()))
+	if(ilSave(IL_PNG, fileName.str().c_str()))
 		cout << "screenshot taken! (" << fileName << ")";
 	else 
 		cout << "failed to take screenshot";

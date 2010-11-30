@@ -5,6 +5,7 @@ project(kocmoc CXX)
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
+
 # make platform dependent!!!
 if(WIN32)
 	add_subdirectory(external/gl3w)
