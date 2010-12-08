@@ -31,3 +31,6 @@ fullscreen = 0
 
 width = 800
 height = 450
+
+# mission control stuff
+missionControlServerPort = 65001

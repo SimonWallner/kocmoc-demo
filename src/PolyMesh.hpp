@@ -17,6 +17,7 @@ public:
 	virtual ~PolyMesh();
 	void setVertexPositions(float * p);
 	void setUV0(float * uv);
+	void setVertexNormals(float* normals);
 	
 	/**
 	 * Transfer the data to the gpu, i.e. write the vbos, etc...

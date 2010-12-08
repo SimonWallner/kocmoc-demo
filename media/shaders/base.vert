@@ -14,7 +14,7 @@ uniform vec3 inLightPosition;
 
 
 out vec2 texCoord0;
-out vec4 fragmentNormal;
+out vec3 fragmentNormal;
 out vec3 lightPosition;
 out vec3 incidentlightDirection;
 
@@ -24,7 +24,7 @@ void main(void)
 //	gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(inPosition, 1.0f);
 	gl_Position = projectionMatrix * viewMatrix * vec4(inPosition, 1.0f);
 
-	fragmentNormal = viewMatrix * modelMatrix * vec4(inNormal, 1.0f);
+	fragmentNormal = vec3(viewMatrix * modelMatrix * vec4(inNormal, 1.0f));
 	texCoord0 = inTexCoord0;
 
 	lightPosition = inLightPosition;

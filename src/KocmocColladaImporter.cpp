@@ -44,18 +44,23 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		
 		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount()/3);
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
+		const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
 
 		int count = mesh->getPositions().getValuesCount();
-		int countb = arr->getCount();
+
 
 		float* positions = new float[arr->getCount()];
 		const float* data = arr->getData();
+		float* normals = new float[arrNormals->getCount()];
+		const float* normalsData = arrNormals->getData();
 
 		for (unsigned int i = 0; i < arr->getCount(); i++)
 		{
 			positions[i] = data[i];
+			normals[i] = normalsData[i];
 		}
 		poly->setVertexPositions(positions);
+		poly->setVertexNormals(normals);
 		poly->setUV0(positions);
 		
 		scene->addPolyMesh(poly);

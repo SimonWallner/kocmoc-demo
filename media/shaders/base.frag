@@ -14,5 +14,5 @@ out vec4 fragmentColor;
 void main(void)
 {
 	fragmentColor = texture2D(sTex0, texCoord0);
-//	fragmentColor = vec4(1.0f, 0.5f, 0.5f, 1.0f);
+//	fragmentColor = vec4(fragmentNormal * 2 -1, 1);
 }
