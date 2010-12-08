@@ -80,7 +80,6 @@ private:
 	mat4 projectionMatrix;
 
 	vec3 eyePosition;
-	vec3 targetPosition;
 	vec3 targetVector;
 	vec3 upVector;
 

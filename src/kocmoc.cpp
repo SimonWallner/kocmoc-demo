@@ -75,7 +75,7 @@ void Kocmoc::init()
 		glfwDisable(GLFW_MOUSE_CURSOR);
 
 	
-	scene = KocmocLoader::getInstance().load("icosphere.dae");
+	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	//scene = new KocmocScene();
 
 	PolyMesh *poly = new PolyMesh(16);

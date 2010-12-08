@@ -5,10 +5,9 @@
 
 FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) :
 	eyePosition(_eyePosition),
-	targetPosition(_targetPosition),
 	upVector(glm::normalize(_upVector))
 {
-	targetVector = glm::normalize(targetPosition - eyePosition);
+	targetVector = glm::normalize(_targetPosition - eyePosition);
 	nearPlane = -0.1f;
 	farPlane = -1000.0f;
 }
@@ -36,10 +35,10 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
-	vec3 s = glm::normalize(glm::cross(-targetVector, upVector));
+	vec3 s = glm::normalize(glm::cross(-targetVector, vec3(0, 1, 0)));
 	vec3 u = glm::normalize(glm::cross(s, -targetVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(u, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -50,22 +49,32 @@ void FilmCamera::updateMatrixes()
 	float z3 = (-2.0f * nearPlane * farPlane)/(nearPlane - farPlane);
 
 	projectionMatrix = mat4(x0, 0, 0, 0,
-		0, y1, 0, 0, 
-		0, 0, z2, w2,
-		0, 0, z3, 0);
+							0, y1, 0, 0, 
+							0, 0, z2, w2,
+							0, 0, z3, 0);
 }
 
 void FilmCamera::tumble(float vertical, float horizontal)
 {
 	// FIXME: evil hack !!!! it only moves the target along the view plane
 	// no true rotation.
+
+	// first horizontal:
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
-
+	
 	targetVector += s * -horizontal;
-	targetVector += upVector * vertical;
-
 	targetVector = glm::normalize(targetVector);
-	upVector = glm::normalize(glm::cross(s, targetVector));
+
+
+	// then vertical
+	s = glm::normalize(glm::cross(targetVector, upVector));
+	vec3 u = glm::normalize(glm::cross(targetVector, s));
+
+	targetVector += u * vertical;
+	targetVector = glm::normalize(targetVector);
+
+	// update the up vector
+	//upVector = glm::normalize(glm::cross(s, targetVector));
 }
 
 void FilmCamera::dolly(vec3 direction)
@@ -73,6 +82,6 @@ void FilmCamera::dolly(vec3 direction)
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 	
 	eyePosition += (-direction.x * s);
-	eyePosition += (direction.y * vec3(0, 1, 0));
+	eyePosition += (direction.y * upVector);
 	eyePosition += (-direction.z * targetVector);
 }
