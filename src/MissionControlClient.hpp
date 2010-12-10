@@ -3,7 +3,7 @@
 
 #include "common.hpp"
 
-class MissionControllClient
+class MissionControlClient
 {
 public:
 	MissionControlClient(void);
@@ -11,6 +11,6 @@ public:
 
 private:
 
-}
+};
 
 #endif

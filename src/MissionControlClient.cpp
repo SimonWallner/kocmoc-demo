@@ -1,6 +1,8 @@
-#include "MissionControllClient.hpp"
+#include "MissionControlClient.hpp"
 
-MissionControllClient::MissionControlClient(void)
+#include <boost/asio.hpp>
+
+MissionControlClient::MissionControlClient()
 {
 	cout<<"starting mission control client" << endl;
 	// create socket connection to server

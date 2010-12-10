@@ -1,14 +1,18 @@
 # cmake list for src/
 
+# general stuff
+add_definitions(-DBOOST_DATE_TIME_NO_LIB -DBOOST_REGEX_NO_LIB)
+
+
 include_directories(
     ${PROJECT_SOURCE_DIR}/external/glfw/include
     ${PROJECT_SOURCE_DIR}/external/gl3w/include
-#	${PROJECT_SOURCE_DIR}/external/glew/include
     ${PROJECT_SOURCE_DIR}/external/glm/include
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADAFramework/include
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADABaseUtils/include
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADASaxFrameworkLoader/include
 	${PROJECT_SOURCE_DIR}/external/devIL/include
+	${PROJECT_SOURCE_DIR}/external/boost/include
 )
 
 link_directories(
@@ -16,8 +20,8 @@ link_directories(
     ${PROJECT_SOURCE_DIR}/external/opencollada/lib
     ${PROJECT_SOURCE_DIR}/external/libxml/
     ${PROJECT_SOURCE_DIR}/external/devil/lib
-#	${PROJECT_SOURCE_DIR}/external/glew/lib
-    )
+	${PROJECT_SOURCE_DIR}/external/boost/lib
+)
 
 # collect the files
 file(GLOB HEADER_FILES_MSVC *.hpp)
@@ -61,6 +65,7 @@ if (WIN32)
     openGL32
     libXML
     devIL
+
 )
 else (WIN32)
 	set(TARGET_LINK_LIBRARIES ${TARGET_LINK_LIBRARIES}
