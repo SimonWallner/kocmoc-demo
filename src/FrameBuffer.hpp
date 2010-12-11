@@ -22,16 +22,13 @@ public:
 	GLuint getFBOHandle();
 	virtual void drawFBO();
 
-	virtual void drawFBO(GLfloat topX, GLfloat topY, GLfloat bottomX, GLfloat bottomY);
-
 private:
-
-	bool depth;
 	
 	GLuint textureHandle;
 	GLuint depthbufferHandle; 
+	
+	Shader *shader;
 
-protected:
 	FrameBuffer(void);
 
 	GLuint fboHandle;
@@ -39,7 +36,10 @@ protected:
 	GLuint FBOSizeX;
 	GLuint FBOSizeY;
 
-	Shader *shader;
-	virtual void setFBOTexture();
+	GLuint *vbo_id;
+	GLuint vao_id;
+	
+	void setFBOTexture();
+
 
 };

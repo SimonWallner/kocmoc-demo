@@ -83,6 +83,7 @@ void Kocmoc::init()
 	}
 
 	fbo = new FrameBuffer(Context::getInstance().width, Context::getInstance().width);
+	fbo->setupShader();
 	
 	running = true;
 }
@@ -127,6 +128,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
+	base->bind();
 	glm::mat4 rotation_matrix =		glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(),		0.0f, 0.0f, 1.0f);
 	GLint projectionMatrix_location = base->get_uniform_location("projectionMatrix");	glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 	GLint viewMatrix_location = base->get_uniform_location("viewMatrix");	glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
@@ -134,6 +136,7 @@ void Kocmoc::draw()
 	
 
 	scene->draw();
+	base->unbind();
 }
 
 

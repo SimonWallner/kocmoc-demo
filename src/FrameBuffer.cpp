@@ -57,6 +57,42 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 		cout<<"done"<<endl;
 	}	
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+
+	// create VAO
+	GLfloat topX = -1;
+	GLfloat topY = 1;
+	GLfloat bottomX = 1;
+	GLfloat bottomY = -1;
+
+	GLfloat quadVertices[] = {bottomX,  bottomY, 0.0f,
+		bottomX, topY, 0.0f,
+		topX, topY, 0.0f,
+		topX, bottomY, 0.0f};
+
+	GLfloat quadTexCoord[] = {1.0f, 0.0f,
+		1.0f,  1.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f };
+
+	vbo_id = new GLuint[2];
+	glGenBuffers(2, vbo_id);
+	glGenVertexArrays(1, &vao_id);
+
+	glBindVertexArray(vao_id);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[0]);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 3 *sizeof(float), quadVertices, GL_STATIC_DRAW);
+	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[1]);
+	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), quadTexCoord, GL_STATIC_DRAW);
+	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 FrameBuffer::FrameBuffer()
@@ -86,37 +122,13 @@ GLuint FrameBuffer::getFBOHandle()
 
 void FrameBuffer::drawFBO()
 {
-	drawFBO(-1, 1, 1, -1);
-}
-
-void FrameBuffer::drawFBO(GLfloat topX, GLfloat topY, GLfloat bottomX, GLfloat bottomY)
-{
 	shader->bind();
-
 	setFBOTexture();
-
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
-
-	GLfloat quadVertices[] = {bottomX,  bottomY, 0.0f,
-		bottomX, topY, 0.0f,
-		topX, topY, 0.0f,
-		topX, bottomY, 0.0f};
-
-	GLfloat quadTexCoord[] = {1.0f, 0.0f,
-		1.0f,  1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f };
-
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, quadVertices);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, quadTexCoord);
-
+	
+	glBindVertexArray(vao_id);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
-
-	// Clean up
-	glDisableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
-	glDisableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindVertexArray(0);
+	
 	shader->unbind();
 }
 
