@@ -3,6 +3,7 @@
 #include "FilmCamera.hpp"
 #include "KocmocScene.hpp"
 #include "Gamepad.hpp"
+#include "FrameBuffer.hpp"
 
 /**
  * Singleton game object. All game related magic happens in here.
@@ -38,7 +39,6 @@ public:
 
 	bool isRunning();
 
-
 private:
 
 	Kocmoc();
@@ -60,6 +60,9 @@ private:
 	int mouseOldX, mouseOldY;
 	Gamepad *gamepad;
 	bool useGamepad;
+
+	bool useFBO;
+	FrameBuffer *fbo;
 
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);

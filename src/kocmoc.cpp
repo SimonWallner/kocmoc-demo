@@ -25,6 +25,7 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
+	useFBO = true;
 }
 
 Kocmoc::~Kocmoc()
@@ -80,6 +81,8 @@ void Kocmoc::init()
 		gamepad = new Gamepad(camera);
 		useGamepad = gamepad->init();
 	}
+
+	fbo = new FrameBuffer(Context::getInstance().width, Context::getInstance().width);
 	
 	running = true;
 }
@@ -92,7 +95,15 @@ void Kocmoc::start()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		draw();
+		if (!useFBO)
+			draw();
+		else
+		{
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
+			draw();
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+			fbo->drawFBO();
+		}
 
 		Context::getInstance().swapBuffers();
 
@@ -139,6 +150,9 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey('2'))
 		timer.print();
+
+	if (glfwGetKey('3'))
+		useFBO = !useFBO;
 
 	if (glfwGetKey('W'))
 		camera->dolly(vec3(0, 0, -0.01f));
