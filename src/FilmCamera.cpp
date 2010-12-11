@@ -38,7 +38,7 @@ void FilmCamera::updateMatrixes()
 {
 	vec3 s = glm::normalize(glm::cross(upVector, targetVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -58,7 +58,7 @@ void FilmCamera::tumble(float horizontal, float vertical)
 {
 	// first horizontally
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
-	targetVector = glm::normalize(targetVector - horizontal * s);
+	targetVector = glm::normalize(targetVector + horizontal * s);
 
 		
 	// then vertically
@@ -71,7 +71,7 @@ void FilmCamera::dolly(vec3 direction)
 {
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 	
-	eyePosition += (-direction.x * s);
+	eyePosition += (direction.x * s);
 	eyePosition += (direction.y * upVector);
-	eyePosition += (-direction.z * targetVector);
+	eyePosition += (direction.z * targetVector);
 }

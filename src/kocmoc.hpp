@@ -2,6 +2,7 @@
 #include "Timer.hpp"
 #include "FilmCamera.hpp"
 #include "KocmocScene.hpp"
+#include "Gamepad.hpp"
 
 /**
  * Singleton game object. All game related magic happens in here.
@@ -57,6 +58,8 @@ private:
 	KocmocScene* scene;
 	
 	int mouseOldX, mouseOldY;
+	Gamepad *gamepad;
+	bool useGamepad;
 
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);

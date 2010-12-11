@@ -31,6 +31,7 @@ Kocmoc::~Kocmoc()
 {
 	delete base;
 	delete scene;
+	delete gamepad;
 }
 
 bool Kocmoc::isRunning(){
@@ -72,11 +73,13 @@ void Kocmoc::init()
 		(float)Context::getInstance().width / (float)Context::getInstance().height); // aspect ration
 	camera->updateMatrixes();
 	
-	if (KOCMOC_DEBUG_CAPTURE_MOUSE)
-		glfwDisable(GLFW_MOUSE_CURSOR);
-
 	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene->transferData(base);
+
+	{ /* inputs */
+		gamepad = new Gamepad(camera);
+		useGamepad = gamepad->init();
+	}
 	
 	running = true;
 }
@@ -100,7 +103,11 @@ void Kocmoc::start()
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
 		pollKeyboard();
-		pollMouse();
+		if (useGamepad)
+			gamepad->poll();
+		else
+			pollMouse();
+
 		camera->updateMatrixes();
 	}
 

@@ -169,6 +169,11 @@ void Context::setGLStates()
 
 	glLineWidth(2.0f);
 	glEnable(GL_LINE_SMOOTH);
+
+	bool wireframe;
+	PropertiesFileParser::GetInstance().getProperty("wireframe", &wireframe);
+	if (wireframe)
+		toggleWireframe();
 }
 
 void Context::swapBuffers()
