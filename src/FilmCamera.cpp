@@ -3,9 +3,10 @@
 #include <gtc/matrix_projection.hpp> 
 #include <math.h>
 
-FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) :
+FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector, float _aspectRatio) :
 	eyePosition(_eyePosition),
-	upVector(glm::normalize(_upVector))
+	upVector(glm::normalize(_upVector)),
+	aspectRatio(_aspectRatio)
 {
 	targetVector = glm::normalize(_targetPosition - eyePosition);
 	nearPlane = -0.1f;
@@ -35,13 +36,13 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
-	vec3 s = glm::normalize(glm::cross(-targetVector, upVector));
+	vec3 s = glm::normalize(glm::cross(upVector, targetVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
-	float x0 = (1/(tan(KOCMOC_PI/4))) / (16.0f/9.0f);
+	float x0 = (1/(tan(KOCMOC_PI/4))) / aspectRatio;
 	float y1 = 1/(tan(KOCMOC_PI/4));
 	float z2 = (nearPlane + farPlane)/(nearPlane - farPlane);
 	float w2 = -1.0f;

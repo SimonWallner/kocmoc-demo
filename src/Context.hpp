@@ -53,10 +53,15 @@ public:
 
 	void getAvailableResolutions(void);
 
+
+	int width, height;
+
+
 private:
 	Context(void);
 	Context(const Context &cc); // protext the copy constructor as well
 	bool wireframeMode;
+
 };
 
 #endif

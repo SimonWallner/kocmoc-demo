@@ -16,8 +16,10 @@ public:
 	 * scene
 	 * @param targetPosition The point the camera looks at
 	 * @param upVector the up-vector of the camera
+	 * @param aspectRatio the aspect ration
 	 */
-	FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
+
+	FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector, float aspectRation);
 
 	virtual ~FilmCamera();
 
@@ -85,6 +87,7 @@ private:
 
 	float nearPlane;
 	float farPlane;
+	float aspectRatio;
 };
 
 #endif /* FILM_CAMERA_HPP_ */

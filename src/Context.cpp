@@ -19,7 +19,6 @@ Context& Context::getInstance(void)
 
 void Context::setupGLFW()
 {
-	int width, height;
 	bool fullscreen;
 
 	PropertiesFileParser::GetInstance().getProperty("width", &width);
