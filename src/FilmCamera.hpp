@@ -16,8 +16,10 @@ public:
 	 * scene
 	 * @param targetPosition The point the camera looks at
 	 * @param upVector the up-vector of the camera
+	 * @param aspectRatio the aspect ration
 	 */
-	FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
+
+	FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector, float aspectRation);
 
 	virtual ~FilmCamera();
 
@@ -62,7 +64,7 @@ public:
 	 * @param vertical The vertical rotation
 	 * @param horizontal The horizontal rotation
 	 */
-	void tumble(float vertical, float horizontal);
+	void tumble(float horizontal, float vertical);
 
 	/**
 	 * translate the camera. i.e. the postion and the target
@@ -80,12 +82,12 @@ private:
 	mat4 projectionMatrix;
 
 	vec3 eyePosition;
-	vec3 targetPosition;
 	vec3 targetVector;
 	vec3 upVector;
 
 	float nearPlane;
 	float farPlane;
+	float aspectRatio;
 };
 
 #endif /* FILM_CAMERA_HPP_ */

@@ -16,9 +16,9 @@ PolyMesh::PolyMesh(int _vertexCount) : vertexCount(_vertexCount)
 
 PolyMesh::~PolyMesh()
 {
-	delete [] vertexPositions;
+	/*delete [] vertexPositions;
 	delete [] vertexNormals;
-	delete [] vertexUVs;
+	delete [] vertexUVs;*/
 }
 
 
