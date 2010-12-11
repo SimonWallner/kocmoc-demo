@@ -215,7 +215,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newY - mouseOldY)*0.01f, (newX - mouseOldX)*0.01f);
+	camera->tumble((newX - mouseOldX)*0.01f, (newY - mouseOldY)*0.01f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;

@@ -28,6 +28,3 @@ ModelsRootFolder = ${MEDIA_PATH}/models/
 width = 1280
 height = 720
 fullscreen = 0
-
-width = 800
-height = 450

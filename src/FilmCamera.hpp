@@ -62,7 +62,7 @@ public:
 	 * @param vertical The vertical rotation
 	 * @param horizontal The horizontal rotation
 	 */
-	void tumble(float vertical, float horizontal);
+	void tumble(float horizontal, float vertical);
 
 	/**
 	 * translate the camera. i.e. the postion and the target
