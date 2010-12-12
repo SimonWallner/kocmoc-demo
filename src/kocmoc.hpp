@@ -38,6 +38,8 @@ public:
 
 	bool isRunning();
 
+	Camera *getCamera(void) {return camera;}
+
 
 private:
 
