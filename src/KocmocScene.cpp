@@ -3,7 +3,7 @@
 
 KocmocScene::KocmocScene() : name("Scene")
 {
-	crossShader = new Shader("vertexColor.vert", "vertexColor.frag");
+	gizmoShader = new Shader("vertexColor.vert", "vertexColor.frag");
 }
 
 KocmocScene::~KocmocScene(void)
@@ -38,10 +38,10 @@ void KocmocScene::transferData(Shader * shader)
 		i++;
 	}
 
-	// create cross
-	cross_vbos = new GLuint[2];
-	glGenVertexArrays(1, &cross_vao);
-	glGenBuffers(2, cross_vbos);
+	// create gizmo
+	gizmo_vbos = new GLuint[2];
+	glGenVertexArrays(1, &gizmo_vao);
+	glGenBuffers(2, gizmo_vbos);
 
 	GLfloat vertexPositions[] = {0.0f, 0.0f, 0.0f, 1.0f,
 								1.0f, 0.0f, 0.0f, 0.0f,
@@ -56,14 +56,14 @@ void KocmocScene::transferData(Shader * shader)
 							0.0f, 0.0f, 1.0f,
 							0.0f, 0.0f, 1.0f};
 
-	glBindVertexArray(cross_vao);
+	glBindVertexArray(gizmo_vao);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, cross_vbos[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, gizmo_vbos[0]);
 	glBufferData(GL_ARRAY_BUFFER, 6 * 4 *sizeof(float), vertexPositions, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 4, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
-	glBindBuffer(GL_ARRAY_BUFFER, cross_vbos[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, gizmo_vbos[1]);
 	glBufferData(GL_ARRAY_BUFFER, 6 * 3 * sizeof(float), vertexColors, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_COLOR, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_COLOR);
@@ -95,15 +95,14 @@ void KocmocScene::draw(Shader* shader)
 	}
 	shader->unbind();
 
-	crossShader->bind();
+	gizmoShader->bind();
 	{
-		GLint projectionMatrix_location = crossShader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-		GLint viewMatrix_location = crossShader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-
-		glBindVertexArray(cross_vao);
+		GLint viewMatrix_location = gizmoShader->get_uniform_location("viewMatrix");		GLint projectionMatrix_location = gizmoShader->get_uniform_location("projectionMatrix");		
+		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));		
+		glBindVertexArray(gizmo_vao);
 		glDrawArrays(GL_LINES, 0, 6);
 		glBindVertexArray(0);
 	}
-	crossShader->unbind();
+	gizmoShader->unbind();
 }
-

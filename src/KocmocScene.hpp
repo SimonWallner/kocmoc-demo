@@ -28,9 +28,9 @@ private:
 	GLuint *vao_ids;
 	unsigned int * vertexCounts;
 
-	GLuint cross_vao;
-	GLuint *cross_vbos;
-	Shader *crossShader;
+	GLuint gizmo_vao;
+	GLuint *gizmo_vbos;
+	Shader *gizmoShader;
 };
 
 #endif
