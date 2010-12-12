@@ -71,7 +71,9 @@ void Kocmoc::init()
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0),  // up
 		(float)Context::getInstance().width / (float)Context::getInstance().height); // aspect ration
+	camera->setupGizmo();
 	camera->updateMatrixes();
+	
 	
 	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene->transferData(base);
@@ -117,6 +119,7 @@ void Kocmoc::start()
 void Kocmoc::draw()
 {
 	scene->draw(base);
+	//camera->drawGizmo();
 }
 
 

@@ -2,6 +2,7 @@
 #define _CAMERA_H_
 
 #include "common.hpp"
+#include "Shader.hpp"
 
 /**
  * Abstract camera class
@@ -37,6 +38,13 @@ public:
 	 * Also updates the untranslated view Matrix.
 	 */
 	virtual void updateMatrixes() = 0;
+
+	void drawGizmo();
+	void setupGizmo(void);
+
+private:
+	GLuint *gizmo_vbos, gizmo_vao;
+	Shader *gizmoShader;
 };
 
 #endif
