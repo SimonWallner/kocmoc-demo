@@ -40,6 +40,8 @@ private:
 	GLuint vao_id;
 	
 	void setFBOTexture();
+	void createQuad();
+	void check();
 
 
 };

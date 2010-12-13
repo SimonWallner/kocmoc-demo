@@ -25,7 +25,7 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	useFBO = true;
+	useFBO = false;
 }
 
 Kocmoc::~Kocmoc()
@@ -84,8 +84,8 @@ void Kocmoc::init()
 		useGamepad = gamepad->init();
 	}
 
-	fbo = new FrameBuffer(Context::getInstance().width, Context::getInstance().width);
-	fbo->setupShader();
+//	fbo = new FrameBuffer(Context::getInstance().width, Context::getInstance().width);
+//	fbo->setupShader();
 	
 	running = true;
 }

@@ -8,17 +8,14 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 
 	// create a depth-buffer
 	glGenRenderbuffers(1, &depthbufferHandle);
-	// bind our depth-buffer
 	glBindRenderbuffer(GL_RENDERBUFFER, depthbufferHandle);
-
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, sizex, sizey);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthbufferHandle);
 
+	// create and bind texture
 	glGenTextures(1, &textureHandle);
 	glBindTexture(GL_TEXTURE_2D, textureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, sizex, sizey, 0, GL_RGBA, GL_FLOAT, NULL);
-
-	get_errors();
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, sizex, sizey, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -27,6 +24,15 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureHandle, 0);
 
+	check();
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	createQuad();
+}
+
+void FrameBuffer::check()
+{
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	if (status != GL_FRAMEBUFFER_COMPLETE) {
 		switch(status) {
@@ -36,12 +42,6 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 			case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 				cout<<"Framebuffer incomplete, missing attachment"<<endl;
 				break;
-			//case GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-			//	cout<<"Framebuffer incomplete, attached images must have same dimensions"<<endl;
-			//	break;
-			//case GL_FRAMEBUFFER_INCOMPLETE_FORMATS:
-			//	cout<<"Framebuffer incomplete, attached images must have same format"<<endl;
-			//	break;
 			case GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
 				cout<<"Framebuffer incomplete, missing draw buffer"<<endl;
 				break;
@@ -55,10 +55,10 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 	}
 	else{
 		cout<<"done"<<endl;
-	}	
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-
+	}
+}
+void FrameBuffer::createQuad()
+{
 	// create VAO
 	GLfloat topX = -1;
 	GLfloat topY = 1;

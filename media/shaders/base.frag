@@ -9,10 +9,10 @@ in vec3 incidentLightPosition;
 
 uniform sampler2D sTex0;
 
-out vec4 fragmentColor;
+out vec4 fragmentColor0;
 
 void main(void)
 {
-	fragmentColor = texture2D(sTex0, texCoord0);
-//	fragmentColor = vec4(fragmentNormal * 2 -1, 1);
+	fragmentColor0 = texture2D(sTex0, texCoord0);
+//	fragmentColor0 = vec4(fragmentNormal * 2 -1, 1);
 }
