@@ -108,6 +108,7 @@ void Kocmoc::start()
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			fbo->drawFBO();
 		}
+		drawOverlays();
 
 		Context::getInstance().swapBuffers();
 
@@ -131,10 +132,12 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	scene->draw(base);
+	scene->draw(base);	
+}
+void Kocmoc::drawOverlays()
+{
 	camera->drawGizmo();
 }
-
 
 void Kocmoc::pollKeyboard(void)
 {

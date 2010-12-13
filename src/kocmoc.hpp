@@ -77,4 +77,6 @@ private:
 
 	void pollMouse(void);
 
+	void drawOverlays(void);
+
 };
