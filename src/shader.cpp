@@ -107,6 +107,7 @@ void Shader::link(void)
 	glBindAttribLocation(program, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
 	glBindAttribLocation(program, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
 	glBindAttribLocation(program, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
+	glBindAttribLocation(program, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
 	glBindFragDataLocation(program, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
 	glLinkProgram(program);

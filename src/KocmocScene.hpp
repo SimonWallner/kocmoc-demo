@@ -12,7 +12,7 @@
 class KocmocScene
 {
 public:
-	KocmocScene() : name("") {};
+	KocmocScene();
 	KocmocScene(string _name) : name(_name) {};
 	~KocmocScene(void);
 
@@ -20,13 +20,17 @@ public:
 	std::list<PolyMesh* > getPolyMeshList(void);
 
 	void transferData(Shader *shader);
-	void draw(void);
+	void draw(Shader* shader);
 
 private:
 	std::list<PolyMesh* > polyMeshList;
 	string name;
 	GLuint *vao_ids;
 	unsigned int * vertexCounts;
+
+	GLuint gizmo_vao;
+	GLuint *gizmo_vbos;
+	Shader *gizmoShader;
 };
 
 #endif

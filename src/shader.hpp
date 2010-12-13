@@ -12,6 +12,9 @@
 #define VERTEX_ATTR_INDEX_UV0			(GLuint)2
 #define VERTEX_ATTR_NAME_UV0			"inTexCoord0"
 
+#define VERTEX_ATTR_INDEX_COLOR			(GLuint)3
+#define VERTEX_ATTR_NAME_COLOR			"inColor"
+
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor"
 
 
