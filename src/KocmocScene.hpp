@@ -6,6 +6,8 @@
 #include <list>
 #include "shader.hpp"
 
+typedef std::list<PolyMesh* > PolyMeshPointerList;
+
 /**
  * A loose structure of a scene. No scenegraph, justs lists.
  */
@@ -23,10 +25,8 @@ public:
 	void draw(Shader* shader);
 
 private:
-	std::list<PolyMesh* > polyMeshList;
+	PolyMeshPointerList polyMeshList;
 	string name;
-	GLuint *vao_ids;
-	unsigned int * vertexCounts;
 
 	GLuint gizmo_vao;
 	GLuint *gizmo_vbos;

@@ -26,19 +26,8 @@ std::list<PolyMesh*> KocmocScene::getPolyMeshList()
 
 void KocmocScene::transferData(Shader * shader)
 {
-	vao_ids = new GLuint [polyMeshList.size()];
-	vertexCounts = new unsigned int [polyMeshList.size()];
-	glGenVertexArrays(polyMeshList.size(), vao_ids);
-
-	int i = 0;
-	for (std::list<PolyMesh* >::iterator it = polyMeshList.begin(); it != polyMeshList.end(); it++)
-	{
-		(*it)->transferData(shader, &vao_ids[i]);
-		vertexCounts[i] = (*it)->getVertexCount();
-		i++;
-	}
-
 	// create gizmo
+	// TODO: make model and load it
 	gizmo_vbos = new GLuint[2];
 	glGenVertexArrays(1, &gizmo_vao);
 	glGenBuffers(2, gizmo_vbos);
@@ -75,28 +64,15 @@ void KocmocScene::transferData(Shader * shader)
 
 void KocmocScene::draw(Shader* shader)
 {
-	Camera *camera = Kocmoc::getInstance().getCamera();
-
-	shader->bind();
+	for (PolyMeshPointerList::const_iterator ci = polyMeshList.begin(); ci != polyMeshList.end(); ci++)
 	{
-		glm::mat4 rotation_matrix =			glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(),			0.0f, 0.0f, 1.0f);
-
-		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(rotation_matrix));
-
-
-		for (unsigned int i = 0; i < polyMeshList.size(); i++)
-		{
-			glBindVertexArray(vao_ids[i]);
-			glDrawArrays(GL_TRIANGLES, 0, vertexCounts[i]);
-			glBindVertexArray(0);
-		}
+		(*ci)->draw();
 	}
-	shader->unbind();
 
 	gizmoShader->bind();
 	{
+		Camera *camera = Kocmoc::getInstance().getCamera();
+
 		GLint viewMatrix_location = gizmoShader->get_uniform_location("viewMatrix");		GLint projectionMatrix_location = gizmoShader->get_uniform_location("projectionMatrix");		
 		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));		

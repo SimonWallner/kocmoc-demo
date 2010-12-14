@@ -6,8 +6,13 @@
  */
 
 #include "PolyMesh.hpp"
+#include "Kocmoc.hpp"
+#include "Camera.hpp"
 
-PolyMesh::PolyMesh(int _vertexCount) : vertexCount(_vertexCount)
+PolyMesh::PolyMesh(int _vertexCount) :
+	vertexCount(_vertexCount), 
+	dataIsUploaded(false),
+	modelMatrix(mat4(1.0f))
 {
 	vertexPositions = new float[vertexCount * 3];
 	vertexNormals = new float[vertexCount * 3];
@@ -40,24 +45,26 @@ void PolyMesh::setVertexNormals(float * normals)
 	vertexNormals = normals;
 }
 
-void PolyMesh::transferData(Shader *shader, GLuint *vao_id)
+void PolyMesh::transferData()
 {
-	vbo_id = new GLuint[3];
-	glGenBuffers(3, vbo_id);
+	glGenVertexArrays(1, &vaoHandle);
 
-	glBindVertexArray(*vao_id);
+	vboHandles = new GLuint[3];
+	glGenBuffers(3, vboHandles);
+
+	glBindVertexArray(vaoHandle);
 	
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(float), vertexPositions, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 * sizeof(float), vertexUVs, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[2]);
+	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 * sizeof(float), vertexNormals, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
@@ -70,3 +77,36 @@ unsigned int PolyMesh::getVertexCount()
 {
 	return vertexCount;
 }
+
+void PolyMesh::setShader(Shader *_shader)
+{
+	shader = _shader;
+}
+
+void PolyMesh::setTexture(GLint _textureHandle)
+{
+	textureHandle = _textureHandle;
+}
+
+void PolyMesh::draw()
+{
+	if (!dataIsUploaded)
+		transferData();
+	else
+	{
+		Camera *camera = Kocmoc::getInstance().getCamera();
+
+		shader->bind();
+		{
+			GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");			glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+			GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");			glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+			GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");			glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+		
+			glBindVertexArray(vaoHandle);
+			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+			glBindVertexArray(0);
+		}
+		shader->unbind();
+	}
+}
+
