@@ -5,6 +5,8 @@
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
 #include <COLLADAFWVisualScene.h>
+#include "Shader.hpp"
+#include "ImageLoader.hpp"
 
 KocmocColladaImporter::KocmocColladaImporter()
 {
@@ -62,7 +64,15 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		poly->setVertexPositions(positions);
 		poly->setVertexNormals(normals);
 		poly->setUV0(positions);
-		
+
+		// add shader to poly
+		Shader *shader = new Shader("base.vert", "base.frag");
+		poly->setShader(shader);
+
+		// add texture
+		GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+		poly->setTexture(tex);
+
 		scene->addPolyMesh(poly);
 	}
 
