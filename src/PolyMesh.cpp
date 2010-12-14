@@ -71,6 +71,8 @@ void PolyMesh::transferData()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	
+	dataIsUploaded = true;
 }
 
 unsigned int PolyMesh::getVertexCount()
@@ -86,27 +88,38 @@ void PolyMesh::setShader(Shader *_shader)
 void PolyMesh::setTexture(GLint _textureHandle)
 {
 	textureHandle = _textureHandle;
+
+	GLint sTex0_location = shader->get_uniform_location("sTex0");
+		
+	if (sTex0_location >= 0)
+		glUniform1i(sTex0_location, 0);
+	else 
+	{
+		cout << "failed to get retrieve the uniform position for sTex0" << endl;
+		cout << "uniform locatio is: " << sTex0_location << endl;
+	}
 }
 
 void PolyMesh::draw()
 {
 	if (!dataIsUploaded)
 		transferData();
-	else
-	{
-		Camera *camera = Kocmoc::getInstance().getCamera();
 
-		shader->bind();
-		{
-			GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");			glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-			GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");			glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-			GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");			glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-		
-			glBindVertexArray(vaoHandle);
-			glDrawArrays(GL_TRIANGLES, 0, vertexCount);
-			glBindVertexArray(0);
-		}
-		shader->unbind();
+	Camera *camera = Kocmoc::getInstance().getCamera();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureHandle);
+
+	shader->bind();
+	{
+		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+	
+		glBindVertexArray(vaoHandle);
+		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+		glBindVertexArray(0);
 	}
+		shader->unbind();
 }
 

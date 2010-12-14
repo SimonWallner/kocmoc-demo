@@ -136,7 +136,7 @@ void Kocmoc::draw()
 }
 void Kocmoc::drawOverlays()
 {
-	//camera->drawGizmo();
+	camera->drawGizmo();
 }
 
 void Kocmoc::pollKeyboard(void)

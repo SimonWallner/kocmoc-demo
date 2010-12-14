@@ -104,6 +104,20 @@ void FrameBuffer::setupShader()
 {
 	cout << "Frame buffer setup shader" << endl;
 	shader = new Shader("post.vert", "post.frag");
+
+	GLint sTex0_location = shader->get_uniform_location("sTex0");
+	
+	if (sTex0_location >= 0)
+	{
+		shader->bind();
+		glUniform1i(sTex0_location, 0);
+		shader->unbind();
+	}
+	else 
+	{
+		cout << "failed to get retrieve the uniform position for sTex0" << endl;
+		cout << "uniform locatio is: " << sTex0_location << endl;
+	}
 }
 
 FrameBuffer::~FrameBuffer()
@@ -133,23 +147,13 @@ void FrameBuffer::drawFBO()
 }
 
 
-void FrameBuffer::setFBOTexture(){
+void FrameBuffer::setFBOTexture()
+{
 	if(textureHandle != 0)
 	{
-		GLint sTex0_location = shader->get_uniform_location("sTex0");
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureHandle);
 		
-		if (sTex0_location >= 0)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, textureHandle);
-			
-			glGenerateMipmap(GL_TEXTURE_2D);
-
-			glUniform1i(sTex0_location, 0);
-		} else 
-		{
-			cout << "failed to get retrieve the uniform position for sTex0" << endl;
-			cout << "uniform locatio is: " << sTex0_location << endl;
-		}
+		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 }
