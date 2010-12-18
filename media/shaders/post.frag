@@ -22,5 +22,17 @@ void main(void)
 	vec2 bentUV = uv / (barrelParam/(uv.s * uv.s + (uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);	
 	vec2 finalUV = bentUV / 2 + 0.5; // to [0, 1]
 
-	fragmentColor0 = texture2D(sTex0, finalUV);
+
+// vignetting
+	float attenuation = 2.0f;
+	float power = 3;
+	
+	float delta = distance(vec2(0.0f, 0.0f), (bentUV / vec2(1.0f, aspectRatio))) / 1.5;
+	float darkening = 1 - pow(delta, power) * attenuation;
+
+
+
+
+	fragmentColor0 = texture2D(sTex0, finalUV) * darkening;
+
 }
