@@ -79,6 +79,61 @@ void Kocmoc::init()
 	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene->transferData(base);
 
+	// generate starts, lots of stars
+	int starCount = 10000;
+	float domain = 100;
+	float size = 2;
+
+	PolyMesh *stars = new PolyMesh(starCount * 3);
+	GLfloat *positions = new GLfloat[starCount * 3 * 3];
+	GLfloat *colors = new GLfloat[starCount * 3 * 3];
+	
+	for (int i = 0; i < starCount; i++)
+	{
+		vec3 v0 = vec3((rand() * domain)/RAND_MAX - (domain / 2), 
+			(rand() * domain)/RAND_MAX - (domain / 2), 
+			(rand() * domain)/RAND_MAX - (domain / 2));
+
+		vec3 direction1 = vec3((float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
+		vec3 direction2 = vec3((float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
+
+		vec3 v1 = v0 + direction1 * size;
+		vec3 v2 = (v0 + direction1 * (size/ 2)) + direction2 * (0.86602540378443864f * size);
+		
+		positions[i*9] = v0.x;
+		positions[i*9+1] = v0.y;
+		positions[i*9+2] = v0.z;
+		positions[i*9+3] = v1.x;
+		positions[i*9+4] = v1.y;
+		positions[i*9+5] = v1.z;
+		positions[i*9+6] = v2.x;
+		positions[i*9+7] = v2.y;
+		positions[i*9+8] = v2.z;
+
+		colors[i*9] = 1.0f;
+		colors[i*9+1] = 1.0f;
+		colors[i*9+2] = 1.0f;
+		colors[i*9+3] = 1.0f;
+		colors[i*9+4] = 1.0f;
+		colors[i*9+5] = 1.0f;
+		colors[i*9+6] = 1.0f;
+		colors[i*9+7] = 1.0f;
+		colors[i*9+8] = 1.0f;
+	}
+	stars->setVertexPositions(positions);
+	stars->setVertexNormals(colors);
+	// add shader to poly
+	Shader *shader = new Shader("base.vert", "base.frag");
+	stars->setShader(shader);
+
+	// add texture
+	GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+	stars->setTexture(tex);
+
+	scene->addPolyMesh(stars);
+
+
+
 	{ /* inputs */
 		gamepad = new Gamepad(camera);
 		useGamepad = gamepad->init();

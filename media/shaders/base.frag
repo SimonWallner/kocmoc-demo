@@ -15,4 +15,5 @@ void main(void)
 {
 	fragmentColor0 = texture2D(sTex0, texCoord0);
 //	fragmentColor0 = vec4(fragmentNormal * 2 -1, 1);
+	fragmentColor0 = vec4(1, 1, 1, 1);
 }
