@@ -98,6 +98,11 @@ void PropertiesFileParser::getProperty(string name, int *value)
 	sscanf(cache[name].c_str(), "%i", value);
 }
 
+void PropertiesFileParser::getProperty(string name, float *value)
+{
+	sscanf(cache[name].c_str(), "%f", value);
+}
+
 void PropertiesFileParser::getProperty(string name, bool *value)
 {
 	int foo;

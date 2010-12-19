@@ -80,46 +80,85 @@ void Kocmoc::init()
 	scene->transferData(base);
 
 	// generate starts, lots of stars
-	int starCount = 10000;
-	float domain = 100;
-	float size = 2;
-
-	PolyMesh *stars = new PolyMesh(starCount * 3);
-	GLfloat *positions = new GLfloat[starCount * 3 * 3];
-	GLfloat *colors = new GLfloat[starCount * 3 * 3];
+	int starCount;
+	float domain, size;
+	PropertiesFileParser::GetInstance().getProperty("starsCount", &starCount);
+	PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
+	PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
+	
+	PolyMesh *stars = new PolyMesh(starCount * 12);
+	GLfloat *positions = new GLfloat[starCount * 12 * 3];
+	GLfloat *colors = new GLfloat[starCount * 12 * 3];
 	
 	for (int i = 0; i < starCount; i++)
 	{
-		vec3 v0 = vec3((rand() * domain)/RAND_MAX - (domain / 2), 
-			(rand() * domain)/RAND_MAX - (domain / 2), 
-			(rand() * domain)/RAND_MAX - (domain / 2));
+		vec4 v0 = vec4(0, 0, 0, 1);
+		vec4 v1 = vec4(0, 1, 1, 1);
+		vec4 v2 = vec4(1, 1, 0, 1);
+		vec4 v3 = vec4(1, 0, 1, 1);
 
-		vec3 direction1 = vec3((float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
-		vec3 direction2 = vec3((float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
+		mat4 rotation = glm::gtx::transform::rotate(((float)rand() * 360)/RAND_MAX,
+			(float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
 
-		vec3 v1 = v0 + direction1 * size;
-		vec3 v2 = (v0 + direction1 * (size/ 2)) + direction2 * (0.86602540378443864f * size);
-		
-		positions[i*9] = v0.x;
-		positions[i*9+1] = v0.y;
-		positions[i*9+2] = v0.z;
-		positions[i*9+3] = v1.x;
-		positions[i*9+4] = v1.y;
-		positions[i*9+5] = v1.z;
-		positions[i*9+6] = v2.x;
-		positions[i*9+7] = v2.y;
-		positions[i*9+8] = v2.z;
+		mat4 transform = glm::translate((rand() * domain)/RAND_MAX - (domain / 2),
+			(rand() * domain)/RAND_MAX - (domain / 2),
+			(rand() * domain)/RAND_MAX - (domain / 2)) * rotation;
 
-		colors[i*9] = 1.0f;
-		colors[i*9+1] = 1.0f;
-		colors[i*9+2] = 1.0f;
-		colors[i*9+3] = 1.0f;
-		colors[i*9+4] = 1.0f;
-		colors[i*9+5] = 1.0f;
-		colors[i*9+6] = 1.0f;
-		colors[i*9+7] = 1.0f;
-		colors[i*9+8] = 1.0f;
+		v0 = transform * v0;
+		v1 = transform * v1;
+		v2 = transform * v2;
+		v3 = transform * v3;
+
+		// 0 - 1 - 2
+		positions[i*36] = v0.x;
+		positions[i*36+1] = v0.y;
+		positions[i*36+2] = v0.z;
+		positions[i*36+3] = v1.x;
+		positions[i*36+4] = v1.y;
+		positions[i*36+5] = v1.z;
+		positions[i*36+6] = v2.x;
+		positions[i*36+7] = v2.y;
+		positions[i*36+8] = v2.z;
+
+		// 1 - 2 - 3
+		positions[i*36+9] = v1.x;
+		positions[i*36+10] = v1.y;
+		positions[i*36+11] = v1.z;
+		positions[i*36+12] = v2.x;
+		positions[i*36+13] = v2.y;
+		positions[i*36+14] = v2.z;
+		positions[i*36+15] = v3.x;
+		positions[i*36+16] = v3.y;
+		positions[i*36+17] = v3.z;
+
+		// 3 - 0 - 1
+		positions[i*36+18] = v3.x;
+		positions[i*36+19] = v3.y;
+		positions[i*36+20] = v3.z;
+		positions[i*36+21] = v0.x;
+		positions[i*36+22] = v0.y;
+		positions[i*36+23] = v0.z;
+		positions[i*36+24] = v1.x;
+		positions[i*36+25] = v1.y;
+		positions[i*36+26] = v1.z;
+
+		// 0 - 2 - 3
+		positions[i*36+27] = v0.x;
+		positions[i*36+28] = v0.y;
+		positions[i*36+29] = v0.z;
+		positions[i*36+30] = v2.x;
+		positions[i*36+31] = v2.y;
+		positions[i*36+32] = v2.z;
+		positions[i*36+33] = v3.x;
+		positions[i*36+34] = v3.y;
+		positions[i*36+35] = v3.z;
 	}
+
+	for (int i = 0; i < starCount * 36; i++)
+	{
+		colors[i] = 1.0f;
+	}
+
 	stars->setVertexPositions(positions);
 	stars->setVertexNormals(colors);
 	// add shader to poly

@@ -34,3 +34,8 @@ wireframe = 0
 # mission control stuff
 missionControlServerPort = 65001
 
+# star generator
+starsCount = 10000
+starsDomain = 1000
+starsSize = 2
+

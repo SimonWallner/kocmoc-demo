@@ -35,6 +35,7 @@ public:
 	 */
 	void getProperty(string name, string* value);
 	void getProperty(string name, int* value);
+	void getProperty(string name, float* value);
 	void getProperty(string name, bool* value);
 
 	/**
