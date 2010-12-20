@@ -93,10 +93,10 @@ void Kocmoc::init()
 	
 	for (int i = 0; i < starCount; i++)
 	{
-		vec4 v0 = vec4(0, 0, 0, 1);
-		vec4 v1 = vec4(0, 1, 1, 1);
-		vec4 v2 = vec4(1, 1, 0, 1);
-		vec4 v3 = vec4(1, 0, 1, 1);
+		vec4 v0 = vec4(0, 0, 0, 1) * size;
+		vec4 v1 = vec4(0, 1, 1, 1) * size;
+		vec4 v2 = vec4(1, 1, 0, 1) * size;
+		vec4 v3 = vec4(1, 0, 1, 1) * size;
 
 		mat4 rotation = glm::gtx::transform::rotate(((float)rand() * 360)/RAND_MAX,
 			(float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);

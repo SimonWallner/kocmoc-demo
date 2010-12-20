@@ -37,8 +37,11 @@ missionControlServerPort = 65001
 # star generator
 starsCount = 10000
 starsDomain = 1000
-starsSize = 2
+starsSize = 1
 
 # debug settings
 debugDisableFBO = 1
 debugShowGizmo = 0
+
+# camera settings (not yet in use)
+# cameraFocalLength35 = 28
