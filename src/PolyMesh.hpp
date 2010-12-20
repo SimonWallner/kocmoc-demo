@@ -51,9 +51,9 @@ public:
 
 	// TODO: recompute face normals
 
-	unsigned int getPrimitiveCount(void);
-	unsigned int getVertexIndexCount(void);
-	unsigned int getVertexCount(void);
+	unsigned int getPrimitiveCount(void) {return primitiveCount;};
+	unsigned int getVertexIndexCount(void) {return vertexIndexCount;};
+	unsigned int getVertexCount(void) {return vertexCount;};
 
 private:
 

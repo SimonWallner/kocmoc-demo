@@ -39,42 +39,42 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
 	cout << "receiving geometry... " << endl;
 
-	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
-	{
-		//cast to mesh
-		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
-		
-		PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount()/3);
-		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
-		const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
+	//if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
+	//{
+	//	//cast to mesh
+	//	const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
+	//	
+	//	PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount()/3);
+	//	const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
+	//	const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
 
-		int count = mesh->getPositions().getValuesCount();
+	//	int count = mesh->getPositions().getValuesCount();
 
 
-		float* positions = new float[arr->getCount()];
-		const float* data = arr->getData();
-		float* normals = new float[arrNormals->getCount()];
-		const float* normalsData = arrNormals->getData();
+	//	float* positions = new float[arr->getCount()];
+	//	const float* data = arr->getData();
+	//	float* normals = new float[arrNormals->getCount()];
+	//	const float* normalsData = arrNormals->getData();
 
-		for (unsigned int i = 0; i < arr->getCount(); i++)
-		{
-			positions[i] = data[i];
-			normals[i] = normalsData[i];
-		}
-		poly->setVertexPositions(positions);
-		poly->setVertexNormals(normals);
-		poly->setUV0(positions);
+	//	for (unsigned int i = 0; i < arr->getCount(); i++)
+	//	{
+	//		positions[i] = data[i];
+	//		normals[i] = normalsData[i];
+	//	}
+	//	poly->setVertexPositions(positions);
+	//	poly->setVertexNormals(normals);
+	//	poly->setUV0(positions);
 
-		// add shader to poly
-		Shader *shader = new Shader("base.vert", "base.frag");
-		poly->setShader(shader);
+	//	// add shader to poly
+	//	Shader *shader = new Shader("base.vert", "base.frag");
+	//	poly->setShader(shader);
 
-		// add texture
-		GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-		poly->setTexture(tex);
+	//	// add texture
+	//	GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+	//	poly->setTexture(tex);
 
-		scene->addPolyMesh(poly);
-	}
+	//	scene->addPolyMesh(poly);
+	//}
 
 	return true;
 }

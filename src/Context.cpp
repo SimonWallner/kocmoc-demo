@@ -169,6 +169,7 @@ void Context::setGLStates()
 	glClearDepth(1.0f);
 
 	glLineWidth(2.0f);
+	glPointSize(2.0f);
 	glEnable(GL_LINE_SMOOTH);
 
 	bool wireframe;

@@ -8,7 +8,7 @@
 #include "PolyMesh.hpp"
 #include "Kocmoc.hpp"
 #include "Camera.hpp"
-#include "utility.cpp"
+#include "utility.hpp"
 
 PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount, unsigned int _vertexCount) : 
 		primitiveCount(_primitiveCount),
@@ -19,6 +19,7 @@ PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount,
 	vertexIndexArray = NULL;
 	vertexPositions = NULL;
 
+	dataIsUploaded = false;
 //	renderMesh = NULL;
 }
 
@@ -46,6 +47,7 @@ void PolyMesh::setFirstIndexArray(unsigned int *fia)
 	firstIndexArray = fia;
 }
 
+
 void PolyMesh::transferData()
 {
 	glGenVertexArrays(1, &vaoHandle);
@@ -57,8 +59,8 @@ void PolyMesh::transferData()
 	glBindVertexArray(vaoHandle);
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(float), vertexPositions, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), vertexPositions, GL_STATIC_DRAW);
+	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
 	// indices
@@ -71,11 +73,6 @@ void PolyMesh::transferData()
 	glBindVertexArray(0);
 	
 	dataIsUploaded = true;
-}
-
-unsigned int PolyMesh::getVertexCount()
-{
-	return vertexCount;
 }
 
 void PolyMesh::setShader(Shader *_shader)
@@ -115,7 +112,7 @@ void PolyMesh::draw()
 		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 	
 		glBindVertexArray(vaoHandle);
-		glDrawArrays(GL_TRIANGLES, 0, vertexCount);
+		glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 		shader->unbind();

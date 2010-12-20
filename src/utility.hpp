@@ -21,4 +21,11 @@ string read_file(const string &filename);
  */
 void get_errors(void);
 
+/**
+ * Safe delete an array
+ * only delete if not null and set null afterwards
+ */
+void safeDeleteArray(void *p);
+
+
 #endif

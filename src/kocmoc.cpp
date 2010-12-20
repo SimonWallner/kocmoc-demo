@@ -78,9 +78,8 @@ void Kocmoc::init()
 	
 	
 	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
-	//scene->transferData(base);
-
-	scene = new KocmocScene("scene");
+	scene = new KocmocScene();
+	scene->transferData(base);
 
 	// generate starts, lots of stars
 	int starCount;
