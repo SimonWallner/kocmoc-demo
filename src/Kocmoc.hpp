@@ -1,4 +1,4 @@
-#include "shader.hpp"
+#include "Shader.hpp"
 #include "Timer.hpp"
 #include "FilmCamera.hpp"
 #include "KocmocScene.hpp"

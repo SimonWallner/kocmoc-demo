@@ -1,4 +1,4 @@
-#include "kocmoc.hpp"
+#include "Kocmoc.hpp"
 #include "PropertiesFileParser.hpp"
 #include "Context.hpp"
 #include "Exception.hpp"

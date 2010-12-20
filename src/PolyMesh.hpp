@@ -1,7 +1,7 @@
 #ifndef POLYMESH_HPP_
 #define POLYMESH_HPP_
 
-#include "shader.hpp"
+#include "Shader.hpp"
 #include "RenderMesh.hpp"
 
 /**

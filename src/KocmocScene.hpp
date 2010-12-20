@@ -4,7 +4,7 @@
 #include "common.hpp"
 #include "PolyMesh.hpp"
 #include <list>
-#include "shader.hpp"
+#include "Shader.hpp"
 
 typedef std::list<PolyMesh* > PolyMeshPointerList;
 

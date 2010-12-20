@@ -1,6 +1,6 @@
 #include <fstream>
 
-#include "shader.hpp"
+#include "Shader.hpp"
 #include "PropertiesFileParser.hpp"
 
 Shader::Shader(const string &vertexShaderName, const string &fragmentShaderName) :
