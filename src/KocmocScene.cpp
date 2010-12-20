@@ -1,6 +1,8 @@
 #include "KocmocScene.hpp"
 #include "Kocmoc.hpp"
 
+using namespace kocmoc;
+
 KocmocScene::KocmocScene() : name("Scene")
 {
 	gizmoShader = new Shader("vertexColor.vert", "vertexColor.frag");

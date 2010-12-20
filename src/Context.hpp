@@ -3,65 +3,69 @@
 
 #include "common.hpp"
 
-/**
- * This singleton encapsulates all the magic that is needed to create our main
- * window and context. Since it is a singleton you can not construct one but
- * use the static getInstance() method to get a pointer at the contex.
- *
- * WARNING: not thread safe!
- */
-class Context
+namespace kocmoc
 {
-public:
-	/**
-	 * Get the a pointer to the instance of the Context.
-	 * @return the pointer to the instance.
-	 */
-	static Context& getInstance(void);
-
-	~Context(void);
 
 	/**
-	 * Set up glfw window
+	 * This singleton encapsulates all the magic that is needed to create our main
+	 * window and context. Since it is a singleton you can not construct one but
+	 * use the static getInstance() method to get a pointer at the contex.
+	 *
+	 * WARNING: not thread safe!
 	 */
-	void setupGLFW(void);
+	class Context
+	{
+	public:
+		/**
+		 * Get the a pointer to the instance of the Context.
+		 * @return the pointer to the instance.
+		 */
+		static Context& getInstance(void);
 
-	/**
-	 * Test for OpenGL 3 and a FWCC
-	 */
-	void testOpenGL(void);
+		~Context(void);
 
-	/**
-	 * Set necessary gl states (enable textures, etc)
-	 */
-	void setGLStates(void);
+		/**
+		 * Set up glfw window
+		 */
+		void setupGLFW(void);
 
-	/**
-	 * swap the back buffer for the fron buffer and vice versa
-	 */
-	void swapBuffers(void);
+		/**
+		 * Test for OpenGL 3 and a FWCC
+		 */
+		void testOpenGL(void);
 
-	/**
-	 * Clear some buffers
-	 */
-	void clearBuffers(void);
+		/**
+		 * Set necessary gl states (enable textures, etc)
+		 */
+		void setGLStates(void);
 
-	/**
-	 * Togglet the wireframe mode
-	 */
-	void toggleWireframe(void);
+		/**
+		 * swap the back buffer for the fron buffer and vice versa
+		 */
+		void swapBuffers(void);
 
-	void getAvailableResolutions(void);
+		/**
+		 * Clear some buffers
+		 */
+		void clearBuffers(void);
+
+		/**
+		 * Togglet the wireframe mode
+		 */
+		void toggleWireframe(void);
+
+		void getAvailableResolutions(void);
 
 
-	int width, height;
+		int width, height;
 
 
-private:
-	Context(void);
-	Context(const Context &cc); // protext the copy constructor as well
-	bool wireframeMode;
+	private:
+		Context(void);
+		Context(const Context &cc); // protect the copy constructor as well
+		bool wireframeMode;
 
-};
+	};
+}
 
 #endif

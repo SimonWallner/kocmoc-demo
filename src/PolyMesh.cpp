@@ -10,6 +10,8 @@
 #include "Camera.hpp"
 #include "utility.hpp"
 
+using namespace kocmoc;
+
 PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount, unsigned int _vertexCount) : 
 		primitiveCount(_primitiveCount),
 		vertexIndexCount(_vertexIndexCount),

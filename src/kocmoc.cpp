@@ -6,6 +6,8 @@
 #include "ImageLoader.hpp"
 #include "KocmocLoader.hpp"
 
+using namespace kocmoc;
+
 Kocmoc* Kocmoc::instance = NULL;
 
 Kocmoc& Kocmoc::getInstance(void)

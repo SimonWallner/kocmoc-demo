@@ -3,6 +3,7 @@
 #include "Context.hpp"
 #include "Exception.hpp"
 
+using namespace kocmoc;
 
 int main (void)
 {
