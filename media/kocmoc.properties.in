@@ -39,3 +39,6 @@ starsCount = 10000
 starsDomain = 1000
 starsSize = 2
 
+# debug settings
+debugDisableFBO = 1
+debugShowGizmo = 0

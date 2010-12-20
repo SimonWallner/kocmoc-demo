@@ -25,7 +25,8 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	useFBO = true;
+	PropertiesFileParser::GetInstance().getProperty("debugUseFBO", &useFBO);
+	PropertiesFileParser::GetInstance().getProperty("debugShowGizmo", &showGizmos);
 }
 
 Kocmoc::~Kocmoc()
@@ -230,7 +231,8 @@ void Kocmoc::draw()
 }
 void Kocmoc::drawOverlays()
 {
-	camera->drawGizmo();
+	if (showGizmos)
+		camera->drawGizmo();
 }
 
 void Kocmoc::pollKeyboard(void)

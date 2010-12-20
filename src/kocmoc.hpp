@@ -66,6 +66,8 @@ private:
 	bool useFBO;
 	FrameBuffer *fbo;
 
+	bool showGizmos;
+
 	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
 
