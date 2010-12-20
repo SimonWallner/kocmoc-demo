@@ -42,3 +42,12 @@ void get_errors(void)
 		}
 	}
 }
+
+void safeDeleteArray(void* p)
+{
+	if (p != NULL)
+	{
+		delete[] p;
+		p = NULL;
+	}
+}

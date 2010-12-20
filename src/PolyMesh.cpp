@@ -8,41 +8,42 @@
 #include "PolyMesh.hpp"
 #include "Kocmoc.hpp"
 #include "Camera.hpp"
+#include "utility.cpp"
 
-PolyMesh::PolyMesh(int _vertexCount) :
-	vertexCount(_vertexCount), 
-	dataIsUploaded(false),
-	modelMatrix(mat4(1.0f))
+PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount, unsigned int _vertexCount) : 
+		primitiveCount(_primitiveCount),
+		vertexIndexCount(_vertexIndexCount),
+		vertexCount(_vertexCount)
 {
-	vertexPositions = new float[vertexCount * 3];
-	vertexNormals = new float[vertexCount * 3];
-	vertexUVs = new float[vertexCount * 2];
+	firstIndexArray = NULL;
+	vertexIndexArray = NULL;
+	vertexPositions = NULL;
+
+//	renderMesh = NULL;
 }
 
 PolyMesh::~PolyMesh()
 {
-	/*delete [] vertexPositions;
-	delete [] vertexNormals;
-	delete [] vertexUVs;*/
+	// TODO: clean up!
 }
 
 
-void PolyMesh::setVertexPositions(float * p)
+void PolyMesh::setVertexPositions(double * p)
 {
-	delete [] vertexPositions;
+	safeDeleteArray(vertexPositions);
 	vertexPositions = p;
 }
 
-void PolyMesh::setUV0(float * uv)
+void PolyMesh::setVertexIndexArray(unsigned int *indices)
 {
-	delete [] vertexUVs;
-	vertexUVs = uv;
+	safeDeleteArray(vertexIndexArray);
+	vertexIndexArray = indices;
 }
 
-void PolyMesh::setVertexNormals(float * normals)
+void PolyMesh::setFirstIndexArray(unsigned int *fia)
 {
-	delete [] vertexNormals;
-	vertexNormals = normals;
+	safeDeleteArray(firstIndexArray);
+	firstIndexArray = fia;
 }
 
 void PolyMesh::transferData()
@@ -50,6 +51,7 @@ void PolyMesh::transferData()
 	glGenVertexArrays(1, &vaoHandle);
 
 	vboHandles = new GLuint[3];
+	GLuint indicesHandle;
 	glGenBuffers(3, vboHandles);
 
 	glBindVertexArray(vaoHandle);
@@ -59,15 +61,11 @@ void PolyMesh::transferData()
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 * sizeof(float), vertexUVs, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	// indices
+	glGenBuffers(1, &indicesHandle);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesHandle);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndexCount * sizeof(unsigned int), vertexIndexArray, GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 * sizeof(float), vertexNormals, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

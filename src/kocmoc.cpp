@@ -77,8 +77,10 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
-	scene->transferData(base);
+	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
+	//scene->transferData(base);
+
+	scene = new KocmocScene("scene");
 
 	// generate starts, lots of stars
 	int starCount;
@@ -87,10 +89,13 @@ void Kocmoc::init()
 	PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
 	PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
 	
-	PolyMesh *stars = new PolyMesh(starCount * 12);
-	GLfloat *positions = new GLfloat[starCount * 12 * 3];
-	GLfloat *colors = new GLfloat[starCount * 12 * 3];
-	
+
+	PolyMesh *stars = new PolyMesh(starCount * 4, starCount * 4 * 4, starCount * 4);
+
+	double *positions = new double[stars->getVertexCount() * 3];
+	unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
+	unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount()];
+		
 	for (int i = 0; i < starCount; i++)
 	{
 		vec4 v0 = vec4(0, 0, 0, 1) * size;
@@ -110,58 +115,51 @@ void Kocmoc::init()
 		v2 = transform * v2;
 		v3 = transform * v3;
 
-		// 0 - 1 - 2
-		positions[i*36] = v0.x;
-		positions[i*36+1] = v0.y;
-		positions[i*36+2] = v0.z;
-		positions[i*36+3] = v1.x;
-		positions[i*36+4] = v1.y;
-		positions[i*36+5] = v1.z;
-		positions[i*36+6] = v2.x;
-		positions[i*36+7] = v2.y;
-		positions[i*36+8] = v2.z;
+		// ad vertices
+		positions[i*12] = v0.x;
+		positions[i*12+1] = v0.y;
+		positions[i*12+2] = v0.z;
+		positions[i*12+3] = v1.x;
+		positions[i*12+4] = v1.y;
+		positions[i*12+5] = v1.z;
+		positions[i*12+6] = v2.x;
+		positions[i*12+7] = v2.y;
+		positions[i*12+8] = v2.z;
+		positions[i*12+9] = v3.x;
+		positions[i*12+10] = v3.y;
+		positions[i*12+11] = v3.z;
+		
 
+		// add primitives and indices, 
+		// 0 - 1 - 2
+		firstIndices[i * 4] = i*12;
+		vertexIndices[i*12] = i*4;
+		vertexIndices[i*12+1] = i*4 +1;
+		vertexIndices[i*12+2] = i*4 +2;
+		
 		// 1 - 2 - 3
-		positions[i*36+9] = v1.x;
-		positions[i*36+10] = v1.y;
-		positions[i*36+11] = v1.z;
-		positions[i*36+12] = v2.x;
-		positions[i*36+13] = v2.y;
-		positions[i*36+14] = v2.z;
-		positions[i*36+15] = v3.x;
-		positions[i*36+16] = v3.y;
-		positions[i*36+17] = v3.z;
+		firstIndices[i*4+1] = i*12+3;
+		vertexIndices[i*12+3] = i*4 +1;
+		vertexIndices[i*12+4] = i*4 +2;
+		vertexIndices[i*12+5] = i*4 +3;
 
 		// 3 - 0 - 1
-		positions[i*36+18] = v3.x;
-		positions[i*36+19] = v3.y;
-		positions[i*36+20] = v3.z;
-		positions[i*36+21] = v0.x;
-		positions[i*36+22] = v0.y;
-		positions[i*36+23] = v0.z;
-		positions[i*36+24] = v1.x;
-		positions[i*36+25] = v1.y;
-		positions[i*36+26] = v1.z;
+		firstIndices[i*4+2] = i*12+6;
+		vertexIndices[i*12+6] = i*4 +3;
+		vertexIndices[i*12+7] = i*4 +0;
+		vertexIndices[i*12+8] = i*4 +1;
 
 		// 0 - 2 - 3
-		positions[i*36+27] = v0.x;
-		positions[i*36+28] = v0.y;
-		positions[i*36+29] = v0.z;
-		positions[i*36+30] = v2.x;
-		positions[i*36+31] = v2.y;
-		positions[i*36+32] = v2.z;
-		positions[i*36+33] = v3.x;
-		positions[i*36+34] = v3.y;
-		positions[i*36+35] = v3.z;
+		firstIndices[i*4+3] = i*12+9;
+		vertexIndices[i*12+9] = i*4 +0;
+		vertexIndices[i*12+10] = i*4 +2;
+		vertexIndices[i*12+11] = i*4 +3;
 	}
 
-	for (int i = 0; i < starCount * 36; i++)
-	{
-		colors[i] = 1.0f;
-	}
-
+	stars->setFirstIndexArray(firstIndices);
+	stars->setVertexIndexArray(vertexIndices);
 	stars->setVertexPositions(positions);
-	stars->setVertexNormals(colors);
+
 	// add shader to poly
 	Shader *shader = new Shader("base.vert", "base.frag");
 	stars->setShader(shader);
