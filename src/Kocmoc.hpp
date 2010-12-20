@@ -5,80 +5,84 @@
 #include "Gamepad.hpp"
 #include "FrameBuffer.hpp"
 
-/**
- * Singleton game object. All game related magic happens in here.
- */
-class Kocmoc
+namespace kocmoc
 {
-public:
 
 	/**
-	 * Get the instance of the singleton
+	 * Singleton game object. All game related magic happens in here.
 	 */
-	static Kocmoc& getInstance();
+	class Kocmoc
+	{
+	public:
 
-    static void Destroy();
+		/**
+		 * Get the instance of the singleton
+		 */
+		static Kocmoc& getInstance();
 
-    /**
-     * Kickstart the action!
-     */
-    void start();
+		static void Destroy();
 
-    void stop();
+		/**
+		 * Kickstart the action!
+		 */
+		void start();
+
+		void stop();
 
 
-	/**
-	 * draw the current frame
-	 */
-	void draw(void);
+		/**
+		 * draw the current frame
+		 */
+		void draw(void);
 
-	/**
-	 * init everything that is needed for the game
-	 */
-	void init();
+		/**
+		 * init everything that is needed for the game
+		 */
+		void init();
 
-	bool isRunning();
+		bool isRunning();
 
-	Camera *getCamera(void) {return camera;}
+		Camera *getCamera(void) {return camera;}
 
-private:
+	private:
 
-	Kocmoc();
-	Kocmoc(const Kocmoc &cc); // protect the copy constructor as well
-	~Kocmoc();
+		Kocmoc();
+		Kocmoc(const Kocmoc &cc); // protect the copy constructor as well
+		~Kocmoc();
 
-	static Kocmoc *instance;
+		static Kocmoc *instance;
 
-	bool running;
-	Shader *base;
-	GLuint vao_id;
+		bool running;
+		Shader *base;
+		GLuint vao_id;
 
-	Timer timer;
+		Timer timer;
 
-	FilmCamera* camera;
+		FilmCamera* camera;
 
-	KocmocScene* scene;
-	
-	int mouseOldX, mouseOldY;
-	Gamepad *gamepad;
-	bool useGamepad;
+		KocmocScene* scene;
+		
+		int mouseOldX, mouseOldY;
+		Gamepad *gamepad;
+		bool useGamepad;
 
-	bool useFBO;
-	FrameBuffer *fbo;
+		bool useFBO;
+		FrameBuffer *fbo;
 
-	bool showGizmos;
+		bool showGizmos;
 
-	void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
-	void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
+		void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
+		void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
 
-	/**
-	 * Poll the keyboard and process the inputs. should only be used for simple
-	 * stuff. More sophisticated input would need its own input thread.
-	 */
-	void pollKeyboard(void);
+		/**
+		 * Poll the keyboard and process the inputs. should only be used for simple
+		 * stuff. More sophisticated input would need its own input thread.
+		 */
+		void pollKeyboard(void);
 
-	void pollMouse(void);
+		void pollMouse(void);
 
-	void drawOverlays(void);
+		void drawOverlays(void);
 
-};
+	};
+}

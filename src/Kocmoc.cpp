@@ -1,10 +1,11 @@
 #include "Kocmoc.hpp"
-
 #include "Context.hpp"
 #include "PropertiesFileParser.hpp"
 #include "Exception.hpp"
 #include "ImageLoader.hpp"
 #include "KocmocLoader.hpp"
+
+using namespace kocmoc;
 
 Kocmoc* Kocmoc::instance = NULL;
 

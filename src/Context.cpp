@@ -2,6 +2,8 @@
 #include "Exception.hpp"
 #include "PropertiesFileParser.hpp"
 
+using namespace kocmoc;
+
 Context::Context(void)
 {
 	wireframeMode = false;
