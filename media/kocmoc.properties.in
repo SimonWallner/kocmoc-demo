@@ -34,10 +34,14 @@ wireframe = 0
 # mission control stuff
 missionControlServerPort = 65001
 
+# general stuff
+nearPlane = -0.1
+farPlane = -10000
+
 # star generator
 starsCount = 10000
-starsDomain = 1000
-starsSize = 1
+starsDomain = 3000
+starsSize = 10
 
 # debug settings
 debugDisableFBO = 1

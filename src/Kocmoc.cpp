@@ -79,9 +79,7 @@ void Kocmoc::init()
 	
 	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene = new KocmocScene();
-	scene->transferData(base);
-
-	scene->addPolyMesh(util::generator::generateStars());
+	scene->add(util::generator::generateStars());
 
 
 	{ /* inputs */
@@ -132,7 +130,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	scene->draw(base);	
+	scene->draw();	
 }
 void Kocmoc::drawOverlays()
 {

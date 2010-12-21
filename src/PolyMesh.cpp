@@ -117,6 +117,6 @@ void PolyMesh::draw()
 		glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-		shader->unbind();
+	shader->unbind();
 }
 

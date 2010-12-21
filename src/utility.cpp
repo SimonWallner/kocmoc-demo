@@ -78,19 +78,21 @@ namespace kocmoc
 				unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
 				unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount()];
 					
+				mat4 scale = glm::gtx::transform::scale(size, size, size);
+
 				for (int i = 0; i < starCount; i++)
 				{
-					vec4 v0 = vec4(0, 0, 0, 1) * size;
-					vec4 v1 = vec4(0, 1, 1, 1) * size;
-					vec4 v2 = vec4(1, 1, 0, 1) * size;
-					vec4 v3 = vec4(1, 0, 1, 1) * size;
+					vec4 v0 = vec4(0, 0, 0, 1);
+					vec4 v1 = vec4(0, 1, 1, 1);
+					vec4 v2 = vec4(1, 1, 0, 1);
+					vec4 v3 = vec4(1, 0, 1, 1);
 
 					mat4 rotation = glm::gtx::transform::rotate(((float)rand() * 360)/RAND_MAX,
 						(float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
 
 					mat4 transform = glm::translate((rand() * domain)/RAND_MAX - (domain / 2),
 						(rand() * domain)/RAND_MAX - (domain / 2),
-						(rand() * domain)/RAND_MAX - (domain / 2)) * rotation;
+						(rand() * domain)/RAND_MAX - (domain / 2)) * scale * rotation;
 
 					v0 = transform * v0;
 					v1 = transform * v1;
@@ -151,6 +153,32 @@ namespace kocmoc
 				stars->setTexture(tex);
 
 				return stars;
+			}
+
+			PolyMesh* generateGizmo()
+			{
+				double vertexPositions[] = {0.0f, 0.0f, 0.0f,
+											1.0f, 0.0f, 0.0f,
+											0.0f, 1.0f, 0.0f,
+											0.0f, 0.0f, 1.0f};
+				unsigned int indices[] = {0, 1, 0, 1, 0, 3};
+				
+				unsigned int fia[] = {0, 2, 4, 6};
+
+				PolyMesh *mesh = new PolyMesh(3, 6, 4);
+				mesh->setFirstIndexArray(fia);
+				mesh->setVertexIndexArray(indices);
+				mesh->setVertexPositions(vertexPositions);
+
+				// add shader to poly
+				Shader *shader = new Shader("vertexColor.vert", "vertexColor.frag");
+				mesh->setShader(shader);
+
+				// add texture
+				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+				mesh->setTexture(tex);
+
+				return mesh;
 			}
 		}	
 	}

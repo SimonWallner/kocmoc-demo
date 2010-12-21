@@ -20,19 +20,15 @@ namespace kocmoc
 		KocmocScene(string _name) : name(_name) {};
 		~KocmocScene(void);
 
-		void addPolyMesh(PolyMesh* mesh);
-		std::list<PolyMesh* > getPolyMeshList(void);
-
-		void transferData(Shader *shader);
-		void draw(Shader* shader);
+		void add(PolyMesh* mesh);
+	
+		void draw();
 
 	private:
 		PolyMeshPointerList polyMeshList;
-		string name;
+		std::string name;
 
-		GLuint gizmo_vao;
-		GLuint *gizmo_vbos;
-		Shader *gizmoShader;
+		PolyMesh *gizmo;
 	};
 }
 #endif

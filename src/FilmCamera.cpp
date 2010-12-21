@@ -2,6 +2,7 @@
 
 #include <gtc/matrix_projection.hpp> 
 #include <math.h>
+#include "PropertiesFileParser.hpp"
 
 using namespace kocmoc;
 
@@ -11,8 +12,9 @@ FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector, 
 	aspectRatio(_aspectRatio)
 {
 	targetVector = glm::normalize(_targetPosition - eyePosition);
-	nearPlane = -0.1f;
-	farPlane = -1000.0f;
+	
+	util::PropertiesFileParser::GetInstance().getProperty("nearPlane", &nearPlane);
+	util::PropertiesFileParser::GetInstance().getProperty("farPlane", &farPlane);
 }
 
 FilmCamera::~FilmCamera()
