@@ -6,7 +6,6 @@ using namespace kocmoc;
 
 KocmocScene::KocmocScene() : name("Scene")
 {
-	gizmo = util::generator::generateGizmo();
 }
 
 KocmocScene::~KocmocScene(void)
@@ -28,6 +27,4 @@ void KocmocScene::draw()
 	{
 		(*ci)->draw();
 	}
-
-	gizmo->draw();
 }

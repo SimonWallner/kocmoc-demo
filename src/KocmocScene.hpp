@@ -27,8 +27,6 @@ namespace kocmoc
 	private:
 		PolyMeshPointerList polyMeshList;
 		std::string name;
-
-		PolyMesh *gizmo;
 	};
 }
 #endif
