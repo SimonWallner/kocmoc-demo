@@ -157,13 +157,36 @@ namespace kocmoc
 
 			PolyMesh* generateGizmo()
 			{
-				double vertexPositions[] = {0.0f, 0.0f, 0.0f,
-											1.0f, 0.0f, 0.0f,
-											0.0f, 1.0f, 0.0f,
-											0.0f, 0.0f, 1.0f};
-				unsigned int indices[] = {0, 1, 0, 1, 0, 3};
+				double *vertexPositions = new double[12];
+				vertexPositions[0] = 0.0f;
+				vertexPositions[1] = 0.0f;
+				vertexPositions[2] = 0.0f;
+
+				vertexPositions[3] = 1.0f;
+				vertexPositions[4] = 0.0f;
+				vertexPositions[5] = 0.0f;
+
+				vertexPositions[6] = 0.0f;
+				vertexPositions[7] = 1.0f;
+				vertexPositions[8] = 0.0f;
+
+				vertexPositions[9] = 0.0f;
+				vertexPositions[10] = 0.0f;
+				vertexPositions[11] = 1.0f;
+
+				unsigned int *indices =  new unsigned int[6];
+				indices[0] = 0;
+				indices[1] = 1;
+				indices[2] = 0;
+				indices[3] = 2;
+				indices[4] = 0;
+				indices[5] = 3;
 				
-				unsigned int fia[] = {0, 2, 4, 6};
+				unsigned int *fia = new unsigned int[4];
+				fia[0] = 0;
+				fia[1] = 2;
+				fia[2] = 4;
+				fia[3] = 6;
 
 				PolyMesh *mesh = new PolyMesh(3, 6, 4);
 				mesh->setFirstIndexArray(fia);

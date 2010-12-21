@@ -134,7 +134,8 @@ void Context::testOpenGL()
 void Context::setGLStates()
 {
 	//glClearColor(0.442047, 0.387623, 0.361867, 1.0f);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_DEPTH_TEST);
 
