@@ -45,7 +45,7 @@ starsSize = 10
 
 # debug settings
 debugDisableFBO = 1
-debugShowGizmo = 1
+debugShowGizmo = 0
 
 # camera settings (not yet in use)
 # cameraFocalLength35 = 28

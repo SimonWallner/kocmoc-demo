@@ -4,6 +4,7 @@
 #include "Shader.hpp"
 #include "ImageLoader.hpp"
 #include "PropertiesFileParser.hpp"
+#include "ShaderManager.hpp"
 
 namespace kocmoc
 {
@@ -145,7 +146,8 @@ namespace kocmoc
 				stars->setVertexPositions(positions);
 
 				// add shader to poly
-				Shader *shader = new Shader("base.vert", "base.frag");
+				Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
+				//Shader *shader = new Shader("base.vert", "base.frag");
 				stars->setShader(shader);
 
 				// add texture

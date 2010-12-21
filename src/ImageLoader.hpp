@@ -50,26 +50,6 @@ namespace kocmoc
 		 */
 		void screenShot(void);
 
-		/**
-		 * Change the texture quality: nearest/bilinear
-		 */
-		//void changeTextureQuality(void);
-
-		/**
-		 * Change the mip map quality: off/nearest/linear
-		 */
-		//void changeMipMapQuality(void);
-
-		/**
-		 * Apply the changes to the texture quality from the right thread!
-		 */
-		//void contextThreadApplyChanges(void);
-
-		/**
-		 * en/disable anisotropic filtering
-		 */
-		//void toggleAnisotropicFiltering(void);
-
 	private:
 		ImageLoader(void);
 		ImageLoader(const ImageLoader &cc);

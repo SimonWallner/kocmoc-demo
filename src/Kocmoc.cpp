@@ -5,6 +5,7 @@
 #include "ImageLoader.hpp"
 #include "KocmocLoader.hpp"
 #include "utility.hpp"
+#include "ShaderManager.hpp"
 
 using namespace kocmoc;
 
@@ -174,6 +175,9 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey(GLFW_KEY_LSHIFT))
 		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
+
+	if (glfwGetKey('R'))
+		ShaderManager::getInstance().reloadAll();
 }
 
 
