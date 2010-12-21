@@ -2,6 +2,8 @@
 
 #define AVERAGE_N_FRAMES 10
 
+using namespace kocmoc;
+
 Timer::Timer()
 {
 	counter = 0;

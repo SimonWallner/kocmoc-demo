@@ -1,11 +1,18 @@
-#pragma once
+#ifndef RENDER_MESH_HPP_
+#define RENDER_MESH_HPP_
 
-class RenderMesh
+namespace kocmoc
 {
-public:
-	RenderMesh(void);
-	~RenderMesh(void);
 
-private:
+	class RenderMesh
+	{
+	public:
+		RenderMesh(void);
+		~RenderMesh(void);
 
-};
+	private:
+
+	};
+}
+
+#endif

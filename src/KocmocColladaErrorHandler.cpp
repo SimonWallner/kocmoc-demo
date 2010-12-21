@@ -1,6 +1,8 @@
 #include "KocmocColladaErrorHandler.hpp"
 #include "common.hpp"
 
+using namespace kocmoc;
+
 KocmocColladaErrorHandler::KocmocColladaErrorHandler()
 {
 	// TODO Auto-generated constructor stub

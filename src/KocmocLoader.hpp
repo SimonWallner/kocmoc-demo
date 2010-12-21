@@ -18,42 +18,45 @@
 #include <COLLADASaxFWLLoader.h>
 #include <COLLADAFWRoot.h>
 
-
-class KocmocLoader
+namespace kocmoc
 {
-public:
 
-	/**
-	 * Get the singleton instance
-	 */
-	static KocmocLoader &getInstance(void);
+	class KocmocLoader
+	{
+	public:
 
-	/**
-	 * Destroy the singleton instance
-	 */
-	static void Destroy(void);
+		/**
+		 * Get the singleton instance
+		 */
+		static KocmocLoader &getInstance(void);
 
-	/**
-	 * Load the model with the given name into a new polyMesh.
-	 * @param name The name of the model
-	 * @return the polyMesh representing that model
-	 */
-	KocmocScene* load(std::string name);
+		/**
+		 * Destroy the singleton instance
+		 */
+		static void Destroy(void);
 
-private:
+		/**
+		 * Load the model with the given name into a new polyMesh.
+		 * @param name The name of the model
+		 * @return the polyMesh representing that model
+		 */
+		KocmocScene* load(std::string name);
 
-	static KocmocLoader *instance;
+	private:
 
-	KocmocColladaImporter importer;
-	COLLADAFW::Root colladaRoot;
-	COLLADASaxFWL::Loader saxLoader;
-	KocmocColladaErrorHandler errorHandler;
+		static KocmocLoader *instance;
 
-	string pathPrefix;
+		KocmocColladaImporter importer;
+		COLLADAFW::Root colladaRoot;
+		COLLADASaxFWL::Loader saxLoader;
+		KocmocColladaErrorHandler errorHandler;
 
-	KocmocLoader(void);
-	KocmocLoader(const KocmocLoader &cc);
-	~KocmocLoader();
-};
+		string pathPrefix;
+
+		KocmocLoader(void);
+		KocmocLoader(const KocmocLoader &cc);
+		~KocmocLoader();
+	};
+}
 
 #endif /* KOCMOC_LOADER_HPP_ */

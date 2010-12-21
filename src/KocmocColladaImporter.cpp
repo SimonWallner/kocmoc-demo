@@ -8,6 +8,8 @@
 #include "Shader.hpp"
 #include "ImageLoader.hpp"
 
+using namespace kocmoc;
+
 KocmocColladaImporter::KocmocColladaImporter()
 {
 	// TODO Auto-generated constructor stub

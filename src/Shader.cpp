@@ -3,16 +3,18 @@
 #include "Shader.hpp"
 #include "PropertiesFileParser.hpp"
 
+using namespace kocmoc;
+
 Shader::Shader(const string &vertexShaderName, const string &fragmentShaderName) :
 success(false)
 {
-	PropertiesFileParser::GetInstance().getProperty("shadersRootFolder", &pathPrefix);
+	util::PropertiesFileParser::GetInstance().getProperty("shadersRootFolder", &pathPrefix);
 
 	// Load the shader files
 	string vertexShaderPath = pathPrefix + vertexShaderName;
 	string vertexShaderSource;
-	if (file_exists(vertexShaderPath)) {
-		vertexShaderSource = read_file(vertexShaderPath);
+	if (util::file_exists(vertexShaderPath)) {
+		vertexShaderSource = util::read_file(vertexShaderPath);
 	} else {
 		cerr << "Vertex shader file " << vertexShaderPath <<" does not exist." << endl;
 		return;
@@ -20,8 +22,8 @@ success(false)
 
 	string fragmentShaderPath = pathPrefix + fragmentShaderName;
 	string fragmentShaderSource;
-	if (file_exists(fragmentShaderPath)) {
-		fragmentShaderSource = read_file(fragmentShaderPath);
+	if (util::file_exists(fragmentShaderPath)) {
+		fragmentShaderSource = util::read_file(fragmentShaderPath);
 	} else {
 		cerr << "Fragment shader file " << fragmentShaderPath <<" does not exist." << endl;
 		return;
@@ -33,13 +35,9 @@ success(false)
 	if (vertexShader == 0)
 		return;
 
-	get_errors();
-
 	fragmentShader = compile(GL_FRAGMENT_SHADER, fragmentShaderSource);
 	if (fragmentShader == 0)
 		return;
-
-	get_errors();
 
 	// Link the shaders into a program
 	link();
@@ -47,7 +45,6 @@ success(false)
 		return;
 
 	success = true;
-	get_errors();
 }
 
 Shader::~Shader()
@@ -83,12 +80,11 @@ GLuint Shader::compile (GLenum type, const string &source)
 
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
-	if (status != GL_TRUE) {
+	if (status != GL_TRUE)
+	{
 		cout << "Shader compilation failed." << endl;
 		shader_log(shader);
 	}
-
-	get_errors();
 
 	return shader;    
 }
@@ -118,15 +114,14 @@ void Shader::link(void)
 
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
 
-	if (status != GL_TRUE) {
+	if (status != GL_TRUE)
+	{
 		cout << "Shader linking failed." << endl;
 		program_log(program);
 
 		glDeleteProgram(program);
 		program = 0;
 	}
-
-	get_errors();
 }
 
 #define LOG_BUFFER_SIZE 8096

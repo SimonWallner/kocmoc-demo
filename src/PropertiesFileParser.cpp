@@ -1,6 +1,8 @@
 #include "PropertiesFileParser.hpp"
 #include <fstream>
 
+using namespace kocmoc::util;
+
 PropertiesFileParser::PropertiesFileParser(void)
 {
 	//default values

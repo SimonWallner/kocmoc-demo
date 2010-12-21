@@ -6,6 +6,7 @@
 #include "ImageLoader.hpp"
 
 using namespace kocmoc;
+using namespace kocmoc::input;
 
 Gamepad::Gamepad(FilmCamera* _camera) :
 	camera(_camera)

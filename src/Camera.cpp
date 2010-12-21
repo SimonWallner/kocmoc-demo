@@ -1,5 +1,7 @@
 #include "Camera.hpp"
 
+using namespace kocmoc;
+
 void Camera::setupGizmo(void)
 {
 	gizmoShader = new Shader("vertexColor.vert", "vertexColor.frag");
@@ -41,12 +43,19 @@ void Camera::drawGizmo()
 {
 	gizmoShader->bind();
 	{
-		GLint projectionMatrix_location = gizmoShader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
+		GLint projectionMatrix_location = gizmoShader->get_uniform_location("projectionMatrix");
+		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(getProjectionMatrix()));
+
 
 		mat4 untranslated = getUntraslatedViewMatrix();
 		mat4 viewMatrix = glm::inverse(glm::translate(untranslated, vec3(0.8, 0.8, 1)));
 
-		GLint viewMatrix_location = gizmoShader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));		GLint modelMatrix_location = gizmoShader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+		GLint viewMatrix_location = gizmoShader->get_uniform_location("viewMatrix");
+		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(mat4(1.0f)));
+
+		GLint modelMatrix_location = gizmoShader->get_uniform_location("modelMatrix");
+		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+
 		glBindVertexArray(gizmo_vao);
 		glDisable(GL_DEPTH_TEST);
 		glDrawArrays(GL_LINES, 0, 6);

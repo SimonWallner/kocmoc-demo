@@ -7,13 +7,17 @@
 
 #include <COLLADASaxFWLIErrorHandler.h>
 
-class KocmocColladaErrorHandler :  public COLLADASaxFWL::IErrorHandler
+namespace kocmoc
 {
-public:
-		KocmocColladaErrorHandler();
-		virtual ~KocmocColladaErrorHandler();
 
-		virtual bool handleError(const COLLADASaxFWL::IError* error);
-};
+	class KocmocColladaErrorHandler :  public COLLADASaxFWL::IErrorHandler
+	{
+	public:
+			KocmocColladaErrorHandler();
+			virtual ~KocmocColladaErrorHandler();
+
+			virtual bool handleError(const COLLADASaxFWL::IError* error);
+	};
+}
 
 #endif /* KOCMOC_COLLADA_ERROR_HANDLER_HPP_ */

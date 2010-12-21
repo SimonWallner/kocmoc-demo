@@ -3,14 +3,21 @@
 
 #include "common.hpp"
 
-class MissionControlClient
+namespace kocmoc
 {
-public:
-	MissionControlClient(void);
-	~MissionControlClient(void);
+	namespace missionControl
+	{
 
-private:
+		class MissionControlClient
+		{
+		public:
+			MissionControlClient(void);
+			~MissionControlClient(void);
 
-};
+		private:
+
+		};
+	}
+}
 
 #endif

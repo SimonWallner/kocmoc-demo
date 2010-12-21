@@ -33,19 +33,19 @@ PolyMesh::~PolyMesh()
 
 void PolyMesh::setVertexPositions(double * p)
 {
-	safeDeleteArray(vertexPositions);
+	util::safeDeleteArray(vertexPositions);
 	vertexPositions = p;
 }
 
 void PolyMesh::setVertexIndexArray(unsigned int *indices)
 {
-	safeDeleteArray(vertexIndexArray);
+	util::safeDeleteArray(vertexIndexArray);
 	vertexIndexArray = indices;
 }
 
 void PolyMesh::setFirstIndexArray(unsigned int *fia)
 {
-	safeDeleteArray(firstIndexArray);
+	util::safeDeleteArray(firstIndexArray);
 	firstIndexArray = fia;
 }
 

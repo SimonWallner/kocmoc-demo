@@ -63,7 +63,7 @@ namespace kocmoc
 		KocmocScene* scene;
 		
 		int mouseOldX, mouseOldY;
-		Gamepad *gamepad;
+		input::Gamepad *gamepad;
 		bool useGamepad;
 
 		bool useFBO;

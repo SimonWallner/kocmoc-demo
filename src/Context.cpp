@@ -23,9 +23,9 @@ void Context::setupGLFW()
 {
 	bool fullscreen;
 
-	PropertiesFileParser::GetInstance().getProperty("width", &width);
-	PropertiesFileParser::GetInstance().getProperty("height", &height);
-	PropertiesFileParser::GetInstance().getProperty("fullscreen", &fullscreen);
+	util::PropertiesFileParser::GetInstance().getProperty("width", &width);
+	util::PropertiesFileParser::GetInstance().getProperty("height", &height);
+	util::PropertiesFileParser::GetInstance().getProperty("fullscreen", &fullscreen);
 
 	int windowMode;
 	if (fullscreen)
@@ -107,58 +107,28 @@ void Context::getAvailableResolutions(){
 void Context::testOpenGL()
 {
 	// query opengl version
-	{
-	
 	int major,minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
     glGetIntegerv(GL_MINOR_VERSION, &minor);
 
     cout << "Loaded OpenGL Version " << major << "." << minor << endl;
 
-	//cout << "OpenGL Version: " << glGetString(GL_VERSION) << endl;
-		
-		int error = glGetError();
-		if (glGetError() != GL_NO_ERROR)
-		{
-			cout << "An error occurred querying the OpenGL version: ";
-//			cout << gluErrorString(error) << endl;
-			get_errors();
-		}
-
-	}
+	if (glGetError() != GL_NO_ERROR)
+		cout << "An error occurred querying the OpenGL version: ";
 
 	// Check if context is forward compatible
-	{
-		int profile;
-		// check if we have a core-profile
-		glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
-		if (profile == GL_CONTEXT_CORE_PROFILE_BIT)
-			cout << "Context is forward compatible." << endl;
-		else 
-			cout << "Context is NOT forward compatible." << endl;
 
-		int error = glGetError();
-		if (error != GL_NO_ERROR)
-		{
-			cout << "An error occurred determining the fwcc support: " << endl;
-			get_errors();
-		}
-	}
+	int profile;
+	// check if we have a core-profile
+	glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
+	if (profile == GL_CONTEXT_CORE_PROFILE_BIT)
+		cout << "Context is forward compatible." << endl;
+	else 
+		cout << "Context is NOT forward compatible." << endl;
 
-		// Try doing a fixed-function operation.
-		// Since this is a FCC, this should create an error.
-	/*
-		{
-		cout << "Doing illegal operation (glTranslate) now..." << endl;
-		glTranslatef(1,0,0);
-
-		if (glGetError() != GL_NO_ERROR)
-			cout << "Illegal operation caused an error message. :)" << endl;
-		else
-			cerr << "Illegal operation did NOT cause an error message. :(" << endl;
-			
-	}
-	*/
+	int error = glGetError();
+	if (error != GL_NO_ERROR)
+		cout << "An error occurred determining the fwcc support: " << endl;
 }
 
 void Context::setGLStates()
@@ -175,7 +145,7 @@ void Context::setGLStates()
 	glEnable(GL_LINE_SMOOTH);
 
 	bool wireframe;
-	PropertiesFileParser::GetInstance().getProperty("wireframe", &wireframe);
+	util::PropertiesFileParser::GetInstance().getProperty("wireframe", &wireframe);
 	if (wireframe)
 		toggleWireframe();
 }

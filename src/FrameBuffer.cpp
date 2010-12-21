@@ -1,5 +1,7 @@
 #include "FrameBuffer.hpp"
 
+using namespace kocmoc;
+
 FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(sizey)
 {
 	// generate fbo

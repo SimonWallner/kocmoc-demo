@@ -17,104 +17,106 @@
 
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor0"
 
-
-
-/**
- * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
- */
-class Shader
+namespace kocmoc
 {
-public:
-
-	// Loads shaders from files and compiles them.
-	// When path is "hello", the files "hello.frag" & "hello.vert"
-	// will be loaded.
-	/**
-	 * Load and compile the files into a shader. All shaders are assumed
-	 * to reside in the same folder and use a common path prefix.
-	 *
-	 * @param vertexShaderFile the name of  the vertex shader file
-	 * @param fragmentShaderFile the name of the fragment shader file
-	 */
-	Shader(const string &vertexShaderFile, const string &fragmentShaderFile);
-
-	~Shader();
 
 	/**
-	 * Bind the shader to OpenGL
+	 * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
 	 */
-	void bind() const
+	class Shader
 	{
-		glUseProgram(program);
-	}
+	public:
 
-	/**
-	 * Unbind the shader
-	 */
-	void unbind() const
-	{
-		glUseProgram(0);
-	}
+		// Loads shaders from files and compiles them.
+		// When path is "hello", the files "hello.frag" & "hello.vert"
+		// will be loaded.
+		/**
+		 * Load and compile the files into a shader. All shaders are assumed
+		 * to reside in the same folder and use a common path prefix.
+		 *
+		 * @param vertexShaderFile the name of  the vertex shader file
+		 * @param fragmentShaderFile the name of the fragment shader file
+		 */
+		Shader(const string &vertexShaderFile, const string &fragmentShaderFile);
 
-	/**
-	 * Query the location of a vertex attribute inside the shader.
-	 * @param name The name of the attribute
-	 * @return the attribute location.
-	 */
-	GLint get_attrib_location(const std::string &name) const
-	{
-		return glGetAttribLocation(program, name.c_str());
-	}
+		~Shader();
 
-	/**
-	 * Query the location of a uniform inside the shader.
-	 * @param name The name of the uniform
-	 * @return the uniform location.
-	 */
-	GLint get_uniform_location(const std::string &name) const
-	{
-		GLint location = glGetUniformLocation(program, name.c_str());
-		if (location < 0 && _DEBUG && KOCMOC_DEBUG_VERBOSE_OUTPUT)
-			cout << "uniform location: " << name << " not found!" << endl;
-		return location;
-	}
-
-	/**
-	 * A little cast helper.
-	 * With this you can simply do "if (shader) {...}" to test if a
-	 * shader has been compiled successfully.
-	 */
-	operator bool ()
-	{
-		return success;
-	}
-
-private:
-
-	// Define the name of the variable inside the shader which represents the final color for each fragment.
-	void bind_frag_data_location(const std::string &name)
-	{
-		if(program > 0)
+		/**
+		 * Bind the shader to OpenGL
+		 */
+		void bind() const
 		{
-			glBindFragDataLocation(program, 0, name.c_str());
-			link();
+			glUseProgram(program);
 		}
-	}
 
-	bool success;
+		/**
+		 * Unbind the shader
+		 */
+		void unbind() const
+		{
+			glUseProgram(0);
+		}
 
-	string pathPrefix;
+		/**
+		 * Query the location of a vertex attribute inside the shader.
+		 * @param name The name of the attribute
+		 * @return the attribute location.
+		 */
+		GLint get_attrib_location(const std::string &name) const
+		{
+			return glGetAttribLocation(program, name.c_str());
+		}
 
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLuint program;
+		/**
+		 * Query the location of a uniform inside the shader.
+		 * @param name The name of the uniform
+		 * @return the uniform location.
+		 */
+		GLint get_uniform_location(const std::string &name) const
+		{
+			GLint location = glGetUniformLocation(program, name.c_str());
+			if (location < 0 && _DEBUG && KOCMOC_DEBUG_VERBOSE_OUTPUT)
+				cout << "uniform location: " << name << " not found!" << endl;
+			return location;
+		}
 
-	GLuint compile(GLenum type, const string &source);
-	void link (void);
+		/**
+		 * A little cast helper.
+		 * With this you can simply do "if (shader) {...}" to test if a
+		 * shader has been compiled successfully.
+		 */
+		operator bool ()
+		{
+			return success;
+		}
 
-	void shader_log(GLuint shader);
-	void program_log(GLuint program);
-};
+	private:
+
+		// Define the name of the variable inside the shader which represents the final color for each fragment.
+		void bind_frag_data_location(const std::string &name)
+		{
+			if(program > 0)
+			{
+				glBindFragDataLocation(program, 0, name.c_str());
+				link();
+			}
+		}
+
+		bool success;
+
+		string pathPrefix;
+
+		GLuint vertexShader;
+		GLuint fragmentShader;
+		GLuint program;
+
+		GLuint compile(GLenum type, const string &source);
+		void link (void);
+
+		void shader_log(GLuint shader);
+		void program_log(GLuint program);
+	};
+}
 
 #endif
 

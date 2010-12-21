@@ -1,47 +1,54 @@
-#pragma once
+#ifndef FRAMEBUFFER_HPP_
+#define FRAMEBUFFER_HPP_
 
 #include "common.hpp"
 #include "Shader.hpp"
 
+namespace kocmoc
+{
 
-class FrameBuffer{
-public:
-	FrameBuffer(GLuint sizex, GLuint sizey);
+	class FrameBuffer
+	{
+	public:
+		FrameBuffer(GLuint sizex, GLuint sizey);
 
-	virtual ~FrameBuffer();
+		virtual ~FrameBuffer();
 
-	/**
-	* setup the shader that is used for rendering the fb quad. Override this
-	* method in subclasses!
-	*/
-	virtual void setupShader(void);
+		/**
+		* setup the shader that is used for rendering the fb quad. Override this
+		* method in subclasses!
+		*/
+		virtual void setupShader(void);
 
-	void setupBaseShader();
+		void setupBaseShader();
 
-	GLuint getTextureHandle();
-	GLuint getFBOHandle();
-	virtual void drawFBO();
+		GLuint getTextureHandle();
+		GLuint getFBOHandle();
+		virtual void drawFBO();
 
-private:
+	private:
 	
-	GLuint textureHandle;
-	GLuint depthbufferHandle; 
+		GLuint textureHandle;
+		GLuint depthbufferHandle; 
 	
-	Shader *shader;
+		Shader *shader;
 
-	FrameBuffer(void);
+		FrameBuffer(void);
 
-	GLuint fboHandle;
+		GLuint fboHandle;
 
-	GLuint FBOSizeX;
-	GLuint FBOSizeY;
+		GLuint FBOSizeX;
+		GLuint FBOSizeY;
 
-	GLuint *vbo_id;
-	GLuint vao_id;
+		GLuint *vbo_id;
+		GLuint vao_id;
 	
-	void setFBOTexture();
-	void createQuad();
-	void check();
+		void setFBOTexture();
+		void createQuad();
+		void check();
 
 
-};
+	};
+}
+
+#endif

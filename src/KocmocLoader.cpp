@@ -10,6 +10,8 @@
 
 #include <COLLADAFW.h>
 
+using namespace kocmoc;
+
 KocmocLoader *KocmocLoader::instance = NULL;
 
 KocmocLoader &KocmocLoader::getInstance()
@@ -32,7 +34,7 @@ KocmocLoader::KocmocLoader() :
 		saxLoader(&errorHandler),
 		colladaRoot(&saxLoader, &importer)
 {
-	PropertiesFileParser::GetInstance().getProperty("ModelsRootFolder", &pathPrefix);
+	util::PropertiesFileParser::GetInstance().getProperty("ModelsRootFolder", &pathPrefix);
 }
 
 KocmocLoader::~KocmocLoader()

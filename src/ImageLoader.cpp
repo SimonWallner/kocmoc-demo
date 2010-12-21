@@ -8,9 +8,11 @@
 #include <time.h>
 #include <sstream>
 
+using namespace kocmoc;
+
 ImageLoader::ImageLoader(void)
 {
-	PropertiesFileParser::GetInstance().getProperty("TexturesRootFolder", &texturePathPrefix);
+	util::PropertiesFileParser::GetInstance().getProperty("TexturesRootFolder", &texturePathPrefix);
 
 	ilInit();
 	iluInit();

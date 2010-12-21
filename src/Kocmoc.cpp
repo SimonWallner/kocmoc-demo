@@ -26,8 +26,8 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	PropertiesFileParser::GetInstance().getProperty("debugUseFBO", &useFBO);
-	PropertiesFileParser::GetInstance().getProperty("debugShowGizmo", &showGizmos);
+	util::PropertiesFileParser::GetInstance().getProperty("debugUseFBO", &useFBO);
+	util::PropertiesFileParser::GetInstance().getProperty("debugShowGizmo", &showGizmos);
 }
 
 Kocmoc::~Kocmoc()
@@ -68,8 +68,6 @@ void Kocmoc::init()
 	//base->bind();
 	glUniform1i(sTex0_location, 0);
 
-	get_errors();
-
 	camera = new FilmCamera(vec3(0, 0, 3.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0),  // up
@@ -85,9 +83,9 @@ void Kocmoc::init()
 	// generate starts, lots of stars
 	int starCount;
 	float domain, size;
-	PropertiesFileParser::GetInstance().getProperty("starsCount", &starCount);
-	PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
-	PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
+	util::PropertiesFileParser::GetInstance().getProperty("starsCount", &starCount);
+	util::PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
+	util::PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
 	
 
 	PolyMesh *stars = new PolyMesh(starCount * 4, starCount * 4 * 4, starCount * 4);
@@ -173,7 +171,7 @@ void Kocmoc::init()
 
 
 	{ /* inputs */
-		gamepad = new Gamepad(camera);
+		gamepad = new input::Gamepad(camera);
 		useGamepad = gamepad->init();
 	}
 
@@ -205,9 +203,6 @@ void Kocmoc::start()
 
 		Context::getInstance().swapBuffers();
 
-		if (_DEBUG)
-			get_errors();
-
 		// Check if the window has been closed
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
@@ -219,8 +214,6 @@ void Kocmoc::start()
 
 		camera->updateMatrixes();
 	}
-
-	get_errors();
 }
 
 void Kocmoc::draw()

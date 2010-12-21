@@ -6,31 +6,33 @@
 #include <list>
 #include "Shader.hpp"
 
-typedef std::list<PolyMesh* > PolyMeshPointerList;
-
-/**
- * A loose structure of a scene. No scenegraph, justs lists.
- */
-class KocmocScene
+namespace kocmoc
 {
-public:
-	KocmocScene();
-	KocmocScene(string _name) : name(_name) {};
-	~KocmocScene(void);
+	typedef std::list<PolyMesh* > PolyMeshPointerList;
 
-	void addPolyMesh(PolyMesh* mesh);
-	std::list<PolyMesh* > getPolyMeshList(void);
+	/**
+	 * A loose structure of a scene. No scenegraph, justs lists.
+	 */
+	class KocmocScene
+	{
+	public:
+		KocmocScene();
+		KocmocScene(string _name) : name(_name) {};
+		~KocmocScene(void);
 
-	void transferData(Shader *shader);
-	void draw(Shader* shader);
+		void addPolyMesh(PolyMesh* mesh);
+		std::list<PolyMesh* > getPolyMeshList(void);
 
-private:
-	PolyMeshPointerList polyMeshList;
-	string name;
+		void transferData(Shader *shader);
+		void draw(Shader* shader);
 
-	GLuint gizmo_vao;
-	GLuint *gizmo_vbos;
-	Shader *gizmoShader;
-};
+	private:
+		PolyMeshPointerList polyMeshList;
+		string name;
 
+		GLuint gizmo_vao;
+		GLuint *gizmo_vbos;
+		Shader *gizmoShader;
+	};
+}
 #endif

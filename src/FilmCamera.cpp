@@ -3,6 +3,8 @@
 #include <gtc/matrix_projection.hpp> 
 #include <math.h>
 
+using namespace kocmoc;
+
 FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector, float _aspectRatio) :
 	eyePosition(_eyePosition),
 	upVector(glm::normalize(_upVector)),

@@ -7,7 +7,7 @@ using namespace kocmoc;
 
 int main (void)
 {
-	if (!PropertiesFileParser::GetInstance().parse())
+	if (!util::PropertiesFileParser::GetInstance().parse())
 	{
 		cout << "CRITICAL: Failed to parse config file, using default values!" << endl;
 		cout << "note: values may have been paritally parsed, so not all values are drfaults." << endl;
