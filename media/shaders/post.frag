@@ -20,14 +20,14 @@ void main(void)
 //	bentUV.t = uv.t / (barrelParam/(uv.s * uv.s + 1) + 1-barrelParam);
 
 	vec2 bentUV = uv / (barrelParam/(uv.s * uv.s + (uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);	
-	vec2 finalUV = bentUV / 2 + 0.5; // to [0, 1]
+	vec2 finalUV = (bentUV / 1.5) / 2 + 0.5; // to [0, 1]
 
 
 // vignetting
 	float attenuation = 2.0f;
 	float power = 3;
 	
-	float delta = distance(vec2(0.0f, 0.0f), (bentUV / vec2(1.0f, aspectRatio))) / 1.5;
+	float delta = distance(vec2(0.0f, 0.0f), (bentUV / vec2(1.0f, aspectRatio))) / 2.5;
 	float darkening = 1 - pow(delta, power) * attenuation;
 
 

@@ -1,4 +1,5 @@
 #include "FrameBuffer.hpp"
+#include "ShaderManager.hpp"
 
 using namespace kocmoc;
 
@@ -105,7 +106,7 @@ FrameBuffer::FrameBuffer()
 void FrameBuffer::setupShader()
 {
 	cout << "Frame buffer setup shader" << endl;
-	shader = new Shader("post.vert", "post.frag");
+	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
 
 	GLint sTex0_location = shader->get_uniform_location("sTex0");
 	

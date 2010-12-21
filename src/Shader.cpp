@@ -6,10 +6,18 @@
 
 using namespace kocmoc;
 
-Shader::Shader(const string &vertexShaderName, const string &fragmentShaderName) :
-success(false)
+Shader::Shader(const string &_vertexShaderName, const string &_fragmentShaderName) :
+	vertexShaderName(_vertexShaderName),
+	fragmentShaderName(_fragmentShaderName),
+	success(false)
 {
 	util::PropertiesFileParser::GetInstance().getProperty("shadersRootFolder", &pathPrefix);
+	create(vertexShaderName, fragmentShaderName);
+}
+
+void Shader::create(const string &vertexShaderFile, const string &fragmentShaderFile)
+{
+	success = false;
 
 	// Load the shader files
 	string vertexShaderPath = pathPrefix + vertexShaderName;
@@ -42,7 +50,7 @@ success(false)
 
 	// Link the shaders into a program
 	link();
-	if (program == 0)
+	if (programHandle == 0)
 		return;
 
 	success = true;
@@ -50,7 +58,18 @@ success(false)
 
 Shader::~Shader()
 {
-	glDeleteProgram(program);
+	destroy();
+}
+
+void Shader::reload()
+{
+	destroy();
+	create(vertexShaderName, fragmentShaderName);
+}
+
+void Shader::destroy()
+{
+	glDeleteProgram(programHandle);
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
@@ -59,9 +78,9 @@ GLuint Shader::compile (GLenum type, const string &source)
 {
 	// Create shader object
 
-	GLuint shader = glCreateShader(type);
+	GLuint shaderHandle = glCreateShader(type);
 
-	if (shader == 0) {
+	if (shaderHandle == 0) {
 		cerr << "Could not create shader object." << endl;
 		return 0;
 	}
@@ -71,69 +90,65 @@ GLuint Shader::compile (GLenum type, const string &source)
 	const char* src = source.data();
 	int len = source.size();
 
-	glShaderSource(shader, 1, &src, &len);
+	glShaderSource(shaderHandle, 1, &src, &len);
 
-	glCompileShader(shader);
+	glCompileShader(shaderHandle);
 
 	// Check for errors
-
 	int status;
-
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
+	glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &status);
 
 	if (status != GL_TRUE)
 	{
 		cout << "Shader compilation failed." << endl;
-		shader_log(shader);
+		shader_log(shaderHandle);
 	}
 
-	return shader;    
+	return shaderHandle;    
 }
 
 void Shader::link(void)
 {
 	// Create program handle
-	program = glCreateProgram();
+	programHandle = glCreateProgram();
 
 	// Attach shaders and link
 
-	glAttachShader(program, vertexShader);
-	glAttachShader(program, fragmentShader);
+	glAttachShader(programHandle, vertexShader);
+	glAttachShader(programHandle, fragmentShader);
 
 	// bind attribute and frag data locations to indexes
-	glBindAttribLocation(program, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
-	glBindAttribLocation(program, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
-	glBindAttribLocation(program, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
-	glBindAttribLocation(program, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
-	glBindFragDataLocation(program, 0, FRAGMENT_DATA_LOCATION_0_NAME);
+	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
+	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
+	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
+	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
+	glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
-	glLinkProgram(program);
+	glLinkProgram(programHandle);
 
 	// Check for problems
-
 	int status;
-
-	glGetProgramiv(program, GL_LINK_STATUS, &status);
+	glGetProgramiv(programHandle, GL_LINK_STATUS, &status);
 
 	if (status != GL_TRUE)
 	{
 		cout << "Shader linking failed." << endl;
-		program_log(program);
+		program_log(programHandle);
 
-		glDeleteProgram(program);
-		program = 0;
+		glDeleteProgram(programHandle);
+		programHandle = 0;
 	}
 }
 
 #define LOG_BUFFER_SIZE 8096
 
-void Shader::program_log(GLuint program)
+void Shader::program_log(GLuint programHandle)
 {
 	char logBuffer[LOG_BUFFER_SIZE];
 	GLsizei length;
 
 	logBuffer[0] = '\0';
-	glGetProgramInfoLog(program, LOG_BUFFER_SIZE, &length,logBuffer);
+	glGetProgramInfoLog(programHandle, LOG_BUFFER_SIZE, &length,logBuffer);
 
 	if (length > 0) {
 		cout << logBuffer << endl;

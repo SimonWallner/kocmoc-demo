@@ -46,7 +46,7 @@ namespace kocmoc
 		 */
 		void bind() const
 		{
-			glUseProgram(program);
+			glUseProgram(programHandle);
 		}
 
 		/**
@@ -64,7 +64,7 @@ namespace kocmoc
 		 */
 		GLint get_attrib_location(const std::string &name) const
 		{
-			return glGetAttribLocation(program, name.c_str());
+			return glGetAttribLocation(programHandle, name.c_str());
 		}
 
 		/**
@@ -74,7 +74,7 @@ namespace kocmoc
 		 */
 		GLint get_uniform_location(const std::string &name) const
 		{
-			GLint location = glGetUniformLocation(program, name.c_str());
+			GLint location = glGetUniformLocation(programHandle, name.c_str());
 			if (location < 0 && _DEBUG && KOCMOC_DEBUG_VERBOSE_OUTPUT)
 				cout << "uniform location: " << name << " not found!" << endl;
 			return location;
@@ -90,17 +90,9 @@ namespace kocmoc
 			return success;
 		}
 
-	private:
+		void reload();
 
-		// Define the name of the variable inside the shader which represents the final color for each fragment.
-		void bind_frag_data_location(const std::string &name)
-		{
-			if(program > 0)
-			{
-				glBindFragDataLocation(program, 0, name.c_str());
-				link();
-			}
-		}
+	private:
 
 		bool success;
 
@@ -108,13 +100,19 @@ namespace kocmoc
 
 		GLuint vertexShader;
 		GLuint fragmentShader;
-		GLuint program;
+		GLuint programHandle;
+
+		std::string vertexShaderName;
+		std::string fragmentShaderName;
 
 		GLuint compile(GLenum type, const std::string &source);
 		void link (void);
 
 		void shader_log(GLuint shader);
-		void program_log(GLuint program);
+		void program_log(GLuint programHandle);
+
+		void create(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
+		void destroy(void);
 	};
 }
 

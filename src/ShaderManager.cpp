@@ -49,4 +49,8 @@ Shader* ShaderManager::load(const string &vertexShaderFile, const string &fragme
 void ShaderManager::reloadAll()
 {
 	std::cout << "Reloading all shaders..." << std::endl;
+	for (ShaderCache::iterator it = cache.begin(); it != cache.end(); it++)
+	{
+		(*it).second->reload();
+	}
 }
