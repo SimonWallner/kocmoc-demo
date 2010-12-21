@@ -2,6 +2,7 @@
 
 #include "Shader.hpp"
 #include "PropertiesFileParser.hpp"
+#include "utility.hpp"
 
 using namespace kocmoc;
 

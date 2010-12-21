@@ -37,7 +37,7 @@ namespace kocmoc
 		 * @param vertexShaderFile the name of  the vertex shader file
 		 * @param fragmentShaderFile the name of the fragment shader file
 		 */
-		Shader(const string &vertexShaderFile, const string &fragmentShaderFile);
+		Shader(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
 
 		~Shader();
 
@@ -110,7 +110,7 @@ namespace kocmoc
 		GLuint fragmentShader;
 		GLuint program;
 
-		GLuint compile(GLenum type, const string &source);
+		GLuint compile(GLenum type, const std::string &source);
 		void link (void);
 
 		void shader_log(GLuint shader);

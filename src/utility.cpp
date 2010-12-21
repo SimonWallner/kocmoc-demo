@@ -1,6 +1,9 @@
 #include "utility.hpp"
 
 #include <fstream>
+#include "Shader.hpp"
+#include "ImageLoader.hpp"
+#include "PropertiesFileParser.hpp"
 
 namespace kocmoc
 {
@@ -56,5 +59,99 @@ namespace kocmoc
 				p = NULL;
 			}
 		}
+
+		namespace generator
+		{
+			PolyMesh* generateStars()
+			{
+				// generate starts, lots of stars
+				int starCount;
+				float domain, size;
+				util::PropertiesFileParser::GetInstance().getProperty("starsCount", &starCount);
+				util::PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
+				util::PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
+				
+
+				PolyMesh *stars = new PolyMesh(starCount * 4, starCount * 4 * 4, starCount * 4);
+
+				double *positions = new double[stars->getVertexCount() * 3];
+				unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
+				unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount()];
+					
+				for (int i = 0; i < starCount; i++)
+				{
+					vec4 v0 = vec4(0, 0, 0, 1) * size;
+					vec4 v1 = vec4(0, 1, 1, 1) * size;
+					vec4 v2 = vec4(1, 1, 0, 1) * size;
+					vec4 v3 = vec4(1, 0, 1, 1) * size;
+
+					mat4 rotation = glm::gtx::transform::rotate(((float)rand() * 360)/RAND_MAX,
+						(float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
+
+					mat4 transform = glm::translate((rand() * domain)/RAND_MAX - (domain / 2),
+						(rand() * domain)/RAND_MAX - (domain / 2),
+						(rand() * domain)/RAND_MAX - (domain / 2)) * rotation;
+
+					v0 = transform * v0;
+					v1 = transform * v1;
+					v2 = transform * v2;
+					v3 = transform * v3;
+
+					// ad vertices
+					positions[i*12] = v0.x;
+					positions[i*12+1] = v0.y;
+					positions[i*12+2] = v0.z;
+					positions[i*12+3] = v1.x;
+					positions[i*12+4] = v1.y;
+					positions[i*12+5] = v1.z;
+					positions[i*12+6] = v2.x;
+					positions[i*12+7] = v2.y;
+					positions[i*12+8] = v2.z;
+					positions[i*12+9] = v3.x;
+					positions[i*12+10] = v3.y;
+					positions[i*12+11] = v3.z;
+					
+
+					// add primitives and indices, 
+					// 0 - 1 - 2
+					firstIndices[i * 4] = i*12;
+					vertexIndices[i*12] = i*4;
+					vertexIndices[i*12+1] = i*4 +1;
+					vertexIndices[i*12+2] = i*4 +2;
+					
+					// 1 - 2 - 3
+					firstIndices[i*4+1] = i*12+3;
+					vertexIndices[i*12+3] = i*4 +1;
+					vertexIndices[i*12+4] = i*4 +2;
+					vertexIndices[i*12+5] = i*4 +3;
+
+					// 3 - 0 - 1
+					firstIndices[i*4+2] = i*12+6;
+					vertexIndices[i*12+6] = i*4 +3;
+					vertexIndices[i*12+7] = i*4 +0;
+					vertexIndices[i*12+8] = i*4 +1;
+
+					// 0 - 2 - 3
+					firstIndices[i*4+3] = i*12+9;
+					vertexIndices[i*12+9] = i*4 +0;
+					vertexIndices[i*12+10] = i*4 +2;
+					vertexIndices[i*12+11] = i*4 +3;
+				}
+
+				stars->setFirstIndexArray(firstIndices);
+				stars->setVertexIndexArray(vertexIndices);
+				stars->setVertexPositions(positions);
+
+				// add shader to poly
+				Shader *shader = new Shader("base.vert", "base.frag");
+				stars->setShader(shader);
+
+				// add texture
+				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+				stars->setTexture(tex);
+
+				return stars;
+			}
+		}	
 	}
 }

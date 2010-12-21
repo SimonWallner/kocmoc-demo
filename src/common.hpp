@@ -11,9 +11,6 @@
 #define GLFW_NO_GLU
 #include <GL/glfw.h>
 
-#include "utility.hpp"
-
-
 #include <glm.hpp>
 #include <gtx/transform.hpp>
 #include <gtc/type_ptr.hpp>
