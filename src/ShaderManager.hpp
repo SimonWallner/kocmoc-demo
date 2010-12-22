@@ -12,7 +12,7 @@ namespace kocmoc
 
 	/**
 	 * A simple manager that manages loading and reloading of shaders at runtime.
-	 * Should also support caching, and it's a singleton.
+	 * Also supports caching of shaders.
 	 */
 	class ShaderManager
 	{
@@ -23,8 +23,20 @@ namespace kocmoc
 		 */
 		static void Destroy(void);
 
+		/**
+		 * Get the singleton instance
+		 */
 		static ShaderManager& getInstance(void);
 
+		/**
+		 * Load a shader. 
+		 * This is basically the same as directly constructing a Shader, but
+		 * with the added support for caching and mass reloading of all
+		 * existing shaders.
+		 *
+		 * @return A pointer to a shader. This does not have to be a new Shader
+		 * it can as well be an existing shader from the cache.
+		 */
 		Shader* load(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
 
 		/**
