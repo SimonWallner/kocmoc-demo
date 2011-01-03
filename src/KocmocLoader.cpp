@@ -47,6 +47,8 @@ KocmocScene* KocmocLoader::load(string name)
 	importer.prepare();
 
 	string path = pathPrefix + name;
+	std::cout << "trying to load: " << path << std::endl;
+
 	bool success = colladaRoot.loadDocument(path);
 
 	return importer.getScene();

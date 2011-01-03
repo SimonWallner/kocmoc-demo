@@ -41,42 +41,69 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
 	cout << "receiving geometry... " << endl;
 
-	//if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
-	//{
-	//	//cast to mesh
-	//	const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
-	//	
-	//	PolyMesh* poly = new PolyMesh(mesh->getPositions().getValuesCount()/3);
-	//	const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
-	//	const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
+	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
+	{
+		//cast to mesh
+		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
 
-	//	int count = mesh->getPositions().getValuesCount();
+		unsigned int vertexCount =  mesh->getPositions().getValuesCount()/3;
+		unsigned int primitiveCount = const_cast<COLLADAFW::Mesh* >(mesh)->getMeshPrimitiveCount(COLLADAFW::MeshPrimitive::TRIANGLES);
+		unsigned int vertexIndexCount = primitiveCount * 3;
+		
+		unsigned int *indices = new unsigned int[vertexCount];
+
+		unsigned int ip = 0; // index pointer that is;
+
+		const COLLADAFW::MeshPrimitiveArray &primitives =  mesh->getMeshPrimitives();
+		
+		
+		for (unsigned int i = 0; i < primitives.getCount(); i++)
+		{
+			const COLLADAFW::MeshPrimitive *primitive = primitives.getData()[i];
+			if (primitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
+			{
+				// only use triangles, for now
+				const COLLADAFW::UIntValuesArray &positionIndices = primitive->getPositionIndices();
+				const unsigned int *data = positionIndices.getData();
+				indices[ip++] = data[0];
+				indices[ip++] = data[1];
+				indices[ip++] = data[2];
+			}
+		}
+		
+
+		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
+		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
+		const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
+
+		int count = mesh->getPositions().getValuesCount();
 
 
-	//	float* positions = new float[arr->getCount()];
-	//	const float* data = arr->getData();
-	//	float* normals = new float[arrNormals->getCount()];
-	//	const float* normalsData = arrNormals->getData();
+		double* positions = new double[arr->getCount()];
+		const float* data = arr->getData();
+		double* normals = new double[arrNormals->getCount()];
+		const float* normalsData = arrNormals->getData();
 
-	//	for (unsigned int i = 0; i < arr->getCount(); i++)
-	//	{
-	//		positions[i] = data[i];
-	//		normals[i] = normalsData[i];
-	//	}
-	//	poly->setVertexPositions(positions);
-	//	poly->setVertexNormals(normals);
-	//	poly->setUV0(positions);
+		for (unsigned int i = 0; i < arr->getCount(); i++)
+		{
+			positions[i] = static_cast<double>(data[i]);
+			normals[i] = static_cast<double>(normalsData[i]);
+		}
+		poly->setVertexPositions(positions);
+		poly->setVertexIndexArray(indices);
+		//poly->setVertexNormals(normals);
+		//poly->setUV0(positions);
 
-	//	// add shader to poly
-	//	Shader *shader = new Shader("base.vert", "base.frag");
-	//	poly->setShader(shader);
+		// add shader to poly
+		Shader *shader = new Shader("base.vert", "base.frag");
+		poly->setShader(shader);
 
-	//	// add texture
-	//	GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-	//	poly->setTexture(tex);
+		// add texture
+		GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+		poly->setTexture(tex);
 
-	//	scene->addPolyMesh(poly);
-	//}
+		scene->add(poly);
+	}
 
 	return true;
 }

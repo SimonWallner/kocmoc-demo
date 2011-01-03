@@ -78,7 +78,7 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	//scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
+	scene = KocmocLoader::getInstance().load("suzanne-hires.dae");
 	scene = new KocmocScene();
 	scene->add(util::generator::generateStars());
 	if (showGizmos)
