@@ -72,8 +72,10 @@ namespace kocmoc
 				util::PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
 				util::PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
 				
-
-				PolyMesh *stars = new PolyMesh(starCount * 4, starCount * 4 * 4, starCount * 4);
+				unsigned int primitiveCount = starCount * 4; // 3 tris per tetraeder
+				unsigned int vertexIndexCount = primitiveCount * 3; // 3 vertices per triangle
+				unsigned int vertexCount = starCount * 4; // 4 vertices per tetraeder
+				PolyMesh *stars = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 
 				double *positions = new double[stars->getVertexCount() * 3];
 				unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
@@ -190,7 +192,11 @@ namespace kocmoc
 				fia[2] = 4;
 				fia[3] = 6;
 
-				PolyMesh *mesh = new PolyMesh(3, 6, 4);
+				unsigned int primitiveCount = 3;
+				unsigned int vertexIndexCount = 6;
+				unsigned int vertexCount = 4;
+				PolyMesh *mesh = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
+
 				mesh->setFirstIndexArray(fia);
 				mesh->setVertexIndexArray(indices);
 				mesh->setVertexPositions(vertexPositions);

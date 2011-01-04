@@ -80,7 +80,7 @@ void Kocmoc::init()
 	
 	scene = KocmocLoader::getInstance().load("suzanne-tris.dae");
 	//scene = new KocmocScene();
-	//scene->add(util::generator::generateStars());
+	scene->add(util::generator::generateStars());
 
 	if (showGizmos)
 		scene->add(util::generator::generateGizmo());
