@@ -47,12 +47,10 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
 
 		unsigned int vertexCount =  mesh->getPositions().getValuesCount()/3;
-		unsigned int primitiveCount = const_cast<COLLADAFW::Mesh* >(mesh)->getMeshPrimitiveCount(COLLADAFW::MeshPrimitive::TRIANGLES);
+		unsigned int primitiveCount = const_cast<COLLADAFW::Mesh* >(mesh)->getTrianglesTriangleCount();
 		unsigned int vertexIndexCount = primitiveCount * 3;
 		
-		unsigned int *indices = new unsigned int[vertexCount];
-
-		unsigned int ip = 0; // index pointer that is;
+		unsigned int *indices = new unsigned int[vertexIndexCount];
 
 		const COLLADAFW::MeshPrimitiveArray &primitives =  mesh->getMeshPrimitives();
 		
@@ -65,12 +63,17 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 				// only use triangles, for now
 				const COLLADAFW::UIntValuesArray &positionIndices = primitive->getPositionIndices();
 				const unsigned int *data = positionIndices.getData();
-				indices[ip++] = data[0];
-				indices[ip++] = data[1];
-				indices[ip++] = data[2];
+
+				for (unsigned int j = 0; j < vertexIndexCount; j++)
+				{
+					indices[j] = data[j];
+				}
 			}
 		}
 		
+		
+
+		void *p = malloc(2^13);
 
 		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
@@ -79,10 +82,10 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		int count = mesh->getPositions().getValuesCount();
 
 
-		double* positions = new double[arr->getCount()];
-		const float* data = arr->getData();
-		double* normals = new double[arrNormals->getCount()];
-		const float* normalsData = arrNormals->getData();
+		double *positions = new double[arr->getCount()];
+		const float *data = arr->getData();
+		double *normals = new double[arrNormals->getCount()];
+		const float *normalsData = arrNormals->getData();
 
 		for (unsigned int i = 0; i < arr->getCount(); i++)
 		{

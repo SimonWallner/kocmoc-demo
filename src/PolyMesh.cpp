@@ -114,7 +114,7 @@ void PolyMesh::draw()
 		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 	
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, vertexCount, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, vertexIndexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 	shader->unbind();
