@@ -25,7 +25,7 @@ void main(void)
 	gl_Position = projectionMatrix * viewMatrix * inPosition;
 
 	fragmentNormal = vec3(viewMatrix * modelMatrix * vec4(inNormal, 1.0f));
-	texCoord0 = inTexCoord0;
+	texCoord0 = inPosition.xy/100;
 
 	lightPosition = inLightPosition;
 	incidentlightDirection = vec3(0.0f, -1.0f, 0.0f);

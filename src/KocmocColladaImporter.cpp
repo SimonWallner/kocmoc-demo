@@ -7,6 +7,7 @@
 #include <COLLADAFWVisualScene.h>
 #include "Shader.hpp"
 #include "ImageLoader.hpp"
+#include "ShaderManager.hpp"
 
 using namespace kocmoc;
 
@@ -70,10 +71,6 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 				}
 			}
 		}
-		
-		
-
-		void *p = malloc(2^13);
 
 		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
@@ -98,11 +95,11 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		//poly->setUV0(positions);
 
 		// add shader to poly
-		Shader *shader = new Shader("base.vert", "base.frag");
+		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		poly->setShader(shader);
 
 		// add texture
-		GLuint tex = ImageLoader::getInstance().loadImage("color.png");
+		GLuint tex = ImageLoader::getInstance().loadImage("uv_test.png");
 		poly->setTexture(tex);
 
 		scene->add(poly);
