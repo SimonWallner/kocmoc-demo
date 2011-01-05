@@ -26,6 +26,10 @@ ModelsRootFolder = ${MEDIA_PATH}/models/
 # stuff to delete, only for testing, debugging and such.
 # those props are prefixed fith a capital X
 XModelName = Plane_p51.dae
+XModelName = cube.dae
+XModelName = Leonow.dae
+XModelName = house.dae
+XModelName = teapot.dae
 
 
 # screen resolution and weather to start in full screen mode or not
@@ -44,6 +48,7 @@ nearPlane = -0.1
 farPlane = -10000
 
 # star generator
+starsTeapot = 1
 starsCount = 10000
 starsDomain = 3000
 starsSize = 10

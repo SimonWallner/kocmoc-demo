@@ -57,7 +57,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 			const COLLADAFW::MeshPrimitive *meshPrimitive = meshPrimitives.getData()[i];
 			
 			if (meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS ||
-				meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS)
+				meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
 			{
 				// copy/append indices
 				const COLLADAFW::UIntValuesArray &positionIndices = meshPrimitive->getPositionIndices();
@@ -78,10 +78,15 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 					firstIndices.push_back(firstIndex);
 					firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
 				}
-				firstIndices.push_back(firstIndex); // IMPORTANT: add last fia
 			}
 		}
 
+		// return if neither polys of triangles where found
+		if (firstIndices.size() == 0)
+			return true;
+
+
+		firstIndices.push_back(firstIndex); // IMPORTANT: add last first index
 
 		unsigned int primitiveCount = firstIndices.size() - 1;
 		unsigned int vertexIndexCount = vertexIndices.size();
