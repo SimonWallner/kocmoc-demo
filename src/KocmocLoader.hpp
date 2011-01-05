@@ -52,6 +52,8 @@ namespace kocmoc
 		KocmocColladaErrorHandler errorHandler;
 
 		string pathPrefix;
+		/** This is the path for resources that are not in the repo */
+		std::string alternativePathPrefix;
 
 		KocmocLoader(void);
 		KocmocLoader(const KocmocLoader &cc);

@@ -3,7 +3,7 @@
 #include <fstream>
 #include "Shader.hpp"
 #include "ImageLoader.hpp"
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 #include "ShaderManager.hpp"
 
 namespace kocmoc
@@ -66,11 +66,10 @@ namespace kocmoc
 			PolyMesh* generateStars()
 			{
 				// generate starts, lots of stars
-				int starCount;
-				float domain, size;
-				util::PropertiesFileParser::GetInstance().getProperty("starsCount", &starCount);
-				util::PropertiesFileParser::GetInstance().getProperty("starsDomain", &domain);
-				util::PropertiesFileParser::GetInstance().getProperty("starsSize", &size);
+				int starCount = Property("starsCount");
+				float domain = Property("starsDomain");
+				float size = Property("starsSize");
+
 				
 				unsigned int primitiveCount = starCount * 4; // 3 tris per tetraeder
 				unsigned int vertexIndexCount = primitiveCount * 3; // 3 vertices per triangle

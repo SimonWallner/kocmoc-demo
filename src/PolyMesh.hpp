@@ -58,6 +58,9 @@ namespace kocmoc
 		unsigned int getVertexIndexCount(void) {return vertexIndexCount;};
 		unsigned int getVertexCount(void) {return vertexCount;};
 
+		void setModelMatrix(glm::mat4 modelMatrix);
+		glm::mat4 getModelMatrix(void) {return modelMatrix;};
+
 	private:
 
 		/**

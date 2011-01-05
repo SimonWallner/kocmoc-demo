@@ -18,7 +18,8 @@ PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount,
 		primitiveCount(_primitiveCount),
 		vertexIndexCount(_vertexIndexCount),
 		vertexCount(_vertexCount),
-		triangulatedVertexIndexCount(0)
+		triangulatedVertexIndexCount(0),
+		modelMatrix(glm::mat4(1.0f))
 
 {
 	firstIndexArray = NULL;
@@ -155,3 +156,7 @@ void PolyMesh::draw()
 	shader->unbind();
 }
 
+void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
+{
+	modelMatrix = _modelMatrix;
+}

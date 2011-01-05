@@ -23,6 +23,9 @@ shadersRootFolder = ${MEDIA_PATH}/shaders/
 TexturesRootFolder = ${MEDIA_PATH}/textures/
 ModelsRootFolder = ${MEDIA_PATH}/models/
 
+# alternative paths, that are not in the repo
+alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
+
 # stuff to delete, only for testing, debugging and such.
 # those props are prefixed fith a capital X
 XModelName = Plane_p51.dae
@@ -48,7 +51,8 @@ nearPlane = -0.1
 farPlane = -10000
 
 # star generator
-starsTeapot = 1
+starsUseModel = 1
+starsModelName = cube.dae
 starsCount = 10000
 starsDomain = 3000
 starsSize = 10

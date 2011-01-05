@@ -6,7 +6,8 @@
  */
 
 #include "KocmocLoader.hpp"
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
+#include "utility.hpp"
 
 #include <COLLADAFW.h>
 
@@ -32,10 +33,10 @@ void KocmocLoader::Destroy()
 KocmocLoader::KocmocLoader() :
 		importer(),
 		saxLoader(&errorHandler),
-		colladaRoot(&saxLoader, &importer)
-{
-	util::PropertiesFileParser::GetInstance().getProperty("ModelsRootFolder", &pathPrefix);
-}
+		colladaRoot(&saxLoader, &importer),
+		pathPrefix(util::Property("ModelsRootFolder")),
+		alternativePathPrefix(util::Property("alternativeModelsRootFolder"))
+{}
 
 KocmocLoader::~KocmocLoader()
 {
@@ -44,12 +45,21 @@ KocmocLoader::~KocmocLoader()
 
 KocmocScene* KocmocLoader::load(string name)
 {
+	std::cout << "trying to load: " << name << std::endl;
+
 	importer.prepare();
+	bool success = false;
 
 	string path = pathPrefix + name;
-	std::cout << "trying to load: " << path << std::endl;
-
-	bool success = colladaRoot.loadDocument(path);
+	
+	if (util::file_exists(path))
+		success = colladaRoot.loadDocument(path);
+	else
+	{
+		std::cout << "file not found, trying alternative location... " << std::endl;
+		path = alternativePathPrefix + name;
+		success = colladaRoot.loadDocument(path);
+	}
 
 	return importer.getScene();
 }
