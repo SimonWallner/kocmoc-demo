@@ -79,7 +79,7 @@ namespace kocmoc
 
 				double *positions = new double[stars->getVertexCount() * 3];
 				unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
-				unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount()];
+				unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount() + 1];
 					
 				mat4 scale = glm::gtx::transform::scale(size, size, size);
 
@@ -142,6 +142,9 @@ namespace kocmoc
 					vertexIndices[i*12+10] = i*4 +2;
 					vertexIndices[i*12+11] = i*4 +3;
 				}
+
+				// add last first index
+				firstIndices[primitiveCount] = primitiveCount * 3;
 
 				stars->setFirstIndexArray(firstIndices);
 				stars->setVertexIndexArray(vertexIndices);

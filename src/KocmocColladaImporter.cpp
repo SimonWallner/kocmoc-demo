@@ -78,11 +78,12 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 					firstIndices.push_back(firstIndex);
 					firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
 				}
+				firstIndices.push_back(firstIndex); // IMPORTANT: add last fia
 			}
 		}
 
 
-		unsigned int primitiveCount = firstIndices.size();
+		unsigned int primitiveCount = firstIndices.size() - 1;
 		unsigned int vertexIndexCount = vertexIndices.size();
 		unsigned int vertexCount = mesh->getPositions().getValuesCount()/3; // stride = 3
 	

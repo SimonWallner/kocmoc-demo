@@ -23,6 +23,10 @@ shadersRootFolder = ${MEDIA_PATH}/shaders/
 TexturesRootFolder = ${MEDIA_PATH}/textures/
 ModelsRootFolder = ${MEDIA_PATH}/models/
 
+# stuff to delete, only for testing, debugging and such.
+# those props are prefixed fith a capital X
+XModelName = Plane_p51.dae
+
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280

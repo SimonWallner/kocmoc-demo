@@ -10,6 +10,8 @@
 #include "Camera.hpp"
 #include "utility.hpp"
 
+#include <vector>
+
 using namespace kocmoc;
 
 PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount, unsigned int _vertexCount) : 
@@ -65,10 +67,41 @@ void PolyMesh::transferData()
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
+
 	// indices
+	// recalculate, i.e. triangulate
+	std::vector<unsigned int> triangulatedIndices;
+
+	for (unsigned int i = 0; i < primitiveCount; i++)
+	{
+		unsigned int count = firstIndexArray[i+1] - firstIndexArray[i];
+
+		if (count == 3)
+		{
+			// just upload
+			triangulatedIndices.push_back(vertexIndexArray[firstIndexArray[i]]);
+			triangulatedIndices.push_back(vertexIndexArray[firstIndexArray[i]+1]);
+			triangulatedIndices.push_back(vertexIndexArray[firstIndexArray[i]+2]);
+		}
+		else if (count > 3)
+		{
+			// triangulate
+			unsigned int firstIndex = firstIndexArray[i];
+			for (unsigned int offset = 1; offset < (count - 1); offset++)
+			{
+				triangulatedIndices.push_back(vertexIndexArray[firstIndex]);
+				triangulatedIndices.push_back(vertexIndexArray[firstIndex + offset]);
+				triangulatedIndices.push_back(vertexIndexArray[firstIndex + offset + 1]);
+			}
+		}
+	}
+
+	triangulatedVertexIndexCount = triangulatedIndices.size();
+	
+	// upload
 	glGenBuffers(1, &indicesHandle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesHandle);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, vertexIndexCount * sizeof(unsigned int), vertexIndexArray, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangulatedVertexIndexCount * sizeof(unsigned int), &triangulatedIndices[0], GL_STATIC_DRAW);
 
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -114,7 +147,7 @@ void PolyMesh::draw()
 		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 	
 		glBindVertexArray(vaoHandle);
-		glDrawElements(GL_TRIANGLES, vertexIndexCount, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, triangulatedVertexIndexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 	shader->unbind();

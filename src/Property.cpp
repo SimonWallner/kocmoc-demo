@@ -21,3 +21,19 @@ Property::operator int()
 	PropertiesFileParser::GetInstance().getProperty(name, &foo);
 	return foo;
 }
+
+Property::operator float()
+{
+	float foo;
+	PropertiesFileParser::GetInstance().getProperty(name, &foo);
+	return foo;
+}
+
+
+Property::operator std::string()
+{
+	std::string foo;
+	PropertiesFileParser::GetInstance().getProperty(name, &foo);
+	return foo;
+}
+

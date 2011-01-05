@@ -22,7 +22,6 @@ namespace kocmoc
 			operator bool ();
 			operator int ();
 			operator float ();
-			operator double();
 			operator std::string();
 			
 		private:

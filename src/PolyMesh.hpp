@@ -72,6 +72,12 @@ namespace kocmoc
 		/** number of vertex indices **/
 		unsigned int vertexIndexCount;
 
+		/**
+		 * number of vertex indices after triangulation
+		 * this is used for rendering in the drawElements call
+		 */
+		unsigned int triangulatedVertexIndexCount;
+
 		/** number of primitives **/
 		unsigned int primitiveCount;
 

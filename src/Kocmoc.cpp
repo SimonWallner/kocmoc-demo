@@ -1,6 +1,6 @@
 #include "Kocmoc.hpp"
 #include "Context.hpp"
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 #include "Exception.hpp"
 #include "ImageLoader.hpp"
 #include "KocmocLoader.hpp"
@@ -28,8 +28,8 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	util::PropertiesFileParser::GetInstance().getProperty("debugUseFBO", &useFBO);
-	util::PropertiesFileParser::GetInstance().getProperty("debugShowGizmo", &showGizmos);
+	useFBO = util::Property("debugUseFBO");
+	showGizmos = util::Property("debugShowGizmo");
 }
 
 Kocmoc::~Kocmoc()
@@ -78,7 +78,7 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	scene = KocmocLoader::getInstance().load("car.dae");
+	scene = KocmocLoader::getInstance().load(util::Property("XModelName"));
 	//scene = new KocmocScene();
 	scene->add(util::generator::generateStars());
 
