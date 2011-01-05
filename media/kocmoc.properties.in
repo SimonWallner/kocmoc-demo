@@ -29,7 +29,8 @@ width = 1280
 height = 720
 fullscreen = 0
 
-wireframe = 0
+wireframe = 1
+backFaceCulling = 1
 
 # mission control stuff
 missionControlServerPort = 65001

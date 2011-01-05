@@ -78,7 +78,7 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	scene = KocmocLoader::getInstance().load("suzanne-tris.dae");
+	scene = KocmocLoader::getInstance().load("icosphere.dae");
 	//scene = new KocmocScene();
 	scene->add(util::generator::generateStars());
 

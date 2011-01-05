@@ -1,6 +1,7 @@
 #include "Context.hpp"
 #include "Exception.hpp"
 #include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 
 using namespace kocmoc;
 
@@ -139,15 +140,19 @@ void Context::setGLStates()
 	glEnable(GL_FRAMEBUFFER_SRGB);
 	glEnable(GL_DEPTH_TEST);
 
+	if (util::Property("backFaceCulling"))
+	{
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+	}
+
 	glClearDepth(1.0f);
 
 	glLineWidth(2.0f);
 	glPointSize(2.0f);
 	glEnable(GL_LINE_SMOOTH);
 
-	bool wireframe;
-	util::PropertiesFileParser::GetInstance().getProperty("wireframe", &wireframe);
-	if (wireframe)
+	if (util::PropertiesFileParser::GetInstance().getBoolean("wireframe"))
 		toggleWireframe();
 }
 
