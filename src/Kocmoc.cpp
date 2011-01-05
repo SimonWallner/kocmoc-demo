@@ -78,7 +78,7 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	scene = KocmocLoader::getInstance().load("icosphere.dae");
+	scene = KocmocLoader::getInstance().load("car.dae");
 	//scene = new KocmocScene();
 	scene->add(util::generator::generateStars());
 

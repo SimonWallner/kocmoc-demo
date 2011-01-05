@@ -42,66 +42,89 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
 	cout << "receiving geometry... " << endl;
 
+	std::vector<unsigned int> vertexIndices;
+	std::vector<unsigned int> firstIndices;
+	unsigned int firstIndex = 0;
+
+
 	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
 	{
-		//cast to mesh
 		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
+		const COLLADAFW::MeshPrimitiveArray &meshPrimitives =  mesh->getMeshPrimitives();
 
-		unsigned int vertexCount =  mesh->getPositions().getValuesCount()/3;
-		unsigned int primitiveCount = const_cast<COLLADAFW::Mesh* >(mesh)->getTrianglesTriangleCount();
-		unsigned int vertexIndexCount = primitiveCount * 3;
-		
-		unsigned int *indices = new unsigned int[vertexIndexCount];
-
-		const COLLADAFW::MeshPrimitiveArray &primitives =  mesh->getMeshPrimitives();
-		
-		
-		for (unsigned int i = 0; i < primitives.getCount(); i++)
+		for (unsigned int i = 0; i < meshPrimitives.getCount(); i++)
 		{
-			const COLLADAFW::MeshPrimitive *primitive = primitives.getData()[i];
-			if (primitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
+			const COLLADAFW::MeshPrimitive *meshPrimitive = meshPrimitives.getData()[i];
+			
+			if (meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS ||
+				meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS)
 			{
-				// only use triangles, for now
-				const COLLADAFW::UIntValuesArray &positionIndices = primitive->getPositionIndices();
+				// copy/append indices
+				const COLLADAFW::UIntValuesArray &positionIndices = meshPrimitive->getPositionIndices();
 				const unsigned int *data = positionIndices.getData();
+				unsigned int indexCount = positionIndices.getCount();
 
-				for (unsigned int j = 0; j < vertexIndexCount; j++)
+				for (unsigned int j = 0; j < indexCount; j++)
 				{
-					indices[j] = data[j];
+					vertexIndices.push_back(data[j]);
+				}
+
+
+				unsigned int faceCount = meshPrimitive->getFaceCount();
+				unsigned int grouped = meshPrimitive->getGroupedVertexElementsCount();
+
+				for (unsigned int j = 0; j < faceCount; j++)
+				{
+					firstIndices.push_back(firstIndex);
+					firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
 				}
 			}
 		}
 
+
+		unsigned int primitiveCount = firstIndices.size();
+		unsigned int vertexIndexCount = vertexIndices.size();
+		unsigned int vertexCount = mesh->getPositions().getValuesCount()/3; // stride = 3
+	
 		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
-		const COLLADAFW::FloatArray* arr =  mesh->getPositions().getFloatValues();
-		const COLLADAFW::FloatArray* arrNormals = mesh->getNormals().getFloatValues();
-
-		int count = mesh->getPositions().getValuesCount();
 
 
-		double *positions = new double[arr->getCount()];
-		const float *data = arr->getData();
-		double *normals = new double[arrNormals->getCount()];
-		const float *normalsData = arrNormals->getData();
+		// positions...
+		double *positionsArray = new double[mesh->getPositions().getFloatValues()->getCount()];
+		const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
+		
+		for (unsigned int i = 0; i < mesh->getPositions().getFloatValues()->getCount(); i++)
+			positionsArray[i] = static_cast<double>(positionsData[i]);
 
-		for (unsigned int i = 0; i < arr->getCount(); i++)
-		{
-			positions[i] = static_cast<double>(data[i]);
-			normals[i] = static_cast<double>(normalsData[i]);
-		}
-		poly->setVertexPositions(positions);
-		poly->setVertexIndexArray(indices);
-		//poly->setVertexNormals(normals);
-		//poly->setUV0(positions);
+		poly->setVertexPositions(positionsArray);
 
-		// add shader to poly
+
+		// indices...
+		unsigned int *indicesArray = new unsigned int[vertexIndices.size()];
+		for (unsigned int i = 0; i < vertexIndices.size(); i++)
+			indicesArray[i] = vertexIndices[i];
+		
+		poly->setVertexIndexArray(indicesArray);
+
+
+		// first indices...
+		unsigned int *fiaArray = new unsigned int[firstIndices.size()];
+		for (unsigned int i = 0; i < firstIndices.size(); i++)
+			fiaArray[i] = firstIndices[i];
+
+		poly->setFirstIndexArray(fiaArray);
+
+
+		
+		
+		// add shader and texture
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		poly->setShader(shader);
 
-		// add texture
 		GLuint tex = ImageLoader::getInstance().loadImage("uv_test.png");
 		poly->setTexture(tex);
 
+		// add to scene
 		scene->add(poly);
 	}
 
