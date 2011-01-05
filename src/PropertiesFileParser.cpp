@@ -111,10 +111,3 @@ void PropertiesFileParser::getProperty(string name, bool *value)
 	sscanf(cache[name].c_str(), "%i", &foo);
 	*value = (foo > 0);
 }
-
-bool PropertiesFileParser::getBoolean(std::string name)
-{
-	bool foo;
-	getProperty(name, &foo);
-	return foo;
-}

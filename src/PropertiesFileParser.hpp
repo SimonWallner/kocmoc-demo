@@ -43,8 +43,6 @@ namespace kocmoc
 			void getProperty(string name, float* value);
 			void getProperty(string name, bool* value);
 
-			bool getBoolean(std::string name);
-
 			/**
 			 * Print the contents of the cache to the std out
 			 */

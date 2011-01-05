@@ -1,6 +1,5 @@
 #include "Context.hpp"
 #include "Exception.hpp"
-#include "PropertiesFileParser.hpp"
 #include "Property.hpp"
 
 using namespace kocmoc;
@@ -22,14 +21,11 @@ Context& Context::getInstance(void)
 
 void Context::setupGLFW()
 {
-	bool fullscreen;
-
-	util::PropertiesFileParser::GetInstance().getProperty("width", &width);
-	util::PropertiesFileParser::GetInstance().getProperty("height", &height);
-	util::PropertiesFileParser::GetInstance().getProperty("fullscreen", &fullscreen);
-
+	width = util::Property("width");
+	height = util::Property("height");
+	
 	int windowMode;
-	if (fullscreen)
+	if (util::Property("fullScreen"))
 		windowMode = GLFW_FULLSCREEN;
 	else
 		windowMode = GLFW_WINDOW;
@@ -152,7 +148,7 @@ void Context::setGLStates()
 	glPointSize(2.0f);
 	glEnable(GL_LINE_SMOOTH);
 
-	if (util::PropertiesFileParser::GetInstance().getBoolean("wireframe"))
+	if (util::Property("wireframe"))
 		toggleWireframe();
 }
 
