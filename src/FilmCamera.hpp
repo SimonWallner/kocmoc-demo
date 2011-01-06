@@ -46,13 +46,13 @@ namespace kocmoc
 		 * Set the 35mm equivalent focal length of the lens.
 		 * @param The focal length as it would be in a standard 35mm film camera.
 		 */
-		void setFocalLength(double mm);
+		void setFocalLength(float mm);
 
 		/**
 		 * The counterpart to setFocalLength. Directly set the horizontal AOV
 		 * @param radians The horizontal AOV in radians.
 		 */
-		void setAngleOfView(double radians);
+		void setAngleOfView(float radians);
 
 		// override fuctions from camera
 		mat4 getViewMatrix();
@@ -91,6 +91,9 @@ namespace kocmoc
 		float nearPlane;
 		float farPlane;
 		float aspectRatio;
+
+		/** The angle of view in radians */
+		float angleOfView;
 	};
 }
 
