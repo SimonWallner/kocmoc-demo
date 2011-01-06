@@ -65,10 +65,17 @@ void PolyMesh::transferData()
 
 	glBindVertexArray(vaoHandle);
 	
+	// positions
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), vertexPositions, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
+
+	//// uv
+	//glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
+	//glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), uvCoords, GL_STATIC_DRAW);
+	//glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
+	//glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
 
 
 	// indices
@@ -159,4 +166,9 @@ void PolyMesh::draw()
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
 {
 	modelMatrix = _modelMatrix;
+}
+
+void PolyMesh::setUVCoords(double *uv)
+{
+	uvCoords = uv;
 }

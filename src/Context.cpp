@@ -1,6 +1,7 @@
 #include "Context.hpp"
 #include "Exception.hpp"
 #include "Property.hpp"
+#include "PropertiesFileParser.hpp"
 
 using namespace kocmoc;
 
@@ -25,11 +26,10 @@ void Context::setupGLFW()
 	height = util::Property("height");
 	
 	int windowMode;
-	if (util::Property("fullScreen"))
+	if (util::Property("fullscreen"))
 		windowMode = GLFW_FULLSCREEN;
 	else
 		windowMode = GLFW_WINDOW;
-
 
 	if (!glfwInit())
 		throw Exception("FATAL: Failed to initialize glfw!");

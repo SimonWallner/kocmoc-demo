@@ -8,7 +8,7 @@ namespace kocmoc
 {
 	namespace util
 	{
-
+		typedef std::map<string, string> PropertiesCache;
 
 		/**
 		 * parse the config file and provide the app with the config values. Singleton
@@ -44,9 +44,9 @@ namespace kocmoc
 			void getProperty(string name, bool* value);
 
 			/**
-			 * Print the contents of the cache to the std out
+			 * Dump the cache to stdout for debugging
 			 */
-			void list(void);
+			void dumpCache(void);
 
 		private:
 				PropertiesFileParser(void);
@@ -55,7 +55,7 @@ namespace kocmoc
 				bool isspacesonly(const string& line);
 				void getnextline(std::istream& is, string& line);
 
-				std::map<string, string> cache;
+				PropertiesCache cache;
 		};
 	}
 }

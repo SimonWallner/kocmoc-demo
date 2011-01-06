@@ -39,6 +39,7 @@ namespace kocmoc
 		void setVertexIndexArray(unsigned int *vertexIndices);
 		void setFirstIndexArray(unsigned int *fia);
 		void setVertexPositions(double *positions);
+		void setUVCoords(double *uv);
 
 		// TODO: set normals, uvs, color, etc...
 
@@ -87,6 +88,7 @@ namespace kocmoc
 		unsigned int *firstIndexArray;
 		unsigned int *vertexIndexArray;
 		double *vertexPositions;
+		double *uvCoords;
 	
 		mat4 modelMatrix;
 

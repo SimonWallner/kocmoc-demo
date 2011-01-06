@@ -61,6 +61,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 			{
 				// copy/append indices
 				const COLLADAFW::UIntValuesArray &positionIndices = meshPrimitive->getPositionIndices();
+				
 				const unsigned int *data = positionIndices.getData();
 				unsigned int indexCount = positionIndices.getCount();
 
@@ -100,9 +101,25 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
 		
 		for (unsigned int i = 0; i < mesh->getPositions().getFloatValues()->getCount(); i++)
-			positionsArray[i] = static_cast<double>(positionsData[i]);
+			positionsArray[i] = static_cast<double >(positionsData[i]);
 
 		poly->setVertexPositions(positionsArray);
+
+		
+		// normals...
+		//mesh->getNormals().getFloatValues();
+
+
+		//// UV...
+		//double *uvArray = new double[mesh->getUVCoords().getFloatValues()->getCount()];
+		//const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
+
+		//for (unsigned int i = 0; i < mesh->getUVCoords().getFloatValues()->getCount(); i++)
+		//	uvArray[i] = static_cast<double >(uvData[i]);
+
+		//poly->setUVCoords(uvArray);
+		
+		
 
 
 		// indices...

@@ -111,3 +111,13 @@ void PropertiesFileParser::getProperty(string name, bool *value)
 	sscanf(cache[name].c_str(), "%i", &foo);
 	*value = (foo > 0);
 }
+
+void PropertiesFileParser::dumpCache()
+{
+	std::cout << "dumping shader cache ---------------------------" << std::endl;
+
+	for (PropertiesCache::iterator it = cache.begin(); it != cache.end(); it++)
+		std::cout << it->first << " = " << it->second << std::endl;
+
+	std::cout << "------------------------------------------------" << std::endl;
+}

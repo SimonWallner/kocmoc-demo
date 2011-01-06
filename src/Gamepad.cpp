@@ -3,7 +3,7 @@
 #include "common.hpp"
 #include <math.h>
 #include "Kocmoc.hpp"
-#include "ImageLoader.hpp"
+#include "ShaderManager.hpp"
 
 using namespace kocmoc;
 using namespace kocmoc::input;
@@ -95,8 +95,8 @@ void Gamepad::poll(void)
 		if (buttons[6] == GLFW_PRESS) // quit app (back button)
 			Kocmoc::getInstance().stop();
 
-		if (buttons[3] == GLFW_PRESS) // take screenshot, Y button
-			ImageLoader::getInstance().screenShot();
+		if (buttons[7] == GLFW_PRESS) // start button, reload
+			ShaderManager::getInstance().reloadAll();
 		
 		delete pos;
 		delete buttons;

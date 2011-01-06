@@ -122,14 +122,32 @@ void ImageLoader::screenShot()
 	struct tm * now = localtime(&t);
 
 	std::stringstream fileName;
-	fileName << "screenshot_" << (now->tm_year + 1900) << (now->tm_mon + 1) << now->tm_mday <<
-			now->tm_hour << ":" + now->tm_min << ":" + now->tm_sec << ".png";
+	fileName << "screenshot_" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday <<
+			"-" << now->tm_hour << ":" << now->tm_min << ":" << now->tm_sec << ".png";
+
+	std::string foo = fileName.str();
+	std::string bar = fileName.str().c_str();
+
+	char buffer[50];
+	int length = sprintf(buffer, "screenshot_%d_%d_%d-%d-%d-%d.png",
+		now->tm_year + 1900,
+		now->tm_mon + 1,
+		now->tm_mday,
+		now->tm_hour,
+		now->tm_min,
+		now->tm_sec);
 
 
-	if(ilSave(IL_PNG, fileName.str().c_str()))
+	if(ilSave(IL_PNG, buffer))
 		cout << "screenshot taken! (" << fileName << ")";
 	else 
-		cout << "failed to take screenshot";
+	{
+		std::cout << "failed to take screenshot: ";
+		if (ilGetError() == IL_COULD_NOT_OPEN_FILE)
+			std::cout << "could not open file '" << fileName << "' for writing";
+
+		std::cout << std::endl;
+	}
 
 	ilDeleteImage(image);
 }

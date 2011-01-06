@@ -28,7 +28,7 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	useFBO = util::Property("debugUseFBO");
+	useFBO = util::Property("debugEnableFBO");
 	showGizmos = util::Property("debugShowGizmo");
 }
 
