@@ -40,8 +40,6 @@ void KocmocColladaImporter::finish()
 
 bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
-	cout << "receiving geometry... " << endl;
-
 	std::vector<unsigned int> vertexIndices;
 	std::vector<unsigned int> firstIndices;
 	unsigned int firstIndex = 0;
@@ -106,7 +104,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		poly->setVertexPositions(positionsArray);
 
 		
-		// normals...
+		//// normals...
 		//mesh->getNormals().getFloatValues();
 
 

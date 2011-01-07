@@ -28,11 +28,12 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 
 # stuff to delete, only for testing, debugging and such.
 # those props are prefixed fith a capital X
-XModelName = cube.dae
+# XModelName = cube.dae
 # XModelName = Leonow.dae
 # XModelName = house.dae
 # XModelName = teapot.dae
 # XModelName = Plane_p51.dae
+XModelName = cube.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
@@ -60,5 +61,7 @@ starsSize = 10
 debugEnableFBO = 0
 debugShowGizmo = 0
 
-# camera settings (not yet in use)
-# cameraFocalLength35 = 28
+# camera settings
+cameraFocalLength35 = 28
+
+

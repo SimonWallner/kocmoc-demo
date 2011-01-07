@@ -35,8 +35,8 @@ Shader* ShaderManager::load(const string &vertexShaderFile, const string &fragme
 	ShaderCache::const_iterator ci = cache.find(key);
 	if (ci != cache.end()) // cache hit!
 	{
-		if (_DEBUG)
-			cout << " found in cache!" << endl;
+		//if (_DEBUG)
+		//	cout << " found in cache!" << endl;
 		return ci->second;
 	}
 

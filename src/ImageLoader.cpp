@@ -40,15 +40,15 @@ GLuint ImageLoader::loadImage(string filename)
 {
 	string fullPath = texturePathPrefix + filename;
 
-	if (_DEBUG)
-		cout << "loading image: " << fullPath << "...";
+	//if (_DEBUG)
+	//	cout << "loading image: " << fullPath << "...";
 	
 	std::map<string, GLuint>::iterator it;
 	it = cache.find(filename);
 	if (it != cache.end()) // filename found in cache
 	{
-		if (_DEBUG)
-			cout << " found in cache!" << endl;
+		//if (_DEBUG)
+		//	cout << " found in cache!" << endl;
 		return it->second;
 	}
 
