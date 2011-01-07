@@ -19,16 +19,14 @@ PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount,
 		vertexIndexCount(_vertexIndexCount),
 		vertexCount(_vertexCount),
 		triangulatedVertexIndexCount(0),
-		modelMatrix(glm::mat4(1.0f))
-
-{
-	firstIndexArray = NULL;
-	vertexIndexArray = NULL;
-	vertexPositions = NULL;
-
-	dataIsUploaded = false;
-//	renderMesh = NULL;
-}
+		modelMatrix(glm::mat4(1.0f)),
+		firstIndexArray(NULL),
+		vertexIndexArray(NULL),
+		uvIndexArray(NULL),
+		vertexPositions(NULL),
+		uvPositions(NULL),
+		dataIsUploaded(false)
+{}
 
 PolyMesh::~PolyMesh()
 {
@@ -59,7 +57,7 @@ void PolyMesh::transferData()
 {
 	glGenVertexArrays(1, &vaoHandle);
 
-	vboHandles = new GLuint[3];
+	vboHandles = new GLuint[2];
 	GLuint indicesHandle;
 	glGenBuffers(3, vboHandles);
 
@@ -68,14 +66,18 @@ void PolyMesh::transferData()
 	// positions
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
 	glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), vertexPositions, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
+	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
-	//// uv
-	//glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
-	//glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), uvCoords, GL_STATIC_DRAW);
-	//glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 3, GL_DOUBLE, GL_FALSE, 0, NULL);
-	//glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+
+	// uv
+	if (uvPositions != NULL)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
+		glBufferData(GL_ARRAY_BUFFER, vertexCount * 2 *sizeof(double), uvPositions, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_DOUBLE, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	}
 
 
 	// indices
@@ -168,7 +170,12 @@ void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
 	modelMatrix = _modelMatrix;
 }
 
-void PolyMesh::setUVCoords(double *uv)
+void PolyMesh::setUVPositions(double *uv)
 {
-	uvCoords = uv;
+	uvPositions = uv;
+}
+
+void PolyMesh::setUVIndexArray(unsigned int *indices)
+{
+	uvIndexArray = indices;
 }

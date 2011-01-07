@@ -40,7 +40,7 @@ width = 1280
 height = 720
 fullscreen = 0
 
-wireframe = 1
+wireframe = 0
 backFaceCulling = 0
 
 # mission control stuff

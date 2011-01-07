@@ -36,12 +36,20 @@ namespace kocmoc
 
 		virtual ~PolyMesh();
 
-		void setVertexIndexArray(unsigned int *vertexIndices);
-		void setFirstIndexArray(unsigned int *fia);
-		void setVertexPositions(double *positions);
-		void setUVCoords(double *uv);
 
-		// TODO: set normals, uvs, color, etc...
+		// set fia, indices and positions
+		void setFirstIndexArray(unsigned int *fia);
+
+		void setVertexIndexArray(unsigned int *vertexIndices);
+		void setUVIndexArray(unsigned int *uvIndices);
+		void setNormalIndexArray(unsigned int *normalIndices);
+
+		void setVertexPositions(double *positions);
+		void setUVPositions(double *uv);
+		void setNormalPositions(double *normals);
+
+		
+
 
 		/**
 		 * Draw the mesh.
@@ -87,8 +95,12 @@ namespace kocmoc
 
 		unsigned int *firstIndexArray;
 		unsigned int *vertexIndexArray;
+		unsigned int *uvIndexArray;
+		unsigned int *normalIndexArray;
+
 		double *vertexPositions;
-		double *uvCoords;
+		double *uvPositions;
+		double *normalPositions;
 	
 		mat4 modelMatrix;
 

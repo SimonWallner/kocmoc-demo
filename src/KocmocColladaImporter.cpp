@@ -40,8 +40,9 @@ void KocmocColladaImporter::finish()
 
 bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
-	std::vector<unsigned int> vertexIndices;
 	std::vector<unsigned int> firstIndices;
+	std::vector<unsigned int> vertexIndices;
+	std::vector<unsigned int> uvIndices;
 	unsigned int firstIndex = 0;
 
 
@@ -58,14 +59,17 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 				meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
 			{
 				// copy/append indices
-				const COLLADAFW::UIntValuesArray &positionIndices = meshPrimitive->getPositionIndices();
+				const COLLADAFW::UIntValuesArray &colladaVertexIndices = meshPrimitive->getPositionIndices();
+				const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
 				
-				const unsigned int *data = positionIndices.getData();
-				unsigned int indexCount = positionIndices.getCount();
+				unsigned int indexCount = colladaVertexIndices.getCount();
+				const unsigned int *vertexIndexData = colladaVertexIndices.getData();
+				const unsigned int *uvIndexData = colladaUVIndices.getData();
 
 				for (unsigned int j = 0; j < indexCount; j++)
 				{
-					vertexIndices.push_back(data[j]);
+					vertexIndices.push_back(vertexIndexData[j]);
+					uvIndices.push_back(uvIndexData[j]);
 				}
 
 
@@ -94,38 +98,17 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 
 
-		// positions...
-		double *positionsArray = new double[mesh->getPositions().getFloatValues()->getCount()];
-		const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
-		
-		for (unsigned int i = 0; i < mesh->getPositions().getFloatValues()->getCount(); i++)
-			positionsArray[i] = static_cast<double >(positionsData[i]);
+	
 
-		poly->setVertexPositions(positionsArray);
-
-		
-		//// normals...
-		//mesh->getNormals().getFloatValues();
-
-
-		//// UV...
+		// UV...
 		//double *uvArray = new double[mesh->getUVCoords().getFloatValues()->getCount()];
 		//const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
 
 		//for (unsigned int i = 0; i < mesh->getUVCoords().getFloatValues()->getCount(); i++)
 		//	uvArray[i] = static_cast<double >(uvData[i]);
 
-		//poly->setUVCoords(uvArray);
+		//poly->setUVIndexArray(uvArray);
 		
-		
-
-
-		// indices...
-		unsigned int *indicesArray = new unsigned int[vertexIndices.size()];
-		for (unsigned int i = 0; i < vertexIndices.size(); i++)
-			indicesArray[i] = vertexIndices[i];
-		
-		poly->setVertexIndexArray(indicesArray);
 
 
 		// first indices...
@@ -136,13 +119,49 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		poly->setFirstIndexArray(fiaArray);
 
 
+		// indices...
+		unsigned int indexCount = vertexIndices.size();
+		unsigned int *vertexIndexArray = new unsigned int[indexCount];
+		unsigned int *uvIndexArray = new unsigned int[indexCount];
+
+		for (unsigned int i = 0; i < indexCount; i++)
+		{
+			vertexIndexArray[i] = vertexIndices[i];
+			uvIndexArray[i] = uvIndices[i];
+		}
+
+		
+		poly->setVertexIndexArray(vertexIndexArray);
+
+		// attributes
+		// positions...
+		unsigned int positionCount = mesh->getPositions().getFloatValues()->getCount();
+		double *positionsArray = new double[positionCount];
+		const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
+		
+		for (unsigned int i = 0; i < positionCount; i++)
+			positionsArray[i] = static_cast<double >(positionsData[i]);
+
+		poly->setVertexPositions(positionsArray);
+
+		// uv
+		unsigned int uvCount = mesh->getUVCoords().getFloatValues()->getCount();
+		double *uvPositions = new double[uvCount];
+		const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
+
+		for (unsigned int i = 0; i < uvCount; i++)
+			uvPositions[i] = static_cast<double >(uvData[i]);
+
+		poly->setUVPositions(uvPositions);
+
+
 		
 		
 		// add shader and texture
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		poly->setShader(shader);
 
-		GLuint tex = ImageLoader::getInstance().loadImage("uv_test.png");
+		GLuint tex = ImageLoader::getInstance().loadImage("uv_color.png");
 		poly->setTexture(tex);
 
 		// add to scene

@@ -1,7 +1,7 @@
 #include <fstream>
 
 #include "Shader.hpp"
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 #include "utility.hpp"
 
 using namespace kocmoc;
@@ -9,9 +9,9 @@ using namespace kocmoc;
 Shader::Shader(const string &_vertexShaderName, const string &_fragmentShaderName) :
 	vertexShaderName(_vertexShaderName),
 	fragmentShaderName(_fragmentShaderName),
-	success(false)
+	success(false),
+	pathPrefix(util::Property("shadersRootFolder"))
 {
-	util::PropertiesFileParser::GetInstance().getProperty("shadersRootFolder", &pathPrefix);
 	create(vertexShaderName, fragmentShaderName);
 }
 
