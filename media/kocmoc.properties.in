@@ -62,6 +62,8 @@ debugEnableFBO = 0
 debugShowGizmo = 0
 
 # camera settings
-cameraFocalLength35 = 28
+cameraFocalLength35 = 21
 
-
+# ------------------------------------------------------------------------------
+# there must be at least one new line after the last entry to be parsed
+# correctly!
