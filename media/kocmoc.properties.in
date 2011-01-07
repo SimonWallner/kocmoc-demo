@@ -33,7 +33,8 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # XModelName = house.dae
 # XModelName = teapot.dae
 # XModelName = Plane_p51.dae
-XModelName = cube.dae
+XModelName = test.dae
+# XModelName = suzanne-hires.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
