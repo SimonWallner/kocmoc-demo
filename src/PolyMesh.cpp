@@ -25,6 +25,8 @@ PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount,
 		uvIndexArray(NULL),
 		vertexPositions(NULL),
 		uvPositions(NULL),
+		normalIndexArray(NULL),
+		normalPositions(NULL),
 		dataIsUploaded(false)
 {}
 
@@ -78,6 +80,16 @@ void PolyMesh::transferData()
 		glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_DOUBLE, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
 	}
+
+	// normal
+	if (normalPositions != NULL)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[3]);
+		glBufferData(GL_ARRAY_BUFFER, vertexCount * 3 *sizeof(double), normalPositions, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_DOUBLE, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
+	}
+
 
 
 	// indices
@@ -178,4 +190,14 @@ void PolyMesh::setUVPositions(double *uv)
 void PolyMesh::setUVIndexArray(unsigned int *indices)
 {
 	uvIndexArray = indices;
+}
+
+void PolyMesh::setNormalIndexArray(unsigned int *indices)
+{
+	normalIndexArray = indices;
+}
+
+void PolyMesh::setNormalPositions(double * normals)
+{
+	normalPositions = normals;
 }

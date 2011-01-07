@@ -3,7 +3,7 @@
 #version 150 core
 
 in vec2 texCoord0;
-//in vec3 fragmentNormal;
+in vec3 fragmentNormal;
 //in vec3 lightDirection;
 //in vec3 incidentLightPosition;
 
@@ -13,5 +13,6 @@ out vec4 fragmentColor0;
 
 void main(void)
 {
-	fragmentColor0 = texture2D(sTex0, texCoord0);
+//	fragmentColor0 = texture2D(sTex0, texCoord0);
+	fragmentColor0 = texture2D(sTex0, vec2(fragmentNormal));
 }

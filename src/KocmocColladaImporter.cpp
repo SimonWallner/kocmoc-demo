@@ -43,6 +43,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 	std::vector<unsigned int> firstIndices;
 	std::vector<unsigned int> vertexIndices;
 	std::vector<unsigned int> uvIndices;
+	std::vector<unsigned int> normalIndices;
 	unsigned int firstIndex = 0;
 
 
@@ -60,15 +61,19 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 			{
 				// copy/append indices
 				const COLLADAFW::UIntValuesArray &colladaVertexIndices = meshPrimitive->getPositionIndices();
+				const COLLADAFW::UIntValuesArray &colladaNormalIndices = meshPrimitive->getNormalIndices();
 				const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
+
 				
 				unsigned int indexCount = colladaVertexIndices.getCount();
 				const unsigned int *vertexIndexData = colladaVertexIndices.getData();
+				const unsigned int *normalIndexData = colladaNormalIndices.getData();
 				const unsigned int *uvIndexData = colladaUVIndices.getData();
 
 				for (unsigned int j = 0; j < indexCount; j++)
 				{
 					vertexIndices.push_back(vertexIndexData[j]);
+					normalIndices.push_back(normalIndexData[j]);
 					uvIndices.push_back(uvIndexData[j]);
 				}
 
@@ -122,16 +127,21 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		// indices...
 		unsigned int indexCount = vertexIndices.size();
 		unsigned int *vertexIndexArray = new unsigned int[indexCount];
+		unsigned int *normalIndexArray = new unsigned int[indexCount];
 		unsigned int *uvIndexArray = new unsigned int[indexCount];
 
 		for (unsigned int i = 0; i < indexCount; i++)
 		{
 			vertexIndexArray[i] = vertexIndices[i];
+			normalIndexArray[i] = normalIndices[i];
 			uvIndexArray[i] = uvIndices[i];
 		}
 
 		
 		poly->setVertexIndexArray(vertexIndexArray);
+		poly->setNormalIndexArray(normalIndexArray);
+		poly->setUVIndexArray(uvIndexArray);
+
 
 		// attributes
 		// positions...
@@ -154,8 +164,18 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 
 		poly->setUVPositions(uvPositions);
 
+		// normals
+		unsigned int normalCount = mesh->getNormalsCount();
+		double *normalPositions = new double[normalCount];
+		const float *normalData = mesh->getNormals().getFloatValues()->getData();
 
-		
+		for (unsigned int i = 0; i < normalCount; i++)
+			normalPositions[i] = static_cast<double >(normalData[i]);
+
+		poly->setNormalPositions(normalPositions);
+
+
+
 		
 		// add shader and texture
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
