@@ -63,71 +63,55 @@ void PolyMesh::transferData()
 	// reindex data and convert to float
 	// brute force implementation, i.e 1, 2, 3, .., n
 
-	unsigned int reindexedCount = firstIndexArray[primitiveCount];
-	unsigned int *reindexedIndices = new unsigned int[reindexedCount];
-	float *reindexedVertexPositions = new float[reindexedCount*3];
-	float *reindexedNormalPositions = new float[reindexedCount*3];
-	float *reindexedUVPositions = new float[reindexedCount*2];
-
-	for (unsigned int i = 0; i < reindexedCount; i++)
+	// expand to independent vertices
+	double *reindexedVertexPositions = new double[vertexIndexCount*3];
+	unsigned int *reindexedIndices = new unsigned int[vertexIndexCount];
+	for (unsigned int i = 0; i < vertexIndexCount; i++)
 	{
 		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3];
 		reindexedVertexPositions[i*3+1] = vertexPositions[vertexIndexArray[i]*3+1];
 		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2];
 		
-		if (normalPositions != NULL)
-		{
-			reindexedNormalPositions[i*3] = normalPositions[normalIndexArray[i]*3];
-			reindexedNormalPositions[i*3+1] = normalPositions[normalIndexArray[i]*3+1];
-			reindexedNormalPositions[i*3+2] = normalPositions[normalIndexArray[i]*3+2];
-		}
-
-		if (uvPositions != NULL)
-		{
-			reindexedUVPositions[i*2] = uvPositions[uvIndexArray[i]*2];
-			reindexedUVPositions[i*2+1] = uvPositions[uvIndexArray[i]*2+1];
-		}
-
 		reindexedIndices[i] = i;
 	}
 
+	
 
 	glGenVertexArrays(1, &vaoHandle);
-	vboHandles = new GLuint[3];
+	vboHandles = new GLuint[1];
 	GLuint indicesHandle;
-	glGenBuffers(3, vboHandles);
+	glGenBuffers(1, vboHandles);
 	glBindVertexArray(vaoHandle);
 	
-	// positions
+
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
-	glBufferData(GL_ARRAY_BUFFER, reindexedCount * 3 *sizeof(float), reindexedVertexPositions, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, vertexIndexCount * 3 *sizeof(double), reindexedVertexPositions, GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
-	// normal
-	if (normalPositions != NULL)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
-		glBufferData(GL_ARRAY_BUFFER, reindexedCount * 3 *sizeof(float), reindexedNormalPositions, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_DOUBLE, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
-	}
 
-	// uv
-	if (uvPositions != NULL)
-	{
-		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
-		glBufferData(GL_ARRAY_BUFFER, reindexedCount * 2 *sizeof(float), reindexedUVPositions, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_DOUBLE, GL_FALSE, 0, 0);
-		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
-	}
+	//// normal
+	//if (normalPositions != NULL)
+	//{
+	//	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
+	//	glBufferData(GL_ARRAY_BUFFER, reindexedCount * 3 *sizeof(float), reindexedNormalPositions, GL_STATIC_DRAW);
+	//	glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_DOUBLE, GL_FALSE, 0, 0);
+	//	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
+	//}
 
+	//// uv
+	//if (uvPositions != NULL)
+	//{
+	//	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
+	//	glBufferData(GL_ARRAY_BUFFER, reindexedCount * 2 *sizeof(float), reindexedUVPositions, GL_STATIC_DRAW);
+	//	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_DOUBLE, GL_FALSE, 0, 0);
+	//	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	//}
 
-
+	
 
 	// indices
-	// recalculate, i.e. triangulate the indices.
-	// that only affects the indices.
+	// recalculate, i.e. triangulate
 	std::vector<unsigned int> triangulatedIndices;
 
 	for (unsigned int i = 0; i < primitiveCount; i++)
@@ -153,7 +137,6 @@ void PolyMesh::transferData()
 			}
 		}
 	}
-
 	triangulatedVertexIndexCount = triangulatedIndices.size();
 	
 	// upload
@@ -183,7 +166,7 @@ void PolyMesh::setTexture(GLint _textureHandle)
 		glUniform1i(sTex0_location, 0);
 	else 
 	{
-		cout << "failed to get retrieve the uniform position for sTex0" << endl;
+		cout << "failed to retrieve the uniform position for sTex0" << endl;
 		cout << "uniform locatio is: " << sTex0_location << endl;
 	}
 }
