@@ -64,14 +64,15 @@ void PolyMesh::transferData()
 	// brute force implementation, i.e 1, 2, 3, .., n
 
 	// expand to independent vertices
-	double *reindexedVertexPositions = new double[vertexIndexCount*3];
+	float *reindexedVertexPositions = new float[vertexIndexCount*3];
 	unsigned int *reindexedIndices = new unsigned int[vertexIndexCount];
 	for (unsigned int i = 0; i < vertexIndexCount; i++)
 	{
 		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3];
 		reindexedVertexPositions[i*3+1] = vertexPositions[vertexIndexArray[i]*3+1];
 		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2];
-		
+
+	
 		reindexedIndices[i] = i;
 	}
 
@@ -85,8 +86,8 @@ void PolyMesh::transferData()
 	
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
-	glBufferData(GL_ARRAY_BUFFER, vertexIndexCount * 3 *sizeof(double), reindexedVertexPositions, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_DOUBLE, GL_FALSE, 0, 0);
+	glBufferData(GL_ARRAY_BUFFER, vertexIndexCount * 3 *sizeof(float), reindexedVertexPositions, GL_STATIC_DRAW);
+	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
 
