@@ -13,6 +13,13 @@ out vec4 fragmentColor0;
 
 void main(void)
 {
-//	fragmentColor0 = texture2D(sTex0, texCoord0);
-	fragmentColor0 = texture2D(sTex0, vec2(fragmentNormal));
+
+	const vec3 lightDirection = vec3(0.0f, 1.0f, 0.0f);
+	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
+
+//	vec4 diffuse = vec4(1, 1, 1, 1);
+	vec4 diffuse = texture2D(sTex0, texCoord0);
+//	fragmentColor0 = vec4(fragmentNormal, 1.0f);
+
+	fragmentColor0 = diffuse * max(dot(lightDirection, fragmentNormal), 0) + diffuse * ambientIntensity;
 }

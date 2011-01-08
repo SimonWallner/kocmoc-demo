@@ -62,26 +62,38 @@ void PolyMesh::transferData()
 
 	// reindex data and convert to float
 	// brute force implementation, i.e 1, 2, 3, .., n
-
-	// expand to independent vertices
-	float *reindexedVertexPositions = new float[vertexIndexCount*3];
 	unsigned int *reindexedIndices = new unsigned int[vertexIndexCount];
+	float *reindexedVertexPositions = new float[vertexIndexCount*3];
+	float *reindexedNormalPositions = new float[vertexIndexCount*3];
+	float *reindexedUVPositions = new float[vertexIndexCount*2];
 	for (unsigned int i = 0; i < vertexIndexCount; i++)
 	{
 		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3];
 		reindexedVertexPositions[i*3+1] = vertexPositions[vertexIndexArray[i]*3+1];
 		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2];
 
-	
+		if (normalPositions != NULL)
+		{
+			reindexedNormalPositions[i*3] = normalPositions[normalIndexArray[i]*3];
+			reindexedNormalPositions[i*3+1] = normalPositions[normalIndexArray[i]*3+1];
+			reindexedNormalPositions[i*3+2] = normalPositions[normalIndexArray[i]*3+2];
+		}
+
+		if (uvPositions != NULL)
+		{
+			reindexedUVPositions[i*2] = uvPositions[uvIndexArray[i]*2];
+			reindexedUVPositions[i*2+1] = uvPositions[uvIndexArray[i]*2+1];
+		}
+
 		reindexedIndices[i] = i;
 	}
 
 	
 
 	glGenVertexArrays(1, &vaoHandle);
-	vboHandles = new GLuint[1];
+	vboHandles = new GLuint[3];
 	GLuint indicesHandle;
-	glGenBuffers(1, vboHandles);
+	glGenBuffers(3, vboHandles);
 	glBindVertexArray(vaoHandle);
 	
 
@@ -91,23 +103,23 @@ void PolyMesh::transferData()
 	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
 
 
-	//// normal
-	//if (normalPositions != NULL)
-	//{
-	//	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
-	//	glBufferData(GL_ARRAY_BUFFER, reindexedCount * 3 *sizeof(float), reindexedNormalPositions, GL_STATIC_DRAW);
-	//	glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_DOUBLE, GL_FALSE, 0, 0);
-	//	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
-	//}
+	// normal
+	if (normalPositions != NULL)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
+		glBufferData(GL_ARRAY_BUFFER, vertexIndexCount * 3 *sizeof(float), reindexedNormalPositions, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTEX_ATTR_INDEX_NORMAL, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_NORMAL);
+	}
 
-	//// uv
-	//if (uvPositions != NULL)
-	//{
-	//	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
-	//	glBufferData(GL_ARRAY_BUFFER, reindexedCount * 2 *sizeof(float), reindexedUVPositions, GL_STATIC_DRAW);
-	//	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_DOUBLE, GL_FALSE, 0, 0);
-	//	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
-	//}
+	// uv
+	if (uvPositions != NULL)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, vboHandles[2]);
+		glBufferData(GL_ARRAY_BUFFER, vertexIndexCount * 2 *sizeof(float), reindexedUVPositions, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	}
 
 	
 
