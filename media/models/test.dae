@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.56.0 r34076</authoring_tool>
     </contributor>
-    <created>2011-01-06T17:37:51</created>
-    <modified>2011-01-06T17:37:51</modified>
+    <created>2011-01-10T14:12:24</created>
+    <modified>2011-01-10T14:12:24</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -40,6 +40,12 @@
     <image id="color_png" name="color_png">
       <init_from>../repo/media/textures/color.png</init_from>
     </image>
+    <image id="uv_test_png" name="uv_test_png">
+      <init_from>../repo/media/textures/uv_test.png</init_from>
+    </image>
+    <image id="uv_color_png" name="uv_color_png">
+      <init_from>../repo/media/textures/uv_color.png</init_from>
+    </image>
   </library_images>
   <library_effects>
     <effect id="base_material-effect">
@@ -54,6 +60,16 @@
             <source>color_png-surface</source>
           </sampler2D>
         </newparam>
+        <newparam sid="uv_test_png-surface">
+          <surface type="2D">
+            <init_from>uv_test_png</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="uv_test_png-sampler">
+          <sampler2D>
+            <source>uv_test_png-surface</source>
+          </sampler2D>
+        </newparam>
         <technique sid="common">
           <lambert>
             <emission>
@@ -65,10 +81,20 @@
             <diffuse>
               <texture texture="color_png-sampler" texcoord="UVTex"/>
             </diffuse>
+            <specular>
+              <texture texture="uv_test_png-sampler" texcoord="UVTex"/>
+            </specular>
             <index_of_refraction>
               <float>1</float>
             </index_of_refraction>
           </lambert>
+          <extra>
+            <technique profile="FCOLLADA">
+              <bump>
+                <texture texture="uv_test_png-sampler" texcoord="UVTex"/>
+              </bump>
+            </technique>
+          </extra>
         </technique>
         <extra>
           <technique profile="GOOGLEEARTH">
@@ -143,7 +169,7 @@
           <bind_material>
             <technique_common>
               <instance_material symbol="base_material" target="#base_material">
-                <bind_vertex_input semantic="base uv" input_semantic="TEXCOORD" input_set="0"/>
+                <bind_vertex_input semantic="UVTex" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>
           </bind_material>

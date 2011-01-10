@@ -5,6 +5,8 @@
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
 #include <COLLADAFWVisualScene.h>
+#include <COLLADAFWImage.h>
+#include <COLLADABUURI.h>
 #include "Shader.hpp"
 #include "ImageLoader.hpp"
 #include "ShaderManager.hpp"
@@ -181,9 +183,14 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		poly->setShader(shader);
 
-		GLuint tex = ImageLoader::getInstance().loadImage("uv_color.png");
-		poly->setTexture(tex);
+		GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0]);
+		GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1]);
+		GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
+		poly->setDiffuseTexture(diffuseTex);
+		poly->setSpecularTexture(specularTex);
+		poly->setNormalTexture(normalTex);
 
+		
 		// add to scene
 		scene->add(poly);
 	}
@@ -203,6 +210,13 @@ KocmocScene* KocmocColladaImporter::getScene()
 }
 
 
+bool KocmocColladaImporter::writeImage( const COLLADAFW::Image* image )
+{
+
+	std::string fileName = image->getImageURI().getPathFile();
+	textures.push_back(fileName);
+	return true;
+}
 
 
 bool KocmocColladaImporter::writeVisualScene(const COLLADAFW::VisualScene* visualScene) {return true;}
@@ -212,7 +226,6 @@ bool KocmocColladaImporter::writeLibraryNodes ( const COLLADAFW::LibraryNodes* l
 bool KocmocColladaImporter::writeMaterial( const COLLADAFW::Material* material ) {return true;}
 bool KocmocColladaImporter::writeEffect( const COLLADAFW::Effect* effect ) {return true;}
 bool KocmocColladaImporter::writeCamera( const COLLADAFW::Camera* camera ) {return true;}
-bool KocmocColladaImporter::writeImage( const COLLADAFW::Image* image ) {return true;}
 bool KocmocColladaImporter::writeLight( const COLLADAFW::Light* light ) {return true;}
 bool KocmocColladaImporter::writeAnimation( const COLLADAFW::Animation* animation ) {return true;}
 bool KocmocColladaImporter::writeAnimationList( const COLLADAFW::AnimationList* animationList ) {return true;}

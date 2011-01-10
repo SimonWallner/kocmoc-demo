@@ -11,12 +11,14 @@
 #include <COLLADAFWPrerequisites.h>
 
 #include "KocmocScene.hpp"
+#include <vector>
 
 using COLLADAFW::String;
 using COLLADAFW::Geometry;
 
 namespace kocmoc
 {
+	typedef std::vector<std::string > TextureSet;
 
 	class KocmocColladaImporter : public COLLADAFW::IWriter
 	{
@@ -72,6 +74,13 @@ namespace kocmoc
 
 	private:
 		KocmocScene* scene;
+
+		/** Ordered set of textures
+		 * 1. diffuse
+		 * 2. specular
+		 * 3. normal
+		 */
+		TextureSet textures;
 	};
 }
 

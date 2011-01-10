@@ -169,18 +169,48 @@ void PolyMesh::setShader(Shader *_shader)
 	shader = _shader;
 }
 
-void PolyMesh::setTexture(GLint _textureHandle)
+void PolyMesh::setDiffuseTexture(GLint _textureHandle)
 {
-	textureHandle = _textureHandle;
+	diffuseTextureHandle = _textureHandle;
 
-	GLint sTex0_location = shader->get_uniform_location("sTex0");
+	GLint location = shader->get_uniform_location("sDiffuse");
 		
-	if (sTex0_location >= 0)
-		glUniform1i(sTex0_location, 0);
+	if (location >= 0)
+		glUniform1i(location, 0);
 	else 
 	{
 		cout << "failed to retrieve the uniform position for sTex0" << endl;
-		cout << "uniform locatio is: " << sTex0_location << endl;
+		cout << "uniform locatio is: " << location << endl;
+	}
+}
+
+void PolyMesh::setSpecularTexture(GLint _textureHandle)
+{
+	specularTextureHandle = _textureHandle;
+
+	GLint location = shader->get_uniform_location("sSpecular");
+		
+	if (location >= 0)
+		glUniform1i(location, 0);
+	else 
+	{
+		cout << "failed to retrieve the uniform position for sTex0" << endl;
+		cout << "uniform locatio is: " << location << endl;
+	}
+}
+
+void PolyMesh::setNormalTexture(GLint _textureHandle)
+{
+	normalTextureHandle = _textureHandle;
+
+	GLint location = shader->get_uniform_location("sNormal");
+		
+	if (location >= 0)
+		glUniform1i(location, 0);
+	else 
+	{
+		cout << "failed to retrieve the uniform position for sTex0" << endl;
+		cout << "uniform locatio is: " << location << endl;
 	}
 }
 
@@ -192,7 +222,11 @@ void PolyMesh::draw()
 	Camera *camera = Kocmoc::getInstance().getCamera();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textureHandle);
+	glBindTexture(GL_TEXTURE_2D, diffuseTextureHandle);
+	//glActiveTexture(GL_TEXTURE1);
+	//glBindTexture(GL_TEXTURE_2D, specularTextureHandle);
+	//glActiveTexture(GL_TEXTURE2);
+	//glBindTexture(GL_TEXTURE_2D, normalTextureHandle);
 
 	shader->bind();
 	{

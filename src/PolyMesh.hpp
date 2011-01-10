@@ -59,7 +59,9 @@ namespace kocmoc
 
 		void setShader(Shader *shader);
 
-		void setTexture(GLint textureHandle);
+		void setDiffuseTexture(GLint textureHandle);
+		void setSpecularTexture(GLint textureHandle);
+		void setNormalTexture(GLint textureHandle);
 
 		// TODO: recompute face normals
 
@@ -111,7 +113,10 @@ namespace kocmoc
 		// make a poly Mesh hold a render mesh for rendering
 		GLuint vaoHandle, *vboHandles;
 
-		GLuint textureHandle;
+		GLuint diffuseTextureHandle;
+		GLuint specularTextureHandle;
+		GLuint normalTextureHandle;
+
 		Shader *shader;
 
 		bool dataIsUploaded;

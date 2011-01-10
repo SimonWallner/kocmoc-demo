@@ -156,7 +156,7 @@ namespace kocmoc
 
 				// add texture
 				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-				stars->setTexture(tex);
+				stars->setDiffuseTexture(tex);
 
 				return stars;
 			}
@@ -209,7 +209,7 @@ namespace kocmoc
 
 				// add texture
 				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-				mesh->setTexture(tex);
+				mesh->setDiffuseTexture(tex);
 
 				return mesh;
 			}
