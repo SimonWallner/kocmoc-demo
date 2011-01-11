@@ -72,9 +72,9 @@ void PolyMesh::transferData()
 	float *reindexedUVPositions = new float[vertexIndexCount*2];
 	for (unsigned int i = 0; i < vertexIndexCount; i++)
 	{
-		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3];
+		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3] * -1;
 		reindexedVertexPositions[i*3+1] = vertexPositions[vertexIndexArray[i]*3+1];
-		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2];
+		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2] + 1;
 
 		if (normalPositions != NULL)
 		{

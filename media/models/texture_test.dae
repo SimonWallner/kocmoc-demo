@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.56.0 r34076</authoring_tool>
     </contributor>
-    <created>2011-01-11T13:42:38</created>
-    <modified>2011-01-11T13:42:38</modified>
+    <created>2011-01-11T18:15:16</created>
+    <modified>2011-01-11T18:15:16</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -37,27 +37,27 @@
     </light>
   </library_lights>
   <library_images>
-    <image id="color_png" name="color_png">
-      <init_from>../repo/media/textures/color.png</init_from>
+    <image id="uv_color_png" name="uv_color_png">
+      <init_from>uv_color.png</init_from>
     </image>
     <image id="uv_test_png" name="uv_test_png">
       <init_from>../repo/media/textures/uv_test.png</init_from>
     </image>
-    <image id="normal_png" name="normal_png">
-      <init_from>../repo/media/textures/normal.png</init_from>
+    <image id="color_png" name="color_png">
+      <init_from>../repo/media/textures/color.png</init_from>
     </image>
   </library_images>
   <library_effects>
-    <effect id="base_material-effect">
+    <effect id="Material_001-effect">
       <profile_COMMON>
-        <newparam sid="uv_test_png-surface">
+        <newparam sid="color_png-surface">
           <surface type="2D">
-            <init_from>uv_test_png</init_from>
+            <init_from>color_png</init_from>
           </surface>
         </newparam>
-        <newparam sid="uv_test_png-sampler">
+        <newparam sid="color_png-sampler">
           <sampler2D>
-            <source>uv_test_png-surface</source>
+            <source>color_png-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -69,7 +69,7 @@
               <color>0 0 0 1</color>
             </ambient>
             <diffuse>
-              <texture texture="uv_test_png-sampler" texcoord="UVTex"/>
+              <texture texture="color_png-sampler" texcoord="UVTex"/>
             </diffuse>
             <index_of_refraction>
               <float>1</float>
@@ -86,51 +86,51 @@
     </effect>
   </library_effects>
   <library_materials>
-    <material id="base_material" name="base material">
-      <instance_effect url="#base_material-effect"/>
+    <material id="Material_001" name="Material.001">
+      <instance_effect url="#Material_001-effect"/>
     </material>
   </library_materials>
   <library_geometries>
-    <geometry id="Cube-mesh">
+    <geometry id="Plane_002-mesh">
       <mesh>
-        <source id="Cube-mesh-positions">
-          <float_array id="Cube-mesh-positions-array" count="24">-1 1 1 -1.013625 -1.037001 0.9600094 0.9863745 -1.037001 0.9600094 1 0.9999995 1 -0.9999997 1 -1 -1 -0.9999998 -1 1 -1 -1 1 1 -1</float_array>
+        <source id="Plane_002-mesh-positions">
+          <float_array id="Plane_002-mesh-positions-array" count="66">1 -1 0 -1 -0.4953316 0.3988434 1 0 0 1.78814e-7 1 0 -0.9999999 2.68221e-7 0 0 1.19209e-7 0 0.5 -1 0 -0.5000001 -0.4953317 0.3988434 1 0.5 0 1 -0.5 0 0.5000001 1 -0.01072001 -0.4999997 1 0.01318329 -1 -0.4999998 0 -0.9999998 0.5000003 0 -0.4999999 1.93715e-7 0 1.19209e-7 0.5000001 0 0.5 0 0 0 -0.4999999 0 -0.4999998 0.5000002 0 0.5000001 0.5 0 -0.5 -0.4999998 0 0.5 -0.5 0</float_array>
           <technique_common>
-            <accessor source="#Cube-mesh-positions-array" count="8" stride="3">
+            <accessor source="#Plane_002-mesh-positions-array" count="22" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="Cube-mesh-normals">
-          <float_array id="Cube-mesh-normals-array" count="18">2.38419e-7 1 2.08616e-7 -0.9999884 0.003408908 -0.003408789 -2.83072e-7 -0.9998219 -0.01887464 0.9999884 -0.003408968 0.00340873 0 -0.01962828 0.9998074 0 0 -1</float_array>
+        <source id="Plane_002-mesh-normals">
+          <float_array id="Plane_002-mesh-normals-array" count="27">0.01318097 -0.01318097 0.9998263 0 0 1 0.01071876 0.01071876 0.9998851 0 0 1 0 0 1 0 0.9999315 -0.01170343 0 0 1 0 0 1 0 0 1</float_array>
           <technique_common>
-            <accessor source="#Cube-mesh-normals-array" count="6" stride="3">
+            <accessor source="#Plane_002-mesh-normals-array" count="9" stride="3">
               <param name="X" type="float"/>
               <param name="Y" type="float"/>
               <param name="Z" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <source id="Cube-mesh-map-0">
-          <float_array id="Cube-mesh-map-0-array" count="48">0.3933292 0.4013722 0.5896771 0.2050243 0.7860248 0.4013723 0.5896769 0.59772 0.5896771 0.2050243 0.3933292 0.4013722 0.1969767 0.2050288 0.3857662 0.008965432 0.393329 0.7940674 0.1995353 0.9851853 0.003188133 0.7888376 0.1969815 0.5977199 0.5896769 0.59772 0.7860291 0.7940633 0.5821228 0.9901264 0.393329 0.7940674 0.7860248 0.4013723 0.5896771 0.2050243 0.7883583 0.003667891 0.9847063 0.2000157 0.5896769 0.59772 0.393329 0.7940674 0.1969815 0.5977199 0.3933292 0.4013722</float_array>
+        <source id="Plane_002-mesh-map-0">
+          <float_array id="Plane_002-mesh-map-0-array" count="72">0.5000001 1 0.2500002 1 0.2500001 0.7500001 0.5000001 0.7500001 0.2500001 0.7500001 1.9696e-7 0.7500001 1.31307e-7 0.5000001 0.2500001 0.5000001 0.7500001 1 0.5000001 1 0.5000001 0.7500001 0.7500001 0.7500001 1 0.7500001 0.7500001 0.7500001 0.75 0.5 1 0.5 0.5000001 0.5 0.2500001 0.5000001 0.25 0.2500001 0.5000001 0.2500001 0.25 0.2500001 0 0.2500001 0 1.31307e-7 0.25 1.31307e-7 0.75 0.5 0.5000001 0.5 0.5000001 0.2500001 0.75 0.25 1 0.5 0.75 0.5 0.75 0.25 1 0.25 0.75 0 1 0 1 0.25 0.75 0.25</float_array>
           <technique_common>
-            <accessor source="#Cube-mesh-map-0-array" count="24" stride="2">
+            <accessor source="#Plane_002-mesh-map-0-array" count="36" stride="2">
               <param name="S" type="float"/>
               <param name="T" type="float"/>
             </accessor>
           </technique_common>
         </source>
-        <vertices id="Cube-mesh-vertices">
-          <input semantic="POSITION" source="#Cube-mesh-positions"/>
+        <vertices id="Plane_002-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_002-mesh-positions"/>
         </vertices>
-        <polylist material="base_material" count="6">
-          <input semantic="VERTEX" source="#Cube-mesh-vertices" offset="0"/>
-          <input semantic="NORMAL" source="#Cube-mesh-normals" offset="1"/>
-          <input semantic="TEXCOORD" source="#Cube-mesh-map-0" offset="2" set="0"/>
-          <vcount>4 4 4 4 4 4 </vcount>
-          <p>4 0 0 0 0 1 3 0 2 7 0 3 0 1 4 4 1 5 5 1 6 1 1 7 6 2 8 2 2 9 1 2 10 5 2 11 7 3 12 3 3 13 2 3 14 6 3 15 3 4 16 0 4 17 1 4 18 2 4 19 7 5 20 6 5 21 5 5 22 4 5 23</p>
+        <polylist material="Material_001" count="9">
+          <input semantic="VERTEX" source="#Plane_002-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_002-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane_002-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 4 4 4 4 4 4 4 4 </vcount>
+          <p>3 0 0 11 0 1 18 0 2 15 0 3 18 1 4 13 1 5 4 1 6 14 1 7 10 2 8 3 2 9 15 2 10 19 2 11 8 3 12 19 3 13 16 3 14 2 3 15 5 4 16 14 4 17 20 4 18 17 4 19 20 5 20 12 5 21 1 5 22 7 5 23 16 6 24 5 6 25 17 6 26 21 6 27 2 7 28 16 7 29 21 7 30 9 7 31 6 8 32 0 8 33 9 8 34 21 8 35</p>
         </polylist>
       </mesh>
     </geometry>
@@ -139,16 +139,16 @@
   <library_controllers/>
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
-      <node id="Cube" type="NODE">
-        <translate sid="location">0 0 0</translate>
+      <node id="Plane" type="NODE">
+        <translate sid="location">-0.2933126 -1.816508 -0.8475474</translate>
         <rotate sid="rotationZ">0 0 1 0</rotate>
         <rotate sid="rotationY">0 1 0 0</rotate>
         <rotate sid="rotationX">1 0 0 0</rotate>
         <scale sid="scale">1 1 1</scale>
-        <instance_geometry url="#Cube-mesh">
+        <instance_geometry url="#Plane_002-mesh">
           <bind_material>
             <technique_common>
-              <instance_material symbol="base_material" target="#base_material">
+              <instance_material symbol="Material_001" target="#Material_001">
                 <bind_vertex_input semantic="UVTex" input_semantic="TEXCOORD" input_set="0"/>
               </instance_material>
             </technique_common>
@@ -164,7 +164,7 @@
         <instance_light url="#Lamp-light"/>
       </node>
       <node id="Camera" type="NODE">
-        <translate sid="location">4.912796 -4.785475 3.302068</translate>
+        <translate sid="location">7.481132 -6.50764 5.343665</translate>
         <rotate sid="rotationZ">0 0 1 46.69194</rotate>
         <rotate sid="rotationY">0 1 0 0.6197679</rotate>
         <rotate sid="rotationX">1 0 0 63.55929</rotate>

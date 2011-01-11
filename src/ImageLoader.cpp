@@ -16,6 +16,10 @@ ImageLoader::ImageLoader(void)
 
 	ilInit();
 	iluInit();
+
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+
 	useAF = false;
 
 	currentTextureQuality = GL_LINEAR_MIPMAP_LINEAR;
@@ -64,7 +68,6 @@ GLuint ImageLoader::loadImage(string filename)
 
 	if (error == IL_NO_ERROR) /* If no error occured: */
 	{
-
 		/* Convert every colour component into unsigned byte. If your textureHandle contains
 		alpha channel you can replace IL_RGB with IL_RGBA */
 		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
@@ -89,6 +92,7 @@ GLuint ImageLoader::loadImage(string filename)
 		glBindTexture(GL_TEXTURE_2D, 0);
 		// remove loaded image from memory
 		ilDeleteImages(1, &texid);
+		
 
 		if(_DEBUG)
 		cout << " done!" << endl;
