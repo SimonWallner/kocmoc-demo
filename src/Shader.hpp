@@ -17,6 +17,10 @@
 
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor0"
 
+#define DIFFUSE_SAMPLER_NAME			"sDiffuse"
+#define SPECULAR_SAMPLER_NAME			"sSpecular"
+#define NORMAL_SAMPLER_NAME				"sNormal"
+
 namespace kocmoc
 {
 
@@ -75,7 +79,7 @@ namespace kocmoc
 		GLint get_uniform_location(const std::string &name) const
 		{
 			GLint location = glGetUniformLocation(programHandle, name.c_str());
-			if (location < 0 && _DEBUG && KOCMOC_DEBUG_VERBOSE_OUTPUT)
+			if (location < 0 && _DEBUG)
 				cout << "uniform location: " << name << " not found!" << endl;
 			return location;
 		}
@@ -93,6 +97,8 @@ namespace kocmoc
 		void reload();
 
 	private:
+
+		void setParams(void);
 
 		bool success;
 

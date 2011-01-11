@@ -53,6 +53,8 @@ void Shader::create(const string &vertexShaderFile, const string &fragmentShader
 	if (programHandle == 0)
 		return;
 
+	setParams();
+
 	success = true;
 }
 
@@ -63,6 +65,7 @@ Shader::~Shader()
 
 void Shader::reload()
 {
+	std::cout << "--- reloading shader: [" << vertexShaderName << "/" << fragmentShaderName << "]" << std::endl;
 	destroy();
 	create(vertexShaderName, fragmentShaderName);
 }
@@ -167,3 +170,18 @@ void Shader::shader_log(GLuint shader)
 		cout << logBuffer << endl;
 	}
 };
+
+void Shader::setParams()
+{
+	bind();
+	
+	GLint location;
+	if ((location = get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 0);
+	if ((location = get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 1);
+	if ((location = get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 2);
+
+	unbind();
+}

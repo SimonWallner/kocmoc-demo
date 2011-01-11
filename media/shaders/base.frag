@@ -20,7 +20,7 @@ void main(void)
 	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
 
 //	vec4 diffuse = vec4(1, 1, 1, 1);
-	vec4 diffuse = texture2D(sNormal, texCoord0);
+	vec4 diffuse = texture2D(sSpecular, texCoord0);
 //	fragmentColor0 = vec4(fragmentNormal, 1.0f);
 
 	fragmentColor0 = diffuse * max(dot(lightDirection, fragmentNormal), 0) + diffuse * ambientIntensity;

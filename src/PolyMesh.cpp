@@ -27,7 +27,10 @@ PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount,
 		uvPositions(NULL),
 		normalIndexArray(NULL),
 		normalPositions(NULL),
-		dataIsUploaded(false)
+		dataIsUploaded(false),
+		diffuseTextureHandle(0),
+		specularTextureHandle(0),
+		normalTextureHandle(0)
 {}
 
 PolyMesh::~PolyMesh()
@@ -172,46 +175,16 @@ void PolyMesh::setShader(Shader *_shader)
 void PolyMesh::setDiffuseTexture(GLint _textureHandle)
 {
 	diffuseTextureHandle = _textureHandle;
-
-	GLint location = shader->get_uniform_location("sDiffuse");
-		
-	if (location >= 0)
-		glUniform1i(location, 0);
-	else 
-	{
-		cout << "failed to retrieve the uniform position for sTex0" << endl;
-		cout << "uniform locatio is: " << location << endl;
-	}
 }
 
 void PolyMesh::setSpecularTexture(GLint _textureHandle)
 {
 	specularTextureHandle = _textureHandle;
-
-	GLint location = shader->get_uniform_location("sSpecular");
-		
-	if (location >= 0)
-		glUniform1i(location, 0);
-	else 
-	{
-		cout << "failed to retrieve the uniform position for sTex0" << endl;
-		cout << "uniform locatio is: " << location << endl;
-	}
 }
 
 void PolyMesh::setNormalTexture(GLint _textureHandle)
 {
 	normalTextureHandle = _textureHandle;
-
-	GLint location = shader->get_uniform_location("sNormal");
-		
-	if (location >= 0)
-		glUniform1i(location, 0);
-	else 
-	{
-		cout << "failed to retrieve the uniform position for sTex0" << endl;
-		cout << "uniform locatio is: " << location << endl;
-	}
 }
 
 void PolyMesh::draw()
@@ -221,12 +194,23 @@ void PolyMesh::draw()
 
 	Camera *camera = Kocmoc::getInstance().getCamera();
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, diffuseTextureHandle);
-	//glActiveTexture(GL_TEXTURE1);
-	//glBindTexture(GL_TEXTURE_2D, specularTextureHandle);
-	//glActiveTexture(GL_TEXTURE2);
-	//glBindTexture(GL_TEXTURE_2D, normalTextureHandle);
+	if (diffuseTextureHandle > 0)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, diffuseTextureHandle);
+	}
+
+	if (specularTextureHandle > 0)
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, specularTextureHandle);
+	}
+
+	if (normalTextureHandle > 0)
+	{
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, normalTextureHandle);
+	}
 
 	shader->bind();
 	{
