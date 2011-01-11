@@ -9,6 +9,7 @@
 #include "Kocmoc.hpp"
 #include "Camera.hpp"
 #include "utility.hpp"
+#include <gtx/inverse_transpose.hpp>
 
 #include <vector>
 
@@ -217,6 +218,12 @@ void PolyMesh::draw()
 		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+		if (normalPositions != NULL)
+		{
+			GLint normalMatrix_location = shader->get_uniform_location("normalMatrix");
+			glUniformMatrix4fv(normalMatrix_location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
+		}
 	
 		glBindVertexArray(vaoHandle);
 		glDrawElements(GL_TRIANGLES, triangulatedVertexIndexCount, GL_UNSIGNED_INT, 0);
@@ -228,6 +235,8 @@ void PolyMesh::draw()
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
 {
 	modelMatrix = _modelMatrix;
+	normalMatrix = glm::gtx::inverse_transpose::inverseTranspose(modelMatrix);
+
 }
 
 void PolyMesh::setUVPositions(double *uv)

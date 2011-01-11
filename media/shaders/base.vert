@@ -9,6 +9,7 @@ in  vec3 inNormal;
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
+uniform mat4 normalMatrix;
 //uniform vec3 inLightPosition;
 
 out vec2 texCoord0;
@@ -20,7 +21,7 @@ out vec3 fragmentNormal;
 void main(void)
 {
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * inPosition;
-	fragmentNormal = inNormal;
+	fragmentNormal = (normalMatrix * vec4(inNormal, 1)).xyz;
 	texCoord0 = inTexCoord0;
 }
 

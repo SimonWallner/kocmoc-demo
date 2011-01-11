@@ -39,6 +39,7 @@ XModelName = test.dae
 # XModelName = maya_normals.dae
 # XModelName = maya_sphere.dae
 # XModelName = maya_multi.dae
+# XModelName = blender_sphere.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
