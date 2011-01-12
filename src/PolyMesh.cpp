@@ -74,7 +74,7 @@ void PolyMesh::transferData()
 	{
 		reindexedVertexPositions[i*3] = vertexPositions[vertexIndexArray[i]*3] * -1;
 		reindexedVertexPositions[i*3+1] = vertexPositions[vertexIndexArray[i]*3+1];
-		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2] + 1;
+		reindexedVertexPositions[i*3+2] = vertexPositions[vertexIndexArray[i]*3+2];
 
 		if (normalPositions != NULL)
 		{

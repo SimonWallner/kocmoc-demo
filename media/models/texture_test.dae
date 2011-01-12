@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.56.0 r34076</authoring_tool>
     </contributor>
-    <created>2011-01-11T18:15:16</created>
-    <modified>2011-01-11T18:15:16</modified>
+    <created>2011-01-12T10:17:49</created>
+    <modified>2011-01-12T10:17:49</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -42,6 +42,9 @@
     </image>
     <image id="uv_test_png" name="uv_test_png">
       <init_from>../repo/media/textures/uv_test.png</init_from>
+    </image>
+    <image id="bake" name="bake">
+      <init_from>../repo/media/textures/texture_test_bake.png</init_from>
     </image>
     <image id="color_png" name="color_png">
       <init_from>../repo/media/textures/color.png</init_from>
@@ -94,7 +97,7 @@
     <geometry id="Plane_002-mesh">
       <mesh>
         <source id="Plane_002-mesh-positions">
-          <float_array id="Plane_002-mesh-positions-array" count="66">1 -1 0 -1 -0.4953316 0.3988434 1 0 0 1.78814e-7 1 0 -0.9999999 2.68221e-7 0 0 1.19209e-7 0 0.5 -1 0 -0.5000001 -0.4953317 0.3988434 1 0.5 0 1 -0.5 0 0.5000001 1 -0.01072001 -0.4999997 1 0.01318329 -1 -0.4999998 0 -0.9999998 0.5000003 0 -0.4999999 1.93715e-7 0 1.19209e-7 0.5000001 0 0.5 0 0 0 -0.4999999 0 -0.4999998 0.5000002 0 0.5000001 0.5 0 -0.5 -0.4999998 0 0.5 -0.5 0</float_array>
+          <float_array id="Plane_002-mesh-positions-array" count="66">1 -1 0 -1 -0.4953316 0.3988434 1 0 0 1.78814e-7 1 0 -0.4877084 2.68221e-7 0.4484139 0 1.19209e-7 0 0.5 -1 0 -0.5000001 -0.4953317 0.3988434 1 0.5 0 1 -0.5 0 0.5000001 1 -0.01072001 -0.4999997 1 0.01318329 -1 -0.4999998 0 -0.4877083 0.5000003 0.4484139 -0.4999999 1.93715e-7 0 1.19209e-7 0.5000001 0 0.5 0 0 0 -0.4999999 0 -0.4999998 0.5000002 0 0.5000001 0.5 0 -0.5 -0.4999998 0 0.5 -0.5 0</float_array>
           <technique_common>
             <accessor source="#Plane_002-mesh-positions-array" count="22" stride="3">
               <param name="X" type="float"/>
@@ -104,7 +107,7 @@
           </technique_common>
         </source>
         <source id="Plane_002-mesh-normals">
-          <float_array id="Plane_002-mesh-normals-array" count="27">0.01318097 -0.01318097 0.9998263 0 0 1 0.01071876 0.01071876 0.9998851 0 0 1 0 0 1 0 0.9999315 -0.01170343 0 0 1 0 0 1 0 0 1</float_array>
+          <float_array id="Plane_002-mesh-normals-array" count="27">0.01318097 -0.01318097 0.9998263 0.9996246 -2.08538e-7 -0.02740085 0.01071876 0.01071876 0.9998851 0 0 1 0 0 1 0 0.9999315 -0.01170343 0 0 1 0 0 1 0 0 1</float_array>
           <technique_common>
             <accessor source="#Plane_002-mesh-normals-array" count="9" stride="3">
               <param name="X" type="float"/>
@@ -114,7 +117,7 @@
           </technique_common>
         </source>
         <source id="Plane_002-mesh-map-0">
-          <float_array id="Plane_002-mesh-map-0-array" count="72">0.5000001 1 0.2500002 1 0.2500001 0.7500001 0.5000001 0.7500001 0.2500001 0.7500001 1.9696e-7 0.7500001 1.31307e-7 0.5000001 0.2500001 0.5000001 0.7500001 1 0.5000001 1 0.5000001 0.7500001 0.7500001 0.7500001 1 0.7500001 0.7500001 0.7500001 0.75 0.5 1 0.5 0.5000001 0.5 0.2500001 0.5000001 0.25 0.2500001 0.5000001 0.2500001 0.25 0.2500001 0 0.2500001 0 1.31307e-7 0.25 1.31307e-7 0.75 0.5 0.5000001 0.5 0.5000001 0.2500001 0.75 0.25 1 0.5 0.75 0.5 0.75 0.25 1 0.25 0.75 0 1 0 1 0.25 0.75 0.25</float_array>
+          <float_array id="Plane_002-mesh-map-0-array" count="72">0.5000001 0.9783897 0.2608054 0.9783897 0.2608053 0.7391949 0.5000001 0.7391949 0.2608053 0.7391949 0.02161049 0.7391949 0.02161037 0.5000001 0.2608053 0.5000001 0.7391949 0.9783897 0.5000001 0.9783897 0.5000001 0.7391949 0.7391949 0.7391949 0.9783897 0.7391949 0.7391949 0.7391949 0.7391948 0.5 0.9783897 0.5 0.5000001 0.5 0.2608053 0.5000001 0.2608051 0.2608053 0.5000001 0.2608053 0.2608051 0.2608053 0.02161031 0.2608053 0.02161026 0.02161037 0.2608051 0.02161037 0.7391948 0.5 0.5000001 0.5 0.5000001 0.2608053 0.7391948 0.2608051 0.9783897 0.5 0.7391948 0.5 0.7391948 0.2608051 0.9783897 0.2608051 0.7391948 0.02161026 0.9783897 0.02161026 0.9783897 0.2608051 0.7391948 0.2608051</float_array>
           <technique_common>
             <accessor source="#Plane_002-mesh-map-0-array" count="36" stride="2">
               <param name="S" type="float"/>
@@ -140,7 +143,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Plane" type="NODE">
-        <translate sid="location">-0.2933126 -1.816508 -0.8475474</translate>
+        <translate sid="location">-0.2933126 -1.816508 0.206754</translate>
         <rotate sid="rotationZ">0 0 1 0</rotate>
         <rotate sid="rotationY">0 1 0 0</rotate>
         <rotate sid="rotationX">1 0 0 0</rotate>
@@ -164,7 +167,7 @@
         <instance_light url="#Lamp-light"/>
       </node>
       <node id="Camera" type="NODE">
-        <translate sid="location">7.481132 -6.50764 5.343665</translate>
+        <translate sid="location">6.305212 -8.034359 4.979108</translate>
         <rotate sid="rotationZ">0 0 1 46.69194</rotate>
         <rotate sid="rotationY">0 1 0 0.6197679</rotate>
         <rotate sid="rotationX">1 0 0 63.55929</rotate>

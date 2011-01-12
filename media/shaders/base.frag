@@ -20,9 +20,10 @@ void main(void)
 	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
 
 	vec4 diffuse = vec4(1, 1, 1, 1);
-	vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 -1; // unpack to [-1, 1]
+	vec3 normal = (texture2D(sNormal, texCoord0).xyz * 2 -1) * vec3(-1, 1, -1); // unpack to [-1, 1], and flip strangely...???
 //	fragmentColor0 = vec4(normal, 1.0f);
 //	fragmentColor0 = texture(sDiffuse, texCoord0);
+//	fragmentColor0 = vec4(fragmentNormal, 1);
 
-	fragmentColor0 = diffuse * max(dot(lightDirection, normal), 0) + diffuse * ambientIntensity;
+	fragmentColor0 = diffuse * max(dot(lightDirection, normalize(normal)), 0) + diffuse * ambientIntensity;
 }
