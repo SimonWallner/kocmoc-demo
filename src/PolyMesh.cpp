@@ -193,6 +193,8 @@ void PolyMesh::draw()
 	if (!dataIsUploaded)
 		transferData();
 
+	//setModelMatrix(glm::gtx::transform::rotate(2.0f*(GLfloat)glfwGetTime(), 0.0f, 0.0f, 1.0f));
+
 	Camera *camera = Kocmoc::getInstance().getCamera();
 
 	if (diffuseTextureHandle > 0)

@@ -11,6 +11,8 @@ uniform sampler2D sDiffuse;
 uniform sampler2D sSpecular;
 uniform sampler2D sNormal;
 
+uniform mat4 normalMatrix;
+
 out vec4 fragmentColor0;
 
 void main(void)
@@ -20,10 +22,12 @@ void main(void)
 	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
 
 	vec4 diffuse = vec4(1, 1, 1, 1);
-	vec3 normal = (texture2D(sNormal, texCoord0).xyz * 2 -1) * vec3(-1, 1, -1); // unpack to [-1, 1], and flip strangely...???
+	vec3 normal = (texture2D(sNormal, texCoord0).xyz * 2 -1); // unpack to [-1, 1], 
 //	fragmentColor0 = vec4(normal, 1.0f);
 //	fragmentColor0 = texture(sDiffuse, texCoord0);
 //	fragmentColor0 = vec4(fragmentNormal, 1);
 
-	fragmentColor0 = diffuse * max(dot(lightDirection, normalize(normal)), 0) + diffuse * ambientIntensity;
+	vec4 transformed = (normalMatrix * vec4(normal, 1)) * vec4(-1, 1, -1, 1); // and flip strangely...???
+//	fragmentColor0 = transformed;
+	fragmentColor0 = diffuse * max(dot(lightDirection, normalize(transformed.xyz)), 0) + diffuse * ambientIntensity;
 }
