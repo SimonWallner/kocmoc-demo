@@ -60,7 +60,11 @@ namespace kocmoc
 		mat4 getUntraslatedViewMatrix();
 		void updateMatrixes();
 
-		//TODO: position, orientation, movement
+		/** get the cameras eye position */
+		vec3 getPosition(void) {return eyePosition;};
+
+
+		//TODO: orientation, movement
 
 		/**
 		 * Rotate the camera around the eye position. input params have no unit!

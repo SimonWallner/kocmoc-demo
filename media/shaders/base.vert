@@ -13,13 +13,13 @@ uniform mat4 modelMatrix;
 
 out vec2 texCoord0;
 out vec3 fragmentNormal;
-//out vec3 lightPosition;
-//out vec3 incidentlightDirection;
+out vec3 worldSpacePosition;
 
 
 void main(void)
 {
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * inPosition;
+	worldSpacePosition = (modelMatrix * inPosition).xyz;
 //	fragmentNormal = (normalMatrix * vec4(inNormal, 1)).xyz;
 	texCoord0 = inTexCoord0;
 }

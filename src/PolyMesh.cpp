@@ -195,7 +195,7 @@ void PolyMesh::draw()
 
 	//setModelMatrix(glm::gtx::transform::rotate(2.0f*(GLfloat)glfwGetTime(), 0.0f, 0.0f, 1.0f));
 
-	Camera *camera = Kocmoc::getInstance().getCamera();
+	FilmCamera *camera = Kocmoc::getInstance().getCamera();
 
 	if (diffuseTextureHandle > 0)
 	{
@@ -217,6 +217,10 @@ void PolyMesh::draw()
 
 	shader->bind();
 	{
+
+		GLint camera_location = shader->get_uniform_location("cameraPosition");
+		glUniform3fv(camera_location, 1, glm::value_ptr(camera->getPosition()));
+
 		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));

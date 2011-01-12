@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.56.0 r34076</authoring_tool>
     </contributor>
-    <created>2011-01-12T10:17:49</created>
-    <modified>2011-01-12T10:17:49</modified>
+    <created>2011-01-12T11:06:30</created>
+    <modified>2011-01-12T11:06:30</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -40,14 +40,17 @@
     <image id="uv_color_png" name="uv_color_png">
       <init_from>uv_color.png</init_from>
     </image>
-    <image id="uv_test_png" name="uv_test_png">
-      <init_from>../repo/media/textures/uv_test.png</init_from>
+    <image id="spec" name="spec">
+      <init_from>spec.png</init_from>
     </image>
     <image id="bake" name="bake">
       <init_from>../repo/media/textures/texture_test_bake.png</init_from>
     </image>
     <image id="color_png" name="color_png">
       <init_from>../repo/media/textures/color.png</init_from>
+    </image>
+    <image id="displacement" name="displacement">
+      <init_from>displacement.png</init_from>
     </image>
   </library_images>
   <library_effects>
@@ -61,6 +64,16 @@
         <newparam sid="color_png-sampler">
           <sampler2D>
             <source>color_png-surface</source>
+          </sampler2D>
+        </newparam>
+        <newparam sid="displacement-surface">
+          <surface type="2D">
+            <init_from>displacement</init_from>
+          </surface>
+        </newparam>
+        <newparam sid="displacement-sampler">
+          <sampler2D>
+            <source>displacement-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -78,6 +91,13 @@
               <float>1</float>
             </index_of_refraction>
           </lambert>
+          <extra>
+            <technique profile="FCOLLADA">
+              <bump>
+                <texture texture="displacement-sampler" texcoord="UVTex"/>
+              </bump>
+            </technique>
+          </extra>
         </technique>
         <extra>
           <technique profile="GOOGLEEARTH">

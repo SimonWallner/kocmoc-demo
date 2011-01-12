@@ -4,6 +4,7 @@
 
 in vec2 texCoord0;
 in vec3 fragmentNormal;
+in vec3 worldSpacePosition;
 //in vec3 lightDirection;
 //in vec3 incidentLightPosition;
 
@@ -12,6 +13,7 @@ uniform sampler2D sSpecular;
 uniform sampler2D sNormal;
 
 uniform mat4 normalMatrix;
+uniform vec3 cameraPosition;
 
 out vec4 fragmentColor0;
 
@@ -20,14 +22,29 @@ void main(void)
 
 	const vec3 lightDirection = normalize(vec3(1.0f, 1.0f, 1.0f));
 	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
+	const float shinyness = 12;
+	
 
-	vec4 diffuse = vec4(1, 1, 1, 1);
+	vec4 diffuseColor = vec4(1, 1, 1, 1);
+	vec4 specularColor = vec4(1, 0, 0, 1);//vec4(texture(sSpecular, texCoord0).rgb, 1);
 	vec3 normal = (texture2D(sNormal, texCoord0).xyz * 2 -1); // unpack to [-1, 1], 
-//	fragmentColor0 = vec4(normal, 1.0f);
-//	fragmentColor0 = texture(sDiffuse, texCoord0);
-//	fragmentColor0 = vec4(fragmentNormal, 1);
 
-	vec4 transformed = (normalMatrix * vec4(normal, 1)) * vec4(-1, 1, -1, 1); // and flip strangely...???
-//	fragmentColor0 = transformed;
-	fragmentColor0 = diffuse * max(dot(lightDirection, normalize(transformed.xyz)), 0) + diffuse * ambientIntensity;
+
+	vec4 transformed = normalize((normalMatrix * vec4(normal, 1)) * vec4(-1, 1, -1, 1)); // and flip strangely...???
+
+	vec4 ambientTerm = diffuseColor * ambientIntensity;
+	vec4 diffuseTerm = diffuseColor * max(dot(lightDirection, transformed.xyz), 0);
+
+
+	vec3 viewVector = cameraPosition * vec3(-1, 1, 1) - worldSpacePosition* vec3(-1, 1, 1);
+	vec3 reflected = reflect(lightDirection, transformed.xyz);
+
+	vec4 specularTerm = specularColor * pow(max(dot(viewVector, reflected * -1), 0), shinyness);
+
+	fragmentColor0 = ambientTerm + diffuseTerm + specularTerm;
+//	fragmentColor0 = ambientTerm + diffuseTerm;
+//	fragmentColor0 = specularTerm;
+//	fragmentColor0 = vec4(worldSpacePosition * vec3(-1, 1, 1), 1);
+//	fragmentColor0 = vec4(cameraPosition* vec3(-1, 1, 1), 1);
+
 }

@@ -42,7 +42,7 @@ namespace kocmoc
 
 		bool isRunning();
 
-		Camera *getCamera(void) {return camera;}
+		FilmCamera *getCamera(void) {return camera;}
 
 	private:
 
