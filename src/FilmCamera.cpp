@@ -42,7 +42,7 @@ void FilmCamera::updateMatrixes()
 {
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -57,10 +57,10 @@ void FilmCamera::updateMatrixes()
 							0, 0, z2, w2,
 							0, 0, z3, 0);
 
-	projectionMatrix = mat4(0.2f, 0, 0, 0,
-							0, aspectRatio*0.2f, 0, 0, 
-							0, 0, 0.2f, 0,
-							0, 0, 0, 1);
+	//projectionMatrix = mat4(0.2f, 0, 0, 0,
+	//						0, aspectRatio*0.2f, 0, 0, 
+	//						0, 0, 0.2f, 0,
+	//						0, 0, 0, 1);
 }
 
 void FilmCamera::tumble(float horizontal, float vertical)

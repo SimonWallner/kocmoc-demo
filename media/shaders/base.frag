@@ -21,7 +21,7 @@ void main(void)
 {
 
 	const vec3 lightDirection = normalize(vec3(1.0f, 1.0f, 1.0f));
-	const vec4 ambientIntensity = vec4(0.05f, 0.05f, 0.05f, 1.0f);
+	const vec4 ambientIntensity = vec4(0.01f, 0.01f, 0.01f, 1.0f);
 	const float shinyness = 1;
 	
 
@@ -45,7 +45,7 @@ void main(void)
 	fragmentColor0 = ambientTerm + diffuseTerm;
 //	fragmentColor0 = specularTerm;
 //	fragmentColor0 = vec4(transformed.xyz, 1);
-	fragmentColor0 = vec4(fragmentNormal, 1) + ambientTerm;
+//	fragmentColor0 = vec4(fragmentNormal, 1) + ambientTerm;
 //	fragmentColor0 = vec4(worldSpacePosition * vec3(-1, 1, 1), 1);
 //	fragmentColor0 = vec4(cameraPosition* vec3(-1, 1, 1), 1);
 

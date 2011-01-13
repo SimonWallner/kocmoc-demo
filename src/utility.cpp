@@ -150,7 +150,7 @@ namespace kocmoc
 				stars->setVertexPositions(positions);
 
 				// add shader to poly
-				Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
+				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
 				//Shader *shader = new Shader("base.vert", "base.frag");
 				stars->setShader(shader);
 
