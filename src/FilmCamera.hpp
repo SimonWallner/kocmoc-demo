@@ -9,7 +9,11 @@
 
 namespace kocmoc
 {
-
+	/**
+	 * Implementation of a basic film camera
+	 * @note a right-handed coordinate system is used throughout the whole 
+	 * application. This is in sync with both opengl and collada.
+	 */
 	class FilmCamera : public Camera
 	{
 	public:
@@ -64,8 +68,6 @@ namespace kocmoc
 		vec3 getPosition(void) {return eyePosition;};
 
 
-		//TODO: orientation, movement
-
 		/**
 		 * Rotate the camera around the eye position. input params have no unit!
 		 * @param vertical The vertical rotation
@@ -77,26 +79,40 @@ namespace kocmoc
 		 * translate the camera. i.e. the postion and the target
 		 */
 		void dolly(vec3 direction);
-	
-	
-		//TODO: focus, vertigo
 
-		//TODO: color correction post thingys
+		/**
+		 * rotate arround the target vector
+		 * @param ccw rotation in radians
+		 */
+		void rotate(float radians);
 
 	private:
 		mat4 viewMatrix;
-		mat4 untranslatedViewMatrix; /** this is for the skybox and things alike */
+
+		/** this is for the skybox and things alike */
+		mat4 untranslatedViewMatrix; 
 		mat4 projectionMatrix;
 
+		/** The position of the camera/eye */
 		vec3 eyePosition;
+
+		/** the vector looking from the eye towards the target */
 		vec3 targetVector;
+
+		/** The vector starting at the eye towards the up direction
+		 * i.e. the up vector away from the eye */
 		vec3 upVector;
 
+		/** Near plane and far plane as seen from the camera, i.e. negative
+		 * values, as we have a right-handed coordinate system and look down
+		 * the negative z-axis. */
 		float nearPlane;
 		float farPlane;
+
+		/** The aspect ration of the camera */
 		float aspectRatio;
 
-		/** The angle of view in radians */
+		/** The horizontal angle of view in radians */
 		float angleOfView;
 	};
 }

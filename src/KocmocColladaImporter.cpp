@@ -64,7 +64,7 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 				// copy/append indices
 				const COLLADAFW::UIntValuesArray &colladaVertexIndices = meshPrimitive->getPositionIndices();
 				const COLLADAFW::UIntValuesArray &colladaNormalIndices = meshPrimitive->getNormalIndices();
-				const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
+					const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
 
 				
 				unsigned int indexCount = colladaVertexIndices.getCount();

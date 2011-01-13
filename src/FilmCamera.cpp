@@ -2,7 +2,7 @@
 
 #include <gtc/matrix_projection.hpp> 
 #include <math.h>
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 
 using namespace kocmoc;
 
@@ -10,12 +10,11 @@ FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector, 
 	eyePosition(_eyePosition),
 	upVector(glm::normalize(_upVector)),
 	aspectRatio(_aspectRatio),
-	angleOfView(KOCMOC_PI/2)
+	angleOfView(KOCMOC_PI/2),
+	nearPlane(util::Property("nearPlane")),
+	farPlane(util::Property("farPlane"))
 {
 	targetVector = glm::normalize(_targetPosition - eyePosition);
-	
-	util::PropertiesFileParser::GetInstance().getProperty("nearPlane", &nearPlane);
-	util::PropertiesFileParser::GetInstance().getProperty("farPlane", &farPlane);
 }
 
 FilmCamera::~FilmCamera()
@@ -41,9 +40,9 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
-	vec3 s = glm::normalize(glm::cross(upVector, targetVector));
+	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(targetVector, 0), vec4(0, 0, 0, 1.0f));
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -57,6 +56,11 @@ void FilmCamera::updateMatrixes()
 							0, y1, 0, 0, 
 							0, 0, z2, w2,
 							0, 0, z3, 0);
+
+	projectionMatrix = mat4(0.2f, 0, 0, 0,
+							0, aspectRatio*0.2f, 0, 0, 
+							0, 0, 0.2f, 0,
+							0, 0, 0, 1);
 }
 
 void FilmCamera::tumble(float horizontal, float vertical)
@@ -79,6 +83,8 @@ void FilmCamera::dolly(vec3 direction)
 	eyePosition += (direction.x * s);
 	eyePosition += (direction.y * upVector);
 	eyePosition += (direction.z * targetVector);
+
+	//std::cout << "eye position: " << eyePosition.x << "|"<< eyePosition.y << "|"<< eyePosition.z << std::endl;
 }
 
 
@@ -91,3 +97,12 @@ void FilmCamera::setFocalLength(float length)
 {
 	angleOfView = 2 * atan(35.0 / (2 * length));
 }
+
+void FilmCamera::rotate(float radians)
+{
+	// rotate up vector
+	mat4 rotation = glm::gtx::transform::rotate(radians, targetVector);
+	vec4 res = rotation * vec4(upVector, 1.0f);
+	upVector = vec3(res);
+	std::cout << "up vector: " << upVector.x << " | "<< upVector.y << " | "<< upVector.z << std::endl;
+} 
