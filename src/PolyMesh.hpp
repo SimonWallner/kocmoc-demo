@@ -104,8 +104,8 @@ namespace kocmoc
 		double *uvPositions;
 		double *normalPositions;
 	
-		mat4 modelMatrix;
-		mat4 normalMatrix;
+		glm::mat4 modelMatrix;
+		glm::mat3 normalMatrix;
 
 		/** the GPU view of the polyMesh **/
 		//RenderMesh *renderMesh;

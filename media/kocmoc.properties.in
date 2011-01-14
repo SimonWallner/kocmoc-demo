@@ -40,9 +40,9 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # XModelName = maya_sphere.dae
 # XModelName = maya_multi.dae
 # XModelName = blender_sphere.dae
-XModelName = object_normal.dae
+# XModelName = object_normal.dae
 # XModelName = texture_test.dae
-# XModelName = kocmoc.dae
+XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
@@ -71,7 +71,7 @@ debugEnableFBO = 0
 debugShowGizmo = 0
 
 # camera settings
-cameraFocalLength35 = 21
+cameraFocalLength35 = 35
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

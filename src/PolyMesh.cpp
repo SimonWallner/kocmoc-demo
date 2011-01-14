@@ -228,7 +228,7 @@ void PolyMesh::draw()
 		if (normalPositions != NULL)
 		{
 			GLint normalMatrix_location = shader->get_uniform_location("normalMatrix");
-			glUniformMatrix4fv(normalMatrix_location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
+			glUniformMatrix3fv(normalMatrix_location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
 		}
 	
 		glBindVertexArray(vaoHandle);
@@ -241,7 +241,7 @@ void PolyMesh::draw()
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
 {
 	modelMatrix = _modelMatrix;
-	normalMatrix = glm::gtx::inverse_transpose::inverseTranspose(modelMatrix);
+	normalMatrix = glm::mat3(glm::gtx::inverse_transpose::inverseTranspose(modelMatrix));
 
 }
 

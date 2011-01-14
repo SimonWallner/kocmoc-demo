@@ -146,7 +146,6 @@ void Kocmoc::drawOverlays()
 void Kocmoc::pollKeyboard(void)
 {
 	running = running && !glfwGetKey( GLFW_KEY_ESC );
-	running = running && !glfwGetKey( 'Q' );
 
 	if (glfwGetKey('1'))
 		Context::getInstance().toggleWireframe();
