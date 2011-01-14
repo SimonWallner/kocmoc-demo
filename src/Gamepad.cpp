@@ -67,10 +67,10 @@ void Gamepad::poll(void)
 			camera->dolly(vec3(0, 0, pos[1] * 0.01f));
 
 		if (abs(pos[3]) > deadZone) // right stick down
-			camera->tumble(0, pos[3] * 0.005f);
+			camera->tumble(0, -pos[3] * 0.005f);
 
 		if (abs(pos[4]) > deadZone) // right stick right
-			camera->tumble(-pos[4] * 0.005f, 0);
+			camera->tumble(pos[4] * 0.005f, 0);
 
 		if (abs(pos[2]) > deadZone) // trigger
 			camera->dolly(vec3(0, -pos[2] * 0.01f, 0));
@@ -99,10 +99,10 @@ void Gamepad::poll(void)
 			ShaderManager::getInstance().reloadAll();
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw
-			camera->rotate(0.1f);
+			camera->rotate(-0.2f);
 
 		if (buttons[5] == GLFW_PRESS) // right bumber, turn cw
-			camera->rotate(-0.1f);
+			camera->rotate(0.2f);
 		
 		delete pos;
 		delete buttons;

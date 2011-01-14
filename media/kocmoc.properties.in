@@ -41,8 +41,8 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # XModelName = maya_multi.dae
 # XModelName = blender_sphere.dae
 # XModelName = object_normal.dae
-# XModelName = texture_test.dae
-XModelName = kocmoc.dae
+XModelName = texture_test.dae
+# XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
@@ -50,7 +50,7 @@ height = 720
 fullscreen = 0
 
 wireframe = 0
-backFaceCulling = 0
+backFaceCulling = 1
 
 # mission control stuff
 missionControlServerPort = 65001

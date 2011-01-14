@@ -44,7 +44,7 @@ void main(void)
 	fragmentColor0 = ambientTerm + diffuseTerm + specularTerm;
 	fragmentColor0 = ambientTerm + diffuseTerm;
 //	fragmentColor0 = specularTerm;
-//	fragmentColor0 = vec4(transformed.xyz, 1);
+	fragmentColor0 = vec4(transformed.xyz, 1);
 //	fragmentColor0 = vec4(fragmentNormal, 1) + ambientTerm;
 //	fragmentColor0 = vec4(worldSpacePosition * vec3(-1, 1, 1), 1);
 //	fragmentColor0 = vec4(cameraPosition* vec3(-1, 1, 1), 1);

@@ -43,6 +43,7 @@ void FilmCamera::updateMatrixes()
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
 	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = glm::core::function::matrix::transpose(untranslatedViewMatrix);
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
@@ -51,6 +52,7 @@ void FilmCamera::updateMatrixes()
 	float z2 = (nearPlane + farPlane)/(nearPlane - farPlane);
 	float w2 = -1.0f;
 	float z3 = (-2.0f * nearPlane * farPlane)/(nearPlane - farPlane);
+
 
 	projectionMatrix = mat4(x0, 0, 0, 0,
 							0, y1, 0, 0, 
