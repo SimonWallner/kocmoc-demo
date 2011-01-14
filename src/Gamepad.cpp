@@ -61,19 +61,19 @@ void Gamepad::poll(void)
 		* - A4: right stick right
 		*/
 		if (abs(pos[0]) > deadZone) // left stick right
-			camera->dolly(vec3(pos[0] * 0.01f, 0, 0));
+			camera->dolly(vec3(pos[0] * 0.05f, 0, 0));
 
 		if (abs(pos[1]) > deadZone) // left stick up
-			camera->dolly(vec3(0, 0, pos[1] * 0.01f));
+			camera->dolly(vec3(0, 0, pos[1] * 0.05f));
 
 		if (abs(pos[3]) > deadZone) // right stick down
-			camera->tumble(0, -pos[3] * 0.005f);
+			camera->tumble(0, -pos[3] * 0.01f);
 
 		if (abs(pos[4]) > deadZone) // right stick right
-			camera->tumble(pos[4] * 0.005f, 0);
+			camera->tumble(pos[4] * 0.01f, 0);
 
 		if (abs(pos[2]) > deadZone) // trigger
-			camera->dolly(vec3(0, -pos[2] * 0.01f, 0));
+			camera->dolly(vec3(0, -pos[2] * 0.05f, 0));
 
 		unsigned char *buttons = new unsigned char[numButtons];
 		int activeButtons = glfwGetJoystickButtons(numJoystick, buttons, numButtons);

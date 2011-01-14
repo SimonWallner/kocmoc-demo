@@ -123,17 +123,17 @@ namespace kocmoc
 					vertexIndices[i*12+1] = i*4 +1;
 					vertexIndices[i*12+2] = i*4 +2;
 					
-					// 1 - 2 - 3
+					//3 - 2 - 1
 					firstIndices[i*4+1] = i*12+3;
-					vertexIndices[i*12+3] = i*4 +1;
+					vertexIndices[i*12+3] = i*4 +3;
 					vertexIndices[i*12+4] = i*4 +2;
-					vertexIndices[i*12+5] = i*4 +3;
+					vertexIndices[i*12+5] = i*4 +1;
 
-					// 3 - 0 - 1
+					//1 - 0 - 3
 					firstIndices[i*4+2] = i*12+6;
-					vertexIndices[i*12+6] = i*4 +3;
+					vertexIndices[i*12+6] = i*4 +1;
 					vertexIndices[i*12+7] = i*4 +0;
-					vertexIndices[i*12+8] = i*4 +1;
+					vertexIndices[i*12+8] = i*4 +3;
 
 					// 0 - 2 - 3
 					firstIndices[i*4+3] = i*12+9;

@@ -21,20 +21,19 @@ void main(void)
 {
 	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
 	const vec3 ambientIntensity = vec3(0.01f, 0.01f, 0.01f);
-	const float shinyness = 20;
+
 	
 
-	vec3 diffuseColor = vec3(0.7f, 0.7f, 0.7f);//texture(sDiffuse, texCoord0);
-	vec3 specularColor = vec3(1, 1, 1);//vec4(texture(sSpecular, texCoord0).rgb, 1);
+	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
+	vec3 specularColor = texture(sSpecular, texCoord0).rgb;
+	float shinyness = texture(sSpecular, texCoord0).r * 50.0f;
 	vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
 	vec3 transformed = normalize(normalMatrix * normal * vec3(-1, 1, -1)); // and flip strangely...???
 
-	//transformed = fragmentNormal;
 	
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 	float diffuseFactor =  max(dot(-lightDirection, transformed.xyz), 0);
 	vec3 diffuseTerm = diffuseColor * diffuseFactor;
-
 
 
 
@@ -47,12 +46,4 @@ void main(void)
 
 
 	fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
-//	fragmentColor0 = vec4(length(transformed),1, 1, 2)/2;
-//	fragmentColor0 = ambientTerm + diffuseTerm;
-//	fragmentColor0 = specularTerm;
-//	fragmentColor0 = transformed;
-//	fragmentColor0 = vec4(fragmentNormal, 1) + ambientTerm;
-//	fragmentColor0 = vec4(worldSpacePosition, 1);
-//	fragmentColor0 = vec4(viewVector, 1);
-
 }
