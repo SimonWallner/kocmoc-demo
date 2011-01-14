@@ -79,8 +79,9 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 	
 	
-	scene = KocmocLoader::getInstance().load(util::Property("XModelName"));
-	//scene = new KocmocScene();
+	scene = new KocmocScene();
+	ship = KocmocLoader::getInstance().load(util::Property("XModelName"));
+	scene->add(ship);
 	scene->add(util::generator::generateStars());
 
 	if (showGizmos)
@@ -104,6 +105,23 @@ void Kocmoc::start()
 	{
 		timer.tic();
 
+
+		// Check if the window has been closed
+		running = running && glfwGetWindowParam( GLFW_OPENED );
+
+		pollKeyboard();
+		if (useGamepad)
+			gamepad->poll();
+		else
+			pollMouse();
+
+		camera->updateMatrixes();
+
+		// update stuff ------------------
+		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
+
+
+		// drawing stuff ---------------
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		if (!useFBO)
@@ -120,16 +138,7 @@ void Kocmoc::start()
 
 		Context::getInstance().swapBuffers();
 
-		// Check if the window has been closed
-		running = running && glfwGetWindowParam( GLFW_OPENED );
-
-		pollKeyboard();
-		if (useGamepad)
-			gamepad->poll();
-		else
-			pollMouse();
-
-		camera->updateMatrixes();
+		
 	}
 }
 

@@ -188,12 +188,13 @@ void PolyMesh::setNormalTexture(GLint _textureHandle)
 	normalTextureHandle = _textureHandle;
 }
 
-void PolyMesh::draw()
+void PolyMesh::draw(glm::mat4 parentTransform)
 {
+	glm::mat4 leafTransform = parentTransform * modelMatrix;
+	glm::mat3 normalMatrix = glm::mat3(glm::gtx::inverse_transpose::inverseTranspose(leafTransform));
+
 	if (!dataIsUploaded)
 		transferData();
-
-	//setModelMatrix(glm::gtx::transform::rotate(2.0f*(GLfloat)glfwGetTime(), 0.0f, 0.0f, 1.0f));
 
 	FilmCamera *camera = Kocmoc::getInstance().getCamera();
 
@@ -223,7 +224,7 @@ void PolyMesh::draw()
 
 		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(leafTransform));
 
 		if (normalPositions != NULL)
 		{
@@ -241,8 +242,6 @@ void PolyMesh::draw()
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)
 {
 	modelMatrix = _modelMatrix;
-	normalMatrix = glm::mat3(glm::gtx::inverse_transpose::inverseTranspose(modelMatrix));
-
 }
 
 void PolyMesh::setUVPositions(double *uv)

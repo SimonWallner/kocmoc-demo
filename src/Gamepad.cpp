@@ -103,6 +103,8 @@ void Gamepad::poll(void)
 
 		if (buttons[5] == GLFW_PRESS) // right bumber, turn cw
 			camera->rotate(0.2f);
+
+
 		
 		delete pos;
 		delete buttons;

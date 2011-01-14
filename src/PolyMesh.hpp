@@ -55,7 +55,7 @@ namespace kocmoc
 		 * Draw the mesh.
 		 * If the data is not on the gpu yet it will be transfered upon the first call
 		 */
-		void draw();
+		void draw(glm::mat4 parentTransform);
 
 		void setShader(Shader *shader);
 
@@ -105,7 +105,7 @@ namespace kocmoc
 		double *normalPositions;
 	
 		glm::mat4 modelMatrix;
-		glm::mat3 normalMatrix;
+		//glm::mat3 normalMatrix;
 
 		/** the GPU view of the polyMesh **/
 		//RenderMesh *renderMesh;

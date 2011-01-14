@@ -61,6 +61,7 @@ namespace kocmoc
 		FilmCamera* camera;
 
 		KocmocScene* scene;
+		KocmocScene* ship;
 		
 		int mouseOldX, mouseOldY;
 		input::Gamepad *gamepad;

@@ -28,9 +28,9 @@ void main(void)
 	vec3 specularColor = texture(sSpecular, texCoord0).rgb;
 	float shinyness = texture(sSpecular, texCoord0).r * 50.0f;
 	vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
-	vec3 transformed = normalize(normalMatrix * normal * vec3(-1, 1, -1)); // and flip strangely...???
+	vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
 
-	
+
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 	float diffuseFactor =  max(dot(-lightDirection, transformed.xyz), 0);
 	vec3 diffuseTerm = diffuseColor * diffuseFactor;
@@ -46,4 +46,5 @@ void main(void)
 
 
 	fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
+//	fragmentColor0 = vec4(transformed, 1);
 }
