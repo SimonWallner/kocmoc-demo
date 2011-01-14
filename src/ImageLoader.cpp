@@ -75,7 +75,7 @@ GLuint ImageLoader::loadImage(string filename)
 		glGenTextures(1, &textureHandle); /* Texture name generation */
 		glBindTexture(GL_TEXTURE_2D, textureHandle); /* Binding of texture name */
 
-		glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH),
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, ilGetInteger(IL_IMAGE_WIDTH),
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
 			ilGetData()); /* Texture specification */
 
