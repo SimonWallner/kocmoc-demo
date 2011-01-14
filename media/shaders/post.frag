@@ -44,7 +44,7 @@ void main(void)
 	}
 
 	if (texCoord0.x > 0.5f)
-		fragmentColor0 = texture(sColorLUT, vec3(0.2f, 0.5f, 0.7f));
+		fragmentColor0 = texture(sColorLUT, vec3(0.2f, 0.5f, 0.7f)) + vec4(0.5, 0.5, 0.5, 1);
 	else
 		fragmentColor0 = baseColor;
 }
