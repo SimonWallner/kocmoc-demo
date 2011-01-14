@@ -72,7 +72,7 @@ void Kocmoc::init()
 
 	camera = new FilmCamera(vec3(0.0f, 0.0f, 3.0f), //eye
 		vec3(0, 0, 0), // target
-		vec3(1, 1, 0),  // up
+		vec3(0, 1, 0),  // up
 		(float)Context::getInstance().width / (float)Context::getInstance().height); // aspect ration
 	camera->setFocalLength(util::Property("cameraFocalLength35"));
 	camera->setupGizmo();

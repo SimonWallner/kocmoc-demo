@@ -40,8 +40,8 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # XModelName = maya_sphere.dae
 # XModelName = maya_multi.dae
 # XModelName = blender_sphere.dae
-# XModelName = object_normal.dae
-XModelName = texture_test.dae
+XModelName = object_normal.dae
+# XModelName = texture_test.dae
 # XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
