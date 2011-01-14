@@ -114,6 +114,78 @@ GLuint ImageLoader::loadImage(string filename, bool degamma)
 	}
 }
 
+GLuint ImageLoader::loadImage3D(string filename, bool degamma)
+{
+	string fullPath = texturePathPrefix + filename;
+	
+	std::map<string, GLuint>::iterator it = cache.find(filename);
+	if (it != cache.end()) // filename found in cache
+		return it->second;
+
+	// this code is based on the code found at http://gpwiki.org/index.php/DevIL:Tutorials:Basics
+	ILuint texid;
+	GLuint textureHandle;
+
+	ilGenImages(1, &texid);
+	ilBindImage(texid);
+
+	ilLoadImage(fullPath.c_str());
+	ILenum error = ilGetError();
+
+	if (error == IL_NO_ERROR) /* If no error occured: */
+	{
+		/* Convert every colour component into unsigned byte. If your textureHandle contains
+		alpha channel you can replace IL_RGB with IL_RGBA */
+		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+
+		glGenTextures(1, &textureHandle); /* Texture name generation */
+		glBindTexture(GL_TEXTURE_3D, textureHandle); /* Binding of texture name */
+
+
+		GLint internalFormat;
+		if (degamma)
+			internalFormat = GL_SRGB8_ALPHA8;
+		else
+			internalFormat = GL_RGBA;// ilGetInteger(IL_IMAGE_FORMAT);
+
+		// we only consider square 3d textures
+		int height = ilGetInteger(IL_IMAGE_HEIGHT);
+		int width = height;
+		int depth = height;
+
+		glTexImage3D(GL_TEXTURE_3D, 0, internalFormat, width,
+			height, depth, 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
+			ilGetData()); /* Texture specification */
+
+		//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, currentTextureQuality);
+		//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_, GL_REPEAT);
+		//if (useAF)
+		
+
+		//glGenerateMipmap(GL_TEXTURE_3D);
+
+		
+		// unbind texture
+		glBindTexture(GL_TEXTURE_3D, 0);
+		// remove loaded image from memory
+		ilDeleteImages(1, &texid);
+		
+
+		if(_DEBUG)
+		cout << " done!" << endl;
+				
+		// add to cache
+		cache[filename] = textureHandle;
+		return textureHandle;
+	} else
+	{
+		cout << "failed ot load image: " << filename << " (" << iluErrorString(error) << ")" << endl;
+		return 0;
+	}
+}
+
 void ImageLoader::screenShot()
 {
 	// init

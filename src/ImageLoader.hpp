@@ -43,6 +43,7 @@ namespace kocmoc
 		 *		returned instead
 		 */
 		GLuint loadImage(string filename, bool degamma = false);
+		GLuint loadImage3D(string filename, bool degamma = false);
 
 
 		/**

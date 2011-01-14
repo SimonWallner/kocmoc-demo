@@ -79,8 +79,8 @@ namespace kocmoc
 		GLint get_uniform_location(const std::string &name) const
 		{
 			GLint location = glGetUniformLocation(programHandle, name.c_str());
-			if (location < 0 && _DEBUG)
-				cout << "uniform location: " << name << " not found!" << endl;
+			//if (location < 0 && _DEBUG)
+			//	cout << "uniform location: " << name << " not found!" << endl;
 			return location;
 		}
 

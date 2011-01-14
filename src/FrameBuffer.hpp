@@ -30,7 +30,8 @@ namespace kocmoc
 	
 		GLuint textureHandle;
 		GLuint depthbufferHandle; 
-	
+		GLint colorLUTHandle;
+
 		Shader *shader;
 
 		FrameBuffer(void);
@@ -46,8 +47,6 @@ namespace kocmoc
 		void setFBOTexture();
 		void createQuad();
 		void check();
-
-
 	};
 }
 

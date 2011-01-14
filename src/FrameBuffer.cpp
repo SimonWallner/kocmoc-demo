@@ -1,5 +1,7 @@
 #include "FrameBuffer.hpp"
 #include "ShaderManager.hpp"
+#include "ImageLoader.hpp"
+#include "Property.hpp"
 
 using namespace kocmoc;
 
@@ -32,6 +34,8 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	createQuad();
+
+	colorLUTHandle = ImageLoader::getInstance().loadImage3D("LUT32.png");
 }
 
 void FrameBuffer::check()
@@ -108,19 +112,20 @@ void FrameBuffer::setupShader()
 	cout << "Frame buffer setup shader" << endl;
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
 
-	GLint sTex0_location = shader->get_uniform_location("sTex0");
-	
-	if (sTex0_location >= 0)
+	shader->bind();
 	{
-		shader->bind();
-		glUniform1i(sTex0_location, 0);
-		shader->unbind();
+		GLint location;
+		
+		if ((location = shader->get_uniform_location("sTex0")) > 0)
+			glUniform1i(location, 0);
+
+		if ((location = shader->get_uniform_location("sColorLUT")) > 0)
+			glUniform1i(location, 1);
+
+		if ((location = shader->get_uniform_location("nonPlanarProjection")) > 0)
+			glUniform1i(location, util::Property("debugEnableNonPlanarProjection"));
 	}
-	else 
-	{
-		cout << "failed to get retrieve the uniform position for sTex0" << endl;
-		cout << "uniform locatio is: " << sTex0_location << endl;
-	}
+	shader->unbind();
 }
 
 FrameBuffer::~FrameBuffer()
@@ -156,7 +161,9 @@ void FrameBuffer::setFBOTexture()
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureHandle);
-		
 		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_3D, colorLUTHandle);
 	}
 }

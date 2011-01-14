@@ -67,7 +67,8 @@ starsDomain = 3000
 starsSize = 10
 
 # debug settings
-debugEnableFBO = 0
+debugEnableFBO = 1
+debugEnableNonPlanarProjection = 0;
 debugShowGizmo = 0
 
 # camera settings
