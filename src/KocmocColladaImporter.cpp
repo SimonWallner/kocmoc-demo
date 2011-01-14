@@ -183,8 +183,8 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		poly->setShader(shader);
 
-		GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0]);
-		GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1]);
+		GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0], true);
+		GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1], true);
 		GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
 		poly->setDiffuseTexture(diffuseTex);
 		poly->setSpecularTexture(specularTex);

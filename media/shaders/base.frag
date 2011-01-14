@@ -30,6 +30,8 @@ void main(void)
 	vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
 	vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
 
+//	if (worldSpacePosition.x > 0)
+//		transformed = normalize(fragmentNormal);
 
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 	float diffuseFactor =  max(dot(-lightDirection, transformed.xyz), 0);

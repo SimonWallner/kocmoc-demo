@@ -42,7 +42,7 @@ namespace kocmoc
 		 * @return The texture handle. If an error occurs, <code>0</code> is
 		 *		returned instead
 		 */
-		GLuint loadImage(string filename);
+		GLuint loadImage(string filename, bool degamma = false);
 
 
 		/**

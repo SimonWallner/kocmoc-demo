@@ -40,7 +40,7 @@ ImageLoader &ImageLoader::getInstance()
 }
 
 
-GLuint ImageLoader::loadImage(string filename)
+GLuint ImageLoader::loadImage(string filename, bool degamma)
 {
 	string fullPath = texturePathPrefix + filename;
 
@@ -75,7 +75,14 @@ GLuint ImageLoader::loadImage(string filename)
 		glGenTextures(1, &textureHandle); /* Texture name generation */
 		glBindTexture(GL_TEXTURE_2D, textureHandle); /* Binding of texture name */
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8_ALPHA8, ilGetInteger(IL_IMAGE_WIDTH),
+
+		GLint internalFormat;
+		if (degamma)
+			internalFormat = GL_SRGB8_ALPHA8;
+		else
+			internalFormat = GL_RGBA;// ilGetInteger(IL_IMAGE_FORMAT);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, ilGetInteger(IL_IMAGE_WIDTH),
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
 			ilGetData()); /* Texture specification */
 
