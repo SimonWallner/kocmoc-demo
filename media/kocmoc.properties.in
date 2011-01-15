@@ -45,9 +45,13 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
-width = 1280
-height = 720
+width = 800
+height = 800
 fullscreen = 0
+
+# the aspect ratio of the actual window i.e. the letterbox.
+AspectRatio = 1.777778
+
 
 wireframe = 0
 backFaceCulling = 1
@@ -67,13 +71,12 @@ starsDomain = 3000
 starsSize = 10
 
 # debug settings
-debugEnableFBO = 1
 debugShowGizmo = 0
 
 # post processing stuff
-enableColorCorrection = 1;
-enableNonPlanarProjection = 1;
-enableVignetting = 1;
+enableColorCorrection = 0;
+enableNonPlanarProjection = 0;
+enableVignetting = 0;
 
 # camera settings
 cameraFocalLength35 = 21

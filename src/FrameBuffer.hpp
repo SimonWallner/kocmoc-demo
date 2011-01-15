@@ -42,8 +42,8 @@ namespace kocmoc
 
 		GLuint fboHandle;
 
-		GLuint FBOSizeX;
-		GLuint FBOSizeY;
+		GLuint width;
+		GLuint height;
 
 		GLuint *vbo_id;
 		GLuint vao_id;

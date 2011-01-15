@@ -41,7 +41,6 @@ void Context::setupGLFW()
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-//    glfwOpenWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
 
 	getAvailableResolutions();
 		
@@ -94,7 +93,7 @@ void Context::getAvailableResolutions(){
 	GLuint tempsize = 0;
 	for(GLuint i=0;i<listsize;i++){
 		if(list[i].Width != 0){
-			//cout<<"Width: "<<list[i].Width<<" Height: "<<list[i].Height<<endl;
+			cout<<"Width: "<<list[i].Width<<" Height: "<<list[i].Height<<endl;
 			tempsize++;
 		}
 		else

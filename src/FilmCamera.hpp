@@ -23,10 +23,8 @@ namespace kocmoc
 		 * scene
 		 * @param targetPosition The point the camera looks at
 		 * @param upVector the up-vector of the camera
-		 * @param aspectRatio the aspect ration
 		 */
-
-		FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector, float aspectRation);
+		FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
 
 		virtual ~FilmCamera();
 
@@ -44,10 +42,14 @@ namespace kocmoc
 		 * A field wider than the final gate is rendered to provide some
 		 * margin for post processing filters.
 		 */
-		void setFilterMargininPixel(int horizontalMargin, int verticalMargin);
+		void setFilterMarginInPixel(int horizontalMargin, int verticalMargin);
+
+		int getFrameWidth(void) {return width;};
+		int getFrameHeight(void) {return height;};
 
 		/**
-		 * Set the 35mm equivalent focal length of the lens.
+		 * Set the 35mm equivalent focal length of the lens. This should be
+		 * calculated for the visible area i.e. the gate.
 		 * @param The focal length as it would be in a standard 35mm film camera.
 		 */
 		void setFocalLength(float mm);
@@ -69,7 +71,7 @@ namespace kocmoc
 
 
 		/**
-		 * Rotate the camera around the eye position. input params have no unit!
+		 * Tumble the camera around the eye position. input params have no unit!
 		 * @param vertical The vertical rotation
 		 * @param horizontal The horizontal rotation
 		 */
@@ -114,6 +116,11 @@ namespace kocmoc
 
 		/** The horizontal angle of view in radians */
 		float angleOfView;
+
+		int width;
+		int height;
+		int horizontalMargin;
+		int verticalMargin;
 	};
 }
 

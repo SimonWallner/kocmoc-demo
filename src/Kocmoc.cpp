@@ -28,13 +28,11 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	useFBO = util::Property("debugEnableFBO");
 	showGizmos = util::Property("debugShowGizmo");
 }
 
 Kocmoc::~Kocmoc()
 {
-	delete base;
 	delete scene;
 	delete gamepad;
 }
@@ -51,29 +49,11 @@ void Kocmoc::stop(){
 
 void Kocmoc::init()
 {
-	// Load and compile Shader files
-	base = new Shader("base.vert", "base.frag");
-
-	if (!base) {
-		cerr << "Could not compile base shader program." << endl;
-		throw Exception("failed to compile base shader");
-	}
-
-	base->bind();
-
-	// load and bind texture
-	GLint texture = ImageLoader::getInstance().loadImage("color.png");
-	GLint sTex0_location = base->get_uniform_location("sTex0");
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	//base->bind();
-	glUniform1i(sTex0_location, 0);
-
 	camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
 		vec3(0, 0, 0), // target
-		vec3(0, 1, 0),  // up
-		(float)Context::getInstance().width / (float)Context::getInstance().height); // aspect ration
+		vec3(0, 1, 0));  // up
+	camera->setGateInPixel(Context::getInstance().width/2, Context::getInstance().height/2);
+
 	camera->setFocalLength(util::Property("cameraFocalLength35"));
 	camera->setupGizmo();
 	camera->updateMatrixes();
@@ -93,7 +73,7 @@ void Kocmoc::init()
 		useGamepad = gamepad->init();
 	}
 
-	fbo = new FrameBuffer(Context::getInstance().width, Context::getInstance().height);
+	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight());
 	fbo->setupShader();
 	
 	running = true;
@@ -123,22 +103,19 @@ void Kocmoc::start()
 
 		// drawing stuff ---------------
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
+		glViewport(0, 0, camera->getFrameWidth(), camera->getFrameHeight());
 
-		if (!useFBO)
-			draw();
-		else
-		{
-			glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			draw();
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-			fbo->drawFBO();
-		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		draw();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+		glViewport(0, 0, Context::getInstance().width, Context::getInstance().height);
+		fbo->drawFBO();
+
 		drawOverlays();
 
 		Context::getInstance().swapBuffers();
-
-		
 	}
 }
 
@@ -159,7 +136,6 @@ void Kocmoc::pollKeyboard(void)
 	if (glfwGetKey(GLFW_KEY_F1))
 		std::cout	<< "---------------------------------------------------------" << std::endl
 		<< "\t F1: this help dialog" <<std::endl
-		<< "\t F2: toggle FBO" << std::endl
 		<< "\t F3: toggle wireframe" << std::endl
 		<< "\t F4: print frametime/fps" << std::endl
 		<< "\t F5: toggle non-planar projection post" << std::endl
@@ -167,9 +143,6 @@ void Kocmoc::pollKeyboard(void)
 		<< "\t F7: toggle color correction post" << std::endl
 		<< "\t '.': take screenshot" << std::endl
 		<< "\t R: reload shaders/textures/etc..." << std::endl;
-
-	if (glfwGetKey(GLFW_KEY_F2))
-		useFBO = !useFBO;
 
 	if (glfwGetKey(GLFW_KEY_F3))
 		Context::getInstance().toggleWireframe();

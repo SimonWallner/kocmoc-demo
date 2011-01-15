@@ -6,10 +6,9 @@
 
 using namespace kocmoc;
 
-FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector, float _aspectRatio) :
+FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) :
 	eyePosition(_eyePosition),
 	upVector(glm::normalize(_upVector)),
-	aspectRatio(_aspectRatio),
 	angleOfView(KOCMOC_PI/2),
 	nearPlane(util::Property("nearPlane")),
 	farPlane(util::Property("farPlane"))
@@ -90,7 +89,7 @@ void FilmCamera::dolly(vec3 direction)
 }
 
 
-void  FilmCamera::setAngleOfView(float radians)
+void FilmCamera::setAngleOfView(float radians)
 {
 	angleOfView = radians;
 }
@@ -106,5 +105,18 @@ void FilmCamera::rotate(float radians)
 	mat4 rotation = glm::gtx::transform::rotate(radians, targetVector);
 	vec4 res = rotation * vec4(upVector, 1.0f);
 	upVector = vec3(res);
-	std::cout << "up vector: " << upVector.x << " | "<< upVector.y << " | "<< upVector.z << std::endl;
+	// std::cout << "up vector: " << upVector.x << " | "<< upVector.y << " | "<< upVector.z << std::endl;
 } 
+
+void FilmCamera::setGateInPixel(int _width, int _height)
+{
+	width = _width;
+	height = _height;
+	aspectRatio = (float)width/(float)height;
+}
+
+void FilmCamera::setFilterMarginInPixel(int _horizontalMargin, int _verticalMargin)
+{
+	horizontalMargin = _horizontalMargin;
+	verticalMargin = _verticalMargin;
+}

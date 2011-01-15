@@ -58,9 +58,7 @@ namespace kocmoc
 		static Kocmoc *instance;
 
 		bool running;
-		Shader *base;
-		GLuint vao_id;
-
+		
 		Timer timer;
 
 		FilmCamera* camera;
@@ -72,7 +70,6 @@ namespace kocmoc
 		input::Gamepad *gamepad;
 		bool useGamepad;
 
-		bool useFBO;
 		FrameBuffer *fbo;
 
 		bool showGizmos;

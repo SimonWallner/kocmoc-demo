@@ -2,12 +2,13 @@
 #include "ShaderManager.hpp"
 #include "ImageLoader.hpp"
 #include "Property.hpp"
+#include "Context.hpp"
 
 using namespace kocmoc;
 
 FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
-	: FBOSizeX(sizex)
-	, FBOSizeY(sizey)
+	: width(sizex)
+	, height(sizey)
 	, enableColorCorrection(util::Property("enableColorCorrection"))
 	, enableNonPlanarProjection(util::Property("enableNonPlanarProjection"))
 	, enableVignetting(util::Property("enableVignetting"))
@@ -71,11 +72,10 @@ void FrameBuffer::check()
 }
 void FrameBuffer::createQuad()
 {
-	// create VAO
-	GLfloat topX = -1;
-	GLfloat topY = 1;
-	GLfloat bottomX = 1;
-	GLfloat bottomY = -1;
+	GLfloat topX = -(float)width / Context::getInstance().width;
+	GLfloat topY = (float)height / Context::getInstance().height;
+	GLfloat bottomX = (float)width / Context::getInstance().width;
+	GLfloat bottomY = -(float)height / Context::getInstance().height;
 
 	GLfloat quadVertices[] = {bottomX,  bottomY, 0.0f,
 		bottomX, topY, 0.0f,
