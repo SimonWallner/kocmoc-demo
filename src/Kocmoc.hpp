@@ -44,6 +44,11 @@ namespace kocmoc
 
 		FilmCamera *getCamera(void) {return camera;}
 
+		/**
+		 * reload some stuff
+		 */
+		void reload(void);
+
 	private:
 
 		Kocmoc();

@@ -20,7 +20,7 @@ namespace kocmoc
 		*/
 		virtual void setupShader(void);
 
-		void setupBaseShader();
+		//void setupBaseShader();
 
 		GLuint getTextureHandle();
 		GLuint getFBOHandle();

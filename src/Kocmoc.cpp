@@ -201,3 +201,9 @@ void Kocmoc::pollMouse()
 	mouseOldX = newX;
 	mouseOldY = newY;
 }
+
+
+void Kocmoc::reload()
+{
+	fbo->setupShader();
+}

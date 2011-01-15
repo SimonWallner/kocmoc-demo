@@ -96,7 +96,10 @@ void Gamepad::poll(void)
 			Kocmoc::getInstance().stop();
 
 		if (buttons[7] == GLFW_PRESS) // start button, reload
+		{
 			ShaderManager::getInstance().reloadAll();
+			Kocmoc::getInstance().reload();
+		}
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw
 			camera->rotate(-0.2f);
