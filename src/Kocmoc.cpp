@@ -52,7 +52,7 @@ void Kocmoc::init()
 	camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0));  // up
-	float aspectRatio = util::Property("aspectRatio");
+	float aspectRatio = (float)util::Property("aspectRatio") / ((float)Context::getInstance().width / (float)Context::getInstance().height);
 	if (aspectRatio > 1) // horizontal letter box
 		camera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
 	else

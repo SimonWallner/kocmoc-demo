@@ -45,8 +45,8 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
-width = 800
-height = 800
+width = 1280
+height = 720
 fullscreen = 0
 
 wireframe = 0
@@ -77,7 +77,7 @@ enableVignetting = 0;
 # camera settings
 cameraFocalLength35 = 21
 aspectRatio = 1.7777778
-# aspectRatio = 0.7777778
+aspectRatio = 0.7777778
 aspectRatio = 2.35
 horizontalMargin = 20
 verticalMargin = 20
