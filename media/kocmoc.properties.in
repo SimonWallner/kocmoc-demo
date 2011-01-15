@@ -68,8 +68,12 @@ starsSize = 10
 
 # debug settings
 debugEnableFBO = 1
-debugEnableNonPlanarProjection = 0;
 debugShowGizmo = 0
+
+# post processing stuff
+enableColorCorrection = 1;
+enableNonPlanarProjection = 1;
+enableVignetting = 1;
 
 # camera settings
 cameraFocalLength35 = 21

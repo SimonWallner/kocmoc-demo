@@ -7,6 +7,8 @@ in vec2 texCoord0;
 uniform sampler2D sTex0;
 uniform sampler3D sColorLUT;
 uniform int nonPlanarProjection;
+uniform int colorCorrection;
+uniform int vignetting;
 
 out vec4 fragmentColor0;
 
@@ -15,7 +17,7 @@ void main(void)
 	const float barrelParam = 0.5;
 	const float aspectRatio = 16.0f/9.0f;
 
-	vec4 baseColor;
+	vec4 color;
 
 	if (nonPlanarProjection == 1)
 	{
@@ -27,24 +29,25 @@ void main(void)
 
 		vec2 bentUV = uv / (barrelParam/(uv.s * uv.s + (uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);	
 		vec2 finalUV = (bentUV / 1.5) / 2 + 0.5; // to [0, 1]
+		color =  texture2D(sTex0, finalUV);
+	}
+	else
+		color = texture(sTex0, texCoord0);
 
 
-	// vignetting
+	if (vignetting == 1)
+	{
 		float attenuation = 2.0f;
 		float power = 3;
 	
-		float delta = distance(vec2(0.0f, 0.0f), (bentUV / vec2(1.0f, aspectRatio))) / 2.5;
+		float delta = distance(texCoord0, vec2(0.5f, 0.5f));
 		float darkening = 1 - pow(delta, power) * attenuation;
 
-		baseColor = texture2D(sTex0, finalUV) * darkening;
-	}
-	else
-	{
-		baseColor = texture(sTex0, texCoord0);
+		color = color * darkening;
 	}
 
-	if (texCoord0.x > 0.5f)
-		fragmentColor0 = texture3D(sColorLUT, baseColor.rbg); // need to change channels in the lookup
-	else
-		fragmentColor0 = baseColor;
+	if (colorCorrection == 1)
+		fragmentColor0 = texture3D(sColorLUT, color.rbg) * 2; // need to change channels in the lookup
+	else 
+		fragmentColor0 = color;
 }

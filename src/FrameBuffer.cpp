@@ -5,7 +5,12 @@
 
 using namespace kocmoc;
 
-FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(sizey)
+FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
+	: FBOSizeX(sizex)
+	, FBOSizeY(sizey)
+	, enableColorCorrection(util::Property("enableColorCorrection"))
+	, enableNonPlanarProjection(util::Property("enableNonPlanarProjection"))
+	, enableVignetting(util::Property("enableVignetting"))
 {
 	// generate fbo
 	glGenFramebuffers(1, &fboHandle);
@@ -35,7 +40,7 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey): FBOSizeX(sizex), FBOSizeY(
 
 	createQuad();
 
-	colorLUTHandle = ImageLoader::getInstance().loadImage3D("LUT32.png");
+	colorLUTHandle = ImageLoader::getInstance().loadImage3D("LUT32.png", false);
 }
 
 void FrameBuffer::check()
@@ -109,21 +114,26 @@ FrameBuffer::FrameBuffer()
 
 void FrameBuffer::setupShader()
 {
-	cout << "Frame buffer setup shader" << endl;
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
 
 	shader->bind();
 	{
 		GLint location;
 		
-		if ((location = shader->get_uniform_location("sTex0")) > 0)
+		if ((location = shader->get_uniform_location("sTex0")) >= 0)
 			glUniform1i(location, 0);
 
-		if ((location = shader->get_uniform_location("sColorLUT")) > 0)
+		if ((location = shader->get_uniform_location("sColorLUT")) >= 0)
 			glUniform1i(location, 1);
 
-		if ((location = shader->get_uniform_location("nonPlanarProjection")) > 0)
-			glUniform1i(location, util::Property("debugEnableNonPlanarProjection"));
+		if ((location = shader->get_uniform_location("nonPlanarProjection")) >= 0)
+			glUniform1i(location, enableNonPlanarProjection);
+		
+		if ((location = shader->get_uniform_location("colorCorrection")) >= 0)
+			glUniform1i(location, enableColorCorrection);
+
+		if ((location = shader->get_uniform_location("vignetting")) >= 0)
+			glUniform1i(location, enableVignetting);
 	}
 	shader->unbind();
 }
@@ -166,4 +176,23 @@ void FrameBuffer::setFBOTexture()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_3D, colorLUTHandle);
 	}
+}
+
+
+void FrameBuffer::toggleColorCorrection()
+{
+	enableColorCorrection = !enableColorCorrection;
+	std::cout << "color correction is: " << enableColorCorrection << std::endl;
+}
+
+void FrameBuffer::toggleProjection()
+{
+	enableNonPlanarProjection = !enableNonPlanarProjection;
+	std::cout << "non planar projection is: " << enableNonPlanarProjection << std::endl;
+}
+
+void FrameBuffer::toggleVignetting()
+{
+	enableVignetting = !enableVignetting;
+	std::cout << "vignetting is: " << enableVignetting << std::endl;
 }

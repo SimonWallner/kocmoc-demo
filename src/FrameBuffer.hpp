@@ -26,6 +26,10 @@ namespace kocmoc
 		GLuint getFBOHandle();
 		virtual void drawFBO();
 
+		void toggleColorCorrection(void);
+		void toggleProjection(void);
+		void toggleVignetting(void);
+
 	private:
 	
 		GLuint textureHandle;
@@ -47,6 +51,10 @@ namespace kocmoc
 		void setFBOTexture();
 		void createQuad();
 		void check();
+
+		bool enableColorCorrection;
+		bool enableNonPlanarProjection;
+		bool enableVignetting;
 	};
 }
 

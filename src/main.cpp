@@ -7,6 +7,32 @@ using namespace kocmoc;
 
 int main (void)
 {
+
+	std::cout	<< "//////////////////////////////////////////////////////////////////////////////" << std::endl
+				<< "   *           .                          .                          .        " << std::endl
+				<< "                             .                   .                         " << std::endl
+				<< "           .                                                    *           " << std::endl  
+      			<< ".                                        .                               " << std::endl 
+				<< "                    .              .                  .                 .        " << std::endl
+   				<< "                                                                      " << std::endl
+				<< "                                                                             " << std::endl
+				<< "         .           *                      .                 .                " << std::endl
+				<< "                               .           *                                   " << std::endl
+				<< "                                                                         .    " << std::endl
+				<< "                      .             .                         .                 " << std::endl
+				<< "*          .                                                                   " << std::endl
+				<< "                                                 .         0                   " << std::endl
+				<< "                             .                            /|\\                    " << std::endl
+				<< "          .                                                           .        " << std::endl
+				<< "                                                .                             " << std::endl
+				<< "                     *               .                    .                     " << std::endl
+				<< "   .                                                                 *         " << std::endl
+				<< "                                      .                                       " << std::endl
+				<< "//// kocmoc //////////////////////////////////////////////////////////////////" << std::endl;
+
+
+
+
 	if (!util::PropertiesFileParser::GetInstance().parse())
 	{
 		cout << "CRITICAL: Failed to parse config file, using default values!" << endl;

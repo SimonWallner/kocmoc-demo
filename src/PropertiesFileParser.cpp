@@ -6,7 +6,7 @@ using namespace kocmoc::util;
 PropertiesFileParser::PropertiesFileParser(void)
 {
 	//default values
-	cout << "pre-populating props cache with default values" << endl;
+	//cout << "pre-populating props cache with default values" << endl;
 	cache["width"] = "1280";
 	cache["height"] = "720";
 	cache["fullscreen"] = "0";
@@ -45,12 +45,12 @@ void PropertiesFileParser::getnextline(std::istream& is, string& line)
 
 bool PropertiesFileParser::parse()
 {
-	cout << "parsing properties file: " << CONFIG_PARSER_FILE_PATH << endl;
+	//cout << "parsing properties file: " << CONFIG_PARSER_FILE_PATH << endl;
 
 	std::ifstream file(CONFIG_PARSER_FILE_PATH);
 	if (!file)
 	{
-		cout << "failed to load file: " << CONFIG_PARSER_FILE_PATH << endl;
+		//cout << "failed to load file: " << CONFIG_PARSER_FILE_PATH << endl;
 		return false;
 	}
 
@@ -75,8 +75,8 @@ bool PropertiesFileParser::parse()
 				value = line.substr(pos+3);
 				cache[key] = value;
 
-				if(_DEBUG)
-					cout << "parsed pair: " << key << " = " << value << endl;
+				//if(_DEBUG)
+				//	cout << "parsed pair: " << key << " = " << value << endl;
 			}
 			else
 				cout << "failed to parse line: " << line << endl;
@@ -85,7 +85,7 @@ bool PropertiesFileParser::parse()
 	} catch (...) {
 		return false;
 	}
-	cout << "parsing successful!" << endl;
+	//cout << "parsing successful!" << endl;
 	return true;
 }
 

@@ -156,17 +156,51 @@ void Kocmoc::pollKeyboard(void)
 {
 	running = running && !glfwGetKey( GLFW_KEY_ESC );
 
-	if (glfwGetKey('1'))
+	if (glfwGetKey(GLFW_KEY_F1))
+		std::cout	<< "---------------------------------------------------------" << std::endl
+		<< "\t F1: this help dialog" <<std::endl
+		<< "\t F2: toggle FBO" << std::endl
+		<< "\t F3: toggle wireframe" << std::endl
+		<< "\t F4: print frametime/fps" << std::endl
+		<< "\t F5: toggle non-planar projection post" << std::endl
+		<< "\t F6: toggle vignetting post" << std::endl
+		<< "\t F7: toggle color correction post" << std::endl
+		<< "\t '.': take screenshot" << std::endl
+		<< "\t R: reload shaders/textures/etc..." << std::endl;
+
+	if (glfwGetKey(GLFW_KEY_F2))
+		useFBO = !useFBO;
+
+	if (glfwGetKey(GLFW_KEY_F3))
 		Context::getInstance().toggleWireframe();
+
+	if (glfwGetKey(GLFW_KEY_F4))
+		timer.print();
+
+	if (glfwGetKey(GLFW_KEY_F5))
+	{
+		fbo->toggleProjection();
+		reload();
+	}
+
+	if (glfwGetKey(GLFW_KEY_F6))
+	{
+		fbo->toggleVignetting();
+		reload();
+	}
+
+	if (glfwGetKey(GLFW_KEY_F7))
+	{
+		fbo->toggleColorCorrection();
+		reload();
+	}
 
 	if (glfwGetKey('.'))
 		ImageLoader::getInstance().screenShot();
 
-	if (glfwGetKey('2'))
-		timer.print();
+	if (glfwGetKey('R'))
+		ShaderManager::getInstance().reloadAll();
 
-	if (glfwGetKey('3'))
-		useFBO = !useFBO;
 
 	if (glfwGetKey('W'))
 		camera->dolly(vec3(0, 0, -0.01f));
@@ -186,8 +220,7 @@ void Kocmoc::pollKeyboard(void)
 	if (glfwGetKey(GLFW_KEY_LSHIFT))
 		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
 
-	if (glfwGetKey('R'))
-		ShaderManager::getInstance().reloadAll();
+	
 }
 
 
