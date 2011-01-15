@@ -43,7 +43,7 @@ void main(void)
 		baseColor = texture(sTex0, texCoord0);
 	}
 
-	if (texCoord0.x > 0.0f)
+	if (texCoord0.x > 0.5f)
 		fragmentColor0 = texture3D(sColorLUT, baseColor.rbg); // need to change channels in the lookup
 	else
 		fragmentColor0 = baseColor;

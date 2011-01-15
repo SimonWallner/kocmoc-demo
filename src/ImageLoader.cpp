@@ -40,25 +40,55 @@ ImageLoader &ImageLoader::getInstance()
 }
 
 
+
 GLuint ImageLoader::loadImage(string filename, bool degamma)
+{
+	ImageCache::const_iterator it = cache.find(filename);
+	if (it != cache.end()) // filename found in cache
+		return it->second.handle;
+
+	GLuint handle;
+	glGenTextures(1, &handle); /* Texture name generation */
+	if (loadImageToHandle(filename, degamma, handle))
+	{
+		CacheInfo info;
+		info.handle = handle;
+		info.degamma = degamma;
+		cache[filename] = info;
+		return handle;
+	}
+	else
+		return 0;
+}
+
+GLuint ImageLoader::loadImage3D(string filename, bool degamma)
+{
+	ImageCache::const_iterator it = cache3D.find(filename);
+	if (it != cache3D.end()) // filename found in cache
+		return it->second.handle;
+
+	GLuint handle;
+	glGenTextures(1, &handle); /* Texture name generation */
+	if (loadImageToHandle3D(filename, degamma, handle))
+	{
+		CacheInfo info;
+		info.handle = handle;
+		info.degamma = degamma;
+		cache3D[filename] = info;
+		return handle;
+	}
+	else
+		return 0;
+}
+
+
+bool ImageLoader::loadImageToHandle(string filename, bool degamma, GLuint handle)
 {
 	string fullPath = texturePathPrefix + filename;
 
-	//if (_DEBUG)
-	//	cout << "loading image: " << fullPath << "...";
 	
-	std::map<string, GLuint>::iterator it;
-	it = cache.find(filename);
-	if (it != cache.end()) // filename found in cache
-	{
-		//if (_DEBUG)
-		//	cout << " found in cache!" << endl;
-		return it->second;
-	}
-
 	// this code is based on the code found at http://gpwiki.org/index.php/DevIL:Tutorials:Basics
 	ILuint texid;
-	GLuint textureHandle;
 
 	ilGenImages(1, &texid);
 	ilBindImage(texid);
@@ -72,9 +102,7 @@ GLuint ImageLoader::loadImage(string filename, bool degamma)
 		alpha channel you can replace IL_RGB with IL_RGBA */
 		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
-		glGenTextures(1, &textureHandle); /* Texture name generation */
-		glBindTexture(GL_TEXTURE_2D, textureHandle); /* Binding of texture name */
-
+		glBindTexture(GL_TEXTURE_2D, handle); /* Binding of texture name */
 
 		GLint internalFormat;
 		if (degamma)
@@ -100,32 +128,20 @@ GLuint ImageLoader::loadImage(string filename, bool degamma)
 		// remove loaded image from memory
 		ilDeleteImages(1, &texid);
 		
-
-		if(_DEBUG)
-		cout << " done!" << endl;
-				
-		// add to cache
-		cache[filename] = textureHandle;
-		return textureHandle;
+		return true;
 	} else
 	{
 		cout << "failed ot load image: " << filename << " (" << iluErrorString(error) << ")" << endl;
-		return 0;
+		return false;
 	}
 }
 
-GLuint ImageLoader::loadImage3D(string filename, bool degamma)
+bool ImageLoader::loadImageToHandle3D(string filename, bool degamma, GLuint handle)
 {
 	string fullPath = texturePathPrefix + filename;
 	
-	std::map<string, GLuint>::iterator it = cache.find(filename);
-	if (it != cache.end()) // filename found in cache
-		return it->second;
-
 	// this code is based on the code found at http://gpwiki.org/index.php/DevIL:Tutorials:Basics
 	ILuint texid;
-	GLuint textureHandle;
-
 	ilGenImages(1, &texid);
 	ilBindImage(texid);
 
@@ -138,9 +154,7 @@ GLuint ImageLoader::loadImage3D(string filename, bool degamma)
 		alpha channel you can replace IL_RGB with IL_RGBA */
 		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
-		glGenTextures(1, &textureHandle); /* Texture name generation */
-		glBindTexture(GL_TEXTURE_3D, textureHandle); /* Binding of texture name */
-
+		glBindTexture(GL_TEXTURE_3D, handle); /* Binding of texture name */
 
 		GLint internalFormat;
 		if (degamma)
@@ -164,26 +178,16 @@ GLuint ImageLoader::loadImage3D(string filename, bool degamma)
 		glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 		
 		
-
-		//glGenerateMipmap(GL_TEXTURE_3D);
-
-		
 		// unbind texture
 		glBindTexture(GL_TEXTURE_3D, 0);
 		// remove loaded image from memory
 		ilDeleteImages(1, &texid);
 		
-
-		if(_DEBUG)
-		cout << " done!" << endl;
-				
-		// add to cache
-		cache[filename] = textureHandle;
-		return textureHandle;
+		return true;
 	} else
 	{
 		cout << "failed ot load image: " << filename << " (" << iluErrorString(error) << ")" << endl;
-		return 0;
+		return false;
 	}
 }
 
@@ -234,4 +238,13 @@ void ImageLoader::screenShot()
 	}
 
 	ilDeleteImage(image);
+}
+
+void ImageLoader::reload()
+{
+	for (ImageCache::const_iterator ci = cache.begin(); ci != cache.end(); ci++)
+		loadImageToHandle(ci->first, ci->second.degamma, ci->second.handle);
+
+	for (ImageCache::const_iterator ci = cache3D.begin(); ci != cache3D.end(); ci++)
+		loadImageToHandle3D(ci->first, ci->second.degamma, ci->second.handle);
 }

@@ -15,6 +15,12 @@ namespace kocmoc
 		GLubyte* data;
 	};
 
+	struct CacheInfo {
+		GLuint handle;
+		bool degamma;
+	};
+	
+	typedef std::map<string, CacheInfo> ImageCache;
 	/**
 	 * A basic devIL image Loader. Now as Singleton!
 	 */
@@ -51,13 +57,22 @@ namespace kocmoc
 		 */
 		void screenShot(void);
 
+		/**
+		 * reload all cached textures
+		 */
+		void reload(void);
+
 	private:
 		ImageLoader(void);
 		ImageLoader(const ImageLoader &cc);
 
+		bool loadImageToHandle(std::string filname, bool degamma, GLuint handle);
+		bool loadImageToHandle3D(std::string filname, bool degamma, GLuint handle);
+
 		string texturePathPrefix;
 
-		std::map<string, GLuint> cache;
+		ImageCache cache;
+		ImageCache cache3D;
 
 		GLint currentTextureQuality;
 		bool texOptionsChanged;

@@ -4,6 +4,7 @@
 #include <math.h>
 #include "Kocmoc.hpp"
 #include "ShaderManager.hpp"
+#include "ImageLoader.hpp"
 
 using namespace kocmoc;
 using namespace kocmoc::input;
@@ -99,6 +100,7 @@ void Gamepad::poll(void)
 		{
 			ShaderManager::getInstance().reloadAll();
 			Kocmoc::getInstance().reload();
+			ImageLoader::getInstance().reload();
 		}
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw
