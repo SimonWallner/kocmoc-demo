@@ -5,6 +5,9 @@ function [ image ] = createColorLUT( width, height, depth )
 % CREATECOLORLUT
 % Create a 3d color LUT texture to is out-of-engine color correction
 % color values are in the range on [0, 1]
+% a right-handed coordinate system is assumed, with 0 at the lower-far-left
+% and 1 at the upper-near-right.
+%
 % @param width The width of the texture
 % @param height The height of the texture
 % @param depth The depth of the texture, i.e. the number of 2d layers.
@@ -14,7 +17,7 @@ r = zeros(width, height, depth);
 for i = 1:height
     for j = 1:depth
         
-    r(:, i, j) = (0: 1/(width-1):1);
+    r(i, :, j) = (0: 1/(width-1):1);
     end
 end
 
@@ -23,7 +26,7 @@ g = zeros(width, height, depth);
 for i = 1:width
     for j = 1:depth
         
-    g(i, :, j) = (0: 1/(height-1):1);
+    g(:, i, j) = (1: -1/(height-1):0);
     end
 end
 
@@ -45,7 +48,7 @@ for i = 1:depth
     image(:, ((i-1) * width + 1):i*width, 3) = b(:, :, i);
 end
 
-imshow(image)
+imshow(image(:, :, :))
 
 end
 
