@@ -49,10 +49,6 @@ width = 800
 height = 800
 fullscreen = 0
 
-# the aspect ratio of the actual window i.e. the letterbox.
-AspectRatio = 1.777778
-
-
 wireframe = 0
 backFaceCulling = 1
 
@@ -80,6 +76,11 @@ enableVignetting = 0;
 
 # camera settings
 cameraFocalLength35 = 21
+aspectRatio = 1.7777778
+# aspectRatio = 0.7777778
+aspectRatio = 2.35
+horizontalMargin = 20
+verticalMargin = 20
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

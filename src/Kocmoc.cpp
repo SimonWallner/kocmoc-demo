@@ -52,7 +52,11 @@ void Kocmoc::init()
 	camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0));  // up
-	camera->setGateInPixel(Context::getInstance().width/2, Context::getInstance().height/2);
+	float aspectRatio = util::Property("aspectRatio");
+	if (aspectRatio > 1) // horizontal letter box
+		camera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
+	else
+		camera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
 
 	camera->setFocalLength(util::Property("cameraFocalLength35"));
 	camera->setupGizmo();
