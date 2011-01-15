@@ -77,8 +77,8 @@ enableVignetting = 0;
 # camera settings
 cameraFocalLength35 = 21
 aspectRatio = 1.7777778
-aspectRatio = 0.7777778
-aspectRatio = 2.35
+# aspectRatio = 0.7777778
+# aspectRatio = 2.35
 horizontalMargin = 20
 verticalMargin = 20
 

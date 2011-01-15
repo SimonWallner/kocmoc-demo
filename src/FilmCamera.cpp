@@ -46,8 +46,8 @@ void FilmCamera::updateMatrixes()
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
-	float x0 = (1/(tan(angleOfView/2))) / aspectRatio;
-	float y1 = 1/(tan(angleOfView/2));
+	float x0 = 1/(tan(angleOfView/2));
+	float y1 = (1/(tan(angleOfView/2))) * aspectRatio;
 	float z2 = (nearPlane + farPlane)/(nearPlane - farPlane);
 	float w2 = -1.0f;
 	float z3 = (-2.0f * nearPlane * farPlane)/(nearPlane - farPlane);
