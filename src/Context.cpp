@@ -42,7 +42,7 @@ void Context::setupGLFW()
     glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	getAvailableResolutions();
+	//getAvailableResolutions();
 		
 	if (glfwOpenWindow(width, height, 
 		0, 0, 0, 0, // r, g, b, a

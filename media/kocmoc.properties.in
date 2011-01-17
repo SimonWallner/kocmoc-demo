@@ -68,14 +68,14 @@ starsSize = 10
 debugShowGizmo = 0
 
 # post processing stuff
-enableColorCorrection = 0;
-enableNonPlanarProjection = 1;
-enableVignetting = 0;
+enableColorCorrection = 1
+enableNonPlanarProjection = 1
+enableVignetting = 1
 
 # camera settings
 cameraFocalLength35 = 12
 aspectRatio = 1.7777778
-# aspectRatio = 2.39
+aspectRatio = 2.39
 horizontalMargin = 85
 verticalMargin = 45
 
