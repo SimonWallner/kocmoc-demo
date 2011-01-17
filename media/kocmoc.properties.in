@@ -49,6 +49,9 @@ width = 1280
 height = 720
 fullscreen = 0
 
+enableMouse = 1
+captureMouse = 1
+
 wireframe = 0
 backFaceCulling = 1
 

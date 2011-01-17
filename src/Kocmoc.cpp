@@ -76,6 +76,9 @@ void Kocmoc::init()
 	{ /* inputs */
 		gamepad = new input::Gamepad(camera);
 		useGamepad = gamepad->init();
+		useMouse = util::Property("enableMouse");
+		if (useMouse && util::Property("captureMouse"));
+			glfwDisable(GLFW_MOUSE_CURSOR);
 	}
 
 	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight(), camera->getGateWidth(), camera->getGateHeight());
@@ -97,7 +100,8 @@ void Kocmoc::start()
 		pollKeyboard();
 		if (useGamepad)
 			gamepad->poll();
-		else
+		
+		if (useMouse);
 			pollMouse();
 
 		camera->updateMatrixes();
@@ -188,10 +192,10 @@ void Kocmoc::pollKeyboard(void)
 
 
 	if (glfwGetKey('W'))
-		camera->dolly(vec3(0, 0, -0.01f));
+		camera->dolly(vec3(0, 0, 0.01f));
 
 	if (glfwGetKey('S'))
-		camera->dolly(vec3(0, 0, 0.01f));
+		camera->dolly(vec3(0, 0, -0.01f));
 	
 	if (glfwGetKey('A'))
 		camera->dolly(vec3(-0.01f, 0, 0.f));
@@ -214,7 +218,7 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newX - mouseOldX)*0.01f, (newY - mouseOldY)*0.01f);
+	camera->tumble((newX - mouseOldX)*0.004f, (newY - mouseOldY)*-0.004f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;

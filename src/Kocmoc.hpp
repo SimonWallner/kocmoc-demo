@@ -69,6 +69,7 @@ namespace kocmoc
 		int mouseOldX, mouseOldY;
 		input::Gamepad *gamepad;
 		bool useGamepad;
+		bool useMouse;
 
 		FrameBuffer *fbo;
 
