@@ -42,7 +42,7 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 void FilmCamera::updateMatrixes() 
 {
 	aspectRatio = (float)getFrameWidth()/(float)getFrameHeight();
-	// TODO aovMargin = 
+	float extendedAOV = (atan(tan(angleOfView/2) * (((float)width + 2*horizontalMargin) / width))) * 2;
 
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
@@ -51,8 +51,8 @@ void FilmCamera::updateMatrixes()
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
 	// as found in hearn & baker
-	float x0 = 1/(tan(angleOfView/2));
-	float y1 = (1/(tan(angleOfView/2))) * aspectRatio;
+	float x0 = 1/(tan(extendedAOV/2));
+	float y1 = (1/(tan(extendedAOV/2))) * aspectRatio;
 	float z2 = (nearPlane + farPlane)/(nearPlane - farPlane);
 	float w2 = -1.0f;
 	float z3 = (-2.0f * nearPlane * farPlane)/(nearPlane - farPlane);

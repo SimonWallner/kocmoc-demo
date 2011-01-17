@@ -52,7 +52,8 @@ namespace kocmoc
 		/**
 		 * Togglet the wireframe mode
 		 */
-		void toggleWireframe(void);
+		void setWireframe(bool enable);
+		bool getWireframe(void) {return wireframeMode;};
 
 		void getAvailableResolutions(void);
 

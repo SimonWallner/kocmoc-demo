@@ -116,7 +116,14 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Context::getInstance().width, Context::getInstance().height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		fbo->drawFBO();
+		if (Context::getInstance().getWireframe())
+		{
+			Context::getInstance().setWireframe(false);
+			fbo->drawFBO();
+			Context::getInstance().setWireframe(true);
+		}
+		else
+			fbo->drawFBO();
 
 		drawOverlays();
 
@@ -150,7 +157,7 @@ void Kocmoc::pollKeyboard(void)
 		<< "\t R: reload shaders/textures/etc..." << std::endl;
 
 	if (glfwGetKey(GLFW_KEY_F3))
-		Context::getInstance().toggleWireframe();
+		Context::getInstance().setWireframe(!Context::getInstance().getWireframe());
 
 	if (glfwGetKey(GLFW_KEY_F4))
 		timer.print();

@@ -76,8 +76,8 @@ enableVignetting = 0;
 cameraFocalLength35 = 12
 aspectRatio = 1.7777778
 # aspectRatio = 2.39
-horizontalMargin = 100
-verticalMargin = 100
+horizontalMargin = 85
+verticalMargin = 45
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

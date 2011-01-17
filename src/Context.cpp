@@ -146,8 +146,7 @@ void Context::setGLStates()
 	glPointSize(2.0f);
 	glEnable(GL_LINE_SMOOTH);
 
-	if (util::Property("wireframe"))
-		toggleWireframe();
+	setWireframe(util::Property("wireframe"));	
 }
 
 void Context::swapBuffers()
@@ -160,9 +159,9 @@ void Context::clearBuffers()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void Context::toggleWireframe(void)
+void Context::setWireframe(bool enable)
 {
-	wireframeMode = !wireframeMode;
+	wireframeMode = enable;
 	cout << "toggle wireframe mode: " << wireframeMode << endl;
 
 	if(wireframeMode)
