@@ -58,8 +58,8 @@ void Kocmoc::init()
 	else
 		camera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
 
-	//camera->setFocalLength(util::Property("cameraFocalLength35"));
-	camera->setAngleOfView(2.0943951);
+	camera->setFocalLength(util::Property("cameraFocalLength35"));
+	camera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
 	camera->setupGizmo();
 	camera->updateMatrixes();
 	
@@ -78,7 +78,7 @@ void Kocmoc::init()
 		useGamepad = gamepad->init();
 	}
 
-	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight());
+	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight(), camera->getGateWidth(), camera->getGateHeight());
 	fbo->setupShader();
 	
 	running = true;
@@ -109,7 +109,7 @@ void Kocmoc::start()
 		// drawing stuff ---------------
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
-		glViewport(0, 0, fbo->width, fbo->height);
+		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		draw();
 

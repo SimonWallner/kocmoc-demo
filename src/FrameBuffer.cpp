@@ -8,9 +8,11 @@
 
 using namespace kocmoc;
 
-FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
-	: width(sizex * 2)
-	, height(sizey * 2)
+FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int _gateHeight)
+	: frameWidth(_frameWidth * 2)
+	, frameHeight(_frameHeight * 2)
+	, gateWidth(_gateWidth * 2)
+	, gateHeight(_gateHeight * 2)
 	, enableColorCorrection(util::Property("enableColorCorrection"))
 	, enableNonPlanarProjection(util::Property("enableNonPlanarProjection"))
 	, enableVignetting(util::Property("enableVignetting"))
@@ -22,13 +24,13 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
 	// create a depth-buffer
 	glGenRenderbuffers(1, &depthbufferHandle);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthbufferHandle);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, frameWidth, frameHeight);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthbufferHandle);
 
 	// create and bind texture
 	glGenTextures(1, &textureHandle);
 	glBindTexture(GL_TEXTURE_2D, textureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, frameWidth, frameHeight, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -74,20 +76,25 @@ void FrameBuffer::check()
 }
 void FrameBuffer::createQuad()
 {
-	GLfloat topX = -(float)(width / 2) / Context::getInstance().width;
-	GLfloat topY = (float)(height / 2) / Context::getInstance().height;
-	GLfloat bottomX = (float)(width / 2) / Context::getInstance().width;
-	GLfloat bottomY = -(float)(height / 2) / Context::getInstance().height;
+	GLfloat topX = -(float)(gateWidth / 2) / Context::getInstance().width;
+	GLfloat topY = (float)(gateHeight / 2) / Context::getInstance().height;
+	GLfloat bottomX = (float)(gateWidth / 2) / Context::getInstance().width;
+	GLfloat bottomY = -(float)(gateHeight / 2) / Context::getInstance().height;
+
+	float horizontalScale = (float)gateWidth / frameWidth;
+	float horizontalOffset = (1 - horizontalScale) / 2.0f;
+	float verticalScale = (float)gateHeight / frameHeight;
+	float verticallOffset = (1 - verticalScale) / 2.0f;
 
 	GLfloat quadVertices[] = {bottomX,  bottomY, 0.0f,
 		bottomX, topY, 0.0f,
 		topX, topY, 0.0f,
 		topX, bottomY, 0.0f};
 
-	GLfloat quadTexCoord[] = {1.0f, 0.0f,
-		1.0f,  1.0f,
-		0.0f, 1.0f,
-		0.0f, 0.0f };
+	GLfloat quadTexCoord[] = {	horizontalScale + horizontalOffset,	verticallOffset,
+								horizontalScale + horizontalOffset,	verticalScale + verticallOffset,
+								horizontalOffset,					verticalScale + verticallOffset,
+								horizontalOffset,					verticallOffset};
 
 	vbo_id = new GLuint[2];
 	glGenBuffers(2, vbo_id);
@@ -133,7 +140,7 @@ void FrameBuffer::setupShader()
 			glUniform1i(location, enableVignetting);
 
 		if ((location = shader->get_uniform_location("dimension")) >= 0)
-			glUniform2i(location, width, height);
+			glUniform2i(location, gateWidth, gateHeight);
 
 		if ((location = shader->get_uniform_location("angleOfView")) >= 0)
 			glUniform1f(location, Kocmoc::getInstance().getCamera()->getAngleOfView());

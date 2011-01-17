@@ -10,7 +10,7 @@ namespace kocmoc
 	class FrameBuffer
 	{
 	public:
-		FrameBuffer(GLuint sizex, GLuint sizey);
+		FrameBuffer(int frameWidth, int frameHeight, int gateWidth, int gateHeight);
 
 		virtual ~FrameBuffer();
 
@@ -30,8 +30,10 @@ namespace kocmoc
 		void toggleProjection(void);
 		void toggleVignetting(void);
 
-		const GLuint width;
-		const GLuint height;
+		const int gateWidth;
+		const int gateHeight;
+		const int frameWidth;
+		const int frameHeight;
 
 	private:
 	

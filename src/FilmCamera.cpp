@@ -6,12 +6,14 @@
 
 using namespace kocmoc;
 
-FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector) :
-	eyePosition(_eyePosition),
-	upVector(glm::normalize(_upVector)),
-	angleOfView(KOCMOC_PI/2),
-	nearPlane(util::Property("nearPlane")),
-	farPlane(util::Property("farPlane"))
+FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector)
+	: eyePosition(_eyePosition)
+	, upVector(glm::normalize(_upVector))
+	, angleOfView(KOCMOC_PI/2)
+	, nearPlane(util::Property("nearPlane"))
+	, farPlane(util::Property("farPlane"))
+	, horizontalMargin(0)
+	, verticalMargin(0)
 {
 	targetVector = glm::normalize(_targetPosition - eyePosition);
 }
@@ -39,6 +41,9 @@ mat4 FilmCamera::getUntraslatedViewMatrix()
 
 void FilmCamera::updateMatrixes() 
 {
+	aspectRatio = (float)getFrameWidth()/(float)getFrameHeight();
+	// TODO aovMargin = 
+
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 
 	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
@@ -112,11 +117,26 @@ void FilmCamera::setGateInPixel(int _width, int _height)
 {
 	width = _width;
 	height = _height;
-	aspectRatio = (float)width/(float)height;
 }
 
 void FilmCamera::setFilterMarginInPixel(int _horizontalMargin, int _verticalMargin)
 {
 	horizontalMargin = _horizontalMargin;
 	verticalMargin = _verticalMargin;
+}
+
+int FilmCamera::getFrameWidth() {
+	return width + 2 * horizontalMargin;
+}
+
+int FilmCamera::getFrameHeight() {
+	return height + 2 * verticalMargin;
+}
+
+int FilmCamera::getGateWidth() {
+	return width;
+}
+
+int FilmCamera::getGateHeight() {
+	return height;
 }

@@ -44,8 +44,10 @@ namespace kocmoc
 		 */
 		void setFilterMarginInPixel(int horizontalMargin, int verticalMargin);
 
-		int getFrameWidth(void) {return width;};
-		int getFrameHeight(void) {return height;};
+		int getFrameWidth(void);
+		int getFrameHeight(void);
+		int getGateWidth(void);
+		int getGateHeight(void);
 
 		/**
 		 * Set the 35mm equivalent focal length of the lens. This should be
@@ -117,9 +119,12 @@ namespace kocmoc
 
 		/** The horizontal angle of view in radians */
 		float angleOfView;
-
+		
+		/** the width and height of the gate. */
 		int width;
 		int height;
+
+		/** horizontal and vertical filter margin */
 		int horizontalMargin;
 		int verticalMargin;
 	};
