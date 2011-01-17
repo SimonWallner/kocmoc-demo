@@ -60,8 +60,6 @@ nearPlane = -0.1
 farPlane = -10000
 
 # star generator
-starsUseModel = 1
-starsModelName = cube.dae
 starsCount = 10000
 starsDomain = 3000
 starsSize = 10
@@ -76,9 +74,8 @@ enableVignetting = 0;
 
 # camera settings
 cameraFocalLength35 = 21
-aspectRatio = 1.7777778
-# aspectRatio = 0.7777778
-# aspectRatio = 2.35
+# aspectRatio = 1.7777778
+aspectRatio = 2.35
 horizontalMargin = 20
 verticalMargin = 20
 

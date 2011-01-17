@@ -106,15 +106,15 @@ void Kocmoc::start()
 
 
 		// drawing stuff ---------------
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
-		glViewport(0, 0, camera->getFrameWidth(), camera->getFrameHeight());
-
+		glViewport(0, 0, fbo->width, fbo->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		draw();
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Context::getInstance().width, Context::getInstance().height);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		fbo->drawFBO();
 
 		drawOverlays();

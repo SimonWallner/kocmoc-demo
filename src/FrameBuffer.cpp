@@ -7,8 +7,8 @@
 using namespace kocmoc;
 
 FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
-	: width(sizex)
-	, height(sizey)
+	: width(sizex * 2)
+	, height(sizey * 2)
 	, enableColorCorrection(util::Property("enableColorCorrection"))
 	, enableNonPlanarProjection(util::Property("enableNonPlanarProjection"))
 	, enableVignetting(util::Property("enableVignetting"))
@@ -20,13 +20,13 @@ FrameBuffer::FrameBuffer(GLuint sizex, GLuint sizey)
 	// create a depth-buffer
 	glGenRenderbuffers(1, &depthbufferHandle);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthbufferHandle);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, sizex, sizey);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthbufferHandle);
 
 	// create and bind texture
 	glGenTextures(1, &textureHandle);
 	glBindTexture(GL_TEXTURE_2D, textureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, sizex, sizey, 0, GL_RGBA, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, width, height, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -72,10 +72,10 @@ void FrameBuffer::check()
 }
 void FrameBuffer::createQuad()
 {
-	GLfloat topX = -(float)width / Context::getInstance().width;
-	GLfloat topY = (float)height / Context::getInstance().height;
-	GLfloat bottomX = (float)width / Context::getInstance().width;
-	GLfloat bottomY = -(float)height / Context::getInstance().height;
+	GLfloat topX = -(float)(width / 2) / Context::getInstance().width;
+	GLfloat topY = (float)(height / 2) / Context::getInstance().height;
+	GLfloat bottomX = (float)(width / 2) / Context::getInstance().width;
+	GLfloat bottomY = -(float)(height / 2) / Context::getInstance().height;
 
 	GLfloat quadVertices[] = {bottomX,  bottomY, 0.0f,
 		bottomX, topY, 0.0f,
@@ -107,11 +107,6 @@ void FrameBuffer::createQuad()
 	glBindVertexArray(0);
 }
 
-FrameBuffer::FrameBuffer()
-{
-}
-
-
 void FrameBuffer::setupShader()
 {
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
@@ -134,6 +129,9 @@ void FrameBuffer::setupShader()
 
 		if ((location = shader->get_uniform_location("vignetting")) >= 0)
 			glUniform1i(location, enableVignetting);
+
+		if ((location = shader->get_uniform_location("dimension")) >= 0)
+			glUniform2i(location, width, height);
 	}
 	shader->unbind();
 }

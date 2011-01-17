@@ -9,6 +9,7 @@ uniform sampler3D sColorLUT;
 uniform int nonPlanarProjection;
 uniform int colorCorrection;
 uniform int vignetting;
+uniform ivec2 dimension;
 
 out vec4 fragmentColor0;
 
@@ -29,7 +30,16 @@ void main(void)
 
 		vec2 bentUV = uv / (barrelParam/(uv.s * uv.s + (uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);	
 		vec2 finalUV = (bentUV / 1.5) / 2 + 0.5; // to [0, 1]
-		color =  texture2D(sTex0, finalUV);
+
+		// multi sampling...
+		vec2 msaaOffset = 0.5f * 1.0f/dimension;
+		vec4 c = texture(sTex0, finalUV + msaaOffset);
+		c += texture(sTex0, finalUV + msaaOffset * vec2(-1.0f, 1.0f));
+		c += texture(sTex0, finalUV + msaaOffset * vec2(1.0f, -1.0f));
+		c += texture(sTex0, finalUV + msaaOffset * vec2(-1.0f, -1.0f));
+//		c += texture(sTex0, finalUV) * 6;
+
+		color = c / 4.0f;
 	}
 	else
 		color = texture(sTex0, texCoord0);

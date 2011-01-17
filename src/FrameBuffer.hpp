@@ -30,6 +30,9 @@ namespace kocmoc
 		void toggleProjection(void);
 		void toggleVignetting(void);
 
+		const GLuint width;
+		const GLuint height;
+
 	private:
 	
 		GLuint textureHandle;
@@ -41,9 +44,6 @@ namespace kocmoc
 		FrameBuffer(void);
 
 		GLuint fboHandle;
-
-		GLuint width;
-		GLuint height;
 
 		GLuint *vbo_id;
 		GLuint vao_id;
