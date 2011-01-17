@@ -10,26 +10,32 @@ uniform int nonPlanarProjection;
 uniform int colorCorrection;
 uniform int vignetting;
 uniform ivec2 dimension;
+uniform float angleOfView;
 
 out vec4 fragmentColor0;
 
 void main(void)
 {
-	const float barrelParam = 0.5;
-	const float aspectRatio = 16.0f/9.0f;
+	const float barrelParam = 0.7;
+	float aspectRatio = dimension.x / dimension.y;
 
 	vec4 color;
 
 	if (nonPlanarProjection == 1)
 	{
-		vec2 uv = texCoord0 * 2 - 1; // to [-1, 1]
 
-	//	vec2 bentUV = uv;
-	//	bentUV.s = uv.s / (barrelParam/((uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);
-	//	bentUV.t = uv.t / (barrelParam/(uv.s * uv.s + 1) + 1-barrelParam);
+		float scale = tan(angleOfView/2 * barrelParam);		
 
-		vec2 bentUV = uv / (barrelParam/(uv.s * uv.s + (uv.t / aspectRatio) * (uv.t / aspectRatio) + 1) + 1-barrelParam);	
-		vec2 finalUV = (bentUV / 1.5) / 2 + 0.5; // to [0, 1]
+		vec2 normalizedUV = (texCoord0 * 2 - 1) / vec2(1, aspectRatio); // to [-1, 1] and square pixels
+	
+
+		vec2 angle = normalizedUV * (angleOfView/2 * barrelParam);
+
+		vec2 bentUV = angle / (length(angle) / tan(length(angle))) / scale;
+//		bentUV = angle;
+
+
+		vec2 finalUV = (bentUV * vec2(1, aspectRatio)) / 2 + 0.5f;
 
 		// multi sampling...
 		vec2 msaaOffset = 0.5f * 1.0f/dimension;

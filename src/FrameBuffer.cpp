@@ -3,6 +3,8 @@
 #include "ImageLoader.hpp"
 #include "Property.hpp"
 #include "Context.hpp"
+#include "Kocmoc.hpp"
+#include "FilmCamera.hpp"
 
 using namespace kocmoc;
 
@@ -132,6 +134,9 @@ void FrameBuffer::setupShader()
 
 		if ((location = shader->get_uniform_location("dimension")) >= 0)
 			glUniform2i(location, width, height);
+
+		if ((location = shader->get_uniform_location("angleOfView")) >= 0)
+			glUniform1f(location, Kocmoc::getInstance().getCamera()->getAngleOfView());
 	}
 	shader->unbind();
 }

@@ -58,7 +58,8 @@ void Kocmoc::init()
 	else
 		camera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
 
-	camera->setFocalLength(util::Property("cameraFocalLength35"));
+	//camera->setFocalLength(util::Property("cameraFocalLength35"));
+	camera->setAngleOfView(2.0943951);
 	camera->setupGizmo();
 	camera->updateMatrixes();
 	

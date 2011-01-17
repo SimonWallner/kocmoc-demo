@@ -59,6 +59,7 @@ namespace kocmoc
 		 * @param radians The horizontal AOV in radians.
 		 */
 		void setAngleOfView(float radians);
+		float getAngleOfView(void) {return angleOfView;};
 
 		// override fuctions from camera
 		mat4 getViewMatrix();
