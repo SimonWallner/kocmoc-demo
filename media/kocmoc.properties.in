@@ -85,8 +85,8 @@ verticalMargin = 45
 # shadwo map
 shadowMapWidth = 1024
 shadowMapHeight = 1024
-orthoWidth = 10
-orthoHeight = 10
+orthoWidth = 6
+orthoHeight = 4
 orthoDepth = 10
 
 # ------------------------------------------------------------------------------

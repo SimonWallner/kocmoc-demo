@@ -72,6 +72,7 @@ void Kocmoc::init()
 	ship = KocmocLoader::getInstance().load(util::Property("XModelName"));
 	scene->add(ship);
 	scene->add(util::generator::generateStars());
+	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
 	if (showGizmos)
 		scene->add(util::generator::generateGizmo());
@@ -112,7 +113,7 @@ void Kocmoc::start()
 		camera->updateMatrixes();
 
 		// update stuff ------------------
-		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
+		ship->setTransformation(glm::gtx::transform::rotate(30.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
 
 
 		// drawing stuff ---------------
@@ -121,7 +122,7 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		ship->draw(orthoCam);
+		ship->draw(orthoCam, shadowShader);
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
@@ -155,6 +156,7 @@ void Kocmoc::draw()
 {
 	scene->draw(camera);	
 }
+
 void Kocmoc::drawOverlays()
 {
 	if (showGizmos)

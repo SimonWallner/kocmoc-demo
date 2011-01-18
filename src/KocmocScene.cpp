@@ -27,20 +27,20 @@ void KocmocScene::add(KocmocScene* node)
 	nodeList.push_back(node);
 }
 
-void KocmocScene::draw(glm::mat4 parentTransform, Camera *camera)
+void KocmocScene::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
 {
 	glm::mat4 childTransform = parentTransform * transformation;
 
 	for (PolyMeshPointerList::const_iterator ci = polyMeshList.begin(); ci != polyMeshList.end(); ci++)
-		(*ci)->draw(childTransform, camera);
+		(*ci)->draw(childTransform, camera, shader);
 	
 	for (NodePointerList::const_iterator ci = nodeList.begin(); ci != nodeList.end(); ci++)
-		(*ci)->draw(childTransform, camera);
+		(*ci)->draw(childTransform, camera, shader);
 }
 
-void KocmocScene::draw(Camera *camera)
+void KocmocScene::draw(Camera *camera, Shader *shader)
 {
-	draw(glm::mat4(1.0f), camera);
+	draw(glm::mat4(1.0f), camera, shader);
 }
 
 void KocmocScene::setTransformation(glm::core::type::mat4 t)

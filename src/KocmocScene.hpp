@@ -26,8 +26,8 @@ namespace kocmoc
 		void add(PolyMesh* mesh);
 		void add(KocmocScene* node);
 	
-		void draw(glm::mat4 transform, Camera *camera);
-		void draw(Camera *camera);
+		void draw(glm::mat4 transform, Camera *camera, Shader *shader = NULL);
+		void draw(Camera *camera, Shader *shader = NULL);
 
 		void setTransformation(glm::mat4 transform);
 		glm::mat4 getTransformation(void) {return transformation;};

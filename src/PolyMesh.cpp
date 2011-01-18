@@ -188,8 +188,14 @@ void PolyMesh::setNormalTexture(GLint _textureHandle)
 	normalTextureHandle = _textureHandle;
 }
 
-void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera)
+void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera, Shader *shadowShader)
 {
+	Shader* activeShader;
+	if (shadowShader == NULL)
+		activeShader = shader;
+	else 
+		activeShader = shadowShader;
+
 	glm::mat4 leafTransform = parentTransform * modelMatrix;
 	glm::mat3 normalMatrix = glm::mat3(glm::gtx::inverse_transpose::inverseTranspose(leafTransform));
 
@@ -215,30 +221,31 @@ void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera)
 		glBindTexture(GL_TEXTURE_2D, normalTextureHandle);
 	}
 
-	shader->bind();
+	activeShader->bind();
 	{
 
-		GLint camera_location = shader->get_uniform_location("cameraPosition");
-		glUniform3fv(camera_location, 1, glm::value_ptr(Kocmoc::getInstance().getCamera()->getPosition()));
+		GLint location;
+		if ((location = activeShader->get_uniform_location("cameraPosition")) >= 0)
+			glUniform3fv(location, 1, glm::value_ptr(Kocmoc::getInstance().getCamera()->getPosition()));
 
-		GLint projectionMatrix_location = shader->get_uniform_location("projectionMatrix");		glUniformMatrix4fv(projectionMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-		GLint viewMatrix_location = shader->get_uniform_location("viewMatrix");		glUniformMatrix4fv(viewMatrix_location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-		GLint modelMatrix_location = shader->get_uniform_location("modelMatrix");		glUniformMatrix4fv(modelMatrix_location, 1, GL_FALSE, glm::value_ptr(leafTransform));
+		if ((location = activeShader->get_uniform_location("projectionMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+		if ((location = activeShader->get_uniform_location("viewMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+		if ((location = activeShader->get_uniform_location("modelMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
 
-		mat4 shadowPV = Kocmoc::getInstance().getOrthoCam()->getProjectionMatrix() * Kocmoc::getInstance().getOrthoCam()->getViewMatrix();
-		GLint shadowPV_location = shader->get_uniform_location("shadowPV");		glUniformMatrix4fv(shadowPV_location, 1, GL_FALSE, glm::value_ptr(shadowPV));
-
-		if (normalPositions != NULL)
+		if ((location = activeShader->get_uniform_location("shadowPV")) >= 0)
 		{
-			GLint normalMatrix_location = shader->get_uniform_location("normalMatrix");
-			glUniformMatrix3fv(normalMatrix_location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
+			mat4 shadowPV = Kocmoc::getInstance().getOrthoCam()->getProjectionMatrix() * Kocmoc::getInstance().getOrthoCam()->getViewMatrix();
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(shadowPV));
 		}
+
+		if (normalPositions != NULL && (location = activeShader->get_uniform_location("normalMatrix")) >= 0)
+			glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
 	
 		glBindVertexArray(vaoHandle);
 		glDrawElements(GL_TRIANGLES, triangulatedVertexIndexCount, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
-	shader->unbind();
+	activeShader->unbind();
 }
 
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)

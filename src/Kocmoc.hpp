@@ -69,6 +69,7 @@ namespace kocmoc
 
 		KocmocScene* scene;
 		KocmocScene* ship;
+		Shader *shadowShader;
 		
 		int mouseOldX, mouseOldY;
 		input::Gamepad *gamepad;
