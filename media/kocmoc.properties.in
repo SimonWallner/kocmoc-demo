@@ -47,6 +47,8 @@ XModelName = kocmoc.dae
 # screen resolution and weather to start in full screen mode or not
 width = 1280
 height = 720
+# width = 1920
+# height = 803
 fullscreen = 0
 
 enableMouse = 0
@@ -72,13 +74,13 @@ debugShowGizmo = 0
 
 # post processing stuff
 enableColorCorrection = 0
-enableNonPlanarProjection = 0
+enableNonPlanarProjection = 1
 enableVignetting = 0
 
 # camera settings
-cameraFocalLength35 = 12
+cameraFocalLength35 = 21
 aspectRatio = 1.7777778
-aspectRatio = 2.39
+# aspectRatio = 2.39
 horizontalMargin = 85
 verticalMargin = 45
 

@@ -94,5 +94,7 @@ namespace kocmoc
 
 		void drawOverlays(void);
 
+		bool foo;
+
 	};
 }

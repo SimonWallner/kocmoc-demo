@@ -44,10 +44,14 @@ void main(void)
 		vec3 viewVector = normalize(cameraPosition - worldSpacePosition);
 		vec3 reflected = normalize(reflect(lightDirection, transformed.xyz));
 
-		vec3 specularTerm = specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
+		vec3 specularTerm = diffuseFactor * specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
 
 		fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 	}
 	else 
 		fragmentColor0 = vec4(ambientTerm, 1);
+
+	fragmentColor0 = pow(fragmentColor0, (0.2).xxxx);
+//	fragmentColor0 /= (shadowUV.z / -2 + 0.3);
+
 }

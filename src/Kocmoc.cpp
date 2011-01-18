@@ -91,6 +91,7 @@ void Kocmoc::init()
 	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
 	running = true;
+	foo = false;
 }
 
 void Kocmoc::start()
@@ -113,7 +114,7 @@ void Kocmoc::start()
 		camera->updateMatrixes();
 
 		// update stuff ------------------
-		ship->setTransformation(glm::gtx::transform::rotate(30.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
+		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
 
 
 		// drawing stuff ---------------
@@ -122,12 +123,16 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		ship->draw(orthoCam, shadowShader);
+		if (foo)
+		{
+			ship->draw(orthoCam, shadowShader);
+			std::cout << "render" << endl;
+		}
+		
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
 		
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, shadowMap->getTextureHandle());
@@ -226,6 +231,9 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey(GLFW_KEY_LSHIFT))
 		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
+	
+	if (glfwGetKey('X'))
+		foo = !foo;
 
 	
 }
