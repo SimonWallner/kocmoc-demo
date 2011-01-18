@@ -5,6 +5,7 @@
 #include "PolyMesh.hpp"
 #include <list>
 #include "Shader.hpp"
+#include "Camera.hpp"
 
 namespace kocmoc
 {
@@ -25,8 +26,8 @@ namespace kocmoc
 		void add(PolyMesh* mesh);
 		void add(KocmocScene* node);
 	
-		void draw(glm::mat4 transform);
-		void draw(void);
+		void draw(glm::mat4 transform, Camera *camera);
+		void draw(Camera *camera);
 
 		void setTransformation(glm::mat4 transform);
 		glm::mat4 getTransformation(void) {return transformation;};

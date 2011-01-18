@@ -182,6 +182,8 @@ void Shader::setParams()
 		glUniform1i(location, 1);
 	if ((location = get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
 		glUniform1i(location, 2);
+	if ((location = get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 3);
 
 	unbind();
 }

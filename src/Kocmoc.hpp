@@ -4,6 +4,8 @@
 #include "KocmocScene.hpp"
 #include "Gamepad.hpp"
 #include "FrameBuffer.hpp"
+#include "ShadowMap.hpp"
+#include "OrthoCam.hpp"
 
 namespace kocmoc
 {
@@ -42,7 +44,8 @@ namespace kocmoc
 
 		bool isRunning();
 
-		FilmCamera *getCamera(void) {return camera;}
+		FilmCamera *getCamera(void) {return camera;};
+		Camera *getOrthoCam(void) {return orthoCam;};
 
 		/**
 		 * reload some stuff
@@ -62,6 +65,7 @@ namespace kocmoc
 		Timer timer;
 
 		FilmCamera* camera;
+		OrthoCam *orthoCam;
 
 		KocmocScene* scene;
 		KocmocScene* ship;
@@ -72,6 +76,7 @@ namespace kocmoc
 		bool useMouse;
 
 		FrameBuffer *fbo;
+		ShadowMap *shadowMap;
 
 		bool showGizmos;
 

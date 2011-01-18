@@ -62,11 +62,6 @@ void FilmCamera::updateMatrixes()
 							0, y1, 0, 0, 
 							0, 0, z2, w2,
 							0, 0, z3, 0);
-
-	//projectionMatrix = mat4(0.2f, 0, 0, 0,
-	//						0, aspectRatio*0.2f, 0, 0, 
-	//						0, 0, 0.2f, 0,
-	//						0, 0, 0, 1);
 }
 
 void FilmCamera::tumble(float horizontal, float vertical)

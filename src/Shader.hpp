@@ -20,6 +20,7 @@
 #define DIFFUSE_SAMPLER_NAME			"sDiffuse"
 #define SPECULAR_SAMPLER_NAME			"sSpecular"
 #define NORMAL_SAMPLER_NAME				"sNormal"
+#define SHADOW_SAMPLER_NAME				"sShadow"
 
 namespace kocmoc
 {

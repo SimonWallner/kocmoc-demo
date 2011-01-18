@@ -49,8 +49,8 @@ width = 1280
 height = 720
 fullscreen = 0
 
-enableMouse = 1
-captureMouse = 1
+enableMouse = 0
+captureMouse = 0
 
 wireframe = 0
 backFaceCulling = 1
@@ -71,9 +71,9 @@ starsSize = 10
 debugShowGizmo = 0
 
 # post processing stuff
-enableColorCorrection = 1
-enableNonPlanarProjection = 1
-enableVignetting = 1
+enableColorCorrection = 0
+enableNonPlanarProjection = 0
+enableVignetting = 0
 
 # camera settings
 cameraFocalLength35 = 12
@@ -81,6 +81,13 @@ aspectRatio = 1.7777778
 aspectRatio = 2.39
 horizontalMargin = 85
 verticalMargin = 45
+
+# shadwo map
+shadowMapWidth = 1024
+shadowMapHeight = 1024
+orthoWidth = 10
+orthoHeight = 10
+orthoDepth = 10
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

@@ -3,6 +3,7 @@
 
 #include "Shader.hpp"
 #include "RenderMesh.hpp"
+#include "Camera.hpp"
 
 namespace kocmoc
 {
@@ -55,7 +56,7 @@ namespace kocmoc
 		 * Draw the mesh.
 		 * If the data is not on the gpu yet it will be transfered upon the first call
 		 */
-		void draw(glm::mat4 parentTransform);
+		void draw(glm::mat4 parentTransform, Camera *camera);
 
 		void setShader(Shader *shader);
 

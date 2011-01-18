@@ -10,11 +10,13 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 modelMatrix;
 uniform mat3 normalMatrix;
+uniform mat4 shadowPV;
 //uniform vec3 inLightPosition;
 
 out vec2 texCoord0;
 out vec3 fragmentNormal;
 out vec3 worldSpacePosition;
+out vec3 shadowUV;
 
 
 void main(void)
@@ -23,6 +25,8 @@ void main(void)
 	worldSpacePosition = (modelMatrix * inPosition).xyz;
 	fragmentNormal = normalMatrix * inNormal;
 	texCoord0 = inTexCoord0;
+
+	shadowUV = (shadowPV * modelMatrix * inPosition).xyz;
 }
 
 

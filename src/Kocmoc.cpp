@@ -7,6 +7,7 @@
 #include "utility.hpp"
 #include "ShaderManager.hpp"
 
+
 using namespace kocmoc;
 
 Kocmoc* Kocmoc::instance = NULL;
@@ -62,6 +63,9 @@ void Kocmoc::init()
 	camera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
 	camera->setupGizmo();
 	camera->updateMatrixes();
+
+	orthoCam = new OrthoCam(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
+	orthoCam->updateMatrixes();
 	
 	
 	scene = new KocmocScene();
@@ -77,12 +81,13 @@ void Kocmoc::init()
 		gamepad = new input::Gamepad(camera);
 		useGamepad = gamepad->init();
 		useMouse = util::Property("enableMouse");
-		if (useMouse && util::Property("captureMouse"));
+		if (useMouse && util::Property("captureMouse"))
 			glfwDisable(GLFW_MOUSE_CURSOR);
 	}
 
 	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight(), camera->getGateWidth(), camera->getGateHeight());
 	fbo->setupShader();
+	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
 	running = true;
 }
@@ -101,7 +106,7 @@ void Kocmoc::start()
 		if (useGamepad)
 			gamepad->poll();
 		
-		if (useMouse);
+		if (useMouse)
 			pollMouse();
 
 		camera->updateMatrixes();
@@ -111,11 +116,22 @@ void Kocmoc::start()
 
 
 		// drawing stuff ---------------
+
+		// shadow map
+		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
+		glViewport(0, 0, shadowMap->width, shadowMap->height);
+		glClear(GL_DEPTH_BUFFER_BIT);
+		ship->draw(orthoCam);
 		
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, shadowMap->getTextureHandle());
 		draw();
+
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Context::getInstance().width, Context::getInstance().height);
@@ -137,7 +153,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	scene->draw();	
+	scene->draw(camera);	
 }
 void Kocmoc::drawOverlays()
 {

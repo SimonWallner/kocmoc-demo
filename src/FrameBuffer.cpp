@@ -198,7 +198,7 @@ void FrameBuffer::toggleColorCorrection()
 void FrameBuffer::toggleProjection()
 {
 	enableNonPlanarProjection = !enableNonPlanarProjection;
-	std::cout << "non planar projection is: " << enableNonPlanarProjection << std::endl;
+	std::cout << "non-planar projection is: " << enableNonPlanarProjection << std::endl;
 }
 
 void FrameBuffer::toggleVignetting()

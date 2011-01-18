@@ -5,12 +5,12 @@
 in vec2 texCoord0;
 in vec3 fragmentNormal;
 in vec3 worldSpacePosition;
-//in vec3 lightDirection;
-//in vec3 incidentLightPosition;
+in vec3 shadowUV;
 
 uniform sampler2D sDiffuse;
 uniform sampler2D sSpecular;
 uniform sampler2D sNormal;
+uniform sampler2D sShadow;
 
 uniform mat3 normalMatrix;
 uniform vec3 cameraPosition;
@@ -48,5 +48,6 @@ void main(void)
 
 
 	fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
-//	fragmentColor0 = vec4(transformed, 1);
+//	fragmentColor0 = vec4(shadowUV.zzz / -2 + 0.5, 1);
+//	fragmentColor0 = texture(sShadow, shadowUV.xy / 2 + 0.5);
 }
