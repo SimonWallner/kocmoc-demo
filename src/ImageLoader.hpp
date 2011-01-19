@@ -74,11 +74,8 @@ namespace kocmoc
 		ImageCache cache;
 		ImageCache cache3D;
 
-		GLint currentTextureQuality;
-		bool texOptionsChanged;
 		GLfloat maxAnisotropy;
 		bool useAF;
-	
 	};
 }
 

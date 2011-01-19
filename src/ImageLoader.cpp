@@ -1,5 +1,5 @@
 #include "ImageLoader.hpp"
-#include "PropertiesFileParser.hpp"
+#include "Property.hpp"
 
 #define ILUT_USE_OPENGL
 #include "IL/ilu.h"
@@ -12,7 +12,7 @@ using namespace kocmoc;
 
 ImageLoader::ImageLoader(void)
 {
-	util::PropertiesFileParser::GetInstance().getProperty("TexturesRootFolder", &texturePathPrefix);
+	texturePathPrefix = util::Property("TexturesRootFolder");
 
 	ilInit();
 	iluInit();
@@ -20,12 +20,9 @@ ImageLoader::ImageLoader(void)
 	ilEnable(IL_ORIGIN_SET);
 	ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
 
-	useAF = false;
+	useAF = util::Property("enableAnisotropicFiltering");
 
-	currentTextureQuality = GL_LINEAR_MIPMAP_LINEAR;
-	texOptionsChanged = false;
-
-	//glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAnisotropy);
+	//glGetFloatv(GL_MAX_TEXTURE_, &maxAnisotropy);
 	//cout << "Max anisotropy supported: " << maxAnisotropy << endl;
 }
 
@@ -114,7 +111,7 @@ bool ImageLoader::loadImageToHandle(string filename, bool degamma, GLuint handle
 			ilGetInteger(IL_IMAGE_HEIGHT), 0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE,
 			ilGetData()); /* Texture specification */
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, currentTextureQuality);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		//if (useAF)

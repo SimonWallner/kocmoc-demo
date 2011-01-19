@@ -85,11 +85,14 @@ horizontalMargin = 85
 verticalMargin = 45
 
 # shadwo map
-shadowMapWidth = 1024
-shadowMapHeight = 1024
-orthoWidth = 6
-orthoHeight = 4
+shadowMapWidth = 2048
+shadowMapHeight = 2048
+orthoWidth = 10
+orthoHeight = 10
 orthoDepth = 10
+
+# misc
+# enableAnisotropicFiltering = 1 // need to load extensions...
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed
