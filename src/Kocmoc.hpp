@@ -6,6 +6,7 @@
 #include "FrameBuffer.hpp"
 #include "ShadowMap.hpp"
 #include "OrthoCam.hpp"
+#include "Clock.hpp"
 
 namespace kocmoc
 {
@@ -52,6 +53,11 @@ namespace kocmoc
 		 */
 		void reload(void);
 
+		/**
+		 * Get the main clock 
+		 */
+		Clock* getClock(void) {return clock;};
+
 	private:
 
 		Kocmoc();
@@ -80,6 +86,8 @@ namespace kocmoc
 		ShadowMap *shadowMap;
 
 		bool showGizmos;
+
+		Clock *clock;
 
 		void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 		void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);

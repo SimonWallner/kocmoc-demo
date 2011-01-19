@@ -94,7 +94,9 @@ orthoDepth = 10
 
 # misc
 # enableAnisotropicFiltering = 1 // need to load extensions...
-muteAudio = 0
+muteAudio = 1
+useFixedFrameRate = 1
+fixedFrameRate = 24
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

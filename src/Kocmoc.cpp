@@ -93,6 +93,12 @@ void Kocmoc::init()
 	
 	AudioPlayer::getInstance().play("music_mono_low.ogg");
 
+	clock = new Clock();
+	if (util::Property("useFixedFrameRate"))
+		clock->start(1.0/24);
+	else
+		clock->start();
+
 	running = true;
 }
 
@@ -100,6 +106,8 @@ void Kocmoc::start()
 {
 	while (running)
 	{
+		clock->awaitSchedule();
+		clock->tick();
 		timer.tic();
 
 
@@ -116,7 +124,7 @@ void Kocmoc::start()
 		camera->updateMatrixes();
 
 		// update stuff ------------------
-		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)glfwGetTime(), 1.0f, 0.0f, 0.0f));
+		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)clock->getTime(), 1.0f, 0.0f, 0.0f));
 
 
 		// drawing stuff ---------------
@@ -214,22 +222,22 @@ void Kocmoc::pollKeyboard(void)
 
 
 	if (glfwGetKey('W'))
-		camera->dolly(vec3(0, 0, 0.01f));
+		camera->dolly(vec3(0, 0, 4.0f) * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey('S'))
-		camera->dolly(vec3(0, 0, -0.01f));
+		camera->dolly(vec3(0, 0, -4.0f) * (float)clock->lastFrameDuration());
 	
 	if (glfwGetKey('A'))
-		camera->dolly(vec3(-0.01f, 0, 0.f));
+		camera->dolly(vec3(-4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
 	
 	if (glfwGetKey('D'))
-		camera->dolly(vec3(0.01f, 0, 0.0f));
+		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey(GLFW_KEY_SPACE))
-		camera->dolly(vec3(0.0f, 0.01f, 0.0f));
+		camera->dolly(vec3(0.0f, 4.0f, 0.0f) * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey(GLFW_KEY_LSHIFT))
-		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
+		camera->dolly(vec3(0.0f, -4.0f, 0.0f) * (float)clock->lastFrameDuration());
 }
 
 
@@ -238,7 +246,8 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newX - mouseOldX)*0.004f, (newY - mouseOldY)*-0.004f);
+	camera->tumble((newX - mouseOldX) * (float)clock->lastFrameDuration() * 0.1f
+		, (newY - mouseOldY) * -(float)clock->lastFrameDuration() * 0.1f);
 
 	mouseOldX = newX;
 	mouseOldY = newY;
