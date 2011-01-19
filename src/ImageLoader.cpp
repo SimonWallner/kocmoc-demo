@@ -11,9 +11,9 @@
 using namespace kocmoc;
 
 ImageLoader::ImageLoader(void)
+	: frameSequenceNumber(0)
+	, texturePathPrefix(util::Property("TexturesRootFolder"))
 {
-	texturePathPrefix = util::Property("TexturesRootFolder");
-
 	ilInit();
 	iluInit();
 
@@ -188,7 +188,7 @@ bool ImageLoader::loadImageToHandle3D(string filename, bool degamma, GLuint hand
 	}
 }
 
-void ImageLoader::screenShot()
+void ImageLoader::screenShot(unsigned int isSequence)
 {
 	// init
 	ilutRenderer(ILUT_OPENGL);
@@ -206,30 +206,28 @@ void ImageLoader::screenShot()
 	time_t t = time(0);
 	struct tm * now = localtime(&t);
 
-	std::stringstream fileName;
-	fileName << "screenshot_" << (now->tm_year + 1900) << "_" << (now->tm_mon + 1) << "_" << now->tm_mday <<
-			"-" << now->tm_hour << ":" << now->tm_min << ":" << now->tm_sec << ".png";
-
-	std::string foo = fileName.str();
-	std::string bar = fileName.str().c_str();
-
 	char buffer[50];
-	int length = sprintf(buffer, "screenshot_%d_%d_%d-%d-%d-%d.png",
+	if (isSequence)
+		sprintf(buffer, "sequence_%d.png", frameSequenceNumber++);
+	else
+	{
+		sprintf(buffer, "screenshot_%d_%d_%d-%d-%d-%d.png",
 		now->tm_year + 1900,
 		now->tm_mon + 1,
 		now->tm_mday,
 		now->tm_hour,
 		now->tm_min,
 		now->tm_sec);
+	}
 
 
 	if(ilSave(IL_PNG, buffer))
-		cout << "screenshot taken! (" << fileName << ")";
+		cout << "screenshot taken! (" << buffer << ")" << std::endl;
 	else 
 	{
 		std::cout << "failed to take screenshot: ";
 		if (ilGetError() == IL_COULD_NOT_OPEN_FILE)
-			std::cout << "could not open file '" << fileName << "' for writing";
+			std::cout << "could not open file '" << buffer << "' for writing";
 
 		std::cout << std::endl;
 	}

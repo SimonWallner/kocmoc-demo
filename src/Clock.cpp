@@ -22,7 +22,10 @@ void Clock::start(double _scheduleInterval)
 
 double Clock::lastFrameDuration()
 {
-	return frameDuration;
+	if (scheduleInterval != 0.0)
+		return scheduleInterval;
+	else
+		return frameDuration;
 }
 
 void Clock::awaitSchedule()

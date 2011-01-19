@@ -161,6 +161,8 @@ void Kocmoc::start()
 		drawOverlays();
 
 		Context::getInstance().swapBuffers();
+		if (util::Property("recordSequence"))
+			ImageLoader::getInstance().screenShot(true);
 	}
 }
 

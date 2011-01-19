@@ -54,8 +54,10 @@ namespace kocmoc
 
 		/**
 		 * Take a screenshot and save it to disk
+		 * @param sequence if it is true, the screenshots are numbered in 
+		 * a sequence.
 		 */
-		void screenShot(void);
+		void screenShot(unsigned int isSequence = false);
 
 		/**
 		 * reload all cached textures
@@ -76,6 +78,8 @@ namespace kocmoc
 
 		GLfloat maxAnisotropy;
 		bool useAF;
+
+		unsigned int frameSequenceNumber;
 	};
 }
 
