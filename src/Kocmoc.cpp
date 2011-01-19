@@ -6,6 +6,7 @@
 #include "KocmocLoader.hpp"
 #include "utility.hpp"
 #include "ShaderManager.hpp"
+#include "audioPlayer.hpp"
 
 
 using namespace kocmoc;
@@ -90,6 +91,8 @@ void Kocmoc::init()
 	fbo->setupShader();
 	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
+	AudioPlayer::getInstance().play("music_mono_low.ogg");
+
 	running = true;
 }
 

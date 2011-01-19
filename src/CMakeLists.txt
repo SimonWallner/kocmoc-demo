@@ -13,6 +13,10 @@ include_directories(
     ${PROJECT_SOURCE_DIR}/external/opencollada/COLLADASaxFrameworkLoader/include
 	${PROJECT_SOURCE_DIR}/external/devIL/include
 	${PROJECT_SOURCE_DIR}/external/boost/include
+	${PROJECT_SOURCE_DIR}/external/freealut/include
+	${PROJECT_SOURCE_DIR}/external/libogg/include
+	${PROJECT_SOURCE_DIR}/external/libvorbis/include
+	${PROJECT_SOURCE_DIR}/external/openal/include
 )
 
 link_directories(
@@ -21,6 +25,10 @@ link_directories(
     ${PROJECT_SOURCE_DIR}/external/libxml/
     ${PROJECT_SOURCE_DIR}/external/devil/lib
 	${PROJECT_SOURCE_DIR}/external/boost/lib
+	${PROJECT_SOURCE_DIR}/external/freealut/lib
+	${PROJECT_SOURCE_DIR}/external/libogg/lib
+	${PROJECT_SOURCE_DIR}/external/libvorbis/lib
+	${PROJECT_SOURCE_DIR}/external/openal/lib
 )
 
 # collect the files
@@ -56,6 +64,11 @@ set (TARGET_LINK_LIBRARIES
     OpenCOLLADAStreamWriter
 	ILU
 	ILUT
+	alut
+	libogg_static
+	libvorbis_static
+	libvorbisfile_static
+	OpenAL32
 )
 
 # platform dependent linking
