@@ -93,8 +93,5 @@ namespace kocmoc
 		void pollMouse(void);
 
 		void drawOverlays(void);
-
-		bool foo;
-
 	};
 }

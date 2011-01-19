@@ -26,8 +26,6 @@ void main(void)
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 
-//	fragmentColor0 = vec4(shadowUV.zzz / 2 + 0.5, 1);
-//	fragmentColor0 = texture(sShadow, shadowUV.xy / 2 + 0.5);
 
 	if (shadowUV.z/2+0.5 < texture(sShadow, shadowUV.xy / 2 + 0.5) + bias)
 	{
@@ -50,8 +48,4 @@ void main(void)
 	}
 	else 
 		fragmentColor0 = vec4(ambientTerm, 1);
-
-	fragmentColor0 = pow(fragmentColor0, (0.2).xxxx);
-//	fragmentColor0 /= (shadowUV.z / -2 + 0.3);
-
 }

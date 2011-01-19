@@ -91,7 +91,6 @@ void Kocmoc::init()
 	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
 	running = true;
-	foo = false;
 }
 
 void Kocmoc::start()
@@ -120,16 +119,13 @@ void Kocmoc::start()
 		// drawing stuff ---------------
 
 		// shadow map
+		glDisable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		if (foo)
-		{
-			ship->draw(orthoCam, shadowShader);
-			std::cout << "render" << endl;
-		}
+		ship->draw(orthoCam, shadowShader);
 		
-		
+		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -231,11 +227,6 @@ void Kocmoc::pollKeyboard(void)
 
 	if (glfwGetKey(GLFW_KEY_LSHIFT))
 		camera->dolly(vec3(0.0f, -0.01f, 0.0f));
-	
-	if (glfwGetKey('X'))
-		foo = !foo;
-
-	
 }
 
 
