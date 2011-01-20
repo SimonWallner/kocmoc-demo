@@ -7,6 +7,8 @@
 #include "ShadowMap.hpp"
 #include "OrthoCam.hpp"
 #include "Clock.hpp"
+#include "OverlayCam.hpp"
+#include "ImageOverlay.hpp"
 
 namespace kocmoc
 {
@@ -47,6 +49,7 @@ namespace kocmoc
 
 		FilmCamera *getCamera(void) {return camera;};
 		Camera *getOrthoCam(void) {return orthoCam;};
+		Camera *getOverlayCam(void) {return overlayCam;};
 
 		/**
 		 * reload some stuff
@@ -72,6 +75,7 @@ namespace kocmoc
 
 		FilmCamera* camera;
 		OrthoCam *orthoCam;
+		OverlayCam *overlayCam;
 
 		KocmocScene* scene;
 		KocmocScene* ship;
@@ -88,6 +92,8 @@ namespace kocmoc
 		bool showGizmos;
 
 		Clock *clock;
+
+		ImageOverlay * title;
 
 		void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 		void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);

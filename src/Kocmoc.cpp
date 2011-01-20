@@ -8,7 +8,6 @@
 #include "ShaderManager.hpp"
 #include "audioPlayer.hpp"
 
-
 using namespace kocmoc;
 
 Kocmoc* Kocmoc::instance = NULL;
@@ -98,6 +97,8 @@ void Kocmoc::init()
 		clock->start(1.0/24);
 	else
 		clock->start();
+
+	//title = new ImageOverlay("title.png", 640, 480);
 
 	running = true;
 }
