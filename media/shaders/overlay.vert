@@ -5,7 +5,7 @@
 in  vec3 inPosition;
 in	vec2 inTexCoord0;
 
-uniform mat4 projectionMatrix
+uniform mat4 projectionMatrix;
 
 out vec2 uv;
 

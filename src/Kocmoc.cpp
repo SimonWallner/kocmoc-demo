@@ -98,7 +98,9 @@ void Kocmoc::init()
 	else
 		clock->start();
 
-	//title = new ImageOverlay("title.png", 640, 480);
+	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
+	overlayCam->updateMatrixes();
+	title = new ImageOverlay("title.png", 640, 480);
 
 	running = true;
 }
@@ -174,8 +176,12 @@ void Kocmoc::draw()
 
 void Kocmoc::drawOverlays()
 {
-	if (showGizmos)
-		camera->drawGizmo();
+	//if (showGizmos)
+	//	camera->drawGizmo();
+
+	glDisable(GL_DEPTH_TEST);
+	title->draw();
+	glEnable(GL_DEPTH_TEST);
 }
 
 void Kocmoc::pollKeyboard(void)

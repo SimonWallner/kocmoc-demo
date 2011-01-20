@@ -2,7 +2,6 @@
 #define POLYMESH_HPP_
 
 #include "Shader.hpp"
-#include "RenderMesh.hpp"
 #include "Camera.hpp"
 
 namespace kocmoc

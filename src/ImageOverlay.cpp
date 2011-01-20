@@ -9,7 +9,9 @@ ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height)
 	: width(_width)
 	, height(_height)
 {
-	textureHandle = ImageLoader::getInstance().loadImage(fileName);
+	textureHandle = ImageLoader::getInstance().loadImage(fileName, true);
+	setupShader();
+	createQuad();
 }
 
 void ImageOverlay::setupShader()
