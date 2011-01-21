@@ -14,6 +14,8 @@ namespace kocmoc
 
 		void draw(void);
 
+		void setAlpha(float alpha);
+
 	private:
 		GLuint textureHandle;
 		int width;
@@ -27,6 +29,8 @@ namespace kocmoc
 
 		void createQuad(void);
 		void setupShader(void);
+
+		float alpha;
 	};
 }
 

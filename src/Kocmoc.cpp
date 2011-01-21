@@ -100,7 +100,9 @@ void Kocmoc::init()
 
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();
+	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
 	title = new ImageOverlay("title.png", 640, 480);
+	title->setAlpha(0.01f);
 
 	running = true;
 }
@@ -180,6 +182,7 @@ void Kocmoc::drawOverlays()
 	//	camera->drawGizmo();
 
 	glDisable(GL_DEPTH_TEST);
+	black->draw();
 	title->draw();
 	glEnable(GL_DEPTH_TEST);
 }
