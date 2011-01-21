@@ -113,6 +113,17 @@ void Gamepad::poll(void)
 		if (buttons[5] == GLFW_PRESS) // right bumber, turn cw
 			camera->rotate(4.0 * (float)clock->lastFrameDuration());
 
+		if (buttons[0] == GLFW_PRESS) // A button, start animation
+			Kocmoc::getInstance().getAnimationClock()->play();
+
+		if (buttons[2] == GLFW_PRESS) // X button, stop animation
+			Kocmoc::getInstance().getAnimationClock()->setSpeed(0.0);
+
+		if (buttons[1] == GLFW_PRESS) // B button, ff
+			Kocmoc::getInstance().getAnimationClock()->setSpeed(8.0);
+
+		if (buttons[3] == GLFW_PRESS) // B button, fr
+			Kocmoc::getInstance().getAnimationClock()->setSpeed(-8.0);
 
 		
 		delete pos;

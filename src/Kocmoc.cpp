@@ -98,11 +98,14 @@ void Kocmoc::init()
 	else
 		clock->start();
 
+	animationClock = new AnimationClock(clock);
+
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();
 	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
 	title = new ImageOverlay("title.png", 640, 480);
 	title->setAlpha(0.01f);
+
 
 	running = true;
 }
@@ -129,7 +132,7 @@ void Kocmoc::start()
 		camera->updateMatrixes();
 
 		// update stuff ------------------
-		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)clock->getTime(), 1.0f, 0.0f, 0.0f));
+		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
 
 
 		// drawing stuff ---------------
@@ -182,7 +185,7 @@ void Kocmoc::drawOverlays()
 	//	camera->drawGizmo();
 
 	glDisable(GL_DEPTH_TEST);
-	black->draw();
+	//black->draw();
 	title->draw();
 	glEnable(GL_DEPTH_TEST);
 }

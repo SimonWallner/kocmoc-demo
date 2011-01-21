@@ -9,6 +9,7 @@
 #include "Clock.hpp"
 #include "OverlayCam.hpp"
 #include "ImageOverlay.hpp"
+#include "AnimationClock.hpp"
 
 namespace kocmoc
 {
@@ -60,6 +61,7 @@ namespace kocmoc
 		 * Get the main clock 
 		 */
 		Clock* getClock(void) {return clock;};
+		AnimationClock* getAnimationClock(void) {return animationClock;};
 
 	private:
 
@@ -92,6 +94,7 @@ namespace kocmoc
 		bool showGizmos;
 
 		Clock *clock;
+		AnimationClock *animationClock;
 
 		ImageOverlay * title;
 		ImageOverlay *black;
