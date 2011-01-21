@@ -7,6 +7,7 @@
 #include "utility.hpp"
 #include "ShaderManager.hpp"
 #include "audioPlayer.hpp"
+#include "AnimationSystem.hpp"
 
 using namespace kocmoc;
 
@@ -99,12 +100,12 @@ void Kocmoc::init()
 		clock->start();
 
 	animationClock = new AnimationClock(clock);
+	AnimationSystem::getInstance().parseAnimationFile();
 
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();
 	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
 	title = new ImageOverlay("title.png", 640, 480);
-	title->setAlpha(0.01f);
 
 
 	running = true;
@@ -133,6 +134,8 @@ void Kocmoc::start()
 
 		// update stuff ------------------
 		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
+		black->setAlpha(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_alpha"));
+		title->setAlpha(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_alpha"));
 
 
 		// drawing stuff ---------------
@@ -185,7 +188,7 @@ void Kocmoc::drawOverlays()
 	//	camera->drawGizmo();
 
 	glDisable(GL_DEPTH_TEST);
-	//black->draw();
+	black->draw();
 	title->draw();
 	glEnable(GL_DEPTH_TEST);
 }

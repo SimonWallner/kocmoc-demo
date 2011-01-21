@@ -1,4 +1,5 @@
 #include "AnimationClock.hpp"
+#include "common.hpp"
 
 using namespace kocmoc;
 
@@ -19,6 +20,11 @@ double AnimationClock::getTime()
 	double currentReferenceTime = referenceClock->getTime();
 	currentTime += speed * (currentReferenceTime - lastReferenceTime);
 	lastReferenceTime = currentReferenceTime;
+
+	// set window title to time
+	char buffer[50];
+	sprintf(buffer, "animation Time: %f, speed: %f", currentTime, speed);
+	glfwSetWindowTitle(buffer);
 
 	return currentTime;
 }

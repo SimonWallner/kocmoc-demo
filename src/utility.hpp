@@ -5,6 +5,7 @@
 #include "PolyMesh.hpp"
 
 #include <string>
+#include <vector>
 
 namespace kocmoc
 {
@@ -31,6 +32,8 @@ namespace kocmoc
 		 * only delete if not null and set null afterwards
 		 */
 		void safeDeleteArray(void *p);
+
+		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string delimiter);
 
 		namespace generator
 		{

@@ -83,10 +83,13 @@ bool PropertiesFileParser::parse()
 
 		}
 	} catch (...) {
+		file.close();
 		return false;
 	}
 	//cout << "parsing successful!" << endl;
+	file.close();
 	return true;
+
 }
 
 

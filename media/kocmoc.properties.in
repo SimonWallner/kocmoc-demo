@@ -23,6 +23,7 @@ shadersRootFolder = ${MEDIA_PATH}/shaders/
 TexturesRootFolder = ${MEDIA_PATH}/textures/
 ModelsRootFolder = ${MEDIA_PATH}/models/
 soundsRootFolder = ${MEDIA_PATH}/sounds/
+scriptsRootFolder = ${MEDIA_PATH}/scripts/
 
 # alternative paths, that are not in the repo
 alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
@@ -98,6 +99,9 @@ muteAudio = 1
 useFixedFrameRate = 0
 fixedFrameRate = 29.970
 recordSequence = 0
+
+# animation
+animationFileName = kocmoc.anim
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

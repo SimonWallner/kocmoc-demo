@@ -1,0 +1,18 @@
+# timecode in seconds, based on the animation time base
+# this timebase usually starts at 0
+# blank lines are ignored, comments are prefixed with '#'
+# negative times can be usefull for start conditions for catmull-rom interpol.
+# linear inerpolation is used for scalar values, catmul-rom is used for vectors
+
+3	black_alpha		1
+8	black_alpha		1
+11	black_alpha		0
+
+
+1	title_alpha		0
+3	title_alpha		1
+4	title_alpha		1
+6	title_alpha		0
+
+
+# eof

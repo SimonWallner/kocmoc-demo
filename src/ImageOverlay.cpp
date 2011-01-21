@@ -91,5 +91,5 @@ void ImageOverlay::createQuad()
 
 void ImageOverlay::setAlpha(float _alpha)
 {
-	alpha = _alpha;
+	alpha = pow(_alpha, 2.2f);
 }
