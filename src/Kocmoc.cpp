@@ -156,6 +156,9 @@ void Kocmoc::start()
 		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
 		title->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_opacity"));
 
+		animationCamera->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam_position"));
+		animationCamera->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam_target"));
+
 
 		// drawing stuff ---------------
 

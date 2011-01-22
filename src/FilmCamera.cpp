@@ -7,15 +7,30 @@
 using namespace kocmoc;
 
 FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector)
-	: eyePosition(_eyePosition)
-	, upVector(glm::normalize(_upVector))
-	, angleOfView(KOCMOC_PI/2)
+	: angleOfView(KOCMOC_PI/2)
 	, nearPlane(util::Property("nearPlane"))
 	, farPlane(util::Property("farPlane"))
 	, horizontalMargin(0)
 	, verticalMargin(0)
 {
-	targetVector = glm::normalize(_targetPosition - eyePosition);
+	setPosition(_eyePosition);
+	setTargetPosition(_targetPosition);
+	setUpVector(_upVector);
+}
+
+void FilmCamera::setPosition(vec3 position)
+{
+	eyePosition = position;
+}
+
+void FilmCamera::setTargetPosition(vec3 target)
+{
+	targetVector = glm::normalize(target - eyePosition);
+}
+
+void FilmCamera::setUpVector(vec3 up)
+{
+	upVector = glm::normalize(up);
 }
 
 FilmCamera::~FilmCamera()
@@ -135,3 +150,4 @@ int FilmCamera::getGateWidth() {
 int FilmCamera::getGateHeight() {
 	return height;
 }
+
