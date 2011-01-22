@@ -9,6 +9,8 @@
 #include "audioPlayer.hpp"
 #include "AnimationSystem.hpp"
 
+#include <gtx/spline.hpp>
+
 using namespace kocmoc;
 
 Kocmoc* Kocmoc::instance = NULL;
@@ -118,6 +120,7 @@ void Kocmoc::init()
 
 	animationClock = new AnimationClock(clock);
 	AnimationSystem::getInstance().parseAnimationFile();
+
 
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();

@@ -3,6 +3,7 @@
 #include "utility.hpp"
 
 #include <fstream>
+#include <gtx/spline.hpp>
 
 using namespace kocmoc;
 
@@ -147,19 +148,25 @@ vec3 AnimationSystem::getVec3(double time, std::string name)
 {
 	// get list
 	VecValues values = vecMap[name];
-	if (values.size() == 0)
+	if (values.size() == 0) // default value for 0 values
 		return vec3(0.0f);
 
-	if (values.size() == 1)
+	if (values.size() == 1) // constant interpolation for a single value
 		return values[0].second;
 
 	// binary search
 	unsigned int lowerIndex = binarySearch(values, time, 0, values.size());
 
+
+
 	// interpolate
-	if (lowerIndex == values.size() - 1)
-		return values[lowerIndex].second;
-	else
+	// time is left or right of all samples
+	if ((lowerIndex == 0 && time < values[lowerIndex].first) || lowerIndex == values.size() - 1)
+	{
+		return values[lowerIndex].second; // constant interpolation
+	}
+	// only one sample is left or right of time
+	else if (lowerIndex == 0 || lowerIndex == values.size() - 2) // linearily interpolate
 	{
 		float timeA = values[lowerIndex].first;
 		vec3 valueA = values[lowerIndex].second;
@@ -167,17 +174,26 @@ vec3 AnimationSystem::getVec3(double time, std::string name)
 		float timeB = values[lowerIndex + 1].first;
 		vec3 valueB = values[lowerIndex + 1].second;
 
-		if (time < timeA)
-			return valueA;
-
-		if (time > timeB)
-			return valueB;
-
-		// we are right in the middle
-
 		float t = (timeB - time) / (timeB - timeA);
 
 		return valueA * t + valueB * (1 - t);
+	}
+
+	else // enougth samples on both sides
+	{
+		// A--B-(time)-C--D
+		vec3 valueA = values[lowerIndex -1].second;
+		vec3 valueB = values[lowerIndex].second;
+		vec3 valueC = values[lowerIndex + 1].second;
+		vec3 valueD = values[lowerIndex + 2].second;
+
+		float timeB = values[lowerIndex].first;
+		float timeC = values[lowerIndex + 1].first;
+		
+		float t = (time - timeB) / (timeC - timeB);
+
+		vec3 result = glm::gtx::spline::catmullRom(valueA, valueB, valueC, valueD, t);
+		return result;
 	}
 }
 

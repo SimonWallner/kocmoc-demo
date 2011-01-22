@@ -3,6 +3,7 @@
 # blank lines are ignored, comments are prefixed with '#'
 # negative times can be usefull for start conditions for catmull-rom interpol.
 # linear inerpolation is used for scalar values, catmul-rom is used for vectors
+# Tokens are tab+ separated.
 
 # title animations
 # 
@@ -14,13 +15,19 @@
 1	title_opacity		0
 3	title_opacity		1
 4	title_opacity		1
-5	title_opacity		0
+4	title_opacity		0
 
 # camera animations
 #
 
-4	cam_position		-10		0		10
-15	cam_position		10		0		10
+4	cam_position		-11		0		10
+5	cam_position		-10		0		10
+10	cam_position		10		0		10
+15	cam_position		10		0		-10
+20	cam_position		-10		0		-10
+25	cam_position		-10		0		10
+26	cam_position		-9		0		10
+
 
 0	cam_target			0		0		0
 
