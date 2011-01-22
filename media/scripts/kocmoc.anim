@@ -5,8 +5,7 @@
 # linear inerpolation is used for scalar values, catmul-rom is used for vectors
 # Tokens are tab+ separated.
 
-# title animations
-# 
+# title animations ------------------------------------------------------------
 
 3	black_opacity		1
 4	black_opacity		1
@@ -17,19 +16,48 @@
 +1	title_opacity		1
 +0	title_opacity		0
 
-# camera animations
-#
 
-4	cam_position		-11		0		10
-5	cam_position		-10		0		10
-+5	cam_position		10		0		10
-+5	cam_position		10		0		-10
-+5	cam_position		-10		0		-10
-+5	cam_position		-10		0		10
-+1	cam_position		-9		0		10
+# credits ---------------------------------------------------------------------
+
+20	black_opacity		0
++1	black_opacity		1
+
+22	credits_opacity		0
++1	credits_opacity		1
++4	credits_opacity		1
++1	credits_opacity		0
+
+28	credits2_opacity	0
++1	credits2_opacity	1
++4	credits2_opacity	1
++1	credits2_opacity	0
+
+34	credits3_opacity	0
++1	credits3_opacity	1
+# +4	credits3_opacity	1
+# +2	credits3_opacity	0
 
 
-0	cam_target			0		0		0
+
+# camera animations -----------------------------------------------------------
+
+0	cam1_selector		1
+
+4	cam1_position		-11		0		10
+5	cam1_position		-10		0		10
++5	cam1_position		10		0		10
++5	cam1_position		10		0		-10
++5	cam1_position		-10		0		-10
++5	cam1_position		-10		0		10
++1	cam1_position		-9		0		10
+
+0	cam1_target			0		0		0
+
+
+16	cam1_selector		0
+20	cam2_position		10	10	10
+20	cam2_target			0	0	0
+
 
 
 # eof

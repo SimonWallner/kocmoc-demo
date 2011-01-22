@@ -69,18 +69,32 @@ void Kocmoc::init()
 	camera->setupGizmo();
 	camera->updateMatrixes();
 
-	// animation cameras -----------------------------------------------------
-	animationCamera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
+	// animation cameras --- cam 1 --------------------------------------------
+	cam1 = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0));  // up
 	if (aspectRatio > 1) // horizontal letter box
-		animationCamera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
+		cam1->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
 	else
-		animationCamera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
+		cam1->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
 
-	animationCamera->setFocalLength(util::Property("cameraFocalLength35"));
-	animationCamera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
-	animationCamera->updateMatrixes();
+	cam1->setFocalLength(util::Property("cameraFocalLength35"));
+	cam1->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
+	cam1->updateMatrixes();
+
+	// animation cameras --- cam 2 --------------------------------------------
+	cam2 = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
+		vec3(0, 0, 0), // target
+		vec3(0, 1, 0));  // up
+	if (aspectRatio > 1) // horizontal letter box
+		cam2->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
+	else
+		cam2->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
+
+	cam2->setFocalLength(util::Property("cameraFocalLength35"));
+	cam2->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
+	cam2->updateMatrixes();
+
 
 
 	// ortho cam
@@ -124,8 +138,12 @@ void Kocmoc::init()
 
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();
+
 	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
 	title = new ImageOverlay("title.png", 800, 400);
+	credits = new ImageOverlay("credits.png", 800, 400);
+	credits2 = new ImageOverlay("credits2.png", 800, 400);
+	credits3 = new ImageOverlay("credits3.png", 800, 400);
 
 
 	running = true;
@@ -151,16 +169,28 @@ void Kocmoc::start()
 		if (useMouse)
 			pollMouse();
 
-		camera->updateMatrixes();
-		animationCamera->updateMatrixes();
+
 
 		// update stuff ------------------
 		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
 		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
 		title->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_opacity"));
+		credits->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits_opacity"));
+		credits2->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits2_opacity"));
+		credits3->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits3_opacity"));
 
-		animationCamera->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam_position"));
-		animationCamera->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam_target"));
+		cam1->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_position"));
+		cam1->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_target"));
+
+		cam2->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_position"));
+		cam2->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_target"));
+
+
+		camera->updateMatrixes();
+		cam1->updateMatrixes();
+		cam2->updateMatrixes();
+
+
 
 
 		// drawing stuff ---------------
@@ -206,8 +236,13 @@ void Kocmoc::draw()
 {
 	if (useUserCamera)
 		scene->draw(camera);	
-	else 
-		scene->draw(animationCamera);
+	else
+	{
+		if (AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam1_selector") > 0.0f)
+			scene->draw(cam1);
+		else
+			scene->draw(cam2);
+	}
 }
 
 void Kocmoc::drawOverlays()
@@ -218,6 +253,9 @@ void Kocmoc::drawOverlays()
 	glDisable(GL_DEPTH_TEST);
 	black->draw();
 	title->draw();
+	credits->draw();
+	credits2->draw();
+	credits3->draw();
 	glEnable(GL_DEPTH_TEST);
 }
 
