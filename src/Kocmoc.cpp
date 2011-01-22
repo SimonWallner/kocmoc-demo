@@ -30,7 +30,7 @@ void Kocmoc::Destroy()
 }
 
 Kocmoc::Kocmoc()
-	: useUserCamera(false)
+	: useUserCamera(true)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 	showGizmos = util::Property("debugShowGizmo");
@@ -103,7 +103,7 @@ void Kocmoc::init()
 	
 	
 	scene = new KocmocScene();
-	ship = KocmocLoader::getInstance().load(util::Property("XModelName"));
+	ship = KocmocLoader::getInstance().load(util::Property("modelName"));
 	scene->add(ship);
 	scene->add(util::generator::generateStars());
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
@@ -172,7 +172,14 @@ void Kocmoc::start()
 
 
 		// update stuff ------------------
-		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
+		mat4 transform = glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.5f, 0.3f);
+		//mat4 transform = glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 0.0f, 0.0f, 1.0f);
+		//transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 1.0f *(GLfloat)animationClock->getTime()) * transform;
+		ship->setTransformation(transform);
+		orthoCam->setFocus(vec3(1, 0, 0) * 1.0f *(GLfloat)animationClock->getTime());
+		//orthoCam->updateMatrixes();
+
+
 		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
 		title->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_opacity"));
 		credits->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits_opacity"));
@@ -224,7 +231,7 @@ void Kocmoc::start()
 		else
 			fbo->drawFBO();
 
-		drawOverlays();
+		//drawOverlays();
 
 		Context::getInstance().swapBuffers();
 		if (util::Property("recordSequence"))

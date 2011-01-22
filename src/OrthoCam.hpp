@@ -23,6 +23,8 @@ namespace kocmoc
 		mat4 getUntraslatedViewMatrix(){return mat4(1);};
 		void updateMatrixes();
 
+		void setFocus(vec3 focus);
+
 	private:
 		vec3 focus;
 		vec3 direction;

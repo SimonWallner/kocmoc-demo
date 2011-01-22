@@ -67,10 +67,10 @@ void Gamepad::poll(void)
 		Clock * clock = Kocmoc::getInstance().getClock();
 
 		if (abs(pos[0]) > deadZone) // left stick right
-			camera->dolly(vec3(pos[0] * 4.0f, 0, 0) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(pos[0] * 15.0f, 0, 0) * (float)clock->lastFrameDuration());
 
 		if (abs(pos[1]) > deadZone) // left stick up
-			camera->dolly(vec3(0, 0, pos[1] * 4.0f) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(0, 0, pos[1] * 15.0f) * (float)clock->lastFrameDuration());
 
 		if (abs(pos[3]) > deadZone) // right stick down
 			camera->tumble(0, -pos[3] * 4.0f * (float)clock->lastFrameDuration());
@@ -79,7 +79,7 @@ void Gamepad::poll(void)
 			camera->tumble(pos[4] * 4.0 * (float)clock->lastFrameDuration(), 0);
 
 		if (abs(pos[2]) > deadZone) // trigger
-			camera->dolly(vec3(0, -pos[2] * 4.0f, 0) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(0, -pos[2] * 15.0f, 0) * (float)clock->lastFrameDuration());
 
 		unsigned char *buttons = new unsigned char[numButtons];
 		int activeButtons = glfwGetJoystickButtons(numJoystick, buttons, numButtons);
@@ -110,10 +110,10 @@ void Gamepad::poll(void)
 		}
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw
-			camera->rotate(-4.0f * (float)clock->lastFrameDuration());
+			camera->rotate(-30.0f * (float)clock->lastFrameDuration());
 
 		if (buttons[5] == GLFW_PRESS) // right bumber, turn cw
-			camera->rotate(4.0 * (float)clock->lastFrameDuration());
+			camera->rotate(30.0 * (float)clock->lastFrameDuration());
 
 		if (buttons[0] == GLFW_PRESS) // A button, start animation
 			Kocmoc::getInstance().getAnimationClock()->play();
