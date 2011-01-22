@@ -20,7 +20,7 @@ out vec4 fragmentColor0;
 void main(void)
 {
 	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
-	const vec3 ambientIntensity = vec3(0.01f, 0.01f, 0.01f);
+	const vec3 ambientIntensity = vec3(0.03f, 0.03f, 0.03f);
 	const float bias = 0.01;
 
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;

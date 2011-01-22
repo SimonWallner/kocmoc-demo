@@ -32,8 +32,8 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # screen resolution and weather to start in full screen mode or not
 width = 1280
 height = 720
-# width = 1920
-# height = 803
+width = 1800
+height = 800
 fullscreen = 0
 
 enableMouse = 0
@@ -54,8 +54,8 @@ modelName = kocmoc.dae
 
 
 # star generator
-starsCount = 10000
-starsDomain = 3000
+starsCount = 25000
+starsDomain = 9000
 starsSize = 10
 
 # debug settings

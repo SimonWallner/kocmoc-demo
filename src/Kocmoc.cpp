@@ -30,7 +30,7 @@ void Kocmoc::Destroy()
 }
 
 Kocmoc::Kocmoc()
-	: useUserCamera(true)
+	: useUserCamera(false)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 	showGizmos = util::Property("debugShowGizmo");
@@ -172,12 +172,12 @@ void Kocmoc::start()
 
 
 		// update stuff ------------------
-		mat4 transform = glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.5f, 0.3f);
-		//mat4 transform = glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 0.0f, 0.0f, 1.0f);
-		//transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 1.0f *(GLfloat)animationClock->getTime()) * transform;
+		mat4 transform = glm::gtx::transform::rotate(2.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f);
+		transform = glm::gtx::transform::rotate(15.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.3f, 0.2f) * transform;
+		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 2.0f *(GLfloat)animationClock->getTime()) * transform;
 		ship->setTransformation(transform);
-		orthoCam->setFocus(vec3(1, 0, 0) * 1.0f *(GLfloat)animationClock->getTime());
-		//orthoCam->updateMatrixes();
+		orthoCam->setFocus(vec3(1, 0, 0) * 2.0f *(GLfloat)animationClock->getTime());
+		orthoCam->updateMatrixes();
 
 
 		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
@@ -188,9 +188,14 @@ void Kocmoc::start()
 
 		cam1->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_position"));
 		cam1->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_target"));
+		cam1->setUpVector(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_up"));
+		cam1->setFocalLength(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam1_focalLength"));
+
 
 		cam2->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_position"));
 		cam2->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_target"));
+		cam2->setUpVector(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_up"));
+		cam2->setFocalLength(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam2_focalLength"));
 
 
 		camera->updateMatrixes();
@@ -231,7 +236,7 @@ void Kocmoc::start()
 		else
 			fbo->drawFBO();
 
-		//drawOverlays();
+		drawOverlays();
 
 		Context::getInstance().swapBuffers();
 		if (util::Property("recordSequence"))
