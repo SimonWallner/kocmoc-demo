@@ -73,23 +73,41 @@ bool AnimationSystem::parseAnimationFile()
 			if (tokens.size() == 3)
 			{
 				std::string name = tokens[1];
-				float time, scalar;
-				sscanf(tokens[0].c_str(), "%f", &time);
+				float time, offset, scalar;
+
+				if (tokens[0].c_str()[0] == '+')
+				{
+					sscanf(tokens[0].c_str(), "%f", &offset);
+					time = scalarLastKeyTime[name] + offset;
+				}
+				else
+					sscanf(tokens[0].c_str(), "%f", &time);
+
 				sscanf(tokens[2].c_str(), "%f", &scalar);
 
 				scalarMap[name].push_back(ScalarPair(time, scalar));
+				scalarLastKeyTime[name] = time;
 
 			}
 			else if (tokens.size() == 5)
 			{
 				std::string name = tokens[1];
-				float time, v0, v1, v2;
-				sscanf(tokens[0].c_str(), "%f", &time);
+				float time, offset, v0, v1, v2;
+
+				if (tokens[0].c_str()[0] == '+')
+				{
+					sscanf(tokens[0].c_str(), "%f", &offset);
+					time = vecLastKeyTime[name] + offset;
+				}
+				else
+					sscanf(tokens[0].c_str(), "%f", &time);
+
 				sscanf(tokens[2].c_str(), "%f", &v0);
 				sscanf(tokens[3].c_str(), "%f", &v1);
 				sscanf(tokens[4].c_str(), "%f", &v2);
 
 				vecMap[name].push_back(VecPair(time, vec3(v0, v1, v2)));
+				vecLastKeyTime[name] = time;
 			}
 			else 
 				std::cout << "failed to parse line: '" << line << "'" << std::endl;

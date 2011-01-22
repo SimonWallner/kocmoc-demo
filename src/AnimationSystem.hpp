@@ -17,6 +17,8 @@ namespace kocmoc
 	typedef std::map<std::string, ScalarValues > ScalarMap;
 	typedef std::map<std::string, VecValues > VecMap;
 
+	typedef std::map<std::string, float> LastKeyTime;
+
 	/**
 	 * singleton animation system class. parses animation files and
 	 * interpolates named properties
@@ -53,6 +55,9 @@ namespace kocmoc
 		/** two maps one for lists of scalar values, one for vector values */
 		ScalarMap scalarMap;
 		VecMap vecMap;
+
+		LastKeyTime scalarLastKeyTime;
+		LastKeyTime vecLastKeyTime;
 
 		template <class T> unsigned int binarySearch(T values, float needle, unsigned int lower, unsigned int upper);
 	};
