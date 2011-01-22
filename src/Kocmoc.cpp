@@ -28,6 +28,7 @@ void Kocmoc::Destroy()
 }
 
 Kocmoc::Kocmoc()
+	: useUserCamera(false)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 	showGizmos = util::Property("debugShowGizmo");
@@ -51,6 +52,7 @@ void Kocmoc::stop(){
 
 void Kocmoc::init()
 {
+	// user camera
 	camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
 		vec3(0, 0, 0), // target
 		vec3(0, 1, 0));  // up
@@ -65,6 +67,21 @@ void Kocmoc::init()
 	camera->setupGizmo();
 	camera->updateMatrixes();
 
+	// animation cameras -----------------------------------------------------
+	animationCamera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
+		vec3(0, 0, 0), // target
+		vec3(0, 1, 0));  // up
+	if (aspectRatio > 1) // horizontal letter box
+		animationCamera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
+	else
+		animationCamera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
+
+	animationCamera->setFocalLength(util::Property("cameraFocalLength35"));
+	animationCamera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
+	animationCamera->updateMatrixes();
+
+
+	// ortho cam
 	orthoCam = new OrthoCam(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
 	orthoCam->updateMatrixes();
 	
@@ -105,10 +122,11 @@ void Kocmoc::init()
 	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
 	overlayCam->updateMatrixes();
 	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
-	title = new ImageOverlay("title.png", 640, 480);
+	title = new ImageOverlay("title.png", 800, 400);
 
 
 	running = true;
+	animationClock->play();
 }
 
 void Kocmoc::start()
@@ -131,6 +149,7 @@ void Kocmoc::start()
 			pollMouse();
 
 		camera->updateMatrixes();
+		animationCamera->updateMatrixes();
 
 		// update stuff ------------------
 		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
@@ -179,7 +198,10 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	scene->draw(camera);	
+	if (useUserCamera)
+		scene->draw(camera);	
+	else 
+		scene->draw(animationCamera);
 }
 
 void Kocmoc::drawOverlays()
@@ -252,10 +274,7 @@ void Kocmoc::pollKeyboard(void)
 		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey(GLFW_KEY_SPACE))
-		camera->dolly(vec3(0.0f, 4.0f, 0.0f) * (float)clock->lastFrameDuration());
-
-	if (glfwGetKey(GLFW_KEY_LSHIFT))
-		camera->dolly(vec3(0.0f, -4.0f, 0.0f) * (float)clock->lastFrameDuration());
+		useUserCamera = !useUserCamera;
 }
 
 

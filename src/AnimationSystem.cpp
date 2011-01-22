@@ -72,16 +72,27 @@ bool AnimationSystem::parseAnimationFile()
 			if (tokens.size() == 3)
 			{
 				std::string name = tokens[1];
-				float time = 0.0f;
+				float time, scalar;
 				sscanf(tokens[0].c_str(), "%f", &time);
-				float scalar = 0.0f;
 				sscanf(tokens[2].c_str(), "%f", &scalar);
 
 				scalarMap[name].push_back(ScalarPair(time, scalar));
 
 			}
+			else if (tokens.size() == 5)
+			{
+				std::string name = tokens[1];
+				float time, v0, v1, v2;
+				sscanf(tokens[0].c_str(), "%f", &time);
+				sscanf(tokens[2].c_str(), "%f", &v0);
+				sscanf(tokens[3].c_str(), "%f", &v1);
+				sscanf(tokens[4].c_str(), "%f", &v2);
 
-			// TODO parse vec3
+				vecMap[name].push_back(VecPair(time, vec3(v0, v1, v2)));
+			}
+			else 
+				std::cout << "failed to parse line: '" << line << "'" << std::endl;
+			
 		}
 
 	} catch (...) {
@@ -132,7 +143,45 @@ float AnimationSystem::getScalar(double time, std::string name)
 	}
 }
 
-unsigned int AnimationSystem::binarySearch(ScalarValues values, float needle, unsigned int lower, unsigned int upper)
+vec3 AnimationSystem::getVec3(double time, std::string name)
+{
+	// get list
+	VecValues values = vecMap[name];
+	if (values.size() == 0)
+		return vec3(0.0f);
+
+	if (values.size() == 1)
+		return values[0].second;
+
+	// binary search
+	unsigned int lowerIndex = binarySearch(values, time, 0, values.size());
+
+	// interpolate
+	if (lowerIndex == values.size() - 1)
+		return values[lowerIndex].second;
+	else
+	{
+		float timeA = values[lowerIndex].first;
+		vec3 valueA = values[lowerIndex].second;
+
+		float timeB = values[lowerIndex + 1].first;
+		vec3 valueB = values[lowerIndex + 1].second;
+
+		if (time < timeA)
+			return valueA;
+
+		if (time > timeB)
+			return valueB;
+
+		// we are right in the middle
+
+		float t = (timeB - time) / (timeB - timeA);
+
+		return valueA * t + valueB * (1 - t);
+	}
+}
+
+template <class T> unsigned int AnimationSystem::binarySearch(T values, float needle, unsigned int lower, unsigned int upper)
 {
 	if (upper - lower <= 1)
 		return lower;

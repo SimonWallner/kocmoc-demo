@@ -54,7 +54,7 @@ namespace kocmoc
 		ScalarMap scalarMap;
 		VecMap vecMap;
 
-		unsigned int binarySearch(ScalarValues values, float needle, unsigned int lower, unsigned int upper);
+		template <class T> unsigned int binarySearch(T values, float needle, unsigned int lower, unsigned int upper);
 	};
 }
 

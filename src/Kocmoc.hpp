@@ -76,6 +76,7 @@ namespace kocmoc
 		Timer timer;
 
 		FilmCamera* camera;
+		FilmCamera* animationCamera;
 		OrthoCam *orthoCam;
 		OverlayCam *overlayCam;
 
@@ -98,6 +99,8 @@ namespace kocmoc
 
 		ImageOverlay * title;
 		ImageOverlay *black;
+
+		bool useUserCamera;
 
 		void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
 		void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
