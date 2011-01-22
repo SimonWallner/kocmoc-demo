@@ -8,17 +8,16 @@ using namespace kocmoc;
 ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height)
 	: width(_width)
 	, height(_height)
-	, alpha(1.0f)
+	, opacity(1.0f)
 {
 	textureHandle = ImageLoader::getInstance().loadImage(fileName, true);
+	shader = ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
 	setupShader();
 	createQuad();
 }
 
 void ImageOverlay::setupShader()
 {
-	shader = ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
-
 	shader->bind();
 	{
 		GLint location;
@@ -41,8 +40,8 @@ void ImageOverlay::draw()
 	shader->bind();
 
 	GLint location;
-	if ((location = shader->get_uniform_location("alpha")) >= 0)
-		glUniform1f(location, alpha);
+	if ((location = shader->get_uniform_location("opacity")) >= 0)
+		glUniform1f(location, opacity);
 
 	
 	glBindVertexArray(vaoHandle);
@@ -89,7 +88,7 @@ void ImageOverlay::createQuad()
 	glBindVertexArray(0);
 }
 
-void ImageOverlay::setAlpha(float _alpha)
+void ImageOverlay::setOpacity(float _opacity)
 {
-	alpha = pow(_alpha, 2.2f);
+	opacity = _opacity;//	pow(_opacity, 1.0f/2.2f);
 }

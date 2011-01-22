@@ -134,8 +134,8 @@ void Kocmoc::start()
 
 		// update stuff ------------------
 		ship->setTransformation(glm::gtx::transform::rotate(10.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f));
-		black->setAlpha(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_alpha"));
-		title->setAlpha(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_alpha"));
+		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
+		title->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_opacity"));
 
 
 		// drawing stuff ---------------
@@ -275,4 +275,6 @@ void Kocmoc::pollMouse()
 void Kocmoc::reload()
 {
 	fbo->setupShader();
+	title->setupShader();
+	black->setupShader();
 }

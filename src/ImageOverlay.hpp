@@ -14,7 +14,9 @@ namespace kocmoc
 
 		void draw(void);
 
-		void setAlpha(float alpha);
+		void setOpacity(float opacity);
+
+		void setupShader(void);
 
 	private:
 		GLuint textureHandle;
@@ -28,9 +30,7 @@ namespace kocmoc
 		GLuint vaoHandle;
 
 		void createQuad(void);
-		void setupShader(void);
-
-		float alpha;
+		float opacity;
 	};
 }
 

@@ -85,9 +85,11 @@ bool AnimationSystem::parseAnimationFile()
 		}
 
 	} catch (...) {
+		file.close();
 		return false;
 	}
 	//cout << "parsing successful!" << endl;
+	file.close();
 	return true;
 }
 
@@ -141,4 +143,11 @@ unsigned int AnimationSystem::binarySearch(ScalarValues values, float needle, un
 		return binarySearch(values, needle, lower, middle);
 	else // branch right
 		return binarySearch(values, needle, middle, upper);
+}
+
+void AnimationSystem::reload()
+{
+	scalarMap.clear();
+	vecMap.clear();
+	parseAnimationFile();
 }

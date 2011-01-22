@@ -36,6 +36,11 @@ namespace kocmoc
 		float getScalar(double time, std::string name);
 		vec3 getVec3(double time, std::string name);
 
+		/**
+		 * reload the animation file and do all neccessary housekeeeping
+		 */
+		void reload(void);
+
 	private:
 		AnimationSystem(void);
 		AnimationSystem(const AnimationSystem &cc);
