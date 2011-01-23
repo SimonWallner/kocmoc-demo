@@ -314,7 +314,7 @@ void Kocmoc::pollKeyboard(void)
 		ImageLoader::getInstance().screenShot();
 
 	if (glfwGetKey('R'))
-		ShaderManager::getInstance().reloadAll();
+		animationClock->setTime(0.0);
 
 
 	if (glfwGetKey('W'))

@@ -5,16 +5,22 @@
 # linear inerpolation is used for scalar values, catmul-rom is used for vectors
 # Tokens are tab+ separated.
 
+# to make a smooth fado in/out to black one has to use a courve  of roughtly ^1/foo
+
 # title animations ------------------------------------------------------------
 
-3	black_opacity		1
-4	black_opacity		1
-5	black_opacity		0
+0		black_opacity		1
++9		black_opacity		1
++1		black_opacity		0.95
++0.5	black_opacity		0.85
++0.5	black_opacity		0.6
++0.5	black_opacity		0.0
 
-1	title_opacity		0
-+2	title_opacity		1
-+1	title_opacity		1
-+0	title_opacity		0
+2		title_opacity		0
++1		title_opacity		1
++3		title_opacity		1
++0.5	title_opacity		0.2
++0.5	title_opacity		0
 
 
 # credits ---------------------------------------------------------------------
@@ -49,10 +55,10 @@
 0	cam1_focalLength	12
 0	cam1_up				0	1	0
 
-4	cam1_position		70	0	30
-70	cam1_position		70	0	30
-0	cam1_target			70	0	0
-70	cam1_target			70	0	0
+4	cam1_position		75	0	30
+70	cam1_position		75	0	30
+0	cam1_target			75	0	0
+70	cam1_target			75 	0	0
 
 
 # --- shot 2 ---
@@ -67,10 +73,9 @@
 
 
 
-# --- shot 3 ---
-# getting to distance
-# rotate
-# fade to black
+# --- shot n ---
+# closing shot.
+# pull out, fade to black
 
 71	cam1_selector		0
 71	cam1_selector		1
