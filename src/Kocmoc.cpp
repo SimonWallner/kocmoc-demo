@@ -172,30 +172,32 @@ void Kocmoc::start()
 
 
 		// update stuff ------------------
-		mat4 transform = glm::gtx::transform::rotate(2.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.0f, 0.0f);
-		transform = glm::gtx::transform::rotate(15.0f*(GLfloat)animationClock->getTime(), 1.0f, 0.3f, 0.2f) * transform;
-		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 2.0f *(GLfloat)animationClock->getTime()) * transform;
+		AnimationSystem &asi = AnimationSystem::getInstance();
+
+		mat4 transform = glm::gtx::transform::rotate(2.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.0f, 0.0f);
+		transform = glm::gtx::transform::rotate(15.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.3f, 0.2f) * transform;
+		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 2.0f * asi.getScalar(animationClock->getTime(), "time")) * transform;
 		ship->setTransformation(transform);
-		orthoCam->setFocus(vec3(1, 0, 0) * 2.0f *(GLfloat)animationClock->getTime());
+		orthoCam->setFocus(vec3(1, 0, 0) * 2.0f * asi.getScalar(animationClock->getTime(), "time"));
 		orthoCam->updateMatrixes();
 
 
-		black->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "black_opacity"));
-		title->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "title_opacity"));
-		credits->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits_opacity"));
-		credits2->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits2_opacity"));
-		credits3->setOpacity(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "credits3_opacity"));
+		black->setOpacity(asi.getScalar(animationClock->getTime(), "black_opacity"));
+		title->setOpacity(asi.getScalar(animationClock->getTime(), "title_opacity"));
+		credits->setOpacity(asi.getScalar(animationClock->getTime(), "credits_opacity"));
+		credits2->setOpacity(asi.getScalar(animationClock->getTime(), "credits2_opacity"));
+		credits3->setOpacity(asi.getScalar(animationClock->getTime(), "credits3_opacity"));
 
-		cam1->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_position"));
-		cam1->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_target"));
-		cam1->setUpVector(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam1_up"));
-		cam1->setFocalLength(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam1_focalLength"));
+		cam1->setPosition(asi.getVec3(animationClock->getTime(), "cam1_position"));
+		cam1->setTargetPosition(asi.getVec3(animationClock->getTime(), "cam1_target"));
+		cam1->setUpVector(asi.getVec3(animationClock->getTime(), "cam1_up"));
+		cam1->setFocalLength(asi.getScalar(animationClock->getTime(), "cam1_focalLength"));
 
 
-		cam2->setPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_position"));
-		cam2->setTargetPosition(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_target"));
-		cam2->setUpVector(AnimationSystem::getInstance().getVec3(animationClock->getTime(), "cam2_up"));
-		cam2->setFocalLength(AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam2_focalLength"));
+		cam2->setPosition(asi.getVec3(animationClock->getTime(), "cam2_position"));
+		cam2->setTargetPosition(asi.getVec3(animationClock->getTime(), "cam2_target"));
+		cam2->setUpVector(asi.getVec3(animationClock->getTime(), "cam2_up"));
+		cam2->setFocalLength(asi.getScalar(animationClock->getTime(), "cam2_focalLength"));
 
 
 		camera->updateMatrixes();
