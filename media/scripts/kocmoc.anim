@@ -45,20 +45,17 @@
 
 # special time animation ------------------------------------------------------
 
-0		time	0
-40		time	40
-+0.7894736842105263		time	39.21053
-+0.7894736842105263		time	40
-+0.7894736842105263		time	39.21053
 
 
-1000	time	1000
+
 
 # camera animations -----------------------------------------------------------
 
 # --- shot 1 ---
 # opening/establishing shot
 # kocmoc enters from left
+0		time	0
+
 
 0	cam1_selector		1
 0	cam1_focalLength	12
@@ -71,30 +68,47 @@
 
 
 # --- shot 2 ---
-# orbit arround kocmoc
-55	cam1_selector		0
-55	cam2_target			700000	0	0
-55	cam2_focalLength	12
+# similar to first but with skip forward
+58	cam1_selector		0
 
-55	cam2_position		95	0		10
-+2	cam2_position		98	-6.5	6.5
-+2	cam2_position		101	-10		0
-+2	cam2_position		104	-6.5	-6.5
-+2	cam2_position		107	0		-10
-+2	cam2_position		110	6.5		-6.5
-+2	cam2_position		113	10		0
-+2	cam2_position		116	6.5		6.5
-+2	cam2_position		119	0		10
 
-55	cam2_up				0	1	0
-+2	cam2_up				0	1	1
-+2	cam2_up				0	0	1
-+2	cam2_up				0	-1	1
-+2	cam2_up				0	-1	0
-+2	cam2_up				0	-1	-1
-+2	cam2_up				0	0	-1
-+2	cam2_up				0	1	-1
-+2	cam2_up				0	1	0
+58	cam2_up				0.12	1	0
+58	cam2_focalLength	12
+58	cam2_position		160	0	30
+100	cam2_position		160	0	30
+58	cam2_target			160	0	0
+100	cam2_target			160 	0	0
+
+58	time	58
+63	time	63
++0	time	70
++1	time	71
++0	time	78
++1	time	79
++0	time	86
++1	time	87
++0	time	94
+
+74	time	102
+74	cam1_selector		0
+
+
+# --- shot 4 ---
+74	time	0
+74	cam1_selector	1
+
+74	cam1_up			1	0	0
+74	cam1_position	30	-45	30
+74	cam1_target		30	-45	0
+
+120	cam1_position	30	45	30
+120	cam1_target		30	45	0
+
+
+82	time	8
+97	time	23
+97	time	0
+117	time	20
 
 
 
