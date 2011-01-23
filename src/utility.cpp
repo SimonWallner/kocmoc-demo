@@ -89,6 +89,7 @@ namespace kocmoc
 			PolyMesh* generateStars()
 			{
 				// generate starts, lots of stars
+				// only in a sphere
 				int starCount = Property("starsCount");
 				float domain = Property("starsDomain");
 				float size = Property("starsSize");
@@ -114,10 +115,12 @@ namespace kocmoc
 
 					mat4 rotation = glm::gtx::transform::rotate(((float)rand() * 360)/RAND_MAX,
 						(float)rand()/RAND_MAX, (float)rand()/RAND_MAX, (float)rand()/RAND_MAX);
-
-					mat4 transform = glm::translate((rand() * domain)/RAND_MAX - (domain / 2),
+					
+					vec3 translation = vec3((rand() * domain)/RAND_MAX - (domain / 2),
 						(rand() * domain)/RAND_MAX - (domain / 2),
-						(rand() * domain)/RAND_MAX - (domain / 2)) * scale * rotation;
+						(rand() * domain)/RAND_MAX - (domain / 2));
+
+					mat4 transform = glm::translate(translation) * scale * rotation;
 
 					v0 = transform * v0;
 					v1 = transform * v1;

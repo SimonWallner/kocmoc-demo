@@ -28,29 +28,12 @@ scriptsRootFolder = ${MEDIA_PATH}/scripts/
 # alternative paths, that are not in the repo
 alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 
-# stuff to delete, only for testing, debugging and such.
-# those props are prefixed fith a capital X
-# XModelName = cube.dae
-# XModelName = Leonow.dae
-# XModelName = house.dae
-# XModelName = teapot.dae
-# XModelName = Plane_p51.dae
-# XModelName = test.dae
-# XModelName = suzanne-hires.dae
-# XModelName = normal_icosphere.dae
-# XModelName = maya_normals.dae
-# XModelName = maya_sphere.dae
-# XModelName = maya_multi.dae
-# XModelName = blender_sphere.dae
-# XModelName = object_normal.dae
-# XModelName = texture_test.dae
-XModelName = kocmoc.dae
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
 height = 720
-# width = 1920
-# height = 803
+width = 1800
+height = 800
 fullscreen = 0
 
 enableMouse = 0
@@ -66,9 +49,13 @@ missionControlServerPort = 65001
 nearPlane = -0.1
 farPlane = -10000
 
+# the model
+modelName = kocmoc.dae
+
+
 # star generator
-starsCount = 10000
-starsDomain = 3000
+starsCount = 25000
+starsDomain = 9000
 starsSize = 10
 
 # debug settings
@@ -91,7 +78,7 @@ shadowMapWidth = 2048
 shadowMapHeight = 2048
 orthoWidth = 10
 orthoHeight = 10
-orthoDepth = 10
+orthoDepth = 15
 
 # misc
 # enableAnisotropicFiltering = 1 // need to load extensions...

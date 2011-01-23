@@ -197,7 +197,7 @@ void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera, Shader *shadowSha
 		activeShader = shadowShader;
 
 	glm::mat4 leafTransform = parentTransform * modelMatrix;
-	glm::mat3 normalMatrix = glm::mat3(glm::gtx::inverse_transpose::inverseTranspose(leafTransform));
+	glm::mat3 normalMatrix = glm::gtx::inverse_transpose::inverseTranspose(glm::mat3(leafTransform));
 
 	if (!dataIsUploaded)
 		transferData();

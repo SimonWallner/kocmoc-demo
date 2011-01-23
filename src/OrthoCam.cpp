@@ -31,3 +31,8 @@ void OrthoCam::updateMatrixes()
 							0,			0,			1/depth,	0,
 							0,			0,			0,			1);
 }
+
+void OrthoCam::setFocus(vec3 _focus)
+{
+	focus = _focus;
+}

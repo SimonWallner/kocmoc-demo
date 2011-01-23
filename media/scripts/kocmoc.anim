@@ -3,16 +3,83 @@
 # blank lines are ignored, comments are prefixed with '#'
 # negative times can be usefull for start conditions for catmull-rom interpol.
 # linear inerpolation is used for scalar values, catmul-rom is used for vectors
+# Tokens are tab+ separated.
 
-3	black_alpha		1
-8	black_alpha		1
-11	black_alpha		0
+# title animations ------------------------------------------------------------
+
+3	black_opacity		1
+4	black_opacity		1
+5	black_opacity		0
+
+1	title_opacity		0
++2	title_opacity		1
++1	title_opacity		1
++0	title_opacity		0
 
 
-1	title_alpha		0
-3	title_alpha		1
-4	title_alpha		1
-6	title_alpha		0
+# credits ---------------------------------------------------------------------
+
+999	black_opacity		0
++1	black_opacity		1
+
+999	credits_opacity		0
++1	credits_opacity		1
++4	credits_opacity		1
++1	credits_opacity		0
+
+999	credits2_opacity	0
++1	credits2_opacity	1
++4	credits2_opacity	1
++1	credits2_opacity	0
+
+999	credits3_opacity	0
++1	credits3_opacity	1
+# +4	credits3_opacity	1
+# +2	credits3_opacity	0
+
+
+
+# camera animations -----------------------------------------------------------
+
+# --- shot 1 ---
+# opening/establishing shot
+# kocmoc enters from left
+
+0	cam1_selector		1
+0	cam1_focalLength	12
+0	cam1_up				0	1	0
+
+4	cam1_position		70	0	30
+70	cam1_position		70	0	30
+0	cam1_target			70	0	0
+70	cam1_target			70	0	0
+
+
+# --- shot 2 ---
+# vertigo shot
+40	cam1_selector		0
+40	cam2_focalLength	30
++31	cam2_focalLength	12
+40	cam2_up				0	1	0
+
+20	cam2_position		150	0	0
+20	cam2_target			0	0	0
+
+
+
+# --- shot 3 ---
+# getting to distance
+# rotate
+# fade to black
+
+71	cam1_selector		0
+71	cam1_selector		1
+71	cam1_position		130	0	0
+71	cam1_target			150	0	0
+71	cam1_up				0	1	0
++5	cam1_up				0	1	1
++5	cam1_up				0	0	1
+
 
 
 # eof

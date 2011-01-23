@@ -26,6 +26,10 @@ namespace kocmoc
 		 */
 		FilmCamera(vec3 eyePosition, vec3 targetPosition, vec3 upVector);
 
+		void setPosition(vec3 position);
+		void setTargetPosition(vec3 target);
+		void setUpVector(vec3 up);
+
 		virtual ~FilmCamera();
 
 		/**
