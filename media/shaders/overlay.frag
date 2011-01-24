@@ -11,5 +11,5 @@ out vec4 fragmentColor0;
 
 void main(void)
 {
-	fragmentColor0 = vec4(texture(sImage, uv).rgb, opacity);
+	fragmentColor0 = texture(sImage, uv) * vec4(1, 1, 1, opacity);
 }
