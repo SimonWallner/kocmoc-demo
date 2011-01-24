@@ -59,6 +59,7 @@ namespace kocmoc
 
 		double scheduleInterval;
 		double nextScheduledEvent;
+		double lastScheduledEvent;
 	};
 }
 

@@ -128,7 +128,7 @@ void Kocmoc::init()
 
 	clock = new Clock();
 	if (util::Property("useFixedFrameRate"))
-		clock->start(1.0/util::Property("fixedFrameRate"));
+		clock->start(1.0/(float)util::Property("fixedFrameRate"));
 	else
 		clock->start();
 
