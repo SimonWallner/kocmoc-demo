@@ -44,3 +44,8 @@ void AnimationClock::play()
 {
 	setSpeed(playbackSpeed);
 }
+
+void AnimationClock::setTime(double time)
+{
+	currentTime = time;
+}

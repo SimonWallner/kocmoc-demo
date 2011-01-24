@@ -184,7 +184,7 @@ vec3 AnimationSystem::getVec3(double time, std::string name)
 		return values[lowerIndex].second; // constant interpolation
 	}
 	// only one sample is left or right of time
-	else if (lowerIndex == 0 || lowerIndex == values.size() - 2) // linearily interpolate
+	else // if (lowerIndex == 0 || lowerIndex == values.size() - 2) // linearily interpolate
 	{
 		float timeA = values[lowerIndex].first;
 		vec3 valueA = values[lowerIndex].second;
@@ -197,22 +197,23 @@ vec3 AnimationSystem::getVec3(double time, std::string name)
 		return valueA * t + valueB * (1 - t);
 	}
 
-	else // enougth samples on both sides
-	{
-		// A--B-(time)-C--D
-		vec3 valueA = values[lowerIndex -1].second;
-		vec3 valueB = values[lowerIndex].second;
-		vec3 valueC = values[lowerIndex + 1].second;
-		vec3 valueD = values[lowerIndex + 2].second;
+	// NOTE: going back to only linear interpolation
+	//else // enougth samples on both sides
+	//{
+	//	// A--B-(time)-C--D
+	//	vec3 valueA = values[lowerIndex -1].second;
+	//	vec3 valueB = values[lowerIndex].second;
+	//	vec3 valueC = values[lowerIndex + 1].second;
+	//	vec3 valueD = values[lowerIndex + 2].second;
 
-		float timeB = values[lowerIndex].first;
-		float timeC = values[lowerIndex + 1].first;
-		
-		float t = (time - timeB) / (timeC - timeB);
+	//	float timeB = values[lowerIndex].first;
+	//	float timeC = values[lowerIndex + 1].first;
+	//	
+	//	float t = (time - timeB) / (timeC - timeB);
 
-		vec3 result = glm::gtx::spline::catmullRom(valueA, valueB, valueC, valueD, t);
-		return result;
-	}
+	//	vec3 result = glm::gtx::spline::catmullRom(valueA, valueB, valueC, valueD, t);
+	//	return result;
+	//}
 }
 
 template <class T> unsigned int AnimationSystem::binarySearch(T values, float needle, unsigned int lower, unsigned int upper)

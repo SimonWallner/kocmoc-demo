@@ -16,6 +16,7 @@ void Clock::start(double _scheduleInterval)
 	tick();
 
 	scheduleInterval = _scheduleInterval;
+	lastScheduledEvent = 0.0;
 	nextScheduledEvent = scheduleInterval;
 }
 
@@ -30,10 +31,11 @@ double Clock::lastFrameDuration()
 
 void Clock::awaitSchedule()
 {
-	while (getTime() < nextScheduledEvent)
+	while ((glfwGetTime() - startTime) < nextScheduledEvent)
 	{
-		glfwSleep(nextScheduledEvent - getTime());
+		glfwSleep(nextScheduledEvent - (glfwGetTime() - startTime));
 	}
+	lastScheduledEvent = nextScheduledEvent;
 	nextScheduledEvent += scheduleInterval;
 }
 
@@ -46,5 +48,8 @@ void Clock::tick()
 
 double Clock::getTime()
 {
-	return glfwGetTime() - startTime;
+	if (scheduleInterval != 0.0)
+		return lastScheduledEvent;
+	else
+		return glfwGetTime() - startTime;
 }

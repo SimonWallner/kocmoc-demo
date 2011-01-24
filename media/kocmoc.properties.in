@@ -32,8 +32,10 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # screen resolution and weather to start in full screen mode or not
 width = 1280
 height = 720
-width = 1800
-height = 800
+width = 1900
+height = 1000
+# width = 956
+# height = 400
 fullscreen = 0
 
 enableMouse = 0
@@ -47,16 +49,16 @@ missionControlServerPort = 65001
 
 # general stuff
 nearPlane = -0.1
-farPlane = -10000
+farPlane = -6000
 
 # the model
 modelName = kocmoc.dae
 
 
 # star generator
-starsCount = 25000
-starsDomain = 9000
-starsSize = 10
+starsCount = 40000
+starsDomain = 6000
+starsSize = 7
 
 # debug settings
 debugShowGizmo = 0
@@ -85,6 +87,7 @@ orthoDepth = 15
 muteAudio = 1
 useFixedFrameRate = 0
 fixedFrameRate = 29.970
+fixedFrameRate = 1
 recordSequence = 0
 
 # animation

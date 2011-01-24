@@ -27,7 +27,7 @@ void main(void)
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 
 
-	if (shadowUV.z/2+0.5 < texture(sShadow, shadowUV.xy / 2 + 0.5) + bias)
+	if ((shadowUV.z/2+0.5) < (texture(sShadow, shadowUV.xy / 2 + 0.5).x + bias))
 	{
 		vec3 specularColor = texture(sSpecular, texCoord0).rgb;
 		float shinyness = texture(sSpecular, texCoord0).r * 50.0f;

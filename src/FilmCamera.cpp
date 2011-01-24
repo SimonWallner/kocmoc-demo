@@ -60,8 +60,9 @@ void FilmCamera::updateMatrixes()
 	float extendedAOV = (atan(tan(angleOfView/2) * (((float)width + 2*horizontalMargin) / width))) * 2;
 
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
+	vec3 u = glm::normalize(glm::cross(s, targetVector));
 
-	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(upVector, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
+	untranslatedViewMatrix = mat4(vec4(s, 0), vec4(u, 0), vec4(-targetVector, 0), vec4(0, 0, 0, 1.0f));
 	untranslatedViewMatrix = glm::core::function::matrix::transpose(untranslatedViewMatrix);
 	viewMatrix = glm::translate(untranslatedViewMatrix, -eyePosition);
 		
