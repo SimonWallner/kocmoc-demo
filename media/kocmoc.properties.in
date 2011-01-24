@@ -32,10 +32,10 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 # screen resolution and weather to start in full screen mode or not
 width = 1280
 height = 720
-# width = 1900
-# height = 1000
-width = 956
-height = 400
+width = 1900
+height = 1000
+# width = 956
+# height = 400
 fullscreen = 0
 
 enableMouse = 0
