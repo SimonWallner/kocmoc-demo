@@ -34,6 +34,8 @@ width = 1024
 height = 768
 width = 1900
 height = 1000
+width = 956
+height = 400
 fullscreen = 0
 
 enableMouse = 0
@@ -82,10 +84,10 @@ orthoDepth = 15
 
 # misc
 # enableAnisotropicFiltering = 1 // need to load extensions...
-muteAudio = 1
-useFixedFrameRate = 0
+muteAudio = 0
+useFixedFrameRate = 1
 fixedFrameRate = 29.970
-recordSequence = 0
+recordSequence = 1
 
 # animation
 animationFileName = kocmoc.anim

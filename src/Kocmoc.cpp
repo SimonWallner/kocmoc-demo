@@ -124,11 +124,11 @@ void Kocmoc::init()
 	fbo->setupShader();
 	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
-	AudioPlayer::getInstance().play("music_mono_low.ogg");
+	AudioPlayer::getInstance().play("kocmoc.ogg");
 
 	clock = new Clock();
 	if (util::Property("useFixedFrameRate"))
-		clock->start(1.0/24);
+		clock->start(1.0/util::Property("fixedFrameRate"));
 	else
 		clock->start();
 
@@ -176,9 +176,9 @@ void Kocmoc::start()
 
 		mat4 transform = glm::gtx::transform::rotate(2.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.0f, 0.0f);
 		transform = glm::gtx::transform::rotate(15.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.3f, 0.2f) * transform;
-		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 2.0f * asi.getScalar(animationClock->getTime(), "time")) * transform;
+		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 3.0f * asi.getScalar(animationClock->getTime(), "time")) * transform;
 		ship->setTransformation(transform);
-		orthoCam->setFocus(vec3(1, 0, 0) * 2.0f * asi.getScalar(animationClock->getTime(), "time"));
+		orthoCam->setFocus(vec3(1, 0, 0) * 3.0f * asi.getScalar(animationClock->getTime(), "time"));
 		orthoCam->updateMatrixes();
 
 
