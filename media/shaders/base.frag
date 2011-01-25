@@ -29,7 +29,7 @@ void main(void)
 
 	if ((shadowUV.z/2+0.5) < (texture(sShadow, shadowUV.xy / 2 + 0.5).x + bias))
 	{
-		vec3 specularColor = texture(sSpecular, texCoord0).rgb / 8.0f;
+		vec3 specularColor = texture(sSpecular, texCoord0).rgb;
 		float shinyness = texture(sSpecular, texCoord0).a * 50.0f + 5.0f;
 		vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
 		vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
