@@ -20,11 +20,12 @@ Features
 - object/world space normal mapping
 - post process color correction with 3D LUT
 - 2x FSAA
-- Non-planar projection (spherical) projection achieved by resampling in the post process fragment shader
+- Non-planar projection (spherical) achieved by resampling in the post process fragment shader
+- simple shadow mapping
 - simple key frame animation system
 - simple property file system
 - fixed/variable timestamp animation with frame export (i.e. to record movies)
-- openAL audio
+- OpenAL audio
 
 Controls
 --------
@@ -35,9 +36,9 @@ Controls
 
 How to build
 ------------
-TO build the demo, download the sourc files and also additionally dowload the openCollada repo into the ./external/opencollada/ folder. 
+To build the demo, download the sourc files and also additionally dowload the openCollada repo into the ./external/opencollada/ folder. 
 
-CMake is used as a build system, and it should build without problems on Windows 7 with Visual Studio 2008. VS2010 is not yet supported by collada. In order for CMake to use collada as a sub project, apply this (http://code.google.com/p/opencollada/issues/detail?id=140) patch. Executables are put into the bin/ folder so make sure to update set the wokring directory accordingly.
+CMake is used as a build system, and it should build without problems on Windows 7 with Visual Studio 2008. VS2010 is not yet supported by collada. In order for CMake to use collada as a sub project, apply this (http://code.google.com/p/opencollada/issues/detail?id=140) patch. Executables are put into the bin/ folder so make sure to set the wokring directory accordingly.
 
 
 Used Libs
