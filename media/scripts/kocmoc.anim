@@ -73,16 +73,16 @@
 # closing in on kocmoc, parallel pass
 # dolly in
 # 47.0 -- 62.0
-47	time	0
+47	time	-6
 
 47	cam1_selector	1
 47	cam1_up			0	0	-1
-47	cam1_position	50	0	5
-47	cam1_target		-50	0	5
+47	cam1_position	50	0	4
+47	cam1_target		-50	0	4
 
-+15	cam1_position	10	0	5
++15	cam1_position	10	0	4
 
-62	time	15
+62	time	9
 62	cam1_up			0	0	-1
 62	cam1_target		-50	0	5
 
@@ -112,35 +112,19 @@
 
 73	time	0
 73	cam1_selector	1
-73	cam1_position	15	-45	30
-73	cam1_target		15	-45	0
-73	cam1_up			1	0	0
-+10	cam1_position	-15	45	30
-+10	cam1_target		-15	45	0
+73	cam1_position	-4	0	0
+73	cam1_target		100	0	0
+73	cam1_up			0	1	0
 
-+5	time	5
-+0	time	-5
-83	time	10
-
-# --- final shot ---
-# pull out rotate
-# fade to black/credits
-
-83	time	0
-83	cam1_selector	0
-83	cam2_position	-4	0	0
-83	cam2_target		100	0	0
-83	cam2_up			0	1	0
-
-+60	cam2_position	-300	0	0
-+10	cam2_up			0	0.92388	0.382683
-+10	cam2_up			0	1	1
-+10	cam2_up			0	0.382683	0.92388
-+10	cam2_up			0	0	1
-+10	cam2_up			0	-0.382683	0.92388
-+10	cam2_up			0	-1	0
-+10	cam2_up			0	-0.92388	-0.382683
-+10	cam2_up			0	-1	-1
++60	cam1_position	-300	0	0
++10	cam1_up			0	0.92388	0.382683
++10	cam1_up			0	1	1
++10	cam1_up			0	0.382683	0.92388
++10	cam1_up			0	0	1
++10	cam1_up			0	-0.382683	0.92388
++10	cam1_up			0	-1	0
++10	cam1_up			0	-0.92388	-0.382683
++10	cam1_up			0	-1	-1
 
 
 +100	time	100
