@@ -63,7 +63,7 @@ void main(void)
 	}
 
 	if (colorCorrection == 1)
-		fragmentColor0 = texture(sColorLUT, color.rbg); // need to change channels in the lookup
+		fragmentColor0 = texture(sColorLUT, color.rbg + 1.0f/64.0f); // need to change channels in the lookup
 	else 
 		fragmentColor0 = color;
 }
