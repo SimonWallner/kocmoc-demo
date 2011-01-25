@@ -31,11 +31,11 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
-height = 720
+height = 536
 # width = 1900
 # height = 1000
-width = 956
-height = 400
+# width = 956
+# height = 400
 fullscreen = 0
 
 enableMouse = 0
@@ -84,10 +84,9 @@ orthoDepth = 15
 # misc
 # enableAnisotropicFiltering = 1 // need to load extensions...
 muteAudio = 1
-useFixedFrameRate = 1
+useFixedFrameRate = 0
 fixedFrameRate = 29.970
-fixedFrameRate = 1
-recordSequence = 1
+recordSequence = 0
 
 # animation
 animationFileName = kocmoc.anim
