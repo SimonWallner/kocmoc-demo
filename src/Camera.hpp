@@ -32,6 +32,8 @@ namespace kocmoc
 		 */
 		virtual mat4 getUntraslatedViewMatrix() = 0;
 
+		virtual vec3 getPosition(void) {return vec3(0.0f);};
+
 		/**
 		 * Update the view matrix of this camera with the current values. 
 		 * You should call this method at the beginning of every frame. Camera

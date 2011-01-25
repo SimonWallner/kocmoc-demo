@@ -226,7 +226,7 @@ void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera, Shader *shadowSha
 
 		GLint location;
 		if ((location = activeShader->get_uniform_location("cameraPosition")) >= 0)
-			glUniform3fv(location, 1, glm::value_ptr(Kocmoc::getInstance().getCamera()->getPosition()));
+			glUniform3fv(location, 1, glm::value_ptr(camera->getPosition()));
 
 		if ((location = activeShader->get_uniform_location("projectionMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 		if ((location = activeShader->get_uniform_location("viewMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
