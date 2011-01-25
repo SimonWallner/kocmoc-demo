@@ -69,31 +69,50 @@
 47	time	6
 47	cam2_up				1	0	0
 
-# --- shot 3 ---
+# --- shot 3---
+# wide outside shot, slow rotation
+47	time	0
+47	cam1_selector	1
+47	cam1_position	-30	50	150
++6	cam1_position	-30	50	150
+
+47	cam1_target		-20	0	0
++6	cam1_target		-20	0	0
+
+47	cam1_up			0.2	1	0
+
++6	cam1_up			0.15	1	0
+
+
++6	time	6
+
+
+# --- shot 4 ---
 # closing in on kocmoc, parallel pass
 # dolly in
 # 47.0 -- 62.0
-47	time	-6
+53	time	-6
 
-47	cam1_selector	1
-47	cam1_up			0	0	-1
-47	cam1_position	50	0	4
-47	cam1_target		-50	0	4
+53	cam1_selector	0
+53	cam2_up			0	0	-1
+53	cam2_position	50	0	4
+53	cam2_target		-50	0	4
 
-+15	cam1_position	10	0	4
++9	cam2_position	10	0	4
 
 62	time	9
-62	cam1_up			0	0	-1
-62	cam1_target		-50	0	5
+62	cam2_up			0	0	-1
+62	cam2_target		-50	0	5
+62	cam1_selector	0
 
-# --- shot 4 ---
+# --- shot 5 ---
 # kocmoc enters from left and jumps forward in time
 
 62	time	0
-62	cam1_selector	0
-62	cam2_position	45	0	30
-62	cam2_target		45	0	0
-62	cam2_up			0	1	00
+62	cam1_selector	1
+62	cam1_position	45	0	30
+62	cam1_target		45	0	0
+62	cam1_up			0	1	00
 
 +1	time	1
 +0	time	7
@@ -103,31 +122,31 @@
 +0	time	23
 
 73	time	29
-73	cam1_selector	0
-73	cam2_target		45	0	0
-73	cam2_position	45	0	30 
+73	cam1_target		45	0	0
+73	cam1_position	45	0	30 
 
-# --- shot 5 ---
+# --- shot 6 ---
 # diagonal jump back
 
 73	time	0
-73	cam1_selector	1
-73	cam1_position	-4	0	0
-73	cam1_target		100	0	0
-73	cam1_up			0	1	0
+73	cam1_selector	0
+73	cam2_position	-4	0	0
+73	cam2_target		100	0	0
+73	cam2_up			0	1	0
 
-+60	cam1_position	-300	0	0
-+10	cam1_up			0	0.92388	0.382683
-+10	cam1_up			0	1	1
-+10	cam1_up			0	0.382683	0.92388
-+10	cam1_up			0	0	1
-+10	cam1_up			0	-0.382683	0.92388
-+10	cam1_up			0	-1	0
-+10	cam1_up			0	-0.92388	-0.382683
-+10	cam1_up			0	-1	-1
++60	cam2_position	-300	0	0
++10	cam2_up			0	0.92388	0.382683
++10	cam2_up			0	1	1
++10	cam2_up			0	0.382683	0.92388
++10	cam2_up			0	0	1
++10	cam2_up			0	-0.382683	0.92388
++10	cam2_up			0	-1	0
++10	cam2_up			0	-0.92388	-0.382683
++10	cam2_up			0	-1	-1
 
 
 +100	time	100
++100	cam1_selector	0
 
 
 
