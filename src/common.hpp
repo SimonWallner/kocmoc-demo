@@ -25,6 +25,7 @@ using glm::vec4;
 
 #include <iostream>
 #include <string>
+#include <stdio.h>
 
 // TODO: remove! (at least std::string
 using std::string;

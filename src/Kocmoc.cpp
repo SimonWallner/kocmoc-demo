@@ -6,7 +6,7 @@
 #include "KocmocLoader.hpp"
 #include "utility.hpp"
 #include "ShaderManager.hpp"
-#include "audioPlayer.hpp"
+#include "AudioPlayer.hpp"
 #include "AnimationSystem.hpp"
 
 #include <gtx/spline.hpp>

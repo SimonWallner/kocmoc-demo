@@ -2,7 +2,7 @@
 #include "Property.hpp"
 #include "common.hpp"
 
-#include "al/alut.h"
+#include "AL/alut.h"
 #include <iostream>
 
 using std::string;
@@ -24,7 +24,7 @@ AudioPlayer::AudioPlayer(void)
 	: isMuted(util::Property("muteAudio"))
 	, counter(0)
 {
-	pathPrefix = util::Property("soundsRootFolder");
+	pathPrefix = (std::string)util::Property("soundsRootFolder");
 	alutInit(NULL, NULL);
 	alDistanceModel(AL_LINEAR_DISTANCE_CLAMPED);
 }
