@@ -8,7 +8,7 @@ Introduction
 
 This demo was created as part of the "real time rendering" lab course at the Vienna University of Technology (http://www.cg.tuwien.ac.at/courses/Realtime/VU.html)
 
-A video will be available soon.
+The video is available at http://vimeo.com/19202087
 
 Any comments/questions are hightly appreciated and you can contact me via email of follow me on twitter @SimonWallner.
 
