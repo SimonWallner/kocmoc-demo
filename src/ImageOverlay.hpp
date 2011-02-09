@@ -3,20 +3,21 @@
 
 #include "common.hpp"
 #include "Shader.hpp"
+#include "Camera.hpp"
 
 namespace kocmoc
 {
 	class ImageOverlay
 	{
 	public:
-		ImageOverlay(std::string fileName, int width, int height);
+		ImageOverlay(std::string fileName, int width, int height, Camera* OverlayCam);
 		~ImageOverlay(void);
 
 		void draw(void);
 
 		void setOpacity(float opacity);
 
-		void setupShader(void);
+		void setupShader(Camera* overlayCamera);
 
 	private:
 		GLuint textureHandle;

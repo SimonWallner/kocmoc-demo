@@ -130,7 +130,8 @@ void Context::testOpenGL()
 void Context::setGLStates()
 {
 	//glClearColor(0.442047, 0.387623, 0.361867, 1.0f);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.502052f, 0.736210f, 0.8492514f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

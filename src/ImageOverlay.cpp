@@ -1,29 +1,28 @@
 #include "ImageOverlay.hpp"
 #include "ImageLoader.hpp"
 #include "ShaderManager.hpp"
-#include "Kocmoc.hpp"
 
 using namespace kocmoc;
 
-ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height)
+ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height, Camera* overlayCam)
 	: width(_width)
 	, height(_height)
 	, opacity(1.0f)
 {
 	textureHandle = ImageLoader::getInstance().loadImage(fileName, true);
 	shader = ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
-	setupShader();
+	setupShader(overlayCam);
 	createQuad();
 }
 
-void ImageOverlay::setupShader()
+void ImageOverlay::setupShader(Camera* overlayCamera)
 {
 	shader->bind();
 	{
 		GLint location;
 
 		if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)
-			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(Kocmoc::getInstance().getOverlayCam()->getProjectionMatrix()));
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(overlayCamera->getProjectionMatrix()));
 
 		if ((location = shader->get_uniform_location("sImage")) >= 0)
 			glUniform1i(location, 0);

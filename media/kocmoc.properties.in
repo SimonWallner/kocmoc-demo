@@ -41,7 +41,7 @@ wireframe = 0
 backFaceCulling = 1
 
 # mission control stuff
-missionControlServerPort = 65001
+# missionControlServerPort = 65001
 
 # general stuff
 nearPlane = -0.1
@@ -60,32 +60,32 @@ starsSize = 7
 debugShowGizmo = 0
 
 # post processing stuff
-enableColorCorrection = 1
+enableColorCorrection = 0
 enableNonPlanarProjection = 1
 enableVignetting = 1
 
 # camera settings
-cameraFocalLength35 = 12
-aspectRatio = 1.66666667
+cameraFocalLength35 = 21
+aspectRatio = 1.7777777778
 horizontalMargin = 85
 verticalMargin = 45
 
 # shadwo map
 shadowMapWidth = 2048
 shadowMapHeight = 2048
-orthoWidth = 10
-orthoHeight = 10
-orthoDepth = 15
+orthoWidth = 1000
+orthoHeight = 1000
+orthoDepth = 1000
 
 # misc
 # enableAnisotropicFiltering = 1 // need to load extensions...
-muteAudio = 0
+muteAudio = 1
 useFixedFrameRate = 0
 fixedFrameRate = 29.970
 recordSequence = 0
 
 # animation
-animationFileName = kocmoc.anim
+# animationFileName = kocmoc.anim
 
 # ------------------------------------------------------------------------------
 # there must be at least one new line after the last entry to be parsed

@@ -6,8 +6,6 @@
 #include "KocmocLoader.hpp"
 #include "utility.hpp"
 #include "ShaderManager.hpp"
-#include "AudioPlayer.hpp"
-#include "AnimationSystem.hpp"
 
 #include <gtx/spline.hpp>
 
@@ -30,7 +28,6 @@ void Kocmoc::Destroy()
 }
 
 Kocmoc::Kocmoc()
-	: useUserCamera(false)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 	showGizmos = util::Property("debugShowGizmo");
@@ -69,38 +66,6 @@ void Kocmoc::init()
 	camera->setupGizmo();
 	camera->updateMatrixes();
 
-	// animation cameras --- cam 1 --------------------------------------------
-	cam1 = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
-		vec3(0, 0, 0), // target
-		vec3(0, 1, 0));  // up
-	if (aspectRatio > 1) // horizontal letter box
-		cam1->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
-	else
-		cam1->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
-
-	cam1->setFocalLength(util::Property("cameraFocalLength35"));
-	cam1->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
-	cam1->updateMatrixes();
-
-	// animation cameras --- cam 2 --------------------------------------------
-	cam2 = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
-		vec3(0, 0, 0), // target
-		vec3(0, 1, 0));  // up
-	if (aspectRatio > 1) // horizontal letter box
-		cam2->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
-	else
-		cam2->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
-
-	cam2->setFocalLength(util::Property("cameraFocalLength35"));
-	cam2->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
-	cam2->updateMatrixes();
-
-
-
-	// ortho cam
-	orthoCam = new OrthoCam(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
-	orthoCam->updateMatrixes();
-	
 	
 	scene = new KocmocScene();
 	ship = KocmocLoader::getInstance().load(util::Property("modelName"));
@@ -124,30 +89,15 @@ void Kocmoc::init()
 	fbo->setupShader();
 	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
 	
-	AudioPlayer::getInstance().play("kocmoc.ogg");
-
+	
 	clock = new Clock();
 	if (util::Property("useFixedFrameRate"))
 		clock->start(1.0/(float)util::Property("fixedFrameRate"));
 	else
 		clock->start();
 
-	animationClock = new AnimationClock(clock);
-	AnimationSystem::getInstance().parseAnimationFile();
-
-
-	overlayCam = new OverlayCam(Context::getInstance().width, Context::getInstance().height);
-	overlayCam->updateMatrixes();
-
-	black = new ImageOverlay("black.png", Context::getInstance().width, Context::getInstance().height);
-	title = new ImageOverlay("title.png", 800, 400);
-	credits = new ImageOverlay("credits.png", 800, 400);
-	credits2 = new ImageOverlay("credits2.png", 800, 400);
-	credits3 = new ImageOverlay("credits3.png", 800, 400);
-
-
 	running = true;
-	animationClock->play();
+	
 }
 
 void Kocmoc::start()
@@ -170,40 +120,7 @@ void Kocmoc::start()
 			pollMouse();
 
 
-
-		// update stuff ------------------
-		AnimationSystem &asi = AnimationSystem::getInstance();
-
-		mat4 transform = glm::gtx::transform::rotate(2.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.0f, 0.0f);
-		transform = glm::gtx::transform::rotate(15.0f * asi.getScalar(animationClock->getTime(), "time"), 1.0f, 0.3f, 0.2f) * transform;
-		transform = glm::gtx::transform::translate(vec3(1, 0, 0) * 3.0f * asi.getScalar(animationClock->getTime(), "time")) * transform;
-		ship->setTransformation(transform);
-		orthoCam->setFocus(vec3(1, 0, 0) * 3.0f * asi.getScalar(animationClock->getTime(), "time"));
-		orthoCam->updateMatrixes();
-
-
-		black->setOpacity(asi.getScalar(animationClock->getTime(), "black_opacity"));
-		title->setOpacity(asi.getScalar(animationClock->getTime(), "title_opacity"));
-		credits->setOpacity(asi.getScalar(animationClock->getTime(), "credits_opacity"));
-		credits2->setOpacity(asi.getScalar(animationClock->getTime(), "credits2_opacity"));
-		credits3->setOpacity(asi.getScalar(animationClock->getTime(), "credits3_opacity"));
-
-		cam1->setPosition(asi.getVec3(animationClock->getTime(), "cam1_position"));
-		cam1->setTargetPosition(asi.getVec3(animationClock->getTime(), "cam1_target"));
-		cam1->setUpVector(asi.getVec3(animationClock->getTime(), "cam1_up"));
-		cam1->setFocalLength(asi.getScalar(animationClock->getTime(), "cam1_focalLength"));
-
-
-		cam2->setPosition(asi.getVec3(animationClock->getTime(), "cam2_position"));
-		cam2->setTargetPosition(asi.getVec3(animationClock->getTime(), "cam2_target"));
-		cam2->setUpVector(asi.getVec3(animationClock->getTime(), "cam2_up"));
-		cam2->setFocalLength(asi.getScalar(animationClock->getTime(), "cam2_focalLength"));
-
-
 		camera->updateMatrixes();
-		cam1->updateMatrixes();
-		cam2->updateMatrixes();
-
 
 
 
@@ -214,7 +131,7 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		ship->draw(orthoCam, shadowShader);
+		scene->draw(orthoCam, shadowShader);
 		
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
@@ -238,9 +155,8 @@ void Kocmoc::start()
 		else
 			fbo->drawFBO();
 
-		drawOverlays();
-
 		Context::getInstance().swapBuffers();
+
 		if (util::Property("recordSequence"))
 			ImageLoader::getInstance().screenShot(true);
 	}
@@ -248,29 +164,12 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	if (useUserCamera)
-		scene->draw(camera);	
-	else
-	{
-		if (AnimationSystem::getInstance().getScalar(animationClock->getTime(), "cam1_selector") > 0.0f)
-			scene->draw(cam1);
-		else
-			scene->draw(cam2);
-	}
+	scene->draw(camera);	
 }
 
 void Kocmoc::drawOverlays()
 {
-	//if (showGizmos)
-	//	camera->drawGizmo();
-
-	glDisable(GL_DEPTH_TEST);
-	black->draw();
-	title->draw();
-	credits->draw();
-	credits2->draw();
-	credits3->draw();
-	glEnable(GL_DEPTH_TEST);
+	// nothing to draw...
 }
 
 void Kocmoc::pollKeyboard(void)
@@ -315,9 +214,6 @@ void Kocmoc::pollKeyboard(void)
 	if (glfwGetKey('.'))
 		ImageLoader::getInstance().screenShot();
 
-	if (glfwGetKey('R'))
-		animationClock->setTime(0.0);
-
 
 	if (glfwGetKey('W'))
 		camera->dolly(vec3(0, 0, 4.0f) * (float)clock->lastFrameDuration());
@@ -331,8 +227,6 @@ void Kocmoc::pollKeyboard(void)
 	if (glfwGetKey('D'))
 		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
 
-	if (glfwGetKey(GLFW_KEY_SPACE))
-		useUserCamera = !useUserCamera;
 }
 
 
@@ -352,6 +246,4 @@ void Kocmoc::pollMouse()
 void Kocmoc::reload()
 {
 	fbo->setupShader();
-	title->setupShader();
-	black->setupShader();
 }
