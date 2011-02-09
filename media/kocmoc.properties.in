@@ -31,11 +31,7 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
 
 # screen resolution and weather to start in full screen mode or not
 width = 1280
-height = 536
-width = 1900
-height = 1000
-# width = 956
-# height = 400
+height = 720
 fullscreen = 0
 
 enableMouse = 0
@@ -70,7 +66,7 @@ enableVignetting = 1
 
 # camera settings
 cameraFocalLength35 = 12
-aspectRatio = 2.39
+aspectRatio = 1.66666667
 horizontalMargin = 85
 verticalMargin = 45
 
