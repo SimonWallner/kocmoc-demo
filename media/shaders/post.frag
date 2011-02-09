@@ -54,12 +54,12 @@ void main(void)
 	if (vignetting == 1)
 	{
 		float attenuation = 2.0f;
-		float power = 3;
+		float power = 4.7;
 	
 		float delta = distance(texCoord0, vec2(0.5f, 0.5f));
 		float darkening = 1 - pow(delta, power) * attenuation;
 
-		color = color * darkening;
+		color = color * vec4(darkening.xxx, 1);
 	}
 
 	if (colorCorrection == 1)

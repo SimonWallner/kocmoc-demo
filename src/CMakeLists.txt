@@ -47,10 +47,10 @@ if (WIN32)
 
 endif (WIN32)
 
-add_executable(kocmoc-demo ${SOURCE_FILES})
+add_executable(city-test ${SOURCE_FILES})
 
 set (TARGET_LINK_LIBRARIES 
- kocmoc-demo
+	city-test
     glfw
     OpenCOLLADAFramework
     OpenCOLLADASaxFrameworkLoader

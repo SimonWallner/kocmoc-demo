@@ -66,6 +66,10 @@ void Kocmoc::init()
 	camera->setupGizmo();
 	camera->updateMatrixes();
 
+	// ortho cam
+	orthoCam = new OrthoCam(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
+	orthoCam->updateMatrixes();
+
 	
 	scene = new KocmocScene();
 	ship = KocmocLoader::getInstance().load(util::Property("modelName"));
