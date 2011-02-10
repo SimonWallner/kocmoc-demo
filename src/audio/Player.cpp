@@ -91,7 +91,7 @@ void AudioPlayer::playThread(void *args)
 			glfwSleep(THREAD_SLEEP_TIME);
 		}
 	}
-	catch(string error)
+	catch(string& error)
 	{
 		cout << error;
 	}

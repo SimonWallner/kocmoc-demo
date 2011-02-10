@@ -47,7 +47,7 @@ namespace kocmoc
 
 
 		// code taken from http://www.oopweb.com/CPP/Documents/CPPHOWTO/Volume/C++Programming-HOWTO-7.html
-		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string delimiter)
+		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string& delimiter)
 		{
 			// Skip delimiters at beginning.
 			std::string::size_type lastPos = str.find_first_not_of(delimiter, 0);

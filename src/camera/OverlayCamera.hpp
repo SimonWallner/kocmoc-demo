@@ -1,8 +1,9 @@
 #ifndef	KOCMOC_CAMERA_OVERLAY_CAMERA_HPP_
 #define KOCMOC_CAMERA_OVERLAY_CAMERA_HPP_
 
-#include "common.hpp"
 #include "Camera.hpp"
+
+#include <common.hpp>
 
 namespace kocmoc
 {

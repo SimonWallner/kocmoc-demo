@@ -1,7 +1,7 @@
 #ifndef KOCMOC_UTIL_PROPERTIES_FILE_PARSER_HPP_
 #define KOCMOC_UTIL_PROPERTIES_FILE_PARSER_HPP_
 
-#include "common.hpp"
+#include <common.hpp>
 #include <map>
 
 namespace kocmoc

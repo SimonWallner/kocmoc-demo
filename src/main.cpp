@@ -54,7 +54,7 @@ int main (void)
 		Kocmoc::getInstance().start();
 		Kocmoc::Destroy();
 
-	} catch (Exception e)
+	} catch (Exception& e)
 	{
 		cout << "A fatal exception was encountered during the execution of the application!" << endl;
 		cout << e.getMessage() << endl;

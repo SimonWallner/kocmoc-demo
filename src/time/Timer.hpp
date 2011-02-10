@@ -1,7 +1,7 @@
 #ifndef KOCMOC_TIME_TIMER_HPP_
 #define KOCMOC_TIME_TIMER_HPP_
 
-#include "common.hpp"
+#include <common.hpp>
 
 namespace kocmoc
 {

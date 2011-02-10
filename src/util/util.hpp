@@ -34,7 +34,7 @@ namespace kocmoc
 		 */
 		void safeDeleteArray(void *p);
 
-		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string delimiter);
+		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string& delimiter);
 
 		namespace generator
 		{

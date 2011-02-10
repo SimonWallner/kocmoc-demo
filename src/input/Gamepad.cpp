@@ -63,7 +63,7 @@ void Gamepad::poll(void)
 {
 	if (enableGamepad) {
 		GLfloat *pos = new GLfloat[numAxes];
-		int activeAxes = glfwGetJoystickPos(numJoystick, pos, numAxes);
+		glfwGetJoystickPos(numJoystick, pos, numAxes);
 
 		/*
 		* 360 gamepad assignment: (direction given for positive values)
@@ -92,7 +92,7 @@ void Gamepad::poll(void)
 			camera->dolly(vec3(0, -pos[2] * 15.0f, 0) * (float)clock->lastFrameDuration());
 
 		unsigned char *buttons = new unsigned char[numButtons];
-		int activeButtons = glfwGetJoystickButtons(numJoystick, buttons, numButtons);
+		glfwGetJoystickButtons(numJoystick, buttons, numButtons);
 
 		/*
 		* Button assignment 360 gamepad
@@ -137,7 +137,7 @@ void Gamepad::poll(void)
 		//	Kocmoc::getInstance().getAnimationClock()->setSpeed(-8.0);
 
 		
-		delete pos;
-		delete buttons;
+		delete[] pos;
+		delete[] buttons;
 	}
 }

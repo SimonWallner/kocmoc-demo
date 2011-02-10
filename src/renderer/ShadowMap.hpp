@@ -1,7 +1,7 @@
 #ifndef KOCMOC_RENDERER_SHADOWO_MAP_HPP_
 #define KOCMOC_RENDERER_SHADOWO_MAP_HPP_
 
-#include "common.hpp"
+#include <common.hpp>
 
 namespace kocmoc 
 {
