@@ -1,8 +1,10 @@
-#include "AudioPlayer.hpp"
-#include "Property.hpp"
-#include "common.hpp"
+#include "Player.hpp"
 
-#include "AL/alut.h"
+#include <util/Property.hpp>
+#include <common.hpp>
+
+#include <AL/alut.h>
+
 #include <iostream>
 
 using std::string;

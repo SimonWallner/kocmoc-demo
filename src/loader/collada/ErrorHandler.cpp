@@ -1,20 +1,20 @@
-#include "KocmocColladaErrorHandler.hpp"
+#include "ErrorHandler.hpp"
 #include "common.hpp"
 
 using namespace kocmoc;
 
-KocmocColladaErrorHandler::KocmocColladaErrorHandler()
+ErrorHandler::ErrorHandler()
 {
 	// TODO Auto-generated constructor stub
 }
 
-KocmocColladaErrorHandler::~KocmocColladaErrorHandler()
+ErrorHandler::~ErrorHandler()
 {
 	// TODO Auto-generated destructor stub
 }
 
 
-bool KocmocColladaErrorHandler::handleError(const COLLADASaxFWL::IError* error)
+bool ErrorHandler::handleError(const COLLADASaxFWL::IError* error)
 {
 	cout << "some error occured! " << endl;
 	return true;

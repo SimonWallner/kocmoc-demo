@@ -7,10 +7,11 @@
 #ifndef KOCMOC_COLLADA_IMPORTER_HPP_
 #define KOCMOC_COLLADA_IMPORTER_HPP_
 
+#include <scene/Scene.hpp>
+
 #include <COLLADAFWIWriter.h>
 #include <COLLADAFWPrerequisites.h>
 
-#include "KocmocScene.hpp"
 #include <vector>
 
 using COLLADAFW::String;
@@ -20,11 +21,11 @@ namespace kocmoc
 {
 	typedef std::vector<std::string > TextureSet;
 
-	class KocmocColladaImporter : public COLLADAFW::IWriter
+	class Importer : public COLLADAFW::IWriter
 	{
 	public:
-		KocmocColladaImporter();
-		virtual ~KocmocColladaImporter();
+		Importer();
+		virtual ~Importer();
 
 		/** prepare the scene etc... */
 		void prepare(void);
@@ -32,7 +33,7 @@ namespace kocmoc
 		/**
 		 * Get the resulting scene
 		 */
-		KocmocScene* getScene(void);
+		Scene* getScene(void);
 
 
 		// overwrite functions from IWriter
@@ -73,7 +74,7 @@ namespace kocmoc
 		virtual bool writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene );
 
 	private:
-		KocmocScene* scene;
+		Scene* scene;
 
 		/** Ordered set of textures
 		 * 1. diffuse

@@ -1,36 +1,38 @@
 /*
- * KocmocLoader.cpp
+ * SceneLoader.cpp
  *
  *  Created on: 15 Nov 2010
  *      Author: simon
  */
 
-#include "KocmocLoader.hpp"
-#include "Property.hpp"
-#include "utility.hpp"
+#include "SceneLoader.hpp"
+
+#include <util/Property.hpp>
+#include <util/util.hpp>
 
 #include <COLLADAFW.h>
 
 using namespace kocmoc;
 
-KocmocLoader *KocmocLoader::instance = NULL;
 
-KocmocLoader &KocmocLoader::getInstance()
+SceneLoader *SceneLoader::instance = NULL;
+
+SceneLoader &SceneLoader::getInstance()
 {
 	if (!instance)
-		instance = new KocmocLoader();
+		instance = new SceneLoader();
 
 	return *instance;
 }
 
-void KocmocLoader::Destroy()
+void SceneLoader::Destroy()
 {
 	delete instance;
 	instance = NULL;
 }
 
 
-KocmocLoader::KocmocLoader() :
+SceneLoader::SceneLoader() :
 		importer(),
 		saxLoader(&errorHandler),
 		colladaRoot(&saxLoader, &importer),
@@ -38,12 +40,12 @@ KocmocLoader::KocmocLoader() :
 		alternativePathPrefix(util::Property("alternativeModelsRootFolder"))
 {}
 
-KocmocLoader::~KocmocLoader()
+SceneLoader::~SceneLoader()
 {
 	// TODO Auto-generated destructor stub
 }
 
-KocmocScene* KocmocLoader::load(string name)
+Scene* SceneLoader::load(string name)
 {
 	std::cout << "trying to load: " << name << std::endl;
 

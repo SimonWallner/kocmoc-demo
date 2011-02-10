@@ -1,8 +1,8 @@
 #ifndef POLYMESH_HPP_
 #define POLYMESH_HPP_
 
-#include "Shader.hpp"
-#include "Camera.hpp"
+#include <renderer/Shader.hpp>
+#include <camera/Camera.hpp>
 
 namespace kocmoc
 {

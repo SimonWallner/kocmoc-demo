@@ -1,7 +1,7 @@
 #ifndef _GAMEPAD_H_
 #define _GAMEPAD_H_
 
-#include "FilmCamera.hpp"
+#include <camera/FilmCamera.hpp>
 
 namespace kocmoc
 {

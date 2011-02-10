@@ -1,46 +1,47 @@
-#include "KocmocColladaImporter.hpp"
+#include "Importer.hpp"
 
-#include "common.hpp"
+#include <common.hpp>
+#include <renderer/Shader.hpp>
+#include <renderer/ShaderManager.hpp>
+#include <loader/ImageLoader.hpp>
 
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
 #include <COLLADAFWVisualScene.h>
 #include <COLLADAFWImage.h>
 #include <COLLADABUURI.h>
-#include "Shader.hpp"
-#include "ImageLoader.hpp"
-#include "ShaderManager.hpp"
+
 
 using namespace kocmoc;
 
-KocmocColladaImporter::KocmocColladaImporter()
+Importer::Importer()
 {
 	// TODO Auto-generated constructor stub
 
 }
 
-KocmocColladaImporter::~KocmocColladaImporter()
+Importer::~Importer()
 {
 	// TODO Auto-generated destructor stub
 }
 
 
-void KocmocColladaImporter::cancel(const COLLADAFW::String& errorMessage)
+void Importer::cancel(const COLLADAFW::String& errorMessage)
 {
 	cout << "Import cancelled!" << endl;
 }
 
-void KocmocColladaImporter::start()
+void Importer::start()
 {
 	cout << "Import started" << endl;
 }
 
-void KocmocColladaImporter::finish()
+void Importer::finish()
 {
 	cout << "Import finished" << endl;
 }
 
-bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
+bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
 	std::vector<unsigned int> firstIndices;
 	std::vector<unsigned int> vertexIndices;
@@ -198,19 +199,19 @@ bool KocmocColladaImporter::writeGeometry (const COLLADAFW::Geometry* geometry)
 	return true;
 }
 
-void KocmocColladaImporter::prepare()
+void Importer::prepare()
 {
 	cout << "preparing..." << endl;
-	scene = new KocmocScene;
+	scene = new Scene;
 }
 
-KocmocScene* KocmocColladaImporter::getScene()
+Scene* Importer::getScene()
 {
 	return scene;
 }
 
 
-bool KocmocColladaImporter::writeImage( const COLLADAFW::Image* image )
+bool Importer::writeImage( const COLLADAFW::Image* image )
 {
 
 	std::string fileName = image->getImageURI().getPathFile();
@@ -219,19 +220,19 @@ bool KocmocColladaImporter::writeImage( const COLLADAFW::Image* image )
 }
 
 
-bool KocmocColladaImporter::writeVisualScene(const COLLADAFW::VisualScene* visualScene) {return true;}
-bool KocmocColladaImporter::writeGlobalAsset ( const COLLADAFW::FileInfo* asset ) {return true;}
-bool KocmocColladaImporter::writeScene ( const COLLADAFW::Scene* scene ) {return true;}
-bool KocmocColladaImporter::writeLibraryNodes ( const COLLADAFW::LibraryNodes* libraryNodes ) {return true;}
-bool KocmocColladaImporter::writeMaterial( const COLLADAFW::Material* material ) {return true;}
-bool KocmocColladaImporter::writeEffect( const COLLADAFW::Effect* effect ) {return true;}
-bool KocmocColladaImporter::writeCamera( const COLLADAFW::Camera* camera ) {return true;}
-bool KocmocColladaImporter::writeLight( const COLLADAFW::Light* light ) {return true;}
-bool KocmocColladaImporter::writeAnimation( const COLLADAFW::Animation* animation ) {return true;}
-bool KocmocColladaImporter::writeAnimationList( const COLLADAFW::AnimationList* animationList ) {return true;}
-//bool KocmocColladaImporter::writeSkinControllerData( const COLLADAFW::SkinControllerData* skinControllerData ) {return true;}
-//bool KocmocColladaImporter::writeController( const COLLADAFW::Controller* controller ) {return true;}
-bool KocmocColladaImporter::writeFormulas( const COLLADAFW::Formulas* formulas ) {return true;}
-bool KocmocColladaImporter::writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene ) {return true;}
+bool Importer::writeVisualScene(const COLLADAFW::VisualScene* visualScene) {return true;}
+bool Importer::writeGlobalAsset ( const COLLADAFW::FileInfo* asset ) {return true;}
+bool Importer::writeScene ( const COLLADAFW::Scene* scene ) {return true;}
+bool Importer::writeLibraryNodes ( const COLLADAFW::LibraryNodes* libraryNodes ) {return true;}
+bool Importer::writeMaterial( const COLLADAFW::Material* material ) {return true;}
+bool Importer::writeEffect( const COLLADAFW::Effect* effect ) {return true;}
+bool Importer::writeCamera( const COLLADAFW::Camera* camera ) {return true;}
+bool Importer::writeLight( const COLLADAFW::Light* light ) {return true;}
+bool Importer::writeAnimation( const COLLADAFW::Animation* animation ) {return true;}
+bool Importer::writeAnimationList( const COLLADAFW::AnimationList* animationList ) {return true;}
+//bool Importer::writeSkinControllerData( const COLLADAFW::SkinControllerData* skinControllerData ) {return true;}
+//bool Importer::writeController( const COLLADAFW::Controller* controller ) {return true;}
+bool Importer::writeFormulas( const COLLADAFW::Formulas* formulas ) {return true;}
+bool Importer::writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene ) {return true;}
 
 

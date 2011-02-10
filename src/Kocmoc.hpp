@@ -1,12 +1,16 @@
-#include "Shader.hpp"
-#include "Timer.hpp"
-#include "FilmCamera.hpp"
-#include "KocmocScene.hpp"
-#include "Gamepad.hpp"
-#include "FrameBuffer.hpp"
-#include "ShadowMap.hpp"
-#include "OrthoCam.hpp"
-#include "Clock.hpp"
+#include <renderer/Shader.hpp>
+#include <renderer/FrameBuffer.hpp>
+#include <renderer/ShadowMap.hpp>
+
+#include <time/Timer.hpp>
+#include <time/Clock.hpp>
+
+#include <camera/FilmCamera.hpp>
+#include <camera/OrthoCamera.hpp>
+
+#include <scene/Scene.hpp>
+
+#include <input/Gamepad.hpp>
 
 
 namespace kocmoc
@@ -47,7 +51,7 @@ namespace kocmoc
 		bool isRunning();
 
 		FilmCamera *getCamera(void) {return camera;};
-		Camera *getOrthoCam(void) {return orthoCam;};
+		Camera *getOrthoCamera(void) {return orthoCamera;};
 
 		/**
 		 * reload some stuff
@@ -72,10 +76,10 @@ namespace kocmoc
 		Timer timer;
 
 		FilmCamera* camera;
-		OrthoCam *orthoCam;
+		OrthoCamera* orthoCamera;
 
-		KocmocScene* scene;
-		KocmocScene* ship;
+		Scene* scene;
+		Scene* ship;
 		Shader *shadowShader;
 		
 		int mouseOldX, mouseOldY;

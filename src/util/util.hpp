@@ -1,8 +1,9 @@
-#ifndef _UTILITY_HPP_
-#define _UTILITY_HPP_
+#ifndef _UTIL_HPP_
+#define _UTIL_HPP_
 
-#include "common.hpp"
-#include "PolyMesh.hpp"
+#include <common.hpp>
+
+#include <scene/PolyMesh.hpp>
 
 #include <string>
 #include <vector>

@@ -1,11 +1,12 @@
 #include "Kocmoc.hpp"
 #include "Context.hpp"
-#include "Property.hpp"
 #include "Exception.hpp"
-#include "ImageLoader.hpp"
-#include "KocmocLoader.hpp"
-#include "utility.hpp"
-#include "ShaderManager.hpp"
+
+#include <loader/ImageLoader.hpp>
+#include <loader/SceneLoader.hpp>
+#include <util/util.hpp>
+#include <util/Property.hpp>
+#include <renderer/ShaderManager.hpp>
 
 #include <gtx/spline.hpp>
 
@@ -67,12 +68,12 @@ void Kocmoc::init()
 	camera->updateMatrixes();
 
 	// ortho cam
-	orthoCam = new OrthoCam(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
-	orthoCam->updateMatrixes();
+	orthoCamera = new OrthoCamera(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
+	orthoCamera->updateMatrixes();
 
 	
-	scene = new KocmocScene();
-	ship = KocmocLoader::getInstance().load(util::Property("modelName"));
+	scene = new Scene();
+	ship = SceneLoader::getInstance().load(util::Property("modelName"));
 	scene->add(ship);
 	scene->add(util::generator::generateStars());
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
@@ -112,7 +113,6 @@ void Kocmoc::start()
 		clock->tick();
 		timer.tic();
 
-
 		// Check if the window has been closed
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 
@@ -135,7 +135,7 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		scene->draw(orthoCam, shadowShader);
+		scene->draw(orthoCamera, shadowShader);
 		
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());

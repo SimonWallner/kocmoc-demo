@@ -1,15 +1,16 @@
-#include "KocmocScene.hpp"
-#include "Kocmoc.hpp"
-#include "utility.hpp"
+#include "Scene.hpp"
+
+#include <Kocmoc.hpp>
+#include <util/util.hpp>
 
 using namespace kocmoc;
 
-KocmocScene::KocmocScene(std::string _name)
+Scene::Scene(std::string _name)
 	: name(_name)
 	, transformation(glm::mat4(1.0f))
 {}
 
-KocmocScene::~KocmocScene(void)
+Scene::~Scene(void)
 {
 	for (std::list<PolyMesh* >::iterator it = polyMeshList.begin(); it != polyMeshList.end(); it++)
 	{
@@ -17,17 +18,17 @@ KocmocScene::~KocmocScene(void)
 	}
 }
 
-void KocmocScene::add(PolyMesh* mesh)
+void Scene::add(PolyMesh* mesh)
 {
 	polyMeshList.push_back(mesh);
 }
 
-void KocmocScene::add(KocmocScene* node)
+void Scene::add(Scene* node)
 {
 	nodeList.push_back(node);
 }
 
-void KocmocScene::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
+void Scene::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
 {
 	glm::mat4 childTransform = parentTransform * transformation;
 
@@ -38,12 +39,12 @@ void KocmocScene::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader
 		(*ci)->draw(childTransform, camera, shader);
 }
 
-void KocmocScene::draw(Camera *camera, Shader *shader)
+void Scene::draw(Camera *camera, Shader *shader)
 {
 	draw(glm::mat4(1.0f), camera, shader);
 }
 
-void KocmocScene::setTransformation(glm::core::type::mat4 t)
+void Scene::setTransformation(glm::core::type::mat4 t)
 {
 	transformation = t;
 }

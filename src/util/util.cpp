@@ -1,10 +1,11 @@
-#include "utility.hpp"
+#include "util.hpp"
+#include "Property.hpp"
+
+#include <renderer/Shader.hpp>
+#include <loader/ImageLoader.hpp>
+#include <renderer/ShaderManager.hpp>
 
 #include <fstream>
-#include "Shader.hpp"
-#include "ImageLoader.hpp"
-#include "Property.hpp"
-#include "ShaderManager.hpp"
 
 namespace kocmoc
 {

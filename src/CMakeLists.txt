@@ -5,6 +5,7 @@ add_definitions(-DBOOST_DATE_TIME_NO_LIB -DBOOST_REGEX_NO_LIB)
 
 
 include_directories(
+	${PROJECT_SOURCE_DIR}/src
 	${PROJECT_SOURCE_DIR}/external/glfw/include
 	${PROJECT_SOURCE_DIR}/external/gl3w/include
 	${PROJECT_SOURCE_DIR}/external/glm/include

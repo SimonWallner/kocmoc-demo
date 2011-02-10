@@ -2,22 +2,22 @@
  * A simple error handler...
  */
 
-#ifndef KOCMOC_COLLADA_ERROR_HANDLER_HPP_
-#define KOCMOC_COLLADA_ERROR_HANDLER_HPP_
+#ifndef _ERROR_HANDLER_HPP_
+#define _ERROR_HANDLER_HPP_
 
 #include <COLLADASaxFWLIErrorHandler.h>
 
 namespace kocmoc
 {
 
-	class KocmocColladaErrorHandler :  public COLLADASaxFWL::IErrorHandler
+	class ErrorHandler :  public COLLADASaxFWL::IErrorHandler
 	{
 	public:
-			KocmocColladaErrorHandler();
-			virtual ~KocmocColladaErrorHandler();
+			ErrorHandler();
+			virtual ~ErrorHandler();
 
 			virtual bool handleError(const COLLADASaxFWL::IError* error);
 	};
 }
 
-#endif /* KOCMOC_COLLADA_ERROR_HANDLER_HPP_ */
+#endif /* _ERROR_HANDLER_HPP_ */

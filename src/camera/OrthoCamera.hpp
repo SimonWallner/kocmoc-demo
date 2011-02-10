@@ -5,7 +5,7 @@
 
 namespace kocmoc
 {
-	class OrthoCam : public Camera
+	class OrthoCamera : public Camera
 	{
 	public:
 		/**
@@ -14,8 +14,8 @@ namespace kocmoc
 		 * viewing cube, and the direction is the direction of the
 		 * view vector from eye towards focus.
 		 */
-		OrthoCam(vec3 focus, vec3 direction, vec3 upVector);
-		~OrthoCam(void);
+		OrthoCamera(vec3 focus, vec3 direction, vec3 upVector);
+		~OrthoCamera(void);
 
 		// override fuctions from camera
 		mat4 getViewMatrix() {return viewMatrix;};

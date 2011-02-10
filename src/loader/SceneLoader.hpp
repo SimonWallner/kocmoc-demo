@@ -1,5 +1,5 @@
 /*
- * KocmocLoader.hpp
+ * SceneLoader.hpp
  *
  *  Created on: 15 Nov 2010
  *      Author: simon
@@ -8,27 +8,29 @@
 #ifndef KOCMOC_LOADER_HPP_
 #define KOCMOC_LOADER_HPP_
 
-#include <string>
-#include "PolyMesh.hpp"
-#include "KocmocScene.hpp"
-#include "KocmocColladaImporter.hpp"
-#include "KocmocColladaErrorHandler.hpp"
-#include "common.hpp"
+#include "collada/Importer.hpp"
+#include "collada/ErrorHandler.hpp"
+
+#include <scene/PolyMesh.hpp>
+#include <scene/Scene.hpp>
+#include <common.hpp>
 
 #include <COLLADASaxFWLLoader.h>
 #include <COLLADAFWRoot.h>
 
+#include <string>
+
 namespace kocmoc
 {
 
-	class KocmocLoader
+	class SceneLoader
 	{
 	public:
 
 		/**
 		 * Get the singleton instance
 		 */
-		static KocmocLoader &getInstance(void);
+		static SceneLoader &getInstance(void);
 
 		/**
 		 * Destroy the singleton instance
@@ -40,24 +42,24 @@ namespace kocmoc
 		 * @param name The name of the model
 		 * @return the polyMesh representing that model
 		 */
-		KocmocScene* load(std::string name);
+		Scene* load(std::string name);
 
 	private:
 
-		static KocmocLoader *instance;
+		static SceneLoader *instance;
 
-		KocmocColladaImporter importer;
+		Importer importer;
 		COLLADAFW::Root colladaRoot;
 		COLLADASaxFWL::Loader saxLoader;
-		KocmocColladaErrorHandler errorHandler;
+		ErrorHandler errorHandler;
 
 		string pathPrefix;
 		/** This is the path for resources that are not in the repo */
 		std::string alternativePathPrefix;
 
-		KocmocLoader(void);
-		KocmocLoader(const KocmocLoader &cc);
-		~KocmocLoader();
+		SceneLoader(void);
+		SceneLoader(const SceneLoader &cc);
+		~SceneLoader();
 	};
 }
 

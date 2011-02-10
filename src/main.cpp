@@ -1,7 +1,8 @@
 #include "Kocmoc.hpp"
-#include "PropertiesFileParser.hpp"
 #include "Context.hpp"
 #include "Exception.hpp"
+
+#include <util/PropertiesFileParser.hpp>
 
 using namespace kocmoc;
 
@@ -28,7 +29,7 @@ int main (void)
 				<< "                     *               .                    .                     " << std::endl
 				<< "   .                                                                 *         " << std::endl
 				<< "                                      .                                       " << std::endl
-				<< "//// kocmoc //////////////////////////////////////////////////////////////////" << std::endl;
+				<< "//// KOCMOC //////////////////////////////////////////////////////////////////" << std::endl;
 
 
 

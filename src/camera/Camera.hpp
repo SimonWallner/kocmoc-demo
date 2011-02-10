@@ -1,8 +1,8 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include "common.hpp"
-#include "Shader.hpp"
+#include <common.hpp>
+#include <renderer/Shader.hpp>
 
 namespace kocmoc
 {

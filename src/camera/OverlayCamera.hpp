@@ -6,11 +6,11 @@
 
 namespace kocmoc
 {
-	class OverlayCam : public Camera
+	class OverlayCamera : public Camera
 	{
 	public:
-		OverlayCam(int width, int height);
-		~OverlayCam(void);
+		OverlayCamera(int width, int height);
+		~OverlayCamera(void);
 
 		// override functions
 		mat4 getViewMatrix() {return viewMatrix;};

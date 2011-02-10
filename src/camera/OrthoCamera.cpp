@@ -1,9 +1,10 @@
-#include "OrthoCam.hpp"
-#include "Property.hpp"
+#include "OrthoCamera.hpp"
+
+#include <util/Property.hpp>
 
 using namespace kocmoc;
 
-OrthoCam::OrthoCam(vec3 _focus, vec3 _direction, vec3 _upVector)
+OrthoCamera::OrthoCamera(vec3 _focus, vec3 _direction, vec3 _upVector)
 	: focus(_focus)
 	, direction(_direction)
 	, upVector(glm::normalize(_upVector))
@@ -12,11 +13,11 @@ OrthoCam::OrthoCam(vec3 _focus, vec3 _direction, vec3 _upVector)
 	, depth(util::Property("orthoDepth"))
 {}
 
-OrthoCam::~OrthoCam(void)
+OrthoCamera::~OrthoCamera(void)
 {
 }
 
-void OrthoCam::updateMatrixes()
+void OrthoCamera::updateMatrixes()
 {
 	vec3 s = glm::normalize(glm::cross(direction, upVector));
 	vec3 u = glm::normalize(glm::cross(s, direction));
@@ -32,7 +33,7 @@ void OrthoCam::updateMatrixes()
 							0,			0,			0,			1);
 }
 
-void OrthoCam::setFocus(vec3 _focus)
+void OrthoCamera::setFocus(vec3 _focus)
 {
 	focus = _focus;
 }
