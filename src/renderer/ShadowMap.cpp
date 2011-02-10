@@ -1,6 +1,8 @@
 #include "ShadowMap.hpp"
 
-using namespace kocmoc;
+using namespace kocmoc::renderer;
+using std::cout;
+using std::endl;
 
 ShadowMap::ShadowMap(int _width, int _height)
 	: width(_width)

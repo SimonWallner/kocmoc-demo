@@ -12,7 +12,9 @@
 
 #include <COLLADAFW.h>
 
-using namespace kocmoc;
+using namespace kocmoc::loader;
+using kocmoc::scene::Scene;
+using std::string;
 
 
 SceneLoader *SceneLoader::instance = NULL;

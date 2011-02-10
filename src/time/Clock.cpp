@@ -1,13 +1,10 @@
 #include "Clock.hpp"
 
-#include "common.hpp"
+#include <common.hpp>
 
-using namespace kocmoc;
+using namespace kocmoc::time;
 
-Clock::Clock(void) {}
-
-Clock::~Clock(void) {}
-
+Clock::Clock() {}
 
 void Clock::start(double _scheduleInterval)
 {

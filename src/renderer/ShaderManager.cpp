@@ -1,6 +1,6 @@
 #include "ShaderManager.hpp"
 
-using namespace kocmoc;
+using namespace kocmoc::renderer;
 
 using std::string;
 

@@ -1,67 +1,70 @@
-#ifndef ANIMATION_SYSTEM_HPP
-#define ANIMATION_SYSTEM_HPP
+#ifndef KOCMOC_TIME_ANIMATION_SYSTEM_HPP
+#define KOCMOC_TIME_ANIMATION_SYSTEM_HPP
 
-#include "common.hpp"
+#include <common.hpp>
+
 #include <map>
 #include <vector>
 
 namespace kocmoc
 {
-
-	typedef std::pair<double, double > ScalarPair;
-	typedef std::pair<double, vec3 > VecPair;
-
-	typedef std::vector<ScalarPair> ScalarValues;
-	typedef std::vector<VecPair> VecValues;
-
-	typedef std::map<std::string, ScalarValues > ScalarMap;
-	typedef std::map<std::string, VecValues > VecMap;
-
-	typedef std::map<std::string, float> LastKeyTime;
-
-	/**
-	 * singleton animation system class. parses animation files and
-	 * interpolates named properties
-	 */
-	class AnimationSystem
+	namespace time
 	{
-	public:
 
-		static AnimationSystem& getInstance(void);
-		~AnimationSystem(void);
+		typedef std::pair<double, double > ScalarPair;
+		typedef std::pair<double, glm::vec3 > VecPair;
 
-		bool parseAnimationFile(void);
+		typedef std::vector<ScalarPair> ScalarValues;
+		typedef std::vector<VecPair> VecValues;
+
+		typedef std::map<std::string, ScalarValues > ScalarMap;
+		typedef std::map<std::string, VecValues > VecMap;
+
+		typedef std::map<std::string, float> LastKeyTime;
 
 		/**
-		 * Get the interpolated value at the given time with the given name
+		 * singleton animation system class. parses animation files and
+		 * interpolates named properties
 		 */
-		float getScalar(double time, std::string name);
-		vec3 getVec3(double time, std::string name);
+		class AnimationSystem
+		{
+		public:
 
-		/**
-		 * reload the animation file and do all neccessary housekeeeping
-		 */
-		void reload(void);
+			static AnimationSystem& getInstance(void);
+			~AnimationSystem(void);
 
-	private:
-		AnimationSystem(void);
-		AnimationSystem(const AnimationSystem &cc);
+			bool parseAnimationFile(void);
 
-		std::string fullPath;
+			/**
+			 * Get the interpolated value at the given time with the given name
+			 */
+			float getScalar(double time, std::string name);
+			glm::vec3 getVec3(double time, std::string name);
 
-		bool isspacesonly(const string& line);
-		void getnextline(std::istream& is, std::string& line);
+			/**
+			 * reload the animation file and do all neccessary housekeeeping
+			 */
+			void reload(void);
 
-		/** two maps one for lists of scalar values, one for vector values */
-		ScalarMap scalarMap;
-		VecMap vecMap;
+		private:
+			AnimationSystem(void);
+			AnimationSystem(const AnimationSystem &cc);
 
-		LastKeyTime scalarLastKeyTime;
-		LastKeyTime vecLastKeyTime;
+			std::string fullPath;
 
-		template <class T> unsigned int binarySearch(T values, float needle, unsigned int lower, unsigned int upper);
-	};
+			bool isspacesonly(const std::string& line);
+			void getnextline(std::istream& is, std::string& line);
+
+			/** two maps one for lists of scalar values, one for vector values */
+			ScalarMap scalarMap;
+			VecMap vecMap;
+
+			LastKeyTime scalarLastKeyTime;
+			LastKeyTime vecLastKeyTime;
+
+			template <class T> unsigned int binarySearch(T values, float needle, unsigned int lower, unsigned int upper);
+		};
+	}
 }
-
 
 #endif

@@ -1,63 +1,65 @@
-#ifndef FRAMEBUFFER_HPP_
-#define FRAMEBUFFER_HPP_
+#ifndef KOCMOC_RENDERER_FRAME_BUFFER_HPP_
+#define KOCMOC_RENDERER_FRAME_BUFFER_HPP_
 
-#include "common.hpp"
-#include "Shader.hpp"
+#include <common.hpp>
 
 namespace kocmoc
 {
-
-	class FrameBuffer
+	namespace renderer
 	{
-	public:
-		FrameBuffer(int frameWidth, int frameHeight, int gateWidth, int gateHeight);
+		class Shader;
 
-		virtual ~FrameBuffer();
+		class FrameBuffer
+		{
+		public:
+			FrameBuffer(int frameWidth, int frameHeight, int gateWidth, int gateHeight);
 
-		/**
-		* setup the shader that is used for rendering the fb quad. Override this
-		* method in subclasses!
-		*/
-		virtual void setupShader(void);
+			virtual ~FrameBuffer();
 
-		//void setupBaseShader();
+			/**
+			* setup the shader that is used for rendering the fb quad. Override this
+			* method in subclasses!
+			*/
+			virtual void setupShader(void);
 
-		GLuint getTextureHandle();
-		GLuint getFBOHandle();
-		virtual void drawFBO();
+			//void setupBaseShader();
 
-		void toggleColorCorrection(void);
-		void toggleProjection(void);
-		void toggleVignetting(void);
+			GLuint getTextureHandle();
+			GLuint getFBOHandle();
+			virtual void drawFBO();
 
-		const int gateWidth;
-		const int gateHeight;
-		const int frameWidth;
-		const int frameHeight;
+			void toggleColorCorrection(void);
+			void toggleProjection(void);
+			void toggleVignetting(void);
 
-	private:
-	
-		GLuint textureHandle;
-		GLuint depthbufferHandle; 
-		GLint colorLUTHandle;
+			const int gateWidth;
+			const int gateHeight;
+			const int frameWidth;
+			const int frameHeight;
 
-		Shader *shader;
+		private:
+		
+			GLuint textureHandle;
+			GLuint depthbufferHandle; 
+			GLint colorLUTHandle;
 
-		FrameBuffer(void);
+			Shader *shader;
 
-		GLuint fboHandle;
+			FrameBuffer(void);
 
-		GLuint *vbo_id;
-		GLuint vao_id;
-	
-		void setFBOTexture();
-		void createQuad();
-		void check();
+			GLuint fboHandle;
 
-		bool enableColorCorrection;
-		bool enableNonPlanarProjection;
-		bool enableVignetting;
-	};
+			GLuint *vbo_id;
+			GLuint vao_id;
+		
+			void setFBOTexture();
+			void createQuad();
+			void check();
+
+			bool enableColorCorrection;
+			bool enableNonPlanarProjection;
+			bool enableVignetting;
+		};
+	}
 }
-
 #endif

@@ -1,11 +1,11 @@
-#ifndef _OGG_STREAM_H_
-#define _OGG_STREAM_H_
+#ifndef KOCMOC_AUDIO_OGG_STREAM_H_
+#define KOCMOC_AUDIO_OGG_STREAM_H_
 
-#include "al/al.h"
-#include "ogg/ogg.h"
-#include "vorbis/codec.h"
-#include "vorbis/vorbisenc.h"
-#include "vorbis/vorbisfile.h"
+#include <al/al.h>
+#include <ogg/ogg.h>
+#include <vorbis/codec.h>
+#include <vorbis/vorbisenc.h>
+#include <vorbis/vorbisfile.h>
 
 #include <string>
 
@@ -13,65 +13,68 @@
 
 namespace kocmoc
 {
-
-	/**
-	 * This clas provides ogg streaming
-	 * code taken from http://www.devmaster.net/articles/openal-tutorials/lesson8.php
-	 */
-	class OggStream
+	namespace audio
 	{
-	 public:
-
-		 OggStream();
-		 ~OggStream();
-	 
-		/**
-		 * obtain a handle to the file
-		 */
-		void open(std::string path, float gain);
 
 		/**
-		 * release the file handle
+		 * This clas provides ogg streaming
+		 * code taken from http://www.devmaster.net/articles/openal-tutorials/lesson8.php
 		 */
-		void release();
+		class OggStream
+		{
+		 public:
 
-		/**
-		 * display some info on the Ogg
-		 */
-		void display();
+			 OggStream();
+			 ~OggStream();
+		 
+			/**
+			 * obtain a handle to the file
+			 */
+			void open(std::string path, float gain);
 
-		/**
-		 * play the Ogg stream
-		 */
-		bool playback();
+			/**
+			 * release the file handle
+			 */
+			void release();
 
-		/**
-		 * check if the source is playing
-		 */
-		bool playing();
+			/**
+			 * display some info on the Ogg
+			 */
+			void display();
 
-		/**
-		 * update the stream if necessary
-		 */
-		bool update();
+			/**
+			 * play the Ogg stream
+			 */
+			bool playback();
 
-	protected:
+			/**
+			 * check if the source is playing
+			 */
+			bool playing();
 
-		bool stream(ALuint buffer);		// reloads a buffer
-		void empty();					// empties the queue
-		void check();					// checks OpenAL error state
-		std::string errorString(int code);	// stringify an error code
+			/**
+			 * update the stream if necessary
+			 */
+			bool update();
 
-	private:
-		FILE* oggFile;	   // file handle
-		OggVorbis_File oggStream;	 // stream handle
-		vorbis_info* vorbisInfo;	// some formatting data
-		vorbis_comment* vorbisComment; // user comments
+		protected:
 
-		ALuint buffers[2];	// front and back buffers
-		ALuint source;		// audio source
-		ALenum format;		// internal format
+			bool stream(ALuint buffer);		// reloads a buffer
+			void empty();					// empties the queue
+			void check();					// checks OpenAL error state
+			std::string errorString(int code);	// stringify an error code
 
-	};
+		private:
+			FILE* oggFile;	   // file handle
+			OggVorbis_File oggStream;	 // stream handle
+			vorbis_info* vorbisInfo;	// some formatting data
+			vorbis_comment* vorbisComment; // user comments
+
+			ALuint buffers[2];	// front and back buffers
+			ALuint source;		// audio source
+			ALenum format;		// internal format
+
+		};
+	}
 }
 #endif

@@ -6,7 +6,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-using namespace kocmoc;
+using namespace kocmoc::audio;
 
 OggStream::OggStream(void)
 {

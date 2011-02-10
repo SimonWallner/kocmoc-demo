@@ -1,16 +1,23 @@
 #include "ImageOverlay.hpp"
-#include "ImageLoader.hpp"
-#include "ShaderManager.hpp"
+
+#include <renderer/Shader.hpp>
+#include <renderer/ShaderManager.hpp>
+#include <loader/ImageLoader.hpp>
+#include <camera/Camera.hpp>
 
 using namespace kocmoc;
+using namespace scene;
+using camera::Camera;
+using renderer::Shader;
+
 
 ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height, Camera* overlayCam)
 	: width(_width)
 	, height(_height)
 	, opacity(1.0f)
 {
-	textureHandle = ImageLoader::getInstance().loadImage(fileName, true);
-	shader = ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
+	textureHandle = loader::ImageLoader::getInstance().loadImage(fileName, true);
+	shader = renderer::ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
 	setupShader(overlayCam);
 	createQuad();
 }

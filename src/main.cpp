@@ -5,6 +5,8 @@
 #include <util/PropertiesFileParser.hpp>
 
 using namespace kocmoc;
+using std::cout;
+using std::endl;
 
 int main (void)
 {

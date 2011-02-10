@@ -1,14 +1,16 @@
 #include "ImageLoader.hpp"
-#include "Property.hpp"
+#include <util/Property.hpp>
 
 #define ILUT_USE_OPENGL
-#include "IL/ilu.h"
-#include "IL/ilut.h"
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 #include <time.h>
 #include <sstream>
 
-using namespace kocmoc;
+using namespace kocmoc::loader;
+using std::cout;
+using std::endl;
 
 ImageLoader::ImageLoader(void)
 	: frameSequenceNumber(0)
@@ -38,7 +40,7 @@ ImageLoader &ImageLoader::getInstance()
 
 
 
-GLuint ImageLoader::loadImage(string filename, bool degamma)
+GLuint ImageLoader::loadImage(std::string filename, bool degamma)
 {
 	ImageCache::const_iterator it = cache.find(filename);
 	if (it != cache.end()) // filename found in cache
@@ -58,7 +60,7 @@ GLuint ImageLoader::loadImage(string filename, bool degamma)
 		return 0;
 }
 
-GLuint ImageLoader::loadImage3D(string filename, bool degamma)
+GLuint ImageLoader::loadImage3D(std::string filename, bool degamma)
 {
 	ImageCache::const_iterator it = cache3D.find(filename);
 	if (it != cache3D.end()) // filename found in cache
@@ -79,10 +81,9 @@ GLuint ImageLoader::loadImage3D(string filename, bool degamma)
 }
 
 
-bool ImageLoader::loadImageToHandle(string filename, bool degamma, GLuint handle)
+bool ImageLoader::loadImageToHandle(std::string filename, bool degamma, GLuint handle)
 {
-	string fullPath = texturePathPrefix + filename;
-
+	std::string fullPath = texturePathPrefix + filename;
 	
 	// this code is based on the code found at http://gpwiki.org/index.php/DevIL:Tutorials:Basics
 	ILuint texid;
@@ -133,9 +134,9 @@ bool ImageLoader::loadImageToHandle(string filename, bool degamma, GLuint handle
 	}
 }
 
-bool ImageLoader::loadImageToHandle3D(string filename, bool degamma, GLuint handle)
+bool ImageLoader::loadImageToHandle3D(std::string filename, bool degamma, GLuint handle)
 {
-	string fullPath = texturePathPrefix + filename;
+	std::string fullPath = texturePathPrefix + filename;
 	
 	// this code is based on the code found at http://gpwiki.org/index.php/DevIL:Tutorials:Basics
 	ILuint texid;

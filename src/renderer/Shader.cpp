@@ -1,12 +1,17 @@
+#include "Shader.hpp"
+
+#include <util/Property.hpp>
+#include <util/util.hpp>
+
 #include <fstream>
 
-#include "Shader.hpp"
-#include "Property.hpp"
-#include "utility.hpp"
+using namespace kocmoc::renderer;
+using std::string;
+using std::cerr;
+using std::cout;
+using std::endl;
 
-using namespace kocmoc;
-
-Shader::Shader(const string &_vertexShaderName, const string &_fragmentShaderName) :
+Shader::Shader(const std::string &_vertexShaderName, const std::string &_fragmentShaderName) :
 	vertexShaderName(_vertexShaderName),
 	fragmentShaderName(_fragmentShaderName),
 	success(false),
@@ -15,7 +20,7 @@ Shader::Shader(const string &_vertexShaderName, const string &_fragmentShaderNam
 	create(vertexShaderName, fragmentShaderName);
 }
 
-void Shader::create(const string &vertexShaderFile, const string &fragmentShaderFile)
+void Shader::create(const std::string &vertexShaderFile, const std::string &fragmentShaderFile)
 {
 	success = false;
 
@@ -77,7 +82,7 @@ void Shader::destroy()
 	glDeleteShader(fragmentShader);
 }
 
-GLuint Shader::compile (GLenum type, const string &source)
+GLuint Shader::compile (GLenum type, const std::string &source)
 {
 	// Create shader object
 

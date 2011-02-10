@@ -1,9 +1,13 @@
 #include "Context.hpp"
+
 #include "Exception.hpp"
-#include "Property.hpp"
-#include "PropertiesFileParser.hpp"
+
+#include <util/Property.hpp>
 
 using namespace kocmoc;
+
+using std::cout;
+using std::endl;
 
 Context::Context(void)
 {

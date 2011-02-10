@@ -1,20 +1,36 @@
-#include <renderer/Shader.hpp>
-#include <renderer/FrameBuffer.hpp>
-#include <renderer/ShadowMap.hpp>
-
+#include <common.hpp>
 #include <time/Timer.hpp>
-#include <time/Clock.hpp>
-
-#include <camera/FilmCamera.hpp>
 #include <camera/OrthoCamera.hpp>
-
-#include <scene/Scene.hpp>
-
-#include <input/Gamepad.hpp>
-
 
 namespace kocmoc
 {
+	namespace camera
+	{
+		class FilmCamera;
+		class Camera;
+	}
+
+	namespace time
+	{
+		class Clock;
+	}
+
+	namespace scene
+	{
+		class Scene;
+	}
+
+	namespace renderer
+	{
+		class Shader;
+		class FrameBuffer;
+		class ShadowMap;
+	}
+
+	namespace input
+	{
+		class Gamepad;
+	}
 
 	/**
 	 * Singleton game object. All game related magic happens in here.
@@ -50,8 +66,8 @@ namespace kocmoc
 
 		bool isRunning();
 
-		FilmCamera *getCamera(void) {return camera;};
-		Camera *getOrthoCamera(void) {return orthoCamera;};
+		camera::FilmCamera* getCamera(void) {return camera;};
+		camera::Camera *getOrthoCamera(void) {return orthoCamera;};
 
 		/**
 		 * reload some stuff
@@ -61,41 +77,41 @@ namespace kocmoc
 		/**
 		 * Get the main clock 
 		 */
-		Clock* getClock(void) {return clock;};
+		time::Clock* getClock(void) {return clock;};
 	
 	private:
 
 		Kocmoc();
-		Kocmoc(const Kocmoc &cc); // protect the copy constructor as well
+		Kocmoc(const Kocmoc& cc); // protect the copy constructor as well
 		~Kocmoc();
 
-		static Kocmoc *instance;
+		static Kocmoc* instance;
 
 		bool running;
 		
-		Timer timer;
+		time::Timer timer;
 
-		FilmCamera* camera;
-		OrthoCamera* orthoCamera;
+		camera::FilmCamera* camera;
+		camera::OrthoCamera* orthoCamera;
 
-		Scene* scene;
-		Scene* ship;
-		Shader *shadowShader;
+		scene::Scene* scene;
+		scene::Scene* ship;
+		renderer::Shader* shadowShader;
 		
 		int mouseOldX, mouseOldY;
-		input::Gamepad *gamepad;
+		input::Gamepad* gamepad;
 		bool useGamepad;
 		bool useMouse;
 
-		FrameBuffer *fbo;
-		ShadowMap *shadowMap;
+		renderer::FrameBuffer* fbo;
+		renderer::ShadowMap* shadowMap;
 
 		bool showGizmos;
 
-		Clock *clock;
+		time::Clock* clock;
 
-		void init_vbo_vao(const Shader &shader, GLuint *vbo_id, GLuint *vao_id);
-		void release_vbo_vao(GLuint *vbo_id, GLuint *vao_id);
+		void init_vbo_vao(const renderer::Shader& shader, GLuint* vbo_id, GLuint* vao_id);
+		void release_vbo_vao(GLuint* vbo_id, GLuint* vao_id);
 
 		/**
 		 * Poll the keyboard and process the inputs. should only be used for simple

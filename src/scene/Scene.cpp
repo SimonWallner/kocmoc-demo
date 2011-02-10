@@ -3,7 +3,13 @@
 #include <Kocmoc.hpp>
 #include <util/util.hpp>
 
-using namespace kocmoc;
+using namespace kocmoc::scene;
+
+using kocmoc::camera::Camera;
+using kocmoc::renderer::Shader;
+
+using glm::mat4;
+
 
 Scene::Scene(std::string _name)
 	: name(_name)

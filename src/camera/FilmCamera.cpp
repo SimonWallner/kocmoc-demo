@@ -1,10 +1,15 @@
 #include "FilmCamera.hpp"
 
+#include <util/Property.hpp>
+
 #include <gtc/matrix_projection.hpp> 
 #include <math.h>
-#include "Property.hpp"
 
-using namespace kocmoc;
+
+using namespace kocmoc::camera;
+using glm::vec3;
+using glm::vec4;
+using glm::mat4;
 
 FilmCamera::FilmCamera(vec3 _eyePosition, vec3 _targetPosition, vec3 _upVector)
 	: angleOfView(KOCMOC_PI/2)

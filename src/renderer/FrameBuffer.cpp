@@ -1,12 +1,20 @@
 #include "FrameBuffer.hpp"
-#include "ShaderManager.hpp"
-#include "ImageLoader.hpp"
-#include "Property.hpp"
-#include "Context.hpp"
-#include "Kocmoc.hpp"
-#include "FilmCamera.hpp"
 
-using namespace kocmoc;
+#include "ShaderManager.hpp"
+
+#include <Context.hpp>
+#include <Kocmoc.hpp>
+#include <loader/ImageLoader.hpp>
+#include <util/Property.hpp>
+#include <camera/FilmCamera.hpp>
+
+using namespace kocmoc::renderer;
+
+using kocmoc::loader::ImageLoader;
+
+using std::cout;
+using std::endl;
+
 
 FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int _gateHeight)
 	: frameWidth(_frameWidth * 2)

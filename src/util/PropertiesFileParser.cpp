@@ -1,4 +1,5 @@
 #include "PropertiesFileParser.hpp"
+
 #include <fstream>
 
 using namespace kocmoc::util;
@@ -22,7 +23,7 @@ PropertiesFileParser& PropertiesFileParser::GetInstance()
 	return instance;
 }
 
-bool PropertiesFileParser::isspacesonly(const string& line)
+bool PropertiesFileParser::isspacesonly(const std::string& line)
 {
 	for (unsigned int i = 0; i < line.length(); ++i)
 	{
@@ -34,7 +35,7 @@ bool PropertiesFileParser::isspacesonly(const string& line)
 	return true;
 }
 
-void PropertiesFileParser::getnextline(std::istream& is, string& line) 
+void PropertiesFileParser::getnextline(std::istream& is, std::string& line) 
 {
 	while (!is.eof()) {
 		getline(is, line);
@@ -56,8 +57,8 @@ bool PropertiesFileParser::parse()
 
 	try
 	{
-		string line = "";
-		string key, value;
+		std::string line = "";
+		std::string key, value;
 
 		while(!file.eof())
 		{
@@ -79,7 +80,7 @@ bool PropertiesFileParser::parse()
 				//	cout << "parsed pair: " << key << " = " << value << endl;
 			}
 			else
-				cout << "failed to parse line: " << line << endl;
+				std::cout << "failed to parse line: " << line << std::endl;
 
 		}
 	} catch (...) {
@@ -93,26 +94,26 @@ bool PropertiesFileParser::parse()
 }
 
 
-void PropertiesFileParser::getProperty(string name, string * value)
+void PropertiesFileParser::getProperty(std::string name, std::string& value)
 {
-	*value = cache[name];
+	value = cache[name];
 }
 
-void PropertiesFileParser::getProperty(string name, int *value)
+void PropertiesFileParser::getProperty(std::string name, int& value)
 {
-	sscanf(cache[name].c_str(), "%i", value);
+	sscanf(cache[name].c_str(), "%i", &value);
 }
 
-void PropertiesFileParser::getProperty(string name, float *value)
+void PropertiesFileParser::getProperty(std::string name, float& value)
 {
-	sscanf(cache[name].c_str(), "%f", value);
+	sscanf(cache[name].c_str(), "%f", &value);
 }
 
-void PropertiesFileParser::getProperty(string name, bool *value)
+void PropertiesFileParser::getProperty(std::string name, bool& value)
 {
 	int foo;
 	sscanf(cache[name].c_str(), "%i", &foo);
-	*value = (foo > 0);
+	value = (foo > 0);
 }
 
 void PropertiesFileParser::dumpCache()

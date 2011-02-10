@@ -1,6 +1,7 @@
 #include "OverlayCamera.hpp"
 
-using namespace kocmoc;
+using namespace kocmoc::camera;
+using glm::mat4;
 
 OverlayCamera::OverlayCamera(int _width, int _height)
 	: width(_width)

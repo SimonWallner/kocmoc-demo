@@ -1,38 +1,50 @@
-#ifndef IMAGE_OVERLAY_HPP_
-#define IMAGE_OVERLAY_HPP_
+#ifndef KOCMOC_SCENE_IMAGE_OVERLAY_HPP_
+#define KOCMOC_SCENE_IMAGE_OVERLAY_HPP_
 
-#include "common.hpp"
-#include "Shader.hpp"
-#include "Camera.hpp"
+#include <common.hpp>
 
 namespace kocmoc
 {
-	class ImageOverlay
+	namespace camera
 	{
-	public:
-		ImageOverlay(std::string fileName, int width, int height, Camera* OverlayCam);
-		~ImageOverlay(void);
+		class Camera;
+	}
 
-		void draw(void);
+	namespace renderer
+	{
+		class Shader;
+	}
 
-		void setOpacity(float opacity);
+	namespace scene
+	{
 
-		void setupShader(Camera* overlayCamera);
+		class ImageOverlay
+		{
+		public:
+			ImageOverlay(std::string fileName, int width, int height, camera::Camera* OverlayCam);
+			~ImageOverlay(void);
 
-	private:
-		GLuint textureHandle;
-		int width;
-		int height;
+			void draw(void);
 
-		
-		Shader* shader;
+			void setOpacity(float opacity);
 
-		GLuint* vboHandles;
-		GLuint vaoHandle;
+			void setupShader(camera::Camera* overlayCamera);
 
-		void createQuad(void);
-		float opacity;
-	};
+		private:
+			GLuint textureHandle;
+			int width;
+			int height;
+
+			
+			renderer::Shader* shader;
+
+			GLuint* vboHandles;
+			GLuint vaoHandle;
+
+			void createQuad(void);
+			float opacity;
+		};
+	}
 }
 
 #endif

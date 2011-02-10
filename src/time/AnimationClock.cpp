@@ -1,7 +1,9 @@
 #include "AnimationClock.hpp"
-#include "common.hpp"
 
-using namespace kocmoc;
+#include <common.hpp>
+#include <time/Clock.hpp>
+
+using namespace kocmoc::time;
 
 
 AnimationClock::AnimationClock(Clock *_referenceClock)

@@ -1,5 +1,5 @@
-#ifndef _CONTEXT_H_
-#define _CONTEXT_H_
+#ifndef KOCMOC_CONTEXT_H_
+#define KOCMOC_CONTEXT_H_
 
 #include "common.hpp"
 

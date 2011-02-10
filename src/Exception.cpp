@@ -2,7 +2,7 @@
 
 using namespace kocmoc;
 
-Exception::Exception(string msg)
+Exception::Exception(std::string msg)
 {
 	message = msg;
 }
@@ -11,7 +11,7 @@ Exception::~Exception(void)
 {
 }
 
-string Exception::getMessage(void)
+std::string Exception::getMessage(void)
 {
 	return message;
 }

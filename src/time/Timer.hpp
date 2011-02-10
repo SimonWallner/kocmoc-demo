@@ -1,35 +1,38 @@
-#ifndef TIMER_HPP_
-#define TIMER_HPP_
+#ifndef KOCMOC_TIME_TIMER_HPP_
+#define KOCMOC_TIME_TIMER_HPP_
 
 #include "common.hpp"
 
 namespace kocmoc
 {
-
-	/**
-	 * Basic timer util
-	 */
-	class Timer
+	namespace time
 	{
-	public:
-		Timer(void);
-		~Timer(void);
-	
-		/**
-		 * Hit the timer
-		 */
-		void tic(void);
 
 		/**
-		 * print data to stdout
+		 * Basic timer util
 		 */
-		void print(void);
+		class Timer
+		{
+		public:
+			Timer(void);
+			~Timer(void);
+		
+			/**
+			 * Hit the timer
+			 */
+			void tic(void);
 
-	private:
-		unsigned long counter;
-		GLdouble * frameTimes;
-		GLdouble lastFrame;
-	};
+			/**
+			 * print data to stdout
+			 */
+			void print(void);
+
+		private:
+			unsigned long counter;
+			GLdouble * frameTimes;
+			GLdouble lastFrame;
+		};
+	}
 }
 
-#endif TIMER_HPP_
+#endif

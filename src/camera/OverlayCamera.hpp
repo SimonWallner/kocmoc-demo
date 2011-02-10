@@ -1,28 +1,32 @@
-#ifndef OVERLAY_CAM_HPP_
-#define OVERLAY_CAM_HPP_
+#ifndef	KOCMOC_CAMERA_OVERLAY_CAMERA_HPP_
+#define KOCMOC_CAMERA_OVERLAY_CAMERA_HPP_
 
 #include "common.hpp"
 #include "Camera.hpp"
 
 namespace kocmoc
 {
-	class OverlayCamera : public Camera
+	namespace camera
 	{
-	public:
-		OverlayCamera(int width, int height);
-		~OverlayCamera(void);
 
-		// override functions
-		mat4 getViewMatrix() {return viewMatrix;};
-		mat4 getProjectionMatrix() {return projectionMatrix;};
-		mat4 getUntraslatedViewMatrix(){return viewMatrix;};
-		void updateMatrixes();
+		class OverlayCamera : public Camera
+		{
+		public:
+			OverlayCamera(int width, int height);
+			~OverlayCamera(void);
 
-	private:
-		mat4 viewMatrix;
-		mat4 projectionMatrix;
-		int width;
-		int height;
-	};
+			// override functions
+			glm::mat4 getViewMatrix() {return viewMatrix;};
+			glm::mat4 getProjectionMatrix() {return projectionMatrix;};
+			glm::mat4 getUntraslatedViewMatrix(){return viewMatrix;};
+			void updateMatrixes();
+
+		private:
+			glm::mat4 viewMatrix;
+			glm::mat4 projectionMatrix;
+			int width;
+			int height;
+		};
+	}
 }
 #endif 

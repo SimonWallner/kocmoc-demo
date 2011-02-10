@@ -1,15 +1,25 @@
 #include "Gamepad.hpp"
 
-#include "common.hpp"
-#include <math.h>
-#include "Kocmoc.hpp"
-#include "ShaderManager.hpp"
-#include "ImageLoader.hpp"
-#include "Clock.hpp"
-#include "AnimationSystem.hpp"
+#include <common.hpp>
+#include <Kocmoc.hpp>
+#include <renderer/ShaderManager.hpp>
+#include <loader/ImageLoader.hpp>
+#include <time/Clock.hpp>
+#include <camera/FilmCamera.hpp>
 
-using namespace kocmoc;
+#include <math.h>
+
 using namespace kocmoc::input;
+
+using kocmoc::camera::FilmCamera;
+using kocmoc::time::Clock;
+using kocmoc::loader::ImageLoader;
+using kocmoc::renderer::ShaderManager;
+
+using glm::vec3;
+
+using std::cout;
+using std::endl;
 
 Gamepad::Gamepad(FilmCamera* _camera) :
 	camera(_camera)
@@ -106,7 +116,6 @@ void Gamepad::poll(void)
 			ShaderManager::getInstance().reloadAll();
 			Kocmoc::getInstance().reload();
 			ImageLoader::getInstance().reload();
-			AnimationSystem::getInstance().reload();
 		}
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw

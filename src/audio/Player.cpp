@@ -11,7 +11,7 @@ using std::string;
 using std::cout;
 using std::endl;
 
-using namespace kocmoc;
+using namespace kocmoc::audio;
 
 // force the audio playing/streaming thread to take a short break
 // to allow the input thread to steal a few cycles from the processor.

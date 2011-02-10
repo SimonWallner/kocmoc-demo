@@ -1,5 +1,5 @@
-#ifndef _EXCEPTION_H_
-#define _EXCEPTION_H_
+#ifndef KOCMOC_EXCEPTION_H_
+#define KOCMOC_EXCEPTION_H_
 
 #include "common.hpp"
 
@@ -19,7 +19,7 @@ namespace kocmoc
 		 * @param msg The message of the exception. This message shoul me 1.)
 		 * human readable, and 2.) informative.
 		 */
-		Exception(string msg);
+		Exception(std::string msg);
 		~Exception(void);
 
 		/**
@@ -27,10 +27,10 @@ namespace kocmoc
 		 * @return The exception message in human readable and hopefully informative
 		 *		form
 		 */
-		string getMessage(void);
+		std::string getMessage(void);
 
 	private:
-		string message;
+		std::string message;
 	};
 }
 

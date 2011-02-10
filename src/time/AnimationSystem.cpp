@@ -1,11 +1,18 @@
 #include "AnimationSystem.hpp"
-#include "Property.hpp"
-#include "utility.hpp"
+
+#include <util/Property.hpp>
+#include <util/util.hpp>
 
 #include <fstream>
 #include <gtx/spline.hpp>
 
-using namespace kocmoc;
+using namespace kocmoc::time;
+
+using glm::vec3;
+
+using std::cout;
+using std::endl;
+using std::string;
 
 AnimationSystem::AnimationSystem(void)
 {

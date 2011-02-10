@@ -1,10 +1,12 @@
 #include "Client.hpp"
 
-#include <boost/asio.hpp>
+//#include <boost/asio.hpp>
 
 using namespace kocmoc::missionControl;
+using std::cout;
+using std::endl;
 
-MissionControlClient::MissionControlClient()
+Client::Client()
 {
 	cout<<"starting mission control client" << endl;
 	// create socket connection to server

@@ -1,57 +1,40 @@
 #include "util.hpp"
 #include "Property.hpp"
 
-#include <renderer/Shader.hpp>
 #include <loader/ImageLoader.hpp>
 #include <renderer/ShaderManager.hpp>
+#include <scene/PolyMesh.hpp>
 
 #include <fstream>
+
+
+using kocmoc::scene::PolyMesh;
+using kocmoc::renderer::Shader;
+using kocmoc::renderer::ShaderManager;
+using kocmoc::loader::ImageLoader;
+
+using glm::vec4;
+using glm::mat4;
+using glm::vec3;
 
 namespace kocmoc
 {
 	namespace util
 	{
 
-		bool file_exists(const string &filename)
+		bool file_exists(const std::string &filename)
 		{
 			std::ifstream ifile(filename.c_str());
 			return ifile;
 		}
 
-		string read_file(const string &filename)
+		std::string read_file(const std::string &filename)
 		{
 			std::ifstream ifile(filename.c_str());
 
-			return string(std::istreambuf_iterator<char>(ifile),
+			return std::string(std::istreambuf_iterator<char>(ifile),
 				std::istreambuf_iterator<char>());
 		}
-
-		//void get_errors(void)
-		//{
-		//	GLenum error = glGetError();
-		//
-		//	if (error != GL_NO_ERROR) {
-		//		switch (error) {
-		//		case GL_INVALID_ENUM:
-		//			cerr << "GL: enum argument out of range." << endl;
-		//			break;
-		//		case GL_INVALID_VALUE:
-		//			cerr << "GL: Numeric argument out of range." << endl;
-		//			break;
-		//		case GL_INVALID_OPERATION:
-		//			cerr << "GL: Operation illegal in current state." << endl;
-		//			break;
-		//		case GL_INVALID_FRAMEBUFFER_OPERATION:
-		//			cerr << "GL: Framebuffer object is not complete." << endl;
-		//			break;
-		//		case GL_OUT_OF_MEMORY:
-		//			cerr << "GL: Not enough memory left to execute command." << endl;
-		//			break;
-		//		default:
-		//			cerr << "GL: Unknown error." << endl;
-		//		}
-		//	}
-		//}
 
 		void safeDeleteArray(void* p)
 		{
@@ -67,11 +50,11 @@ namespace kocmoc
 		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string delimiter)
 		{
 			// Skip delimiters at beginning.
-			string::size_type lastPos = str.find_first_not_of(delimiter, 0);
+			std::string::size_type lastPos = str.find_first_not_of(delimiter, 0);
 			// Find first "non-delimiter".
-			string::size_type pos = str.find_first_of(delimiter, lastPos);
+			std::string::size_type pos = str.find_first_of(delimiter, lastPos);
 
-			while (string::npos != pos || string::npos != lastPos)
+			while (std::string::npos != pos || std::string::npos != lastPos)
 			{
 				// Found a token, add it to the vector.
 				tokens.push_back(str.substr(lastPos, pos - lastPos));
@@ -82,11 +65,9 @@ namespace kocmoc
 			}
 		}
 
-
-
-
 		namespace generator
 		{
+
 			PolyMesh* generateStars()
 			{
 				// generate starts, lots of stars
@@ -240,6 +221,6 @@ namespace kocmoc
 
 				return mesh;
 			}
-		}	
+		}
 	}
 }

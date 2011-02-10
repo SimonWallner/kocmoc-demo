@@ -2,7 +2,7 @@
 
 #define AVERAGE_N_FRAMES 10
 
-using namespace kocmoc;
+using namespace kocmoc::time;
 
 Timer::Timer()
 {
@@ -38,5 +38,5 @@ void Timer::print(void)
 
 	GLdouble average = sum / AVERAGE_N_FRAMES;
 
-	cout << average * 1000 << "ms | " << 1 / average << "fps" << endl;
+	std::cout << average * 1000 << "ms | " << 1 / average << "fps" << std::endl;
 }

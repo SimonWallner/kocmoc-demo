@@ -1,29 +1,32 @@
-#ifndef SHADOWO_MAP_HPP_
-#define SHADOWO_MAP_HPP_
+#ifndef KOCMOC_RENDERER_SHADOWO_MAP_HPP_
+#define KOCMOC_RENDERER_SHADOWO_MAP_HPP_
 
 #include "common.hpp"
 
 namespace kocmoc 
 {
-	class ShadowMap
+	namespace renderer
 	{
-	public:
-		ShadowMap(int width, int height);
-		~ShadowMap(void);
+		class ShadowMap
+		{
+		public:
+			ShadowMap(int width, int height);
+			~ShadowMap(void);
 
-		const int width;
-		const int height;
+			const int width;
+			const int height;
 
-		GLuint getTextureHandle(void) {return textureHandle;};
-		GLuint getFBOHandle(void) {return fboHandle;};
+			GLuint getTextureHandle(void) {return textureHandle;};
+			GLuint getFBOHandle(void) {return fboHandle;};
 
-	private:
-		GLuint fboHandle;
-		GLuint textureHandle;
-		GLuint depthbufferHandle;
+		private:
+			GLuint fboHandle;
+			GLuint textureHandle;
+			GLuint depthbufferHandle;
 
-		void check(void);
-	};
+			void check(void);
+		};
+	}
 }
 
-#endif SHADOWO_MAP_HPP_
+#endif

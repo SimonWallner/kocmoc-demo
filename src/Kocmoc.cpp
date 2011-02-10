@@ -2,15 +2,34 @@
 #include "Context.hpp"
 #include "Exception.hpp"
 
+#include <renderer/ShaderManager.hpp>
+#include <renderer/FrameBuffer.hpp>
+#include <renderer/ShadowMap.hpp>
 #include <loader/ImageLoader.hpp>
 #include <loader/SceneLoader.hpp>
 #include <util/util.hpp>
 #include <util/Property.hpp>
-#include <renderer/ShaderManager.hpp>
+#include <scene/Scene.hpp>
+#include <input/Gamepad.hpp>
+#include <camera/FilmCamera.hpp>
+#include <time/Clock.hpp>
 
 #include <gtx/spline.hpp>
 
 using namespace kocmoc;
+
+using kocmoc::renderer::ShaderManager;
+using kocmoc::renderer::ShadowMap;
+using kocmoc::renderer::FrameBuffer;
+using kocmoc::loader::ImageLoader;
+using kocmoc::loader::SceneLoader;
+using kocmoc::camera::FilmCamera;
+using kocmoc::scene::Scene;
+using kocmoc::input::Gamepad;
+using kocmoc::camera::OrthoCamera;
+using kocmoc::time::Clock;
+
+using glm::vec3;
 
 Kocmoc* Kocmoc::instance = NULL;
 

@@ -1,9 +1,10 @@
 #include "Importer.hpp"
 
 #include <common.hpp>
-#include <renderer/Shader.hpp>
 #include <renderer/ShaderManager.hpp>
 #include <loader/ImageLoader.hpp>
+#include <scene/PolyMesh.hpp>
+#include <scene/Scene.hpp>
 
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
@@ -12,19 +13,19 @@
 #include <COLLADABUURI.h>
 
 
-using namespace kocmoc;
+using namespace kocmoc::loader::collada;
 
-Importer::Importer()
-{
-	// TODO Auto-generated constructor stub
+using kocmoc::renderer::ShaderManager;
+using kocmoc::renderer::Shader;
+using kocmoc::loader::ImageLoader;
+using kocmoc::scene::PolyMesh;
+using kocmoc::scene::Scene;
 
-}
+using std::cout;
+using std::endl;
 
-Importer::~Importer()
-{
-	// TODO Auto-generated destructor stub
-}
-
+Importer::~Importer() {}
+Importer::Importer() {}
 
 void Importer::cancel(const COLLADAFW::String& errorMessage)
 {

@@ -6,14 +6,19 @@
  */
 
 #include "PolyMesh.hpp"
-#include "Kocmoc.hpp"
-#include "Camera.hpp"
-#include "utility.hpp"
+
+#include <Kocmoc.hpp>
+#include <util/util.hpp>
+
 #include <gtx/inverse_transpose.hpp>
 
 #include <vector>
 
-using namespace kocmoc;
+using namespace kocmoc::scene;
+using kocmoc::renderer::Shader;
+using kocmoc::camera::Camera;
+using glm::mat4;
+
 
 PolyMesh::PolyMesh(unsigned int _primitiveCount, unsigned int _vertexIndexCount, unsigned int _vertexCount) : 
 		primitiveCount(_primitiveCount),
@@ -234,7 +239,7 @@ void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera, Shader *shadowSha
 
 		if ((location = activeShader->get_uniform_location("shadowPV")) >= 0)
 		{
-			mat4 shadowPV = Kocmoc::getInstance().getOrthoCam()->getProjectionMatrix() * Kocmoc::getInstance().getOrthoCam()->getViewMatrix();
+			mat4 shadowPV = Kocmoc::getInstance().getOrthoCamera()->getProjectionMatrix() * Kocmoc::getInstance().getOrthoCamera()->getViewMatrix();
 			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(shadowPV));
 		}
 

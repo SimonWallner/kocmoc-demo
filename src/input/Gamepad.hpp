@@ -1,10 +1,15 @@
-#ifndef _GAMEPAD_H_
-#define _GAMEPAD_H_
+#ifndef KOCMOC_INPUT_GAMEPAD_H_
+#define KOCMOC_INPUT_GAMEPAD_H_
 
-#include <camera/FilmCamera.hpp>
+#include <common.hpp>
 
 namespace kocmoc
 {
+	namespace camera
+	{
+		class FilmCamera;
+	}
+
 	namespace input
 	{
 
@@ -18,7 +23,7 @@ namespace kocmoc
 			/**
 			 * Construct a new gamepad.
 			 */
-			Gamepad(FilmCamera* camera);
+			Gamepad(camera::FilmCamera* camera);
 			~Gamepad(void);
 
 			/**
@@ -43,7 +48,7 @@ namespace kocmoc
 
 			bool enableGamepad;
 
-			FilmCamera* camera;
+			camera::FilmCamera* camera;
 		};
 	}
 }

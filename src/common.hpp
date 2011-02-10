@@ -1,5 +1,5 @@
-#ifndef _COMMON_HPP_
-#define _COMMON_HPP_
+#ifndef KOCMOC_COMMON_HPP_
+#define KOCMOC_COMMON_HPP_
 
 #ifdef _WINDOWS
 	#include <GL3/gl3w.h>
@@ -15,23 +15,10 @@
 #include <gtx/transform.hpp>
 #include <gtc/type_ptr.hpp>
 
-using glm::dvec3;
-using glm::dvec4;
-using glm::dmat4x4;
-using glm::mat4;
-using glm::vec3;
-using glm::vec4;
-
-
 #include <iostream>
 #include <string>
 #include <stdio.h>
 
-// TODO: remove! (at least std::string
-using std::string;
-using std::cerr;
-using std::cout;
-using std::endl;
 
 #define KOCMOC_PI 3.141592653589793238462643383279502884197169399375
 #define KOCMOC_DEBUG_VERBOSE_OUTPUT false

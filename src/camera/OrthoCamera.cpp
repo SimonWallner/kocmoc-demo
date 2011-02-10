@@ -2,7 +2,10 @@
 
 #include <util/Property.hpp>
 
-using namespace kocmoc;
+using namespace kocmoc::camera;
+using glm::vec3;
+using glm::vec4;
+using glm::mat4;
 
 OrthoCamera::OrthoCamera(vec3 _focus, vec3 _direction, vec3 _upVector)
 	: focus(_focus)

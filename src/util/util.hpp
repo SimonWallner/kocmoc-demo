@@ -1,15 +1,20 @@
-#ifndef _UTIL_HPP_
-#define _UTIL_HPP_
+#ifndef KOCMOC_UTIL_UTIL_HPP_
+#define KOCMOC_UTIL_UTIL_HPP_
 
-#include <common.hpp>
+//#include <scene/PolyMesh.hpp>
 
-#include <scene/PolyMesh.hpp>
-
-#include <string>
 #include <vector>
+
+
+
 
 namespace kocmoc
 {
+	namespace scene
+	{
+		class PolyMesh;
+	}
+
 	namespace util
 	{
 
@@ -21,12 +26,7 @@ namespace kocmoc
 		/**
 		 * Read the given file into a String
 		 */
-		string read_file(const std::string &filename);
-
-		/**
-		 * Query OpenGL errors and print error messages to STDERR.
-		 */
-		//void get_errors(void);
+		std::string read_file(const std::string &filename);
 
 		/**
 		 * Safe delete an array
@@ -42,12 +42,12 @@ namespace kocmoc
 			 * generate a starfield and take the needed params from the config
 			 * file
 			 */
-			PolyMesh* generateStars();
+			kocmoc::scene::PolyMesh* generateStars();
 
 			/**
 			 * Generate a colored coordinate cross gizmo
 			 */
-			PolyMesh* generateGizmo();
+			kocmoc::scene::PolyMesh* generateGizmo();
 		}
 	}
 }

@@ -1,6 +1,13 @@
 #include "Camera.hpp"
 
-using namespace kocmoc;
+#include <renderer/Shader.hpp>
+
+using namespace kocmoc::camera;
+
+using kocmoc::renderer::Shader;
+
+using glm::vec3;
+using glm::mat4;
 
 void Camera::setupGizmo(void)
 {
