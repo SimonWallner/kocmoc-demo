@@ -27,3 +27,13 @@ if(WIN32)
 	configure_file(${PROJECT_SOURCE_DIR}/external/devIL/lib/ILUT.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
 	configure_file(${PROJECT_SOURCE_DIR}/external/freealut/lib/alut.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
 endif(WIN32)
+
+
+
+# testing
+set(EXECUTABLE_OUTPUT_PATH${PROJECT_BINARY_DIR}/bin-test)
+
+add_subdirectory(test)
+
+enable_testing()
+add_test(gtest-main ${EXECUTABLE_OUTPUT_PATH}/ foo)
