@@ -31,9 +31,9 @@ endif(WIN32)
 
 
 # testing
-set(EXECUTABLE_OUTPUT_PATH${PROJECT_BINARY_DIR}/bin-test)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin-test)
 
 add_subdirectory(test)
 
 enable_testing()
-add_test(gtest-main ${EXECUTABLE_OUTPUT_PATH}/ foo)
+add_test(all-tests ${EXECUTABLE_OUTPUT_PATH}/all-tests)
