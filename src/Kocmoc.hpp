@@ -17,7 +17,7 @@ namespace kocmoc
 
 	namespace scene
 	{
-		class Scene;
+		class SceneNode;
 	}
 
 	namespace renderer
@@ -94,8 +94,8 @@ namespace kocmoc
 		camera::FilmCamera* camera;
 		camera::OrthoCamera* orthoCamera;
 
-		scene::Scene* scene;
-		scene::Scene* ship;
+		scene::SceneNode* scene;
+		scene::SceneNode* ship;
 		renderer::Shader* shadowShader;
 		
 		int mouseOldX, mouseOldY;

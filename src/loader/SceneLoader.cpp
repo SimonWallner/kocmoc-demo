@@ -13,7 +13,7 @@
 #include <COLLADAFW.h>
 
 using namespace kocmoc::loader;
-using kocmoc::scene::Scene;
+using kocmoc::scene::SceneNode;
 using std::string;
 
 
@@ -47,7 +47,7 @@ SceneLoader::~SceneLoader()
 	// TODO Auto-generated destructor stub
 }
 
-Scene* SceneLoader::load(string name)
+SceneNode* SceneLoader::load(string name)
 {
 	std::cout << "trying to load: " << name << std::endl;
 
@@ -65,5 +65,5 @@ Scene* SceneLoader::load(string name)
 		success = colladaRoot.loadDocument(path);
 	}
 
-	return importer.getScene();
+	return importer.getSceneNode();
 }

@@ -1,5 +1,5 @@
-#ifndef KOCMOC_SCENE_SCENE_HPP_
-#define KOCMOC_SCENE_SCENE_HPP_
+#ifndef KOCMOC_SCENE_SCENE_NODE_HPP_
+#define KOCMOC_SCENE_SCENE_NODE_HPP_
 
 #include "PolyMesh.hpp"
 
@@ -22,22 +22,22 @@ namespace kocmoc
 	namespace scene
 	{
 
-		class Scene;
+		class SceneNode;
 
 		typedef std::list<PolyMesh* > PolyMeshPointerList;
-		typedef std::list<Scene* > NodePointerList;
+		typedef std::list<SceneNode* > NodePointerList;
 
 		/**
 		 * A loose structure of a scene. No scenegraph, justs lists.
 		 */
-		class Scene
+		class SceneNode
 		{
 		public:
-			Scene(std::string _name = "scene node");
-			~Scene(void);
+			SceneNode(std::string _name = "scene node");
+			~SceneNode(void);
 
 			void add(PolyMesh* mesh);
-			void add(Scene* node);
+			void add(SceneNode* node);
 		
 			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
 			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
