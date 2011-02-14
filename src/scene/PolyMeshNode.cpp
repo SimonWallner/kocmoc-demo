@@ -1,4 +1,4 @@
-#include "SceneNode.hpp"
+#include "PolyMeshNode.hpp"
 
 #include <Kocmoc.hpp>
 #include <util/util.hpp>
@@ -11,12 +11,12 @@ using kocmoc::renderer::Shader;
 using glm::mat4;
 
 
-SceneNode::SceneNode(std::string _name)
+PolyMeshNode::PolyMeshNode(std::string _name)
 	: name(_name)
 	, transformation(glm::mat4(1.0f))
 {}
 
-SceneNode::~SceneNode(void)
+PolyMeshNode::~PolyMeshNode(void)
 {
 	for (std::list<PolyMesh* >::iterator it = polyMeshList.begin(); it != polyMeshList.end(); it++)
 	{
@@ -24,17 +24,17 @@ SceneNode::~SceneNode(void)
 	}
 }
 
-void SceneNode::add(PolyMesh* mesh)
+void PolyMeshNode::add(PolyMesh* mesh)
 {
 	polyMeshList.push_back(mesh);
 }
 
-void SceneNode::add(SceneNode* node)
+void PolyMeshNode::add(SceneNode* node)
 {
 	nodeList.push_back(node);
 }
 
-void SceneNode::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
+void PolyMeshNode::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
 {
 	glm::mat4 childTransform = parentTransform * transformation;
 
@@ -45,12 +45,12 @@ void SceneNode::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
 		(*ci)->draw(childTransform, camera, shader);
 }
 
-void SceneNode::draw(Camera *camera, Shader *shader)
+void PolyMeshNode::draw(Camera *camera, Shader *shader)
 {
 	draw(glm::mat4(1.0f), camera, shader);
 }
 
-void SceneNode::setTransformation(glm::core::type::mat4 t)
+void PolyMeshNode::setTransformation(glm::core::type::mat4 t)
 {
 	transformation = t;
 }

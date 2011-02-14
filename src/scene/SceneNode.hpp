@@ -1,11 +1,6 @@
 #ifndef KOCMOC_SCENE_SCENE_NODE_HPP_
 #define KOCMOC_SCENE_SCENE_NODE_HPP_
 
-#include "PolyMesh.hpp"
-
-#include <common.hpp>
-
-#include <list>
 
 namespace kocmoc
 {
@@ -22,37 +17,27 @@ namespace kocmoc
 	namespace scene
 	{
 
-		class SceneNode;
-
-		typedef std::list<PolyMesh* > PolyMeshPointerList;
-		typedef std::list<SceneNode* > NodePointerList;
-
 		/**
-		 * A loose structure of a scene. No scenegraph, justs lists.
+		 * An abstract scene node base class. It has a transformation matrix 
+		 * and an arbitrary number of childnodes.
 		 */
 		class SceneNode
 		{
 		public:
-			SceneNode(std::string _name = "scene node");
-			~SceneNode(void);
+			virtual ~SceneNode(void){};
 
-			void add(PolyMesh* mesh);
-			void add(SceneNode* node);
-		
-			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
-			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
+			virtual void add(SceneNode* node) = 0;
 
-			void setTransformation(glm::mat4 transform);
-			glm::mat4 getTransformation(void) {return transformation;};
+			virtual void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL) = 0;
+			virtual void draw(camera::Camera* camera, renderer::Shader* shader = NULL) = 0;
 
-		private:
-			PolyMeshPointerList polyMeshList;
-			NodePointerList nodeList;
-			std::string name;
+			void setTransformation(glm::mat4 t) {transformation = t;};
+			glm::mat4 getTransformation() {return transformation;};
 
-			/** The transformation matrix of this node */
+		protected:
 			glm::mat4 transformation;
 		};
 	}
 }
+
 #endif

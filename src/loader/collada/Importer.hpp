@@ -19,7 +19,7 @@ namespace kocmoc
 {
 	namespace scene
 	{
-		class SceneNode;
+		class PolyMeshNode;
 	}
 
 	namespace loader
@@ -41,7 +41,7 @@ namespace kocmoc
 				/**
 				 * Get the resulting scene
 				 */
-				scene::SceneNode* getSceneNode(void);
+				scene::PolyMeshNode* getSceneNode(void);
 
 
 				// overwrite functions from IWriter
@@ -82,7 +82,7 @@ namespace kocmoc
 				virtual bool writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene );
 
 			private:
-				scene::SceneNode* scene;
+				scene::PolyMeshNode* scene;
 
 				/** Ordered set of textures
 				 * 1. diffuse

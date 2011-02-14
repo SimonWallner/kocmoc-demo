@@ -9,7 +9,7 @@
 #include <loader/SceneLoader.hpp>
 #include <util/util.hpp>
 #include <util/Property.hpp>
-#include <scene/SceneNode.hpp>
+#include <scene/PolyMeshNode.hpp>
 #include <scene/Octree.hpp>
 #include <input/Gamepad.hpp>
 #include <camera/FilmCamera.hpp>
@@ -25,7 +25,7 @@ using kocmoc::renderer::FrameBuffer;
 using kocmoc::loader::ImageLoader;
 using kocmoc::loader::SceneLoader;
 using kocmoc::camera::FilmCamera;
-using kocmoc::scene::SceneNode;
+using kocmoc::scene::PolyMeshNode;
 using kocmoc::input::Gamepad;
 using kocmoc::camera::OrthoCamera;
 using kocmoc::time::Clock;
@@ -92,7 +92,7 @@ void Kocmoc::init()
 	orthoCamera->updateMatrixes();
 
 	
-	scene = new SceneNode();
+	scene = new PolyMeshNode();
 	ship = SceneLoader::getInstance().load(util::Property("modelName"));
 	scene->add(ship);
 	scene->add(util::generator::generateStars());

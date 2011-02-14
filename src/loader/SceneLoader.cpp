@@ -13,7 +13,7 @@
 #include <COLLADAFW.h>
 
 using namespace kocmoc::loader;
-using kocmoc::scene::SceneNode;
+using kocmoc::scene::PolyMeshNode;
 using std::string;
 
 
@@ -47,7 +47,7 @@ SceneLoader::~SceneLoader()
 	// TODO Auto-generated destructor stub
 }
 
-SceneNode* SceneLoader::load(string name)
+PolyMeshNode* SceneLoader::load(string name)
 {
 	std::cout << "trying to load: " << name << std::endl;
 

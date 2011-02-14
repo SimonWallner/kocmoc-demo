@@ -22,7 +22,7 @@ namespace kocmoc
 {
 	namespace scene
 	{
-		class SceneNode;
+		class PolyMeshNode;
 	}
 
 	namespace loader
@@ -47,7 +47,7 @@ namespace kocmoc
 			 * @param name The name of the model
 			 * @return the polyMesh representing that model
 			 */
-			scene::SceneNode* load(std::string name);
+			scene::PolyMeshNode* load(std::string name);
 
 		private:
 

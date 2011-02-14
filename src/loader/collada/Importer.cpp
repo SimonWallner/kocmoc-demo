@@ -4,7 +4,7 @@
 #include <renderer/ShaderManager.hpp>
 #include <loader/ImageLoader.hpp>
 #include <scene/PolyMesh.hpp>
-#include <scene/SceneNode.hpp>
+#include <scene/PolyMeshNode.hpp>
 
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
@@ -19,7 +19,7 @@ using kocmoc::renderer::ShaderManager;
 using kocmoc::renderer::Shader;
 using kocmoc::loader::ImageLoader;
 using kocmoc::scene::PolyMesh;
-using kocmoc::scene::SceneNode;
+using kocmoc::scene::PolyMeshNode;
 
 using std::cout;
 using std::endl;
@@ -203,10 +203,10 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 void Importer::prepare()
 {
 	cout << "preparing..." << endl;
-	scene = new SceneNode;
+	scene = new PolyMeshNode;
 }
 
-SceneNode* Importer::getSceneNode()
+PolyMeshNode* Importer::getSceneNode()
 {
 	return scene;
 }
