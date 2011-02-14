@@ -4,6 +4,9 @@
 include_directories(
 	${PROJECT_SOURCE_DIR}/test/external/gtest/include
 	${PROJECT_SOURCE_DIR}/src
+	${PROJECT_SOURCE_DIR}/external/gl3w/include
+	${PROJECT_SOURCE_DIR}/external/glfw/include
+	${PROJECT_SOURCE_DIR}/external/glm/include
 )
 
 link_directories(

@@ -10,6 +10,7 @@
 #include <util/util.hpp>
 #include <util/Property.hpp>
 #include <scene/Scene.hpp>
+#include <scene/Octree.hpp>
 #include <input/Gamepad.hpp>
 #include <camera/FilmCamera.hpp>
 #include <time/Clock.hpp>
