@@ -6,6 +6,7 @@
 #include <scene/PolyMesh.hpp>
 #include <scene/PolyMeshNode.hpp>
 
+#include <COLLADABUPlatform.h>
 #include <COLLADAFWGeometry.h>
 #include <COLLADAFWMesh.h>
 #include <COLLADAFWVisualScene.h>

@@ -7,8 +7,9 @@
 #ifndef KOCMOC_LOADER_COLLADA_IMPORTER_HPP_
 #define KOCMOC_LOADER_COLLADA_IMPORTER_HPP_
 
-#include <COLLADAFWIWriter.h>
 #include <COLLADAFWPrerequisites.h>
+#include <COLLADAFWIWriter.h>
+
 
 #include <vector>
 
