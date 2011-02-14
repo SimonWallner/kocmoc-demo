@@ -94,7 +94,7 @@ namespace kocmoc
 		camera::FilmCamera* camera;
 		camera::OrthoCamera* orthoCamera;
 
-		scene::PolyMeshNode* scene;
+		scene::PolyMeshNode* rootNode;
 		scene::PolyMeshNode* ship;
 		renderer::Shader* shadowShader;
 		

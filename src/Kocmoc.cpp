@@ -9,6 +9,7 @@
 #include <loader/SceneLoader.hpp>
 #include <util/util.hpp>
 #include <util/Property.hpp>
+#include <scene/SceneNode.hpp>
 #include <scene/PolyMeshNode.hpp>
 #include <scene/Octree.hpp>
 #include <input/Gamepad.hpp>
@@ -56,7 +57,7 @@ Kocmoc::Kocmoc()
 
 Kocmoc::~Kocmoc()
 {
-	delete scene;
+	delete rootNode;
 	delete gamepad;
 }
 
@@ -92,14 +93,14 @@ void Kocmoc::init()
 	orthoCamera->updateMatrixes();
 
 	
-	scene = new PolyMeshNode();
+	rootNode = new PolyMeshNode();
 	ship = SceneLoader::getInstance().load(util::Property("modelName"));
-	scene->add(ship);
-	scene->add(util::generator::generateStars());
+	rootNode->add(ship);
+	rootNode->add(util::generator::generateStars());
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
 	if (showGizmos)
-		scene->add(util::generator::generateGizmo());
+		rootNode->add(util::generator::generateGizmo());
 
 
 	{ /* inputs */
@@ -155,7 +156,7 @@ void Kocmoc::start()
 		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
 		glViewport(0, 0, shadowMap->width, shadowMap->height);
 		glClear(GL_DEPTH_BUFFER_BIT);
-		scene->draw(orthoCamera, shadowShader);
+		rootNode->draw(orthoCamera, shadowShader);
 		
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
@@ -188,7 +189,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	scene->draw(camera);	
+	rootNode->draw(camera);	
 }
 
 void Kocmoc::drawOverlays()

@@ -29,25 +29,19 @@ namespace kocmoc
 		class PolyMeshNode : public SceneNode
 		{
 			typedef std::list<PolyMesh* > PolyMeshPointerList;
-			typedef std::list<SceneNode* > NodePointerList;
-
+			
 		public:
 			PolyMeshNode(std::string _name = "scene node");
 			~PolyMeshNode(void);
 
+			void add(SceneNode* node) {SceneNode::add(node);};
 			void add(PolyMesh* mesh);
-			void add(SceneNode* node);
 		
 			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
 			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
 
-			void setTransformation(glm::mat4 transform);
-			glm::mat4 getTransformation(void) {return transformation;};
-
 		private:
 			PolyMeshPointerList polyMeshList;
-			NodePointerList nodeList;
-			std::string name;
 
 			/** The transformation matrix of this node */
 			glm::mat4 transformation;
