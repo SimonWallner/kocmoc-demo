@@ -13,7 +13,6 @@ uniform mat4 modelMatrix;
 
 out vec4 exColor;
 
-
 void main(void)
 {
 	gl_Position = projectionMatrix * viewMatrix * modelMatrix * inPosition;

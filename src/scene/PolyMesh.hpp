@@ -1,6 +1,8 @@
 #ifndef KOCMOC_SCENE_POLY_MESH_HPP_
 #define KOCMOC_SCENE_POLY_MESH_HPP_
 
+#include "LineGizmo.hpp"
+
 #include <renderer/Shader.hpp>
 #include <camera/Camera.hpp>
 
@@ -122,6 +124,8 @@ namespace kocmoc
 			renderer::Shader *shader;
 
 			bool dataIsUploaded;
+			
+			LineGizmo* gizmo;
 		};
 	}
 }

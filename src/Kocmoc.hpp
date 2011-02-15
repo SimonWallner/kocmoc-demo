@@ -18,6 +18,8 @@ namespace kocmoc
 	namespace scene
 	{
 		class PolyMeshNode;
+		class SceneNode;
+		class Octree;
 	}
 
 	namespace renderer
@@ -77,7 +79,7 @@ namespace kocmoc
 		/**
 		 * Get the main clock 
 		 */
-		time::Clock* getClock(void) {return clock;};
+		time::Clock* getClock(void);
 	
 	private:
 
@@ -94,8 +96,8 @@ namespace kocmoc
 		camera::FilmCamera* camera;
 		camera::OrthoCamera* orthoCamera;
 
-		scene::PolyMeshNode* rootNode;
-		scene::PolyMeshNode* ship;
+		//scene::SceneNode* rootNode;
+		//scene::PolyMeshNode* ship;
 		renderer::Shader* shadowShader;
 		
 		int mouseOldX, mouseOldY;
@@ -105,8 +107,6 @@ namespace kocmoc
 
 		renderer::FrameBuffer* fbo;
 		renderer::ShadowMap* shadowMap;
-
-		bool showGizmos;
 
 		time::Clock* clock;
 
@@ -122,5 +122,7 @@ namespace kocmoc
 		void pollMouse(void);
 
 		void drawOverlays(void);
+
+		scene::Octree* octree;
 	};
 }

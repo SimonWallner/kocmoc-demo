@@ -30,7 +30,7 @@ namespace kocmoc
 			typedef std::list<SceneNode* > NodePointerList;
 
 		public:
-			SceneNode(std::string _name) : name(_name) {};
+			SceneNode(std::string _name = "octree node") : name(_name) {};
 			virtual ~SceneNode(void){};
 
 			virtual void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);

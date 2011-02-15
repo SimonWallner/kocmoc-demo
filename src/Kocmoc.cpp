@@ -12,6 +12,7 @@
 #include <scene/SceneNode.hpp>
 #include <scene/PolyMeshNode.hpp>
 #include <scene/Octree.hpp>
+#include <scene/OctreeNode.hpp>
 #include <input/Gamepad.hpp>
 #include <camera/FilmCamera.hpp>
 #include <time/Clock.hpp>
@@ -27,11 +28,15 @@ using kocmoc::loader::ImageLoader;
 using kocmoc::loader::SceneLoader;
 using kocmoc::camera::FilmCamera;
 using kocmoc::scene::PolyMeshNode;
+using kocmoc::scene::SceneNode;
+using kocmoc::scene::Octree;
+using kocmoc::scene::OctreeNode;
 using kocmoc::input::Gamepad;
 using kocmoc::camera::OrthoCamera;
 using kocmoc::time::Clock;
 
 using glm::vec3;
+using glm::mat4;
 
 Kocmoc* Kocmoc::instance = NULL;
 
@@ -52,12 +57,10 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
-	showGizmos = util::Property("debugShowGizmo");
 }
 
 Kocmoc::~Kocmoc()
 {
-	delete rootNode;
 	delete gamepad;
 }
 
@@ -85,22 +88,15 @@ void Kocmoc::init()
 
 	camera->setFocalLength(util::Property("cameraFocalLength35"));
 	camera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
-	camera->setupGizmo();
 	camera->updateMatrixes();
 
 	// ortho cam
 	orthoCamera = new OrthoCamera(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
 	orthoCamera->updateMatrixes();
-
-	
-	rootNode = new PolyMeshNode();
-	ship = SceneLoader::getInstance().load(util::Property("modelName"));
-	rootNode->add(ship);
-	rootNode->add(util::generator::generateStars());
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
-	if (showGizmos)
-		rootNode->add(util::generator::generateGizmo());
+
+	octree = new Octree(vec3(0), 10.0);
 
 
 	{ /* inputs */
@@ -151,12 +147,12 @@ void Kocmoc::start()
 
 		// drawing stuff ---------------
 
-		// shadow map
-		glDisable(GL_FRAMEBUFFER_SRGB);
-		glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
-		glViewport(0, 0, shadowMap->width, shadowMap->height);
-		glClear(GL_DEPTH_BUFFER_BIT);
-		rootNode->draw(orthoCamera, shadowShader);
+		//// shadow map
+		//glDisable(GL_FRAMEBUFFER_SRGB);
+		//glBindFramebuffer(GL_FRAMEBUFFER, shadowMap->getFBOHandle());
+		//glViewport(0, 0, shadowMap->width, shadowMap->height);
+		//glClear(GL_DEPTH_BUFFER_BIT);
+		//rootNode->draw(orthoCamera, shadowShader);
 		
 		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
@@ -189,7 +185,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	rootNode->draw(camera);	
+	octree->renderDebug(mat4(1), camera);
 }
 
 void Kocmoc::drawOverlays()
@@ -271,4 +267,9 @@ void Kocmoc::pollMouse()
 void Kocmoc::reload()
 {
 	fbo->setupShader();
+}
+
+Clock* Kocmoc::getClock()
+{
+	return clock;
 }

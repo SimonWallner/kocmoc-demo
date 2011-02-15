@@ -170,6 +170,9 @@ void PolyMesh::transferData()
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 	
+
+	// create gizmo
+	gizmo = util::generator::generateUnitCube();
 	dataIsUploaded = true;
 }
 
@@ -251,6 +254,8 @@ void PolyMesh::draw(glm::mat4 parentTransform, Camera *camera, Shader *shadowSha
 		glBindVertexArray(0);
 	}
 	activeShader->unbind();
+
+	gizmo->draw(leafTransform, camera);
 }
 
 void PolyMesh::setModelMatrix(glm::mat4 _modelMatrix)

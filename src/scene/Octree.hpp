@@ -6,6 +6,7 @@
  */
 
 #include "PolyMesh.hpp"
+#include "LineGizmo.hpp"
 
 #include <types.hpp>
 
@@ -15,6 +16,11 @@
 
 namespace kocmoc
 {
+	namespace camera
+	{
+		class Camera;
+	}
+
 	namespace scene
 	{
 
@@ -57,7 +63,7 @@ namespace kocmoc
 			/**
 			 * render debug stuff, like bounding boxes, etc...
 			 */
-			void renderDebug(void);
+			void renderDebug(glm::mat4 parentTransform, camera::Camera* camera);
 
 		private:
 			/** The content of this cell */
@@ -75,7 +81,8 @@ namespace kocmoc
 			 */
 			double size;
 
-			PolyMesh* boundingBox;
+			LineGizmo* boundingBox;
+			LineGizmo* originGizmo;
 		};
 	}
 }

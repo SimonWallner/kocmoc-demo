@@ -19,6 +19,7 @@
 #include <string>
 #include <stdio.h>
 
+#include <types.hpp>
 
 #define KOCMOC_PI 3.141592653589793238462643383279502884197169399375
 #define KOCMOC_DEBUG_VERBOSE_OUTPUT false

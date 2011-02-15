@@ -49,13 +49,6 @@ namespace kocmoc
 			 * Also updates the untranslated view Matrix.
 			 */
 			virtual void updateMatrixes() = 0;
-
-			void drawGizmo();
-			void setupGizmo(void);
-
-		private:
-			GLuint *gizmo_vbos, gizmo_vao;
-			renderer::Shader *gizmoShader;
 		};
 	}
 }

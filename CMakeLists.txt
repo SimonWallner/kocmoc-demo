@@ -36,3 +36,9 @@ endif(WIN32)
 
 # enable_testing()
 # add_test(all-tests ${EXECUTABLE_OUTPUT_PATH}/all-tests)
+
+
+# NOTES
+# Visual Studio debug commands
+# Command: $(OutDir)\$(TargetFileName)
+# Working Direktory: C:\..\..\..\ \\\bin

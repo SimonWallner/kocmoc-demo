@@ -4,11 +4,13 @@
 #include <loader/ImageLoader.hpp>
 #include <renderer/ShaderManager.hpp>
 #include <scene/PolyMesh.hpp>
+#include <scene/LineGizmo.hpp>
 
 #include <fstream>
 
 
 using kocmoc::scene::PolyMesh;
+using kocmoc::scene::LineGizmo;
 using kocmoc::renderer::Shader;
 using kocmoc::renderer::ShaderManager;
 using kocmoc::loader::ImageLoader;
@@ -169,57 +171,210 @@ namespace kocmoc
 				return stars;
 			}
 
-			PolyMesh* generateGizmo()
+			LineGizmo* generateOriginGizmo()
 			{
-				double *vertexPositions = new double[12];
+				float *vertexPositions = new float[30];
+				float *vertexColors = new float[30];
+
 				vertexPositions[0] = 0.0f;
 				vertexPositions[1] = 0.0f;
 				vertexPositions[2] = 0.0f;
+				vertexColors[0] = 1.0f;
+				vertexColors[1] = 0.0f;
+				vertexColors[2] = 0.0f;
 
 				vertexPositions[3] = 1.0f;
 				vertexPositions[4] = 0.0f;
 				vertexPositions[5] = 0.0f;
+				vertexColors[3] = 1.0f;
+				vertexColors[4] = 0.0f;
+				vertexColors[5] = 0.0f;
 
 				vertexPositions[6] = 0.0f;
 				vertexPositions[7] = 1.0f;
 				vertexPositions[8] = 0.0f;
+				vertexColors[6] = 0.0f;
+				vertexColors[7] = 1.0f;
+				vertexColors[8] = 0.0f;
 
 				vertexPositions[9] = 0.0f;
 				vertexPositions[10] = 0.0f;
 				vertexPositions[11] = 1.0f;
+				vertexColors[9] = 0.0f;
+				vertexColors[10] = 0.0f;
+				vertexColors[11] = 1.0f;
 
-				unsigned int *indices =  new unsigned int[6];
+
+				vertexPositions[12] = 0.0f;
+				vertexPositions[13] = 0.0f;
+				vertexPositions[14] = 0.0f;
+				vertexColors[12] = 0.5f;
+				vertexColors[13] = 0.5f;
+				vertexColors[14] = 0.5f;
+
+				vertexPositions[15] = -1.0f;
+				vertexPositions[16] = 0.0f;
+				vertexPositions[17] = 0.0f;
+				vertexColors[15] = 0.5f;
+				vertexColors[16] = 0.5f;
+				vertexColors[17] = 0.5f;
+
+				vertexPositions[18] = 0.0f;
+				vertexPositions[19] = -1.0f;
+				vertexPositions[20] = 0.0f;
+				vertexColors[18] = 0.5f;
+				vertexColors[19] = 0.5f;
+				vertexColors[20] = 0.5f;
+
+				vertexPositions[21] = 0.0f;
+				vertexPositions[22] = 0.0f;
+				vertexPositions[23] = -1.0f;
+				vertexColors[21] = 0.5f;
+				vertexColors[22] = 0.5f;
+				vertexColors[23] = 0.5f;
+
+
+				vertexPositions[24] = 0.0f;
+				vertexPositions[25] = 0.0f;
+				vertexPositions[26] = 0.0f;
+				vertexColors[24] = 0.0f;
+				vertexColors[25] = 1.0f;
+				vertexColors[26] = 0.0f;
+
+				vertexPositions[27] = 0.0f;
+				vertexPositions[28] = 0.0f;
+				vertexPositions[29] = 0.0f;
+				vertexColors[27] = 0.0f;
+				vertexColors[28] = 0.0f;
+				vertexColors[29] = 1.0f;
+
+				unsigned int *indices =  new unsigned int[12];
 				indices[0] = 0;
 				indices[1] = 1;
-				indices[2] = 0;
+				indices[2] = 8;
 				indices[3] = 2;
-				indices[4] = 0;
+				indices[4] = 9;
 				indices[5] = 3;
+				indices[6] = 4;
+				indices[7] = 5;
+				indices[8] = 4;
+				indices[9] = 6;
+				indices[10] = 4;
+				indices[11] = 7;
 				
-				unsigned int *fia = new unsigned int[4];
-				fia[0] = 0;
-				fia[1] = 2;
-				fia[2] = 4;
-				fia[3] = 6;
+				return  new LineGizmo(vertexPositions, vertexColors, 30, indices, 12);
+			}
 
-				unsigned int primitiveCount = 3;
-				unsigned int vertexIndexCount = 6;
-				unsigned int vertexCount = 4;
-				PolyMesh *mesh = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
+			LineGizmo* generateUnitCube()
+			{
+				float *vertexPositions = new float[24];
+				float *vertexColors = new float[24];
 
-				mesh->setFirstIndexArray(fia);
-				mesh->setVertexIndexArray(indices);
-				mesh->setVertexPositions(vertexPositions);
+				vertexPositions[0] = 0.5f;
+				vertexPositions[1] = 0.5f;
+				vertexPositions[2] = 0.5f;
+				
+				vertexPositions[3] = -0.5f;
+				vertexPositions[4] = 0.5f;
+				vertexPositions[5] = 0.5f;
+				
+				vertexPositions[6] = -0.5f;
+				vertexPositions[7] = -0.5f;
+				vertexPositions[8] = 0.5f;
+				
+				vertexPositions[9] = 0.5f;
+				vertexPositions[10] = -0.5f;
+				vertexPositions[11] = 0.5f;
+				
 
-				// add shader to poly
-				Shader *shader = new Shader("vertexColor.vert", "vertexColor.frag");
-				mesh->setShader(shader);
+				vertexPositions[12] = 0.5f;
+				vertexPositions[13] = 0.5f;
+				vertexPositions[14] = -0.5f;
+				
+				vertexPositions[15] = -0.5f;
+				vertexPositions[16] = 0.5f;
+				vertexPositions[17] = -0.5f;
+				
+				vertexPositions[18] = -0.5f;
+				vertexPositions[19] = -0.5f;
+				vertexPositions[20] = -0.5f;
+				
+				vertexPositions[21] = 0.5f;
+				vertexPositions[22] = -0.5f;
+				vertexPositions[23] = -0.5f;
+				
+				vertexColors[0] = 1.0f;
+				vertexColors[1] = 1.0f;
+				vertexColors[2] = 1.0f;
 
-				// add texture
-				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-				mesh->setDiffuseTexture(tex);
+				vertexColors[3] = 1.0f;
+				vertexColors[4] = 1.0f;
+				vertexColors[5] = 1.0f;
 
-				return mesh;
+				vertexColors[6] = 1.0f;
+				vertexColors[7] = 1.0f;
+				vertexColors[8] = 1.0f;
+
+				vertexColors[9] = 1.0f;
+				vertexColors[10] = 1.0f;
+				vertexColors[11] = 1.0f;
+
+				vertexColors[12] = 1.0f;
+				vertexColors[13] = 1.0f;
+				vertexColors[14] = 1.0f;
+
+				vertexColors[15] = 1.0f;
+				vertexColors[16] = 1.0f;
+				vertexColors[17] = 1.0f;
+
+				vertexColors[18] = 1.0f;
+				vertexColors[19] = 1.0f;
+				vertexColors[20] = 1.0f;
+
+				vertexColors[21] = 1.0f;
+				vertexColors[22] = 1.0f;
+				vertexColors[23] = 1.0f;
+
+				uint *indices =  new uint[24];
+				indices[0] = 0;
+				indices[1] = 1;
+
+				indices[2] = 1;
+				indices[3] = 2;
+
+				indices[4] = 2;
+				indices[5] = 3;
+
+				indices[6] = 3;
+				indices[7] = 0;
+
+
+				indices[8] = 4;
+				indices[9] = 5;
+
+				indices[10] = 5;
+				indices[11] = 6;
+
+				indices[12] = 6;
+				indices[13] = 7;
+
+				indices[14] = 7;
+				indices[15] = 4;
+
+
+				indices[16] = 0;
+				indices[17] = 4;
+
+				indices[18] = 1;
+				indices[19] = 5;
+
+				indices[20] = 2;
+				indices[21] = 6;
+
+				indices[22] = 3;
+				indices[23] = 7;
+				
+				return new LineGizmo(vertexPositions, vertexColors, 24, indices, 24);
 			}
 		}
 	}

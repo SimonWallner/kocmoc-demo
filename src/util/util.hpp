@@ -1,7 +1,6 @@
 #ifndef KOCMOC_UTIL_UTIL_HPP_
 #define KOCMOC_UTIL_UTIL_HPP_
 
-//#include <scene/PolyMesh.hpp>
 
 #include <vector>
 
@@ -13,6 +12,7 @@ namespace kocmoc
 	namespace scene
 	{
 		class PolyMesh;
+		class LineGizmo;
 	}
 
 	namespace util
@@ -47,7 +47,12 @@ namespace kocmoc
 			/**
 			 * Generate a colored coordinate cross gizmo
 			 */
-			kocmoc::scene::PolyMesh* generateGizmo();
+			kocmoc::scene::LineGizmo* generateOriginGizmo();
+
+			/**
+			 * Generates a unit cube to arround the origin 
+			 */
+			kocmoc::scene::LineGizmo* generateUnitCube();
 		}
 	}
 }
