@@ -14,6 +14,8 @@
 
 #include <vector>
 
+#define KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD 500
+
 namespace kocmoc
 {
 	namespace camera
@@ -23,7 +25,21 @@ namespace kocmoc
 
 	namespace scene
 	{
-
+		/**
+		 * an Octree to handle poly meshes
+		 * 
+		 * Octantans are named/ordered and handled as follows
+		 * Ocant | X | Y | Z |
+		 * -------------------
+		 *  I    | + | + | + |
+		 *  II   | - | + | + |
+		 *  III  | - | - | + |
+		 *  IV   | + | - | + |
+		 *  V    | + | + | - |
+		 *  VI   | - | + | - |
+		 *  VII  | - | - | - |
+		 *  VIII | + | - | - |
+		 */
 		class Octree
 		{
 		public:
@@ -43,10 +59,6 @@ namespace kocmoc
 
 			void insert(PolyMesh* mesh);
 			
-			/**
-			 * Get the content, i.e. the PolyMesh in this cell
-			 */
-			std::vector<PolyMesh* > getContent(void);
 
 			/**
 			 * Traverse the octree and return the content as a collection
@@ -68,6 +80,10 @@ namespace kocmoc
 		private:
 			/** The content of this cell */
 			std::vector<PolyMesh* > content;
+
+			/** The total vertex count of of the subtree (splitting overhead 
+			 * is not counted. */
+			uint totalVertexCount;
 
 			/** The child cells */
 			Octree** children;

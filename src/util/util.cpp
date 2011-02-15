@@ -7,6 +7,7 @@
 #include <scene/LineGizmo.hpp>
 
 #include <fstream>
+#include <string>
 
 
 using kocmoc::scene::PolyMesh;
@@ -19,18 +20,21 @@ using glm::vec4;
 using glm::mat4;
 using glm::vec3;
 
+using std::string;
+using std::vector;
+
 namespace kocmoc
 {
 	namespace util
 	{
 
-		bool file_exists(const std::string &filename)
+		bool file_exists(const string &filename)
 		{
 			std::ifstream ifile(filename.c_str());
 			return ifile;
 		}
 
-		std::string read_file(const std::string &filename)
+		string read_file(const string &filename)
 		{
 			std::ifstream ifile(filename.c_str());
 
@@ -49,7 +53,7 @@ namespace kocmoc
 
 
 		// code taken from http://www.oopweb.com/CPP/Documents/CPPHOWTO/Volume/C++Programming-HOWTO-7.html
-		void tokenize(const std::string& str, std::vector<std::string >& tokens, const std::string& delimiter)
+		void tokenize(const string& str, vector<string >& tokens, const string& delimiter)
 		{
 			// Skip delimiters at beginning.
 			std::string::size_type lastPos = str.find_first_not_of(delimiter, 0);
@@ -375,6 +379,32 @@ namespace kocmoc
 				indices[23] = 7;
 				
 				return new LineGizmo(vertexPositions, vertexColors, 24, indices, 24);
+			}
+		}
+
+		namespace geometry
+		{
+			bool inside(double d, vec3 n, vec3 point)
+			{
+				double distance = ::glm::dot(point, n) - d;
+				return (distance < 0);
+			}
+
+
+			double intersect(double d, vec3 n, vec3 p1, vec3 p2)
+			{
+				double d1 = ::glm::dot(p1, n) -d;
+				double d2 = ::glm::dot(p2, n) -d;
+
+				return d2 / (d1 + d2);
+			}
+
+			/**
+			 * linear combination 
+			 */
+			vec3 mix(float r, vec3 v1, vec3 v2)
+			{
+				return (v1 * r) + (v2 * (1-r));
 			}
 		}
 	}

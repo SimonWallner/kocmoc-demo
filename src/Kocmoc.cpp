@@ -34,6 +34,7 @@ using kocmoc::scene::OctreeNode;
 using kocmoc::input::Gamepad;
 using kocmoc::camera::OrthoCamera;
 using kocmoc::time::Clock;
+using kocmoc::util::Property;
 
 using glm::vec3;
 using glm::mat4;
@@ -96,8 +97,8 @@ void Kocmoc::init()
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
 
-	octree = new Octree(vec3(0), 10.0);
-	octree->insert(NULL);
+	octree = new Octree(vec3(0), (double)Property("starsDomain")/2);
+	octree->insert(util::generator::generateStars());
 
 
 	{ /* inputs */

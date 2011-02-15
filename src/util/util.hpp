@@ -2,9 +2,9 @@
 #define KOCMOC_UTIL_UTIL_HPP_
 
 
+#include <glm.hpp>
+
 #include <vector>
-
-
 
 
 namespace kocmoc
@@ -53,6 +53,28 @@ namespace kocmoc
 			 * Generates a unit cube to arround the origin 
 			 */
 			kocmoc::scene::LineGizmo* generateUnitCube();
+		}
+
+		namespace geometry
+		{
+			/**
+			 * test if a point is inside, i.e. not on the side of the 
+			 * normal vector that is pointing towards the outside
+			 * @return true iff the point is inside or directly on the plane
+			 */
+			bool inside(double d, glm::vec3 n, glm::vec3 point);
+
+			/**
+			 * calculate the intersection parameter for a later
+			 * linear mix. It is assumed that there is a valid 
+			 * intersection point!
+			 */
+			double intersect(double d, glm::vec3 n, glm::vec3 p1, glm::vec3 p2);
+
+			/**
+			 * linear combination 
+			 */
+			glm::vec3 mix(float r, glm::vec3 v1, glm::vec3 v2);
 		}
 	}
 }

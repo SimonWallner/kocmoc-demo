@@ -29,6 +29,13 @@ namespace kocmoc
 		class PolyMesh
 		{
 		public:
+
+			struct SplitResult
+			{
+				PolyMesh* inside;
+				PolyMesh* outside;
+			};
+
 			/**
 			 * Create a new poly mesh. Counts must be known in advance to avoid 
 			 * reallocation of arrays and such
@@ -51,9 +58,6 @@ namespace kocmoc
 			void setUVPositions(double *uv);
 			void setNormalPositions(double *normals);
 
-			
-
-
 			/**
 			 * Draw the mesh.
 			 * If the data is not on the gpu yet it will be transfered upon the first call
@@ -74,6 +78,14 @@ namespace kocmoc
 
 			void setModelMatrix(glm::mat4 modelMatrix);
 			glm::mat4 getModelMatrix(void) {return modelMatrix;};
+
+			/**
+			 * Split the mesh at the given splitPlane
+			 * @param d the normal distance origin-plane
+			 * @param n the plane normal, it is assumed to point
+			 * to the 'outside'
+			 */
+			SplitResult split(double d, glm::vec3 n);
 
 		private:
 
