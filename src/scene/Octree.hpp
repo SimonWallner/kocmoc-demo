@@ -70,7 +70,7 @@ namespace kocmoc
 			std::vector<PolyMesh* > content;
 
 			/** The child cells */
-			Octree* children;
+			Octree** children;
 
 			/** The origin/center of the octree */
 			glm::vec3 origin;
@@ -83,6 +83,8 @@ namespace kocmoc
 
 			LineGizmo* boundingBox;
 			LineGizmo* originGizmo;
+
+			bool isLeaf;
 		};
 	}
 }

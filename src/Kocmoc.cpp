@@ -97,6 +97,7 @@ void Kocmoc::init()
 
 
 	octree = new Octree(vec3(0), 10.0);
+	octree->insert(NULL);
 
 
 	{ /* inputs */
