@@ -104,6 +104,7 @@ void Context::getAvailableResolutions(){
 			listsize=tempsize;
 	}
 }
+
 void Context::testOpenGL()
 {
 	// query opengl version

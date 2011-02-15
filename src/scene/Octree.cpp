@@ -14,7 +14,7 @@ using glm::mat4;
 
 using std::vector;
 
-Octree::Octree(glm::vec3 _origin, double _size)
+Octree::Octree(vec3 _origin, double _size)
 	: origin(_origin)
 	, size(_size)
 	, children(NULL)
@@ -35,6 +35,9 @@ void Octree::insert(kocmoc::scene::PolyMesh* mesh)
 
 void Octree::renderDebug(mat4 parentTransform, Camera* camera)
 {
-	boundingBox->draw(parentTransform, camera);
-	originGizmo->draw(parentTransform, camera);
+	mat4 translate = glm::translate(origin);
+	mat4 scale = glm::scale(vec3(size * 2));
+
+	boundingBox->draw(translate * scale, camera);
+	originGizmo->draw(translate, camera);
 }
