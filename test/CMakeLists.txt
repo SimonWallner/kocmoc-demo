@@ -4,9 +4,6 @@
 include_directories(
 	${PROJECT_SOURCE_DIR}/test/external/gtest/include
 	${PROJECT_SOURCE_DIR}/src
-	${PROJECT_SOURCE_DIR}/external/gl3w/include
-	${PROJECT_SOURCE_DIR}/external/glfw/include
-	${PROJECT_SOURCE_DIR}/external/glm/include
 )
 
 link_directories(
@@ -17,6 +14,14 @@ link_directories(
 # collect the files
 file(GLOB_RECURSE HEADER_FILES_MSVC *.hpp)
 file(GLOB_RECURSE SOURCE_FILES *.cpp)
+
+set(SOURCE_FILES ${SOURCE_FILES}
+	../src/Symbol.cpp
+)
+
+set(HEADER_FILES_MVSC ${HEADER_FILES_MSVC}
+	Symbol.hpp
+)
 
 if (MSVC)
 	# join the header files so that the VS can display them

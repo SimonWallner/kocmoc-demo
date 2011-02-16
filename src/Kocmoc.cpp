@@ -1,6 +1,7 @@
 #include "Kocmoc.hpp"
 #include "Context.hpp"
 #include "Exception.hpp"
+#include "Symbol.hpp"
 
 #include <renderer/ShaderManager.hpp>
 #include <renderer/FrameBuffer.hpp>
@@ -97,8 +98,8 @@ void Kocmoc::init()
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
 
-	octree = new Octree(vec3(0), (double)Property("starsDomain")/2);
-	octree->insert(util::generator::generateStars());
+	octree = new Octree(vec3(0), 10);
+	octree->insert(util::generator::generateTriangle());
 
 
 	{ /* inputs */

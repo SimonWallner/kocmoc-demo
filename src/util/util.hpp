@@ -53,6 +53,8 @@ namespace kocmoc
 			 * Generates a unit cube to arround the origin 
 			 */
 			kocmoc::scene::LineGizmo* generateUnitCube();
+
+			kocmoc::scene::PolyMesh* generateTriangle();
 		}
 
 		namespace geometry

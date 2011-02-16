@@ -317,15 +317,15 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 		uint firstIndex = firstIndexArray[i];
 		uint length = firstIndexArray[i+1] - firstIndex;
 
-		for (uint j = 0; j < length; j += 3)
+		for (uint j = 0; j < length; j++)
 		{
-			vec3 p1 = vec3(vertexPositions[firstIndex + (j % length)],
-							vertexPositions[firstIndex + (j+1 % length)],
-							vertexPositions[firstIndex + (j+2 % length)]);
+			vec3 p1 = vec3(vertexPositions[firstIndex + (j*3 % length)],
+							vertexPositions[firstIndex + (j*3+1 % length)],
+							vertexPositions[firstIndex + (j*3+2 % length)]);
 
-			vec3 p2 = vec3(vertexPositions[firstIndex + (j+3 % length)],
-							vertexPositions[firstIndex + (j+4 % length)],
-							vertexPositions[firstIndex + (j+5 % length)]);
+			vec3 p2 = vec3(vertexPositions[firstIndex + (j*3+3 % length)],
+							vertexPositions[firstIndex + (j*3+4 % length)],
+							vertexPositions[firstIndex + (j*3+5 % length)]);
 
 			//vec3 uv1 = vec3(uvPositions[firstIndex + (j % length)],
 			//				uvPositions[firstIndex + (j+1 % length)],
@@ -409,19 +409,19 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 					fiOutside++;
 				}
 			}
+		}
 
-			if (oldfiInside < fiInside) // vertices added!
-			{
-				firstIndexInside.push_back(fiInside);
-				primitiveCountInside++;
-				oldfiInside = fiInside;
-			}
-			if (oldfiOutside < fiOutside) // vertices added!
-			{
-				firstIndexOutside.push_back(fiOutside);
-				primitiveCountOutside++;
-				oldfiOutside = fiOutside;
-			}
+		if (oldfiInside < fiInside) // vertices added!
+		{
+			firstIndexInside.push_back(fiInside);
+			primitiveCountInside++;
+			oldfiInside = fiInside;
+		}
+		if (oldfiOutside < fiOutside) // vertices added!
+		{
+			firstIndexOutside.push_back(fiOutside);
+			primitiveCountOutside++;
+			oldfiOutside = fiOutside;
 		}
 	}
 
@@ -432,7 +432,7 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 	double* iPositions = new double[positionsInside.size()];
 	//double* iUV = new double[positionsInside.size()];
 	//double* iNormals = new double[positionsInside.size()];
-	uint* iFia = new uint[positionsInside.size()];
+	uint* iIndices = new uint[positionsInside.size()];
 
 	for (uint i = 0; i < positionsInside.size(); i++)
 	{
@@ -440,9 +440,9 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 		//vec3 uv = uvInside[i];
 		//vec3 n = nInside[i];
 
-		iPositions[i] = p.x;
-		iPositions[i] = p.y;
-		iPositions[i] = p.z;
+		iPositions[i*3] = p.x;
+		iPositions[i*3+1] = p.y;
+		iPositions[i*3+2] = p.z;
 
 		//iUV[i] = uv.x;
 		//iUV[i] = uv.y;
@@ -452,10 +452,11 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 		//iNormals[i] = n.y;
 		//iNormals[i] = n.z;
 
-		iFia[i] = i; // brute force indexing !!!
+		iIndices[i] = i; // brute force indexing !!!
 	}
-	result.inside->setFirstIndexArray(iFia);
+	result.inside->setFirstIndexArray(&firstIndexInside[0]);
 	result.inside->setVertexPositions(iPositions);
+	result.inside->setVertexIndexArray(iIndices);
 	//result.inside->setNormalIndexArray(iFia);
 	//result.inside->setNormalPositions(iNormals);
 	//result.inside->setUVIndexArray(iFia);
@@ -473,7 +474,7 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 	double* oPositions = new double[positionsOutside.size()];
 	//double* oUV = new double[positionsOutside.size()];
 	//double* oNormals = new double[positionsOutside.size()];
-	uint* oFia = new uint[positionsOutside.size()];
+	uint* oIndices = new uint[positionsOutside.size()];
 
 	for (uint i = 0; i < positionsOutside.size(); i++)
 	{
@@ -481,9 +482,9 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 		//vec3 uv = uvOutside[i];
 		//vec3 n = nOutside[i];
 
-		oPositions[i] = p.x;
-		oPositions[i] = p.y;
-		oPositions[i] = p.z;
+		oPositions[i*3] = p.x;
+		oPositions[i*3+1] = p.y;
+		oPositions[i*3+2] = p.z;
 
 		//oUV[i] = uv.x;
 		//oUV[i] = uv.y;
@@ -493,10 +494,11 @@ PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 		//oNormals[i] = n.y;
 		//oNormals[i] = n.z;
 
-		oFia[i] = i; // brute force indexing !!!
+		oIndices[i] = i; // brute force indexing !!!
 	}
-	result.outside->setFirstIndexArray(oFia);
+	result.outside->setFirstIndexArray(&firstIndexOutside[0]);
 	result.outside->setVertexPositions(oPositions);
+	result.outside->setVertexIndexArray(oIndices);
 	//result.outside->setNormalIndexArray(oFia);
 	//result.outside->setNormalPositions(oNormals);
 	//result.outside->setUVIndexArray(oFia);

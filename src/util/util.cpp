@@ -380,6 +380,42 @@ namespace kocmoc
 				
 				return new LineGizmo(vertexPositions, vertexColors, 24, indices, 24);
 			}
+
+			PolyMesh* generateTriangle()
+			{
+				uint* indices = new uint[3];
+				uint* fia = new uint[2];
+
+				double* positions = new double[9];
+				positions[0] = 2.0;
+				positions[1] = 1.0;
+				positions[2] = 0.0;
+
+				positions[3] = 1.0;
+				positions[4] = 0.0;
+				positions[5] = 0.0;
+
+				positions[6] = 2.0;
+				positions[7] = -1.0;
+				positions[8] = 0.0;
+
+				indices[0] = 0;
+				indices[1] = 1;
+				indices[2] = 2;
+
+				fia[0] = 0;
+				fia[1] = 3;
+
+				PolyMesh* mesh = new PolyMesh(1, 3, 3);
+				mesh->setVertexIndexArray(indices);
+				mesh->setVertexPositions(positions);
+				mesh->setFirstIndexArray(fia);
+
+				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
+				mesh->setShader(shader);
+				
+				return mesh;
+			}
 		}
 
 		namespace geometry
