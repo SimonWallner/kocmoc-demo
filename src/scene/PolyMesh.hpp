@@ -1,125 +1,182 @@
 #ifndef KOCMOC_SCENE_POLY_MESH_HPP_
 #define KOCMOC_SCENE_POLY_MESH_HPP_
 
-#include "LineGizmo.hpp"
+#include "meshUtils.hpp"
 
-#include <renderer/Shader.hpp>
-#include <camera/Camera.hpp>
+#include <renderer/RenderMesh.hpp>
 #include <Symbol.hpp>
 
 #include <map>
 
 namespace kocmoc
 {
+	namespace renderer
+	{
+		class RenderMesh;
+	}
+
 	namespace scene
 	{
 		/**
 		 * The \c PolyMesh acts as the canonical basis for polygonal meshes.
 		 *
-		 * A \c polyMesh can hold any number of \b convex polygons. Polygons
-		 * consist of \b vertices that have a position and an arbitrary number
-		 * of named \b vertex attributes like UV-position, color, normal, etc...
-		 * 
-		 * @par It is structured as follows:
-		 * At the heart of the \c PolyMesh is the \c firstIndexArray. It holds 
-		 * the indices of the \c vertxIndexArray where a polygon starts.
+		 * It consists of convex primitives and uses an arbitrary number of indexed
+		 * vertex Attributes (\see vertexAttribute), vertex positions must be provided 
+		 * in the construction step however.
+		 *
+		 * Vertex attributes are handled by a unique \c Symbol
+		 *
+		 * @note	only primitives with at least 3 vertices are supported so far.
+		 *			That means no line or point primitives. Primitives with more than
+		 *			3 vertices are triangulated before they are sent to the GPU.
 		 */
 
+		// TODO textures
+		// TODO make split a friend utility function
+		// TODO externalize all function into other classes, keep dependencies to a minimum
+		//		remove draw/render methods
 
 		class PolyMesh
 		{
+			friend class renderer::RenderMesh;
+			friend SplitResult splitMesh();
+
 		public:
 
-			struct SplitResult
-			{
-				PolyMesh* inside;
-				PolyMesh* outside;
-			};
+			
 
 			/**
 			 * The vertex attribute struct.
 			 * It holds together all the data needed for such an attribute.
+			 *
+			 * @note	All fields in this structure are const. This should be nice
+			 *			when it comes to data encapsulation and such, however
+			 *			it prevents the compiler from creating a default \c operator=()
+			 *			This means that it can not be used like map[symbol] = bar, instead
+			 *			the explicit way over pair<> and insert() has to be taken.
 			 */
 			struct vertexAttribute
 			{
 				/** the stride of the attribute. E.g stride=3 for a 3d position
 				 * and stride=2 for UV coordinates */
-				uint stride;
+				const uint stride;
 
-				/** The number of attributes. I.e the length of the \c attributeData
-				 * array. E.g for a constant colored mesh it would be 4 (1xRGBA). */
-				uint attributeDataLength;
+				/** The length of the \c attributeData array.
+				* E.g for a constant colored mesh it would be 4 (1xRGBA). */
+				const uint attributeDataLength;
 
 				/** The attribute data array */
-				double* attributeData;
+				const double* attributeData;
 
 				/** Indices for this attribute. Every attribute can have its own
 				 * indices. Its length must match the mesh' \c vertexCount */
-				uint* indices;
+				const uint* indices;
+
+				/** whether or whether not we own the data, i.e. are allowed to delete it */
+				const bool hasOwnership;
+
+				/**
+				 * construct a new vertexAttribute instance from the given data.
+				 * Parameter semantics are as the fields described above
+				 */
+				vertexAttribute(uint _stride, uint _attributeDataLength,
+					double* _attributeData, uint* _indices, bool handOverOwnership)
+					: stride(_stride)
+					, attributeDataLength(_attributeDataLength)
+					, attributeData(_attributeData)
+					, indices(_indices)
+					, hasOwnership(handOverOwnership)
+				{};
+
 			};
 				
 			typedef std::map<Symbol, vertexAttribute> VertexAttributeMap;
-
-			/** The number of vertices in this mesh.
-			 * A cube for instance has a vertexCount of 24 (4 sides * 4 vertices 
-			 * per plane). However This cube would only have 8 unique vertex
-			 * positions. 
-			 *
-			 * @note the \c vertexCount defines the length of the vertex index
-			 * arrays and it is constant
-			 */
-			const uint vertexCount;
+			typedef std::pair<Symbol, vertexAttribute> vertexAttributePair;
 
 			/**
-			 * Create a new poly mesh. Counts must be known in advance to avoid 
-			 * reallocation of arrays and such
+			 * The number of non-unique vertices in this mesh.
+			 * 
+			 * A cube for instance has a \c vertexIndecCount of 24 (4 sides * 4
+			 * vertices per plane). However This cube would only have 8 unique
+			 * vertex positions. 
+			 *
+			 * @note	the \c vertexIndexCount defines the length of the vertex index
+			 *			arrays and it is constant.
 			 */
-			PolyMesh(unsigned int primitiveCount,
-				unsigned int vertexIndexCount,
-				unsigned int vertexCount);
+			const uint vertexIndexCount;
 
+			/**
+			 * The number of primitives in this mesh.
+			 *
+			 * A primitive can be a point, a line or a polygon.
+			 *
+			 * @note	only polygon primitives are supported so far
+			 */
+			const uint primitiveCount;
+
+			/**
+			 * This array points to the first indices of each primitive. It points 
+			 * into the index arrays of the vertex attributes.
+			 */
+			const uint* firstIndexArray;
+
+			/**
+			 * Create a new \c PolyMesh.
+			 * 
+			 * @param	primitiveCount	the number of primitives (polygons, etc...)
+			 * @param	vertexIndexCount	the number of vertex indices
+			 * @param	firstIndexArray		The array that points to the first index of every primitive
+			 * @param	vertexAttributes	the vertex positions
+			 */
+			PolyMesh(uint primitiveCount, uint vertexIndexCount,
+				uint* firstIndexArray, vertexAttribute vertexPositions);
+
+			/**
+			 * deconstruct the mesh and delete the data fields it owns.
+			 */
 			virtual ~PolyMesh();
 
-
-			// set fia, indices and positions
-			void setFirstIndexArray(unsigned int *fia);
-
-			void setVertexIndexArray(unsigned int *vertexIndices);
-			void setUVIndexArray(unsigned int *uvIndices);
-			void setNormalIndexArray(unsigned int *normalIndices);
-
-			void setVertexPositions(double *positions);
-			void setUVPositions(double *uv);
-			void setNormalPositions(double *normals);
-
 			/**
-			 * Draw the mesh.
-			 * If the data is not on the GPU yet it will be transferred upon the first call
+			 * Add a vertex Attribute.
+			 *
+			 * An arbitrary number of vertex attributes can be added to a mesh
+			 *
+			 * @param name the name of the attribute under which it will be filed
+			 * @param attribute the vertex attribute itself
+			 *
+			 * @note	the given vertex attribute must conform to the mesh structure
+			 *			i.e. the vertex index count must match.
 			 */
-			void draw(glm::mat4 parentTransform, camera::Camera *camera, renderer::Shader *shader = NULL);
+			void addVertexAttribute(Symbol name, vertexAttribute attribute);
 
-			void setShader(renderer::Shader *shader);
+		
+			///**
+			// * Draw the mesh.
+			// * If the data is not on the GPU yet it will be transferred upon the first call
+			// */
+			//void draw(glm::mat4 parentTransform, camera::Camera *camera, renderer::Shader *shader = NULL);
 
-			void setDiffuseTexture(GLint textureHandle);
-			void setSpecularTexture(GLint textureHandle);
-			void setNormalTexture(GLint textureHandle);
+			//void setShader(renderer::Shader *shader);
 
-			// TODO: recompute face normals
+			//void setDiffuseTexture(GLint textureHandle);
+			//void setSpecularTexture(GLint textureHandle);
+			//void setNormalTexture(GLint textureHandle);
 
-			unsigned int getPrimitiveCount(void) {return primitiveCount;};
-			unsigned int getVertexIndexCount(void) {return vertexIndexCount;};
-			unsigned int getVertexCount(void) {return vertexCount;};
 
-			void setModelMatrix(glm::mat4 modelMatrix);
-			glm::mat4 getModelMatrix(void) {return modelMatrix;};
+			//unsigned int getPrimitiveCount(void) {return primitiveCount;};
+			//unsigned int getVertexIndexCount(void) {return vertexIndexCount;};
+			//unsigned int getVertexCount(void) {return vertexIndexCount;};
 
-			/**
-			 * Split the mesh at the given splitPlane
-			 * @param d the normal distance origin-plane
-			 * @param n the plane normal, it is assumed to point
-			 * to the 'outside'
-			 */
-			SplitResult split(double d, glm::vec3 n);
+			//void setModelMatrix(glm::mat4 modelMatrix);
+			//glm::mat4 getModelMatrix(void) {return modelMatrix;};
+
+			///**
+			// * Split the mesh at the given splitPlane
+			// * @param d the normal distance origin-plane
+			// * @param n the plane normal, it is assumed to point
+			// * to the 'outside'
+			// */
+			//SplitResult split(double d, glm::vec3 n);
 
 		private:
 
@@ -128,53 +185,46 @@ namespace kocmoc
 
 
 
-			/**
-			 * Transfer the data to the GPU, i.e. write the vbos, etc...
-			 */
-			// create and organize renderMesh thingies
-			void transferData();
+			//**
+			// * Transfer the data to the GPU, i.e. write the vbos, etc...
+			// */
+			//// create and organize renderMesh thingies
+			//void transferData();
 
 
-			/** number of vertex indices **/
-			unsigned int vertexIndexCount;
+			//**
+			// * number of vertex indices after triangulation
+			// * this is used for rendering in the drawElements call
+			// */
+			//unsigned int triangulatedVertexIndexCount;
 
-			/**
-			 * number of vertex indices after triangulation
-			 * this is used for rendering in the drawElements call
-			 */
-			unsigned int triangulatedVertexIndexCount;
+			//unsigned int *firstIndexArray;
+			//unsigned int *vertexIndexArray;
+			//unsigned int *uvIndexArray;
+			//unsigned int *normalIndexArray;
 
-			/** number of primitives **/
-			unsigned int primitiveCount;
-
-			unsigned int *firstIndexArray;
-			unsigned int *vertexIndexArray;
-			unsigned int *uvIndexArray;
-			unsigned int *normalIndexArray;
-
-			double *vertexPositions;
-			double *uvPositions;
-			double *normalPositions;
+			//double *vertexPositions;
+			//double *uvPositions;
+			//double *normalPositions;
 		
-			glm::mat4 modelMatrix;
-			//glm::mat3 normalMatrix;
+			//glm::mat4 modelMatrix;
+			////glm::mat3 normalMatrix;
 
-			/** the GPU view of the polyMesh **/
-			//RenderMesh *renderMesh;
+			//** the GPU view of the polyMesh **/
+			////RenderMesh *renderMesh;
 
-			// TODO: refactor into render mesh class
-			// make a poly Mesh hold a render mesh for rendering
-			GLuint vaoHandle, *vboHandles;
+			//// TODO: refactor into render mesh class
+			//// make a poly Mesh hold a render mesh for rendering
+			//GLuint vaoHandle, *vboHandles;
 
-			GLuint diffuseTextureHandle;
-			GLuint specularTextureHandle;
-			GLuint normalTextureHandle;
+			//GLuint diffuseTextureHandle;
+			//GLuint specularTextureHandle;
+			//GLuint normalTextureHandle;
 
-			renderer::Shader *shader;
+			//renderer::Shader *shader;
 
-			bool dataIsUploaded;
+			//bool dataIsUploaded;
 			
-			LineGizmo* gizmo;
 		};
 	}
 }

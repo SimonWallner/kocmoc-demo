@@ -192,3 +192,8 @@ void Shader::setParams()
 
 	unbind();
 }
+
+void Shader::addSemantic(VertexAttributeSemantic semantic)
+{
+	vertexAttributeSemanticList.push_back(semantic);
+}

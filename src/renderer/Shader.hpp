@@ -2,6 +2,10 @@
 #define KOCMOC_RENDERER_SHADER_HPP_
 
 #include <common.hpp>
+#include <Symbol.hpp>
+
+#include <string>
+#include <vector>
 
 #define VERTEX_ATTR_INDEX_POSITION		(GLuint)0
 #define VERTEX_ATTR_NAME_POSITION		"inPosition"
@@ -33,6 +37,21 @@ namespace kocmoc
 		class Shader
 		{
 		public:
+
+			struct VertexAttributeSemantic
+			{
+				/** the attribute name in the mesh */
+				Symbol attributeName;
+
+				/** the attribute location/name in the shader */
+				std::string attributeLocation;
+
+				/** the attribute index in the shader used while linking */
+				GLuint attributeIndex;
+			};
+
+			typedef std::vector<VertexAttributeSemantic> VertexAttributeSemanticList;
+
 
 			// Loads shaders from files and compiles them.
 			// When path is "hello", the files "hello.frag" & "hello.vert"
@@ -99,6 +118,9 @@ namespace kocmoc
 
 			void reload();
 
+			void addSemantic(VertexAttributeSemantic semantic);
+			VertexAttributeSemanticList getSemantics(void) const {return vertexAttributeSemanticList;};
+
 		private:
 
 			void setParams(void);
@@ -122,6 +144,8 @@ namespace kocmoc
 
 			void create(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
 			void destroy(void);
+
+			VertexAttributeSemanticList vertexAttributeSemanticList;
 		};
 	}
 }
