@@ -82,7 +82,6 @@ void Context::setupGLFW()
 
 }
 
-
 void Context::getAvailableResolutions(){
 	GLFWvidmode list[100];
 	GLuint listsize = 100;

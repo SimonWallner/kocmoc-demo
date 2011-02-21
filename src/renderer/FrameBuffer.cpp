@@ -41,8 +41,8 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureHandle, 0);
@@ -131,7 +131,7 @@ void FrameBuffer::setupShader()
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
 	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
 					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
-	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv0"),
 					VERTEX_ATTR_NAME_UV0, VERTEX_ATTR_INDEX_UV0));
 
 	shader->upload();

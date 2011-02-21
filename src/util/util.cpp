@@ -165,9 +165,9 @@ namespace kocmoc
 
 			
 				// add shader to poly
-				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
+				Shader *shader = ShaderManager::getInstance().load("vertexColor.vert", "stars.frag");
 				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
-					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
+					VERTEX_ATTR_NAME_POSITION, 0));
 
 				return new RenderMesh(stars, shader);
 			}

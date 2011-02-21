@@ -23,9 +23,10 @@ namespace kocmoc
 
 			/**
 			 * Construct a new Line Gizmo from the given data and upload it 
-			 * to the gpu;
-			 * @param vertexPositions the interleaved (x, y, y) vertex position
+			 * to the GPU;
+			 * @param vertexPositions the interleaved (x, y, z) vertex position
 			 * data
+			 * 
 			 * @param length The length of the data array above
 			 * @param indices the index data
 			 * @param indexCount the length of the indices array

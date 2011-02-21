@@ -11,6 +11,7 @@ namespace kocmoc
 	namespace scene
 	{
 		class PolyMesh;
+		class LineGizmo;
 	}
 
 	namespace camera
@@ -50,6 +51,11 @@ namespace kocmoc
 			void uploadData(void);
 			GLuint vaoHandle;
 			uint triangulatedVertexIndexCount;
+
+			scene::LineGizmo* originGizmo;
+			scene::LineGizmo* boundingBox;
+
+
 		};
 	}
 }

@@ -8,6 +8,7 @@ using namespace kocmoc::scene;
 
 using kocmoc::camera::Camera;
 using kocmoc::renderer::ShaderManager;
+using kocmoc::renderer::Shader;
 
 using glm::mat4;
 
@@ -15,8 +16,14 @@ LineGizmo::LineGizmo(float* vertexPositions, float* vertexColors, uint length,
 				uint* indices, uint _indexCount)
 	: indexCount(_indexCount)
 {
-	shader = ShaderManager::getInstance().load("gizmo.vert", "gizmo.frag");
+	shader = ShaderManager::getInstance().load("vertexColor.vert", "vertexColor.frag");
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+		VERTEX_ATTR_NAME_POSITION, 0));
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("color"),
+		VERTEX_ATTR_NAME_COLOR, 1));
 	
+	shader->upload();
+
 	glGenVertexArrays(1, &vaoHandle);
 	GLuint* vboHandles = new GLuint[3];
 	glGenBuffers(3, vboHandles);
@@ -24,13 +31,13 @@ LineGizmo::LineGizmo(float* vertexPositions, float* vertexColors, uint length,
 	glBindVertexArray(vaoHandle);
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
 	glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), vertexPositions, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
 	glBufferData(GL_ARRAY_BUFFER, length * sizeof(float), vertexColors, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_COLOR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_COLOR);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboHandles[2]);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(uint), indices, GL_STATIC_DRAW);

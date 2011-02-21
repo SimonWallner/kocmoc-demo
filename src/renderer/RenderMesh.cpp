@@ -3,7 +3,9 @@
 #include "Shader.hpp"
 
 #include <scene/PolyMesh.hpp>
+#include <scene/LineGizmo.hpp>
 #include <camera/Camera.hpp>
+#include <util/util.hpp>
 
 #include <gtx/inverse_transpose.hpp>
 
@@ -11,6 +13,7 @@
 
 using namespace kocmoc::renderer;
 using kocmoc::scene::PolyMesh;
+using kocmoc::scene::LineGizmo;
 using kocmoc::camera::Camera;
 
 using glm::mat4;
@@ -25,7 +28,10 @@ RenderMesh::RenderMesh(PolyMesh* _mesh, Shader* _shader)
 	, shader(_shader)
 	, modelMatrix(mat4(1))
 	, isUploaded(false)
-{};
+{
+	originGizmo = util::generator::generateOriginGizmo();
+	boundingBox = util::generator::generateUnitCube();
+};
 
 void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 {
@@ -64,6 +70,9 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	glBindVertexArray(0);
 
 	shader->unbind();
+
+	originGizmo->draw(leafTransform, camera);
+	boundingBox->draw(leafTransform, camera);
 }
 
 
