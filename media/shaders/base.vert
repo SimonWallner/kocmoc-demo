@@ -1,4 +1,4 @@
-// Vertex Shader – file "base.vert"
+// Vertex Shader - file "base.vert"
 
 #version 150 core
 

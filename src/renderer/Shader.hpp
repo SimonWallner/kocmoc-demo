@@ -79,10 +79,10 @@ namespace kocmoc
 			 * Upload the shader to the GPU.
 			 *
 			 * This is a prerequisite for most of the operations that use the shader.
+			 * If the shader is already loaded, it is deleted and recreated.
 			 *
 			 * @return \c true	\b iff the shader has been compiled and linked
 			 *					successfully and is ready to use.
-			 * @pre	The shader must not be uploaded yet
 			 */
 			bool upload();
 

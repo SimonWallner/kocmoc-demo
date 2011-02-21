@@ -35,6 +35,9 @@ void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 
 void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 {
+	if (shader->getIsUploaded() == false)
+		shader->upload();
+
 	if (isUploaded == false)
 		uploadData();
 
@@ -66,22 +69,19 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 void RenderMesh::uploadData()
 {
-	if (shader->getIsUploaded() == false)
-		shader->upload();
-
-	glGenBuffers(1, &vaoHandle);
+	glGenVertexArrays(1, &vaoHandle);
 	glBindVertexArray(vaoHandle);
 
 
 	// reindex vertex data and convert to float
 	// brute force expansion, (for now...)
-	
 	Shader::VertexAttributeSemanticList semantics = shader->getSemantics();
 
 	for (Shader::VertexAttributeSemanticList::const_iterator ci = semantics.begin();
 		ci != semantics.end();
 		ci++)
 	{
+		// TODO: make find error proof!
 		const PolyMesh::vertexAttribute& attribute = mesh->vertexAttributes.find(ci->attributeName)->second;
 
 		uint indexCount = mesh->vertexIndexCount;
@@ -99,10 +99,12 @@ void RenderMesh::uploadData()
 
 		GLuint handle = 0;
 		glGenBuffers(1, &handle);
-
+		glBindBuffer(GL_ARRAY_BUFFER, handle);
 		glBufferData(GL_ARRAY_BUFFER, dataLength * sizeof(float), reindexedData, GL_STATIC_DRAW);
 		glVertexAttribPointer(ci->attributeIndex, attribute.stride, GL_FLOAT, GL_FALSE, 0, NULL);
 		glEnableVertexAttribArray(ci->attributeIndex);
+
+		delete[] reindexedData;
 	}
 
 	
@@ -147,6 +149,8 @@ void RenderMesh::uploadData()
 	glGenBuffers(1, &handle);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, handle);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, triangulatedVertexIndexCount * sizeof(unsigned int), &triangulatedIndices[0], GL_STATIC_DRAW);
+
+	delete[] reindexedIndices;
 
 	isUploaded = true;
 }

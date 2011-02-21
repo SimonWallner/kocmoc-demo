@@ -21,7 +21,8 @@ Shader::Shader(const std::string &_vertexShaderName, const std::string &_fragmen
 
 bool Shader::upload()
 {
-	assert(!isUploaded);
+	if (isUploaded)
+		destroy();
 
 	// Load the shader files
 	string vertexShaderPath = pathPrefix + vertexShaderName;
@@ -71,11 +72,12 @@ Shader::~Shader()
 
 void Shader::reload()
 {
-	assert(isUploaded);
-
-	std::cout << "--- reloading shader: [" << vertexShaderName << "/" << fragmentShaderName << "]" << std::endl;
-	destroy();
-	upload();
+	if(isUploaded)
+	{
+		std::cout << "--- reloading shader: [" << vertexShaderName << "/" << fragmentShaderName << "]" << std::endl;
+		destroy();
+		upload();
+	}
 }
 
 void Shader::destroy()
@@ -86,6 +88,8 @@ void Shader::destroy()
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 	}
+
+	isUploaded = false;
 }
 
 GLuint Shader::compile (GLenum type, const std::string &source)
@@ -127,7 +131,6 @@ void Shader::link(void)
 	programHandle = glCreateProgram();
 
 	// Attach shaders and link
-
 	glAttachShader(programHandle, vertexShader);
 	glAttachShader(programHandle, fragmentShader);
 
@@ -138,12 +141,8 @@ void Shader::link(void)
 	{
 		glBindAttribLocation(programHandle, ci->attributeIndex, ci->attributeLocation.c_str());
 	}
+	glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
-	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
-	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
-	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
-	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
-	//glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
 	glLinkProgram(programHandle);
 

@@ -1,4 +1,4 @@
-// Fragment Shader – file "base.frag"
+// Fragment Shader – file "vertexColor.frag"
 
 #version 150 core
 

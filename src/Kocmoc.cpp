@@ -101,7 +101,7 @@ void Kocmoc::init()
 	//octree = new Octree(vec3(0), 10);
 	//octree->insert(util::generator::generateTriangle());
 
-	mesh = util::generator::generateStars();
+	mesh = util::generator::generateTriangle();
 
 	{ /* inputs */
 		gamepad = new input::Gamepad(camera);

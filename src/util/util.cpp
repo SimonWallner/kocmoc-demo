@@ -404,13 +404,38 @@ namespace kocmoc
 				fia[1] = 3;
 
 
+				double* colors = new double[9];
+				colors[0] = 1.0;
+				colors[1] = 0.0;
+				colors[2] = 0.0;
+
+				colors[3] = 0.0;
+				colors[4] = 1.0;
+				colors[5] = 0.0;
+
+				colors[6] = 0.0;
+				colors[7] = 0.0;
+				colors[8] = 1.0;
+
+				uint* colorIndices = new uint[3];
+				colorIndices[0] = 0;
+				colorIndices[1] = 1;
+				colorIndices[2] = 2;
+
+
 				PolyMesh::vertexAttribute vertexPosition(3, 9, positions, indices, true);
 				PolyMesh* mesh = new PolyMesh(1, 3, fia, vertexPosition);
 
-				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
+				PolyMesh::vertexAttribute color(3, 9, colors, colorIndices, true);
+				mesh->addVertexAttribute(symbolize("color"), color);
+
+				Shader *shader = ShaderManager::getInstance().load("vertexColor.vert", "vertexColor.frag");
 
 				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
-					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
+					VERTEX_ATTR_NAME_POSITION, 0));
+
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("color"),
+					VERTEX_ATTR_NAME_COLOR, 1));
 
 				return new RenderMesh(mesh, shader);
 			}

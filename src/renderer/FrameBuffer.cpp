@@ -84,6 +84,8 @@ void FrameBuffer::check()
 }
 void FrameBuffer::createQuad()
 {
+	// TODO: migrate to renderMesh
+
 	GLfloat topX = -(float)(gateWidth / 2) / Context::getInstance().width;
 	GLfloat topY = (float)(gateHeight / 2) / Context::getInstance().height;
 	GLfloat bottomX = (float)(gateWidth / 2) / Context::getInstance().width;
@@ -127,6 +129,11 @@ void FrameBuffer::createQuad()
 void FrameBuffer::setupShader()
 {
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+					VERTEX_ATTR_NAME_UV0, VERTEX_ATTR_INDEX_UV0));
+
 	shader->upload();
 
 	shader->bind();
