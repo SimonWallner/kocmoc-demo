@@ -117,6 +117,11 @@ namespace kocmoc
 			/**
 			 * This array points to the first indices of each primitive. It points 
 			 * into the index arrays of the vertex attributes.
+			 *
+			 * @note	its length must be 1 grater than primitiveCount. The last entry
+			 *			points beyond the end of the indices array. It is however
+			 *			necessary to compute the length of a primitive by subtracting
+			 *			consecutive indices like fia[i+1] - fia[i].
 			 */
 			const uint* firstIndexArray;
 

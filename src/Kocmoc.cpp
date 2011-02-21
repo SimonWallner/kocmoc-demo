@@ -7,7 +7,7 @@
 #include <renderer/FrameBuffer.hpp>
 #include <renderer/ShadowMap.hpp>
 #include <loader/ImageLoader.hpp>
-#include <loader/SceneLoader.hpp>
+//#include <loader/SceneLoader.hpp>
 #include <util/util.hpp>
 #include <util/Property.hpp>
 #include <scene/SceneNode.hpp>
@@ -26,7 +26,7 @@ using kocmoc::renderer::ShaderManager;
 using kocmoc::renderer::ShadowMap;
 using kocmoc::renderer::FrameBuffer;
 using kocmoc::loader::ImageLoader;
-using kocmoc::loader::SceneLoader;
+//using kocmoc::loader::SceneLoader;
 using kocmoc::camera::FilmCamera;
 using kocmoc::scene::PolyMeshNode;
 using kocmoc::scene::SceneNode;
@@ -98,9 +98,10 @@ void Kocmoc::init()
 	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
 
 
-	octree = new Octree(vec3(0), 10);
-	octree->insert(util::generator::generateTriangle());
+	//octree = new Octree(vec3(0), 10);
+	//octree->insert(util::generator::generateTriangle());
 
+	mesh = util::generator::generateStars();
 
 	{ /* inputs */
 		gamepad = new input::Gamepad(camera);
@@ -188,7 +189,8 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	octree->renderDebug(mat4(1), camera);
+	//octree->renderDebug(mat4(1), camera);
+	mesh->draw(mat4(1), camera);
 }
 
 void Kocmoc::drawOverlays()

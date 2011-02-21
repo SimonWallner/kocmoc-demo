@@ -45,158 +45,158 @@ void Importer::finish()
 
 bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 {
-	std::vector<unsigned int> firstIndices;
-	std::vector<unsigned int> vertexIndices;
-	std::vector<unsigned int> uvIndices;
-	std::vector<unsigned int> normalIndices;
-	unsigned int firstIndex = 0;
+	//std::vector<unsigned int> firstIndices;
+	//std::vector<unsigned int> vertexIndices;
+	//std::vector<unsigned int> uvIndices;
+	//std::vector<unsigned int> normalIndices;
+	//unsigned int firstIndex = 0;
 
 
-	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
-	{
-		const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
-		const COLLADAFW::MeshPrimitiveArray &meshPrimitives =  mesh->getMeshPrimitives();
+	//if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
+	//{
+	//	const COLLADAFW::Mesh* mesh = static_cast<const COLLADAFW::Mesh* >(geometry);
+	//	const COLLADAFW::MeshPrimitiveArray &meshPrimitives =  mesh->getMeshPrimitives();
 
-		for (unsigned int i = 0; i < meshPrimitives.getCount(); i++)
-		{
-			const COLLADAFW::MeshPrimitive *meshPrimitive = meshPrimitives.getData()[i];
-			
-			if (meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS ||
-				meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
-			{
-				// copy/append indices
-				const COLLADAFW::UIntValuesArray &colladaVertexIndices = meshPrimitive->getPositionIndices();
-				const COLLADAFW::UIntValuesArray &colladaNormalIndices = meshPrimitive->getNormalIndices();
-					const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
+	//	for (unsigned int i = 0; i < meshPrimitives.getCount(); i++)
+	//	{
+	//		const COLLADAFW::MeshPrimitive *meshPrimitive = meshPrimitives.getData()[i];
+	//		
+	//		if (meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::POLYGONS ||
+	//			meshPrimitive->getPrimitiveType() == COLLADAFW::MeshPrimitive::TRIANGLES)
+	//		{
+	//			// copy/append indices
+	//			const COLLADAFW::UIntValuesArray &colladaVertexIndices = meshPrimitive->getPositionIndices();
+	//			const COLLADAFW::UIntValuesArray &colladaNormalIndices = meshPrimitive->getNormalIndices();
+	//				const COLLADAFW::UIntValuesArray &colladaUVIndices = meshPrimitive->getUVCoordIndicesArray()[0]->getIndices();
 
-				
-				unsigned int indexCount = colladaVertexIndices.getCount();
-				const unsigned int *vertexIndexData = colladaVertexIndices.getData();
-				const unsigned int *normalIndexData = colladaNormalIndices.getData();
-				const unsigned int *uvIndexData = colladaUVIndices.getData();
+	//			
+	//			unsigned int indexCount = colladaVertexIndices.getCount();
+	//			const unsigned int *vertexIndexData = colladaVertexIndices.getData();
+	//			const unsigned int *normalIndexData = colladaNormalIndices.getData();
+	//			const unsigned int *uvIndexData = colladaUVIndices.getData();
 
-				for (unsigned int j = 0; j < indexCount; j++)
-				{
-					vertexIndices.push_back(vertexIndexData[j]);
-					normalIndices.push_back(normalIndexData[j]);
-					uvIndices.push_back(uvIndexData[j]);
-				}
-
-
-				unsigned int faceCount = meshPrimitive->getFaceCount();
-				unsigned int grouped = meshPrimitive->getGroupedVertexElementsCount();
-
-				for (unsigned int j = 0; j < faceCount; j++)
-				{
-					firstIndices.push_back(firstIndex);
-					firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
-				}
-			}
-		}
-
-		// return if neither polys of triangles where found
-		if (firstIndices.size() == 0)
-			return true;
+	//			for (unsigned int j = 0; j < indexCount; j++)
+	//			{
+	//				vertexIndices.push_back(vertexIndexData[j]);
+	//				normalIndices.push_back(normalIndexData[j]);
+	//				uvIndices.push_back(uvIndexData[j]);
+	//			}
 
 
-		firstIndices.push_back(firstIndex); // IMPORTANT: add last first index
+	//			unsigned int faceCount = meshPrimitive->getFaceCount();
+	//			unsigned int grouped = meshPrimitive->getGroupedVertexElementsCount();
 
-		unsigned int primitiveCount = firstIndices.size() - 1;
-		unsigned int vertexIndexCount = vertexIndices.size();
-		unsigned int vertexCount = mesh->getPositions().getValuesCount()/3; // stride = 3
-	
-		PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
+	//			for (unsigned int j = 0; j < faceCount; j++)
+	//			{
+	//				firstIndices.push_back(firstIndex);
+	//				firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
+	//			}
+	//		}
+	//	}
 
-
-	
-
-		// UV...
-		//double *uvArray = new double[mesh->getUVCoords().getFloatValues()->getCount()];
-		//const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
-
-		//for (unsigned int i = 0; i < mesh->getUVCoords().getFloatValues()->getCount(); i++)
-		//	uvArray[i] = static_cast<double >(uvData[i]);
-
-		//poly->setUVIndexArray(uvArray);
-		
+	//	// return if neither polys of triangles where found
+	//	if (firstIndices.size() == 0)
+	//		return true;
 
 
-		// first indices...
-		unsigned int *fiaArray = new unsigned int[firstIndices.size()];
-		for (unsigned int i = 0; i < firstIndices.size(); i++)
-			fiaArray[i] = firstIndices[i];
+	//	firstIndices.push_back(firstIndex); // IMPORTANT: add last first index
 
-		poly->setFirstIndexArray(fiaArray);
-
-
-		// indices...
-		unsigned int indexCount = vertexIndices.size();
-		unsigned int *vertexIndexArray = new unsigned int[indexCount];
-		unsigned int *normalIndexArray = new unsigned int[indexCount];
-		unsigned int *uvIndexArray = new unsigned int[indexCount];
-
-		for (unsigned int i = 0; i < indexCount; i++)
-		{
-			vertexIndexArray[i] = vertexIndices[i];
-			normalIndexArray[i] = normalIndices[i];
-			uvIndexArray[i] = uvIndices[i];
-		}
-
-		
-		poly->setVertexIndexArray(vertexIndexArray);
-		poly->setNormalIndexArray(normalIndexArray);
-		poly->setUVIndexArray(uvIndexArray);
+	//	unsigned int primitiveCount = firstIndices.size() - 1;
+	//	unsigned int vertexIndexCount = vertexIndices.size();
+	//	unsigned int vertexCount = mesh->getPositions().getValuesCount()/3; // stride = 3
+	//
+	//	PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 
 
-		// attributes
-		// positions...
-		unsigned int positionCount = mesh->getPositions().getFloatValues()->getCount();
-		double *positionsArray = new double[positionCount];
-		const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
-		
-		for (unsigned int i = 0; i < positionCount; i++)
-			positionsArray[i] = static_cast<double >(positionsData[i]);
+	//
 
-		poly->setVertexPositions(positionsArray);
+	//	// UV...
+	//	//double *uvArray = new double[mesh->getUVCoords().getFloatValues()->getCount()];
+	//	//const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
 
-		// uv
-		unsigned int uvCount = mesh->getUVCoords().getFloatValues()->getCount();
-		double *uvPositions = new double[uvCount];
-		const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
+	//	//for (unsigned int i = 0; i < mesh->getUVCoords().getFloatValues()->getCount(); i++)
+	//	//	uvArray[i] = static_cast<double >(uvData[i]);
 
-		for (unsigned int i = 0; i < uvCount; i++)
-			uvPositions[i] = static_cast<double >(uvData[i]);
-
-		poly->setUVPositions(uvPositions);
-
-		// normals
-		unsigned int normalCount = mesh->getNormalsCount();
-		double *normalPositions = new double[normalCount];
-		const float *normalData = mesh->getNormals().getFloatValues()->getData();
-
-		for (unsigned int i = 0; i < normalCount; i++)
-			normalPositions[i] = static_cast<double >(normalData[i]);
-
-		poly->setNormalPositions(normalPositions);
+	//	//poly->setUVIndexArray(uvArray);
+	//	
 
 
+	//	// first indices...
+	//	unsigned int *fiaArray = new unsigned int[firstIndices.size()];
+	//	for (unsigned int i = 0; i < firstIndices.size(); i++)
+	//		fiaArray[i] = firstIndices[i];
 
-		
-		// add shader and texture
-		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
-		poly->setShader(shader);
+	//	poly->setFirstIndexArray(fiaArray);
 
-		GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0], true);
-		GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1], true);
-		GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
-		poly->setDiffuseTexture(diffuseTex);
-		poly->setSpecularTexture(specularTex);
-		poly->setNormalTexture(normalTex);
 
-		
-		// add to scene
-		scene->add(poly);
-	}
+	//	// indices...
+	//	unsigned int indexCount = vertexIndices.size();
+	//	unsigned int *vertexIndexArray = new unsigned int[indexCount];
+	//	unsigned int *normalIndexArray = new unsigned int[indexCount];
+	//	unsigned int *uvIndexArray = new unsigned int[indexCount];
+
+	//	for (unsigned int i = 0; i < indexCount; i++)
+	//	{
+	//		vertexIndexArray[i] = vertexIndices[i];
+	//		normalIndexArray[i] = normalIndices[i];
+	//		uvIndexArray[i] = uvIndices[i];
+	//	}
+
+	//	
+	//	poly->setVertexIndexArray(vertexIndexArray);
+	//	poly->setNormalIndexArray(normalIndexArray);
+	//	poly->setUVIndexArray(uvIndexArray);
+
+
+	//	// attributes
+	//	// positions...
+	//	unsigned int positionCount = mesh->getPositions().getFloatValues()->getCount();
+	//	double *positionsArray = new double[positionCount];
+	//	const float *positionsData =  mesh->getPositions().getFloatValues()->getData();
+	//	
+	//	for (unsigned int i = 0; i < positionCount; i++)
+	//		positionsArray[i] = static_cast<double >(positionsData[i]);
+
+	//	poly->setVertexPositions(positionsArray);
+
+	//	// uv
+	//	unsigned int uvCount = mesh->getUVCoords().getFloatValues()->getCount();
+	//	double *uvPositions = new double[uvCount];
+	//	const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
+
+	//	for (unsigned int i = 0; i < uvCount; i++)
+	//		uvPositions[i] = static_cast<double >(uvData[i]);
+
+	//	poly->setUVPositions(uvPositions);
+
+	//	// normals
+	//	unsigned int normalCount = mesh->getNormalsCount();
+	//	double *normalPositions = new double[normalCount];
+	//	const float *normalData = mesh->getNormals().getFloatValues()->getData();
+
+	//	for (unsigned int i = 0; i < normalCount; i++)
+	//		normalPositions[i] = static_cast<double >(normalData[i]);
+
+	//	poly->setNormalPositions(normalPositions);
+
+
+
+	//	
+	//	// add shader and texture
+	//	Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
+	//	poly->setShader(shader);
+
+	//	GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0], true);
+	//	GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1], true);
+	//	GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
+	//	poly->setDiffuseTexture(diffuseTex);
+	//	poly->setSpecularTexture(specularTex);
+	//	poly->setNormalTexture(normalTex);
+
+	//	
+	//	// add to scene
+	//	scene->add(poly);
+	//}
 
 	return true;
 }

@@ -127,6 +127,7 @@ void FrameBuffer::createQuad()
 void FrameBuffer::setupShader()
 {
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
+	shader->upload();
 
 	shader->bind();
 	{

@@ -35,6 +35,9 @@ void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 
 void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 {
+	if (isUploaded == false)
+		uploadData();
+
 	mat4 leafTransform = parentTransform * modelMatrix;
 	mat3 normalMatrix = inverseTranspose(mat3(modelMatrix));
 
@@ -63,6 +66,9 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 void RenderMesh::uploadData()
 {
+	if (shader->getIsUploaded() == false)
+		shader->upload();
+
 	glGenBuffers(1, &vaoHandle);
 	glBindVertexArray(vaoHandle);
 

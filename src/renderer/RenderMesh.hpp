@@ -20,6 +20,8 @@ namespace kocmoc
 
 	namespace renderer
 	{
+		// TODO add shader attribute semantic hint/explanation/ref
+
 		/**
 		 * Wrap a polyMesh so that we can enhance it with further properties
 		 * and finally render it.
@@ -32,7 +34,7 @@ namespace kocmoc
 		{
 		public:
 			const scene::PolyMesh* mesh;
-			const Shader* shader;
+			Shader* shader;
 
 			RenderMesh(scene::PolyMesh* mesh, Shader* shader);
 

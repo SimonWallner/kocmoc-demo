@@ -28,7 +28,7 @@ Octree::Octree(vec3 _origin, double _size)
 
 void Octree::insert(kocmoc::scene::PolyMesh* mesh)
 {
-	totalVertexCount += mesh->getVertexCount();
+	totalVertexCount += mesh->vertexIndexCount;
 
 	if (isLeaf)
 	{
@@ -59,44 +59,44 @@ void Octree::insert(kocmoc::scene::PolyMesh* mesh)
 		vec3 distance = vec3(0) - origin;
 
 		// X
-		PolyMesh::SplitResult resultX = mesh->split(distance.x, vec3(1, 0, 0));
-		PolyMesh* inside = resultX.inside;
-		PolyMesh* outside = resultX.outside;
+		//PolyMesh::SplitResult resultX = mesh->split(distance.x, vec3(1, 0, 0));
+		//PolyMesh* inside = resultX.inside;
+		//PolyMesh* outside = resultX.outside;
 
-		// Y
-		PolyMesh::SplitResult insideY = inside->split(distance.y, vec3(0, 1, 0));
-		PolyMesh* insideInside = insideY.inside;
-		PolyMesh* insideOutside = insideY.outside;
+		//// Y
+		//PolyMesh::SplitResult insideY = inside->split(distance.y, vec3(0, 1, 0));
+		//PolyMesh* insideInside = insideY.inside;
+		//PolyMesh* insideOutside = insideY.outside;
 
-		PolyMesh::SplitResult outsideY = outside->split(distance.y, vec3(0, 1, 0));
-		PolyMesh* outsideInside = outsideY.inside;
-		PolyMesh* outsideOutside = outsideY.outside;
+		//PolyMesh::SplitResult outsideY = outside->split(distance.y, vec3(0, 1, 0));
+		//PolyMesh* outsideInside = outsideY.inside;
+		//PolyMesh* outsideOutside = outsideY.outside;
 
-		// Z
-		PolyMesh::SplitResult insideInsideZ = insideInside->split(distance.z, vec3(0, 0, 1));
-		PolyMesh* iii = insideInsideZ.inside;
-		PolyMesh* iio = insideInsideZ.outside;
+		//// Z
+		//PolyMesh::SplitResult insideInsideZ = insideInside->split(distance.z, vec3(0, 0, 1));
+		//PolyMesh* iii = insideInsideZ.inside;
+		//PolyMesh* iio = insideInsideZ.outside;
 
-		PolyMesh::SplitResult insideOutsideZ = insideOutside->split(distance.z, vec3(0, 0, 1));
-		PolyMesh* ioi = insideOutsideZ.inside;
-		PolyMesh* ioo = insideOutsideZ.outside;
+		//PolyMesh::SplitResult insideOutsideZ = insideOutside->split(distance.z, vec3(0, 0, 1));
+		//PolyMesh* ioi = insideOutsideZ.inside;
+		//PolyMesh* ioo = insideOutsideZ.outside;
 
-		PolyMesh::SplitResult outsideInsideZ = outsideInside->split(distance.z, vec3(0, 0, 1));
-		PolyMesh* oii = outsideInsideZ.inside;
-		PolyMesh* oio = outsideInsideZ.outside;
+		//PolyMesh::SplitResult outsideInsideZ = outsideInside->split(distance.z, vec3(0, 0, 1));
+		//PolyMesh* oii = outsideInsideZ.inside;
+		//PolyMesh* oio = outsideInsideZ.outside;
 
-		PolyMesh::SplitResult outsideOutsideZ = outsideOutside->split(distance.z, vec3(0, 0, 1));
-		PolyMesh* ooi = outsideOutsideZ.inside;
-		PolyMesh* ooo = outsideOutsideZ.outside;
+		//PolyMesh::SplitResult outsideOutsideZ = outsideOutside->split(distance.z, vec3(0, 0, 1));
+		//PolyMesh* ooi = outsideOutsideZ.inside;
+		//PolyMesh* ooo = outsideOutsideZ.outside;
 
-		children[0]->insert(ooo);
-		children[0]->insert(ioo);
-		children[0]->insert(iio);
-		children[0]->insert(oio);
-		children[0]->insert(ooi);
-		children[0]->insert(ioi);
-		children[0]->insert(iii);
-		children[0]->insert(oii);
+		//children[0]->insert(ooo);
+		//children[0]->insert(ioo);
+		//children[0]->insert(iio);
+		//children[0]->insert(oio);
+		//children[0]->insert(ooi);
+		//children[0]->insert(ioi);
+		//children[0]->insert(iii);
+		//children[0]->insert(oii);
 	}
 }
 

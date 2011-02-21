@@ -3,6 +3,7 @@
 
 #include <loader/ImageLoader.hpp>
 #include <renderer/ShaderManager.hpp>
+#include <renderer/RenderMesh.hpp>
 #include <scene/PolyMesh.hpp>
 #include <scene/LineGizmo.hpp>
 
@@ -14,6 +15,7 @@ using kocmoc::scene::PolyMesh;
 using kocmoc::scene::LineGizmo;
 using kocmoc::renderer::Shader;
 using kocmoc::renderer::ShaderManager;
+using kocmoc::renderer::RenderMesh;
 using kocmoc::loader::ImageLoader;
 
 using glm::vec4;
@@ -74,7 +76,7 @@ namespace kocmoc
 		namespace generator
 		{
 
-			PolyMesh* generateStars()
+			RenderMesh* generateStars()
 			{
 				// generate starts, lots of stars
 				// only in a sphere
@@ -86,11 +88,10 @@ namespace kocmoc
 				unsigned int primitiveCount = starCount * 4; // 3 tris per tetraeder
 				unsigned int vertexIndexCount = primitiveCount * 3; // 3 vertices per triangle
 				unsigned int vertexCount = starCount * 4; // 4 vertices per tetraeder
-				PolyMesh *stars = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
 
-				double *positions = new double[stars->getVertexCount() * 3];
-				unsigned int *vertexIndices = new unsigned int[stars->getVertexIndexCount()];
-				unsigned int *firstIndices = new unsigned int[stars->getPrimitiveCount() + 1];
+				double *positions = new double[vertexCount * 3];
+				unsigned int *vertexIndices = new unsigned int[vertexIndexCount];
+				unsigned int *firstIndices = new unsigned int[primitiveCount + 1];
 					
 				mat4 scale = glm::gtx::transform::scale(size, size, size);
 
@@ -159,20 +160,16 @@ namespace kocmoc
 				// add last first index
 				firstIndices[primitiveCount] = primitiveCount * 3;
 
-				stars->setFirstIndexArray(firstIndices);
-				stars->setVertexIndexArray(vertexIndices);
-				stars->setVertexPositions(positions);
+				PolyMesh::vertexAttribute positionAttribute(3, vertexCount*3, positions, vertexIndices, true);
+				PolyMesh* stars = new PolyMesh(primitiveCount,vertexIndexCount, firstIndices, positionAttribute); 
 
+			
 				// add shader to poly
 				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
-				//Shader *shader = new Shader("base.vert", "base.frag");
-				stars->setShader(shader);
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
 
-				// add texture
-				GLuint tex = ImageLoader::getInstance().loadImage("color.png");
-				stars->setDiffuseTexture(tex);
-
-				return stars;
+				return new RenderMesh(stars, shader);
 			}
 
 			LineGizmo* generateOriginGizmo()
@@ -381,7 +378,7 @@ namespace kocmoc
 				return new LineGizmo(vertexPositions, vertexColors, 24, indices, 24);
 			}
 
-			PolyMesh* generateTriangle()
+			RenderMesh* generateTriangle()
 			{
 				uint* indices = new uint[3];
 				uint* fia = new uint[2];
@@ -406,15 +403,16 @@ namespace kocmoc
 				fia[0] = 0;
 				fia[1] = 3;
 
-				PolyMesh* mesh = new PolyMesh(1, 3, 3);
-				mesh->setVertexIndexArray(indices);
-				mesh->setVertexPositions(positions);
-				mesh->setFirstIndexArray(fia);
+
+				PolyMesh::vertexAttribute vertexPosition(3, 9, positions, indices, true);
+				PolyMesh* mesh = new PolyMesh(1, 3, fia, vertexPosition);
 
 				Shader *shader = ShaderManager::getInstance().load("base.vert", "stars.frag");
-				mesh->setShader(shader);
-				
-				return mesh;
+
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
+
+				return new RenderMesh(mesh, shader);
 			}
 		}
 

@@ -4,6 +4,7 @@
 #include <util/util.hpp>
 
 #include <fstream>
+#include <cassert>
 
 using namespace kocmoc::renderer;
 using std::string;
@@ -14,15 +15,13 @@ using std::endl;
 Shader::Shader(const std::string &_vertexShaderName, const std::string &_fragmentShaderName) :
 	vertexShaderName(_vertexShaderName),
 	fragmentShaderName(_fragmentShaderName),
-	success(false),
+	isUploaded(false),
 	pathPrefix(util::Property("shadersRootFolder"))
-{
-	create(vertexShaderName, fragmentShaderName);
-}
+{}
 
-void Shader::create(const std::string &vertexShaderFile, const std::string &fragmentShaderFile)
+bool Shader::upload()
 {
-	success = false;
+	assert(!isUploaded);
 
 	// Load the shader files
 	string vertexShaderPath = pathPrefix + vertexShaderName;
@@ -31,7 +30,7 @@ void Shader::create(const std::string &vertexShaderFile, const std::string &frag
 		vertexShaderSource = util::read_file(vertexShaderPath);
 	} else {
 		cerr << "Vertex shader file " << vertexShaderPath <<" does not exist." << endl;
-		return;
+		return false;
 	}
 
 	string fragmentShaderPath = pathPrefix + fragmentShaderName;
@@ -40,27 +39,29 @@ void Shader::create(const std::string &vertexShaderFile, const std::string &frag
 		fragmentShaderSource = util::read_file(fragmentShaderPath);
 	} else {
 		cerr << "Fragment shader file " << fragmentShaderPath <<" does not exist." << endl;
-		return;
+		return false;
 	}
 
 
 	// Compile the shaders
 	vertexShader = compile(GL_VERTEX_SHADER, vertexShaderSource);
 	if (vertexShader == 0)
-		return;
+		return false;
 
 	fragmentShader = compile(GL_FRAGMENT_SHADER, fragmentShaderSource);
 	if (fragmentShader == 0)
-		return;
+		return false;
 
 	// Link the shaders into a program
 	link();
 	if (programHandle == 0)
-		return;
+		return false;
 
+	isUploaded = true;
+	
 	setParams();
-
-	success = true;
+	
+	return isUploaded;
 }
 
 Shader::~Shader()
@@ -70,16 +71,21 @@ Shader::~Shader()
 
 void Shader::reload()
 {
+	assert(isUploaded);
+
 	std::cout << "--- reloading shader: [" << vertexShaderName << "/" << fragmentShaderName << "]" << std::endl;
 	destroy();
-	create(vertexShaderName, fragmentShaderName);
+	upload();
 }
 
 void Shader::destroy()
 {
-	glDeleteProgram(programHandle);
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	if (isUploaded)
+	{
+		glDeleteProgram(programHandle);
+		glDeleteShader(vertexShader);
+		glDeleteShader(fragmentShader);
+	}
 }
 
 GLuint Shader::compile (GLenum type, const std::string &source)
@@ -126,11 +132,18 @@ void Shader::link(void)
 	glAttachShader(programHandle, fragmentShader);
 
 	// bind attribute and frag data locations to indexes
-	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
-	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
-	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
-	glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
-	glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
+	for (VertexAttributeSemanticList::const_iterator ci = vertexAttributeSemanticList.begin();
+		ci != vertexAttributeSemanticList.end();
+		ci++)
+	{
+		glBindAttribLocation(programHandle, ci->attributeIndex, ci->attributeLocation.c_str());
+	}
+
+	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_POSITION, VERTEX_ATTR_NAME_POSITION);
+	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_NORMAL, VERTEX_ATTR_NAME_NORMAL);
+	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_UV0, VERTEX_ATTR_NAME_UV0);
+	//glBindAttribLocation(programHandle, VERTEX_ATTR_INDEX_COLOR, VERTEX_ATTR_NAME_COLOR);
+	//glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
 	glLinkProgram(programHandle);
 
@@ -196,4 +209,31 @@ void Shader::setParams()
 void Shader::addSemantic(VertexAttributeSemantic semantic)
 {
 	vertexAttributeSemanticList.push_back(semantic);
+}
+
+void Shader::bind() const
+{
+	assert(isUploaded);
+	glUseProgram(programHandle);
+}
+
+void Shader::unbind() const
+{
+	assert(isUploaded);
+	glUseProgram(0);
+}
+
+GLint Shader::get_attrib_location(const std::string &name) const
+{
+	assert(isUploaded);
+	return glGetAttribLocation(programHandle, name.c_str());
+}
+
+GLint Shader::get_uniform_location(const std::string &name) const
+{
+	assert(isUploaded);
+	GLint location = glGetUniformLocation(programHandle, name.c_str());
+	//if (location < 0 && _DEBUG)
+	//	cout << "uniform location: " << name << " not found!" << endl;
+	return location;
 }

@@ -33,8 +33,8 @@ void PolyMeshNode::draw(glm::mat4 parentTransform, Camera *camera, Shader *shade
 {
 	glm::mat4 childTransform = parentTransform * transformation;
 
-	for (PolyMeshPointerList::const_iterator ci = polyMeshList.begin(); ci != polyMeshList.end(); ci++)
-		(*ci)->draw(childTransform, camera, shader);
+	//for (PolyMeshPointerList::const_iterator ci = polyMeshList.begin(); ci != polyMeshList.end(); ci++)
+	//	(*ci)->draw(childTransform, camera, shader);
 	
 	SceneNode::draw(parentTransform, camera, shader);
 }

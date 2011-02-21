@@ -31,8 +31,10 @@ namespace kocmoc
 	namespace renderer
 	{
 
+		// TODO replace assert with useful exceptions!
+
 		/**
-		 * Baisc shader class, taken from/built upon the RTR OpenGL 3 sample
+		 * Basic shader class, taken from/built upon the RTR OpenGL 3 sample
 		 */
 		class Shader
 		{
@@ -48,14 +50,19 @@ namespace kocmoc
 
 				/** the attribute index in the shader used while linking */
 				GLuint attributeIndex;
+
+				/** Construct a new instance with the fields above */
+				VertexAttributeSemantic(Symbol _attributeName,
+					std::string(_attributeLocation),
+					GLuint _attributeIndex)
+					: attributeName(_attributeName)
+					, attributeLocation(_attributeLocation)
+					, attributeIndex(_attributeIndex)
+				{};
 			};
 
 			typedef std::vector<VertexAttributeSemantic> VertexAttributeSemanticList;
 
-
-			// Loads shaders from files and compiles them.
-			// When path is "hello", the files "hello.frag" & "hello.vert"
-			// will be loaded.
 			/**
 			 * Load and compile the files into a shader. All shaders are assumed
 			 * to reside in the same folder and use a common path prefix.
@@ -63,69 +70,96 @@ namespace kocmoc
 			 * @param vertexShaderFile the name of  the vertex shader file
 			 * @param fragmentShaderFile the name of the fragment shader file
 			 */
-			Shader(const std::string &vertexShaderFile, const std::string &fragmentShaderFile);
+			Shader(const std::string &vertexShaderFileName,
+				const std::string &fragmentShaderFileName);
 
 			~Shader();
 
 			/**
-			 * Bind the shader to OpenGL
+			 * Upload the shader to the GPU.
+			 *
+			 * This is a prerequisite for most of the operations that use the shader.
+			 *
+			 * @return \c true	\b iff the shader has been compiled and linked
+			 *					successfully and is ready to use.
+			 * @pre	The shader must not be uploaded yet
 			 */
-			void bind() const
-			{
-				glUseProgram(programHandle);
-			}
+			bool upload();
+
+			/**
+			 * Bind the shader to OpenGL.
+			 *
+			 * @pre The shader must be uploaded to the GPU.
+			 */
+			void bind() const;
 
 			/**
 			 * Unbind the shader
+			 *
+			 * @pre The shader must be uploaded to the GPU.
 			 */
-			void unbind() const
-			{
-				glUseProgram(0);
-			}
+			void unbind() const;
 
 			/**
 			 * Query the location of a vertex attribute inside the shader.
+			 *
 			 * @param name The name of the attribute
 			 * @return the attribute location.
+			 *
+			 * @pre The shader must be uploaded to the GPU.
 			 */
-			GLint get_attrib_location(const std::string &name) const
-			{
-				return glGetAttribLocation(programHandle, name.c_str());
-			}
+			GLint get_attrib_location(const std::string &name) const;
 
 			/**
 			 * Query the location of a uniform inside the shader.
+			 *
 			 * @param name The name of the uniform
 			 * @return the uniform location.
+			 *
+			 * @pre The shader must be uploaded to the GPU.
 			 */
-			GLint get_uniform_location(const std::string &name) const
-			{
-				GLint location = glGetUniformLocation(programHandle, name.c_str());
-				//if (location < 0 && _DEBUG)
-				//	cout << "uniform location: " << name << " not found!" << endl;
-				return location;
-			}
+			GLint get_uniform_location(const std::string &name) const;
+
 
 			/**
-			 * A little cast helper.
-			 * With this you can simply do "if (shader) {...}" to test if a
-			 * shader has been compiled successfully.
+			 * Reload the shader.
+			 *
+			 * I.e. delete the program and create it again from source. 
+			 *
+			 * @pre The shader must be uploaded to the GPU.
 			 */
-			operator bool ()
-			{
-				return success;
-			}
-
 			void reload();
 
+			/**
+			 * Add a vertex attribute semantic to the shader.
+			 *
+			 * A vertex attribute semantic defines how vertex attributes in meshes
+			 * are linked to shader inputs. When uploadig a \RenderMesh these sematic
+			 * bindings are lookup and set in the VAO accordingly during the 
+			 * upload.
+			 *
+			 * Semantics are arbitrary but should at least contain a 'position' sematic
+			 * to account for the drault position attribute of a \c PolyMesh.
+			 *
+			 * @param semantic the attribute semantic
+			 */
 			void addSemantic(VertexAttributeSemantic semantic);
+
+			/**
+			 * Retrieve a list of vertex attribute semantics.
+			 */
 			VertexAttributeSemanticList getSemantics(void) const {return vertexAttributeSemanticList;};
+
+			bool getIsUploaded(void) const {return isUploaded;};
 
 		private:
 
-			void setParams(void);
+			/** Whether the shader is uploaded to the GPU or not.
+			 * Most operations can only performed if this property is true
+			 */
+			bool isUploaded;
 
-			bool success;
+			void setParams(void);
 
 			std::string pathPrefix;
 

@@ -27,6 +27,7 @@ namespace kocmoc
 		class Shader;
 		class FrameBuffer;
 		class ShadowMap;
+		class RenderMesh;
 	}
 
 	namespace input
@@ -124,5 +125,7 @@ namespace kocmoc
 		void drawOverlays(void);
 
 		scene::Octree* octree;
+		
+		renderer::RenderMesh* mesh;
 	};
 }

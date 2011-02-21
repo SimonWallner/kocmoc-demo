@@ -11,8 +11,12 @@ namespace kocmoc
 {
 	namespace scene
 	{
-		class PolyMesh;
 		class LineGizmo;
+	}
+
+	namespace renderer
+	{
+		class RenderMesh;
 	}
 
 	namespace util
@@ -42,7 +46,7 @@ namespace kocmoc
 			 * generate a starfield and take the needed params from the config
 			 * file
 			 */
-			kocmoc::scene::PolyMesh* generateStars();
+			kocmoc::renderer::RenderMesh* generateStars();
 
 			/**
 			 * Generate a colored coordinate cross gizmo
@@ -54,7 +58,7 @@ namespace kocmoc
 			 */
 			kocmoc::scene::LineGizmo* generateUnitCube();
 
-			kocmoc::scene::PolyMesh* generateTriangle();
+			kocmoc::renderer::RenderMesh* generateTriangle();
 		}
 
 		namespace geometry
