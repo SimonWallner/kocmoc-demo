@@ -55,7 +55,7 @@ namespace kocmoc
 			 *			This means that it can not be used like map[symbol] = bar, instead
 			 *			the explicit way over pair<> and insert() has to be taken.
 			 */
-			struct vertexAttribute
+			struct VertexAttribute
 			{
 				/** the stride of the attribute. E.g stride=3 for a 3d position
 				 * and stride=2 for UV coordinates */
@@ -79,7 +79,7 @@ namespace kocmoc
 				 * construct a new vertexAttribute instance from the given data.
 				 * Parameter semantics are as the fields described above
 				 */
-				vertexAttribute(uint _stride, uint _attributeDataLength,
+				VertexAttribute(uint _stride, uint _attributeDataLength,
 					double* _attributeData, uint* _indices, bool handOverOwnership)
 					: stride(_stride)
 					, attributeDataLength(_attributeDataLength)
@@ -89,9 +89,19 @@ namespace kocmoc
 				{};
 
 			};
+
+			/**
+			 * Simple structure to define a bounding box.
+			 * The 3d min and max coordinates define a axis aligned cube in space
+			 */
+			struct BoundingBox
+			{
+				glm::dvec3 min;
+				glm::dvec3 max;
+			};
 				
-			typedef std::map<Symbol, vertexAttribute> VertexAttributeMap;
-			typedef std::pair<Symbol, vertexAttribute> vertexAttributePair;
+			typedef std::map<Symbol, VertexAttribute> VertexAttributeMap;
+			typedef std::pair<Symbol, VertexAttribute> vertexAttributePair;
 
 			/**
 			 * The number of non-unique vertices in this mesh.
@@ -134,7 +144,7 @@ namespace kocmoc
 			 * @param	vertexAttributes	the vertex positions
 			 */
 			PolyMesh(uint primitiveCount, uint vertexIndexCount,
-				uint* firstIndexArray, vertexAttribute vertexPositions);
+				uint* firstIndexArray, VertexAttribute vertexPositions);
 
 			/**
 			 * deconstruct the mesh and delete the data fields it owns.
@@ -152,8 +162,12 @@ namespace kocmoc
 			 * @note	the given vertex attribute must conform to the mesh structure
 			 *			i.e. the vertex index count must match.
 			 */
-			void addVertexAttribute(Symbol name, vertexAttribute attribute);
+			void addVertexAttribute(Symbol name, VertexAttribute attribute);
 
+			/**
+			 * Calculate the bounding box of this mesh
+			 */
+			BoundingBox calculateBoundingBox(void) const;
 		
 			///**
 			// * Draw the mesh.

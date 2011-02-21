@@ -160,7 +160,7 @@ namespace kocmoc
 				// add last first index
 				firstIndices[primitiveCount] = primitiveCount * 3;
 
-				PolyMesh::vertexAttribute positionAttribute(3, vertexCount*3, positions, vertexIndices, true);
+				PolyMesh::VertexAttribute positionAttribute(3, vertexCount*3, positions, vertexIndices, true);
 				PolyMesh* stars = new PolyMesh(primitiveCount,vertexIndexCount, firstIndices, positionAttribute); 
 
 			
@@ -386,7 +386,7 @@ namespace kocmoc
 				double* positions = new double[9];
 				positions[0] = 2.0;
 				positions[1] = 1.0;
-				positions[2] = 0.0;
+				positions[2] = -1.0;
 
 				positions[3] = 1.0;
 				positions[4] = 0.0;
@@ -423,10 +423,10 @@ namespace kocmoc
 				colorIndices[2] = 2;
 
 
-				PolyMesh::vertexAttribute vertexPosition(3, 9, positions, indices, true);
+				PolyMesh::VertexAttribute vertexPosition(3, 9, positions, indices, true);
 				PolyMesh* mesh = new PolyMesh(1, 3, fia, vertexPosition);
 
-				PolyMesh::vertexAttribute color(3, 9, colors, colorIndices, true);
+				PolyMesh::VertexAttribute color(3, 9, colors, colorIndices, true);
 				mesh->addVertexAttribute(symbolize("color"), color);
 
 				Shader *shader = ShaderManager::getInstance().load("vertexColor.vert", "vertexColor.frag");

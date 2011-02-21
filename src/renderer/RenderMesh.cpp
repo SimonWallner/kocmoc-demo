@@ -18,6 +18,7 @@ using kocmoc::camera::Camera;
 
 using glm::mat4;
 using glm::mat3;
+using glm::dvec3;
 using glm::gtx::inverse_transpose::inverseTranspose;
 
 using std::vector;
@@ -31,6 +32,12 @@ RenderMesh::RenderMesh(PolyMesh* _mesh, Shader* _shader)
 {
 	originGizmo = util::generator::generateOriginGizmo();
 	boundingBox = util::generator::generateUnitCube();
+
+	PolyMesh::BoundingBox bb = mesh->calculateBoundingBox();
+	dvec3 center = (bb.max + bb.min) / 2.0;
+	dvec3 scale = bb.max - bb.min;
+
+	bbTransform = glm::scale(glm::translate(center), scale);
 };
 
 void RenderMesh::setModelMatrix(mat4 _modelMatrix)
@@ -72,7 +79,7 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	shader->unbind();
 
 	originGizmo->draw(leafTransform, camera);
-	boundingBox->draw(leafTransform, camera);
+	boundingBox->draw(leafTransform * bbTransform, camera);
 }
 
 
@@ -91,7 +98,7 @@ void RenderMesh::uploadData()
 		ci++)
 	{
 		// TODO: make find error proof!
-		const PolyMesh::vertexAttribute& attribute = mesh->vertexAttributes.find(ci->attributeName)->second;
+		const PolyMesh::VertexAttribute& attribute = mesh->vertexAttributes.find(ci->attributeName)->second;
 
 		uint indexCount = mesh->vertexIndexCount;
 		uint dataLength = indexCount * attribute.stride;

@@ -55,7 +55,7 @@ namespace kocmoc
 			scene::LineGizmo* originGizmo;
 			scene::LineGizmo* boundingBox;
 
-
+			glm::mat4 bbTransform;
 		};
 	}
 }
