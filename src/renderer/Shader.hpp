@@ -7,16 +7,9 @@
 #include <string>
 #include <vector>
 
-#define VERTEX_ATTR_INDEX_POSITION		(GLuint)0
 #define VERTEX_ATTR_NAME_POSITION		"inPosition"
-
-#define VERTEX_ATTR_INDEX_NORMAL		(GLuint)1
 #define VERTEX_ATTR_NAME_NORMAL			"inNormal"
-
-#define VERTEX_ATTR_INDEX_UV0			(GLuint)2
 #define VERTEX_ATTR_NAME_UV0			"inTexCoord0"
-
-#define VERTEX_ATTR_INDEX_COLOR			(GLuint)3
 #define VERTEX_ATTR_NAME_COLOR			"inColor"
 
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor0"

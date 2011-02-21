@@ -114,13 +114,13 @@ void FrameBuffer::createQuad()
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[0]);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 3 *sizeof(float), quadVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vbo_id[1]);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), quadTexCoord, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -130,9 +130,9 @@ void FrameBuffer::setupShader()
 {
 	shader = ShaderManager::getInstance().load("post.vert", "post.frag");
 	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
-					VERTEX_ATTR_NAME_POSITION, VERTEX_ATTR_INDEX_POSITION));
+					VERTEX_ATTR_NAME_POSITION, 0));
 	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv0"),
-					VERTEX_ATTR_NAME_UV0, VERTEX_ATTR_INDEX_UV0));
+					VERTEX_ATTR_NAME_UV0, 1));
 
 	shader->upload();
 

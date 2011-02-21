@@ -18,6 +18,12 @@ ImageOverlay::ImageOverlay(std::string fileName, int _width, int _height, Camera
 {
 	textureHandle = loader::ImageLoader::getInstance().loadImage(fileName, true);
 	shader = renderer::ShaderManager::getInstance().load("overlay.vert", "overlay.frag");
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
+					VERTEX_ATTR_NAME_POSITION, 0));
+	shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv0"),
+					VERTEX_ATTR_NAME_UV0, 1));
+
+	shader->upload();
 	setupShader(overlayCam);
 	createQuad();
 }
@@ -82,13 +88,13 @@ void ImageOverlay::createQuad()
 	
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[0]);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 3 *sizeof(float), quadVertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_POSITION, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_POSITION);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(0);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vboHandles[1]);
 	glBufferData(GL_ARRAY_BUFFER, 4 * 2 * sizeof(float), quadTexCoord, GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_ATTR_INDEX_UV0, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-	glEnableVertexAttribArray(VERTEX_ATTR_INDEX_UV0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
