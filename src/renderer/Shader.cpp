@@ -212,25 +212,25 @@ void Shader::addSemantic(VertexAttributeSemantic semantic)
 
 void Shader::bind() const
 {
-	assert(isUploaded);
+	//assert(isUploaded);
 	glUseProgram(programHandle);
 }
 
 void Shader::unbind() const
 {
-	assert(isUploaded);
+	//assert(isUploaded);
 	glUseProgram(0);
 }
 
 GLint Shader::get_attrib_location(const std::string &name) const
 {
-	assert(isUploaded);
+	//assert(isUploaded);
 	return glGetAttribLocation(programHandle, name.c_str());
 }
 
 GLint Shader::get_uniform_location(const std::string &name) const
 {
-	assert(isUploaded);
+	//assert(isUploaded);
 	GLint location = glGetUniformLocation(programHandle, name.c_str());
 	//if (location < 0 && _DEBUG)
 	//	cout << "uniform location: " << name << " not found!" << endl;

@@ -42,8 +42,8 @@ void Context::setupGLFW()
 	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
 
 	// Set flags so GLFW gives us a forward-compatible context.
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-    glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
 	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	//getAvailableResolutions();
@@ -109,9 +109,9 @@ void Context::testOpenGL()
 	// query opengl version
 	int major,minor;
 	glGetIntegerv(GL_MAJOR_VERSION, &major);
-    glGetIntegerv(GL_MINOR_VERSION, &minor);
+	glGetIntegerv(GL_MINOR_VERSION, &minor);
 
-    cout << "Loaded OpenGL Version " << major << "." << minor << endl;
+	cout << "Loaded OpenGL Version " << major << "." << minor << endl;
 
 	if (glGetError() != GL_NO_ERROR)
 		cout << "An error occurred querying the OpenGL version: ";
@@ -133,9 +133,9 @@ void Context::testOpenGL()
 
 void Context::setGLStates()
 {
-	//glClearColor(0.442047, 0.387623, 0.361867, 1.0f);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	//glClearColor(0.502052f, 0.736210f, 0.8492514f, 1.0f);
+	glClearColor(0.442047, 0.387623, 0.361867, 1.0f); // tinted gray
+	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.502052f, 0.736210f, 0.8492514f, 1.0f); // blue
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

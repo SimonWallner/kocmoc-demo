@@ -54,6 +54,16 @@ namespace kocmoc
 				{};
 			};
 
+			struct TextureSemantic
+			{
+				/** The texture name in the mesh??? */
+				Symbol name;
+
+				/** the location in the shader, i.e. the uniform name */
+				std::string textureLocation;
+
+			};
+
 			typedef std::vector<VertexAttributeSemantic> VertexAttributeSemanticList;
 
 			/**

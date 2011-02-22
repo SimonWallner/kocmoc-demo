@@ -57,7 +57,6 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	mat4 leafTransform = parentTransform * modelMatrix;
 	mat3 normalMatrix = inverseTranspose(mat3(modelMatrix));
 
-	// set textures
 
 	shader->bind();
 
@@ -72,16 +71,26 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	if (location = shader->get_uniform_location("normalMatrix") >= 0)
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
 	
+
+	for (TextureList::const_iterator ci = textures.begin();
+		ci != textures.end();
+		ci++)
+	{
+		glActiveTexture(ci->textureUnit);
+		glBindTexture(GL_TEXTURE_2D, ci->handle);
+	}
+
+
 	glBindVertexArray(vaoHandle);
 	glDrawElements(GL_TRIANGLES, triangulatedVertexIndexCount, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 
 	shader->unbind();
 
+	// extras, debug etc...
 	originGizmo->draw(leafTransform, camera);
 	boundingBox->draw(leafTransform * bbTransform, camera);
 }
-
 
 void RenderMesh::uploadData()
 {

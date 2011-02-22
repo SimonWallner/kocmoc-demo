@@ -91,6 +91,19 @@ namespace kocmoc
 			};
 
 			/**
+			 * this struct holds all relevant texture information.
+			 */
+			struct Texture
+			{
+				/** The file name of the texture */
+				const std::string fileName;
+
+				Texture(std::string _fileName)
+					: fileName(_fileName)
+				{};
+			};
+
+			/**
 			 * Simple structure to define a bounding box.
 			 * The 3d min and max coordinates define a axis aligned cube in space
 			 */
@@ -101,7 +114,7 @@ namespace kocmoc
 			};
 				
 			typedef std::map<Symbol, VertexAttribute> VertexAttributeMap;
-			typedef std::pair<Symbol, VertexAttribute> vertexAttributePair;
+			typedef std::map<Symbol, Texture> TextureMap;
 
 			/**
 			 * The number of non-unique vertices in this mesh.
@@ -165,85 +178,28 @@ namespace kocmoc
 			void addVertexAttribute(Symbol name, VertexAttribute attribute);
 
 			/**
+			 * Add a texture to this mesh.
+			 *
+			 * @param name The name under which the texture will be filed.
+			 * @param texture The texture object itself.
+			 */
+			void addTexture(Symbol name, Texture texture);
+
+			/**
 			 * Calculate the bounding box of this mesh
 			 */
 			BoundingBox calculateBoundingBox(void) const;
-		
-			///**
-			// * Draw the mesh.
-			// * If the data is not on the GPU yet it will be transferred upon the first call
-			// */
-			//void draw(glm::mat4 parentTransform, camera::Camera *camera, renderer::Shader *shader = NULL);
-
-			//void setShader(renderer::Shader *shader);
-
-			//void setDiffuseTexture(GLint textureHandle);
-			//void setSpecularTexture(GLint textureHandle);
-			//void setNormalTexture(GLint textureHandle);
-
-
-			//unsigned int getPrimitiveCount(void) {return primitiveCount;};
-			//unsigned int getVertexIndexCount(void) {return vertexIndexCount;};
-			//unsigned int getVertexCount(void) {return vertexIndexCount;};
-
-			//void setModelMatrix(glm::mat4 modelMatrix);
-			//glm::mat4 getModelMatrix(void) {return modelMatrix;};
-
-			///**
-			// * Split the mesh at the given splitPlane
-			// * @param d the normal distance origin-plane
-			// * @param n the plane normal, it is assumed to point
-			// * to the 'outside'
-			// */
-			//SplitResult split(double d, glm::vec3 n);
 
 		private:
+
+			typedef std::pair<Symbol, VertexAttribute > VertexAttributePair;
+			typedef std::pair<Symbol, Texture > TexturePair;
 
 			/** The map of vertex attributes */
 			VertexAttributeMap vertexAttributes;
 
-
-
-			//**
-			// * Transfer the data to the GPU, i.e. write the vbos, etc...
-			// */
-			//// create and organize renderMesh thingies
-			//void transferData();
-
-
-			//**
-			// * number of vertex indices after triangulation
-			// * this is used for rendering in the drawElements call
-			// */
-			//unsigned int triangulatedVertexIndexCount;
-
-			//unsigned int *firstIndexArray;
-			//unsigned int *vertexIndexArray;
-			//unsigned int *uvIndexArray;
-			//unsigned int *normalIndexArray;
-
-			//double *vertexPositions;
-			//double *uvPositions;
-			//double *normalPositions;
-		
-			//glm::mat4 modelMatrix;
-			////glm::mat3 normalMatrix;
-
-			//** the GPU view of the polyMesh **/
-			////RenderMesh *renderMesh;
-
-			//// TODO: refactor into render mesh class
-			//// make a poly Mesh hold a render mesh for rendering
-			//GLuint vaoHandle, *vboHandles;
-
-			//GLuint diffuseTextureHandle;
-			//GLuint specularTextureHandle;
-			//GLuint normalTextureHandle;
-
-			//renderer::Shader *shader;
-
-			//bool dataIsUploaded;
-			
+			/** Map of textures in this mesh */
+			TextureMap textures;
 		};
 	}
 }

@@ -417,25 +417,34 @@ namespace kocmoc
 				colors[7] = 0.0;
 				colors[8] = 1.0;
 
-				uint* colorIndices = new uint[3];
-				colorIndices[0] = 0;
-				colorIndices[1] = 1;
-				colorIndices[2] = 2;
+				double* uvs = new double[6];
+				uvs[0] = 0.0;
+				uvs[1] = 1.0;
+
+				uvs[2] = 1.0;
+				uvs[3] = 0.0;
+
+				uvs[4] = 1.0;
+				uvs[5] = 1.0;
 
 
 				PolyMesh::VertexAttribute vertexPosition(3, 9, positions, indices, true);
 				PolyMesh* mesh = new PolyMesh(1, 3, fia, vertexPosition);
 
-				PolyMesh::VertexAttribute color(3, 9, colors, colorIndices, true);
+				PolyMesh::VertexAttribute color(3, 9, colors, indices, true);
 				mesh->addVertexAttribute(symbolize("color"), color);
 
-				Shader *shader = ShaderManager::getInstance().load("vertexColor.vert", "vertexColor.frag");
+				PolyMesh::VertexAttribute uv(3, 9, uvs, indices, true);
+				mesh->addVertexAttribute(symbolize("uv"), uv);
 
-				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"),
-					VERTEX_ATTR_NAME_POSITION, 0));
+				Shader *shader = ShaderManager::getInstance().load("textured.vert", "textured.frag");
 
-				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("color"),
-					VERTEX_ATTR_NAME_COLOR, 1));
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"), VERTEX_ATTR_NAME_POSITION, 0));
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("color"), VERTEX_ATTR_NAME_COLOR, 1));
+				shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv"), "inUV", 2));
+
+				PolyMesh::Texture diffuse("uv_color.png");
+				mesh->addTexture(symbolize("diffuse"), diffuse);
 
 				return new RenderMesh(mesh, shader);
 			}

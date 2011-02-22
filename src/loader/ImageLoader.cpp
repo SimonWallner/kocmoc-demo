@@ -38,8 +38,6 @@ ImageLoader &ImageLoader::getInstance()
 	return instance;
 }
 
-
-
 GLuint ImageLoader::loadImage(std::string filename, bool degamma)
 {
 	ImageCache::const_iterator it = cache.find(filename);
@@ -79,7 +77,6 @@ GLuint ImageLoader::loadImage3D(std::string filename, bool degamma)
 	else
 		return 0;
 }
-
 
 bool ImageLoader::loadImageToHandle(std::string filename, bool degamma, GLuint handle)
 {

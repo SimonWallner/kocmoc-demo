@@ -2,15 +2,17 @@
 #define KOCMOC_RENDERER_RENDER_MESH_HPP_
 
 #include "Shader.hpp"
+
 #include <scene/PolyMesh.hpp>
 
 #include <glm.hpp>
+
+#include <vector>
 
 namespace kocmoc
 {
 	namespace scene
 	{
-		class PolyMesh;
 		class LineGizmo;
 	}
 
@@ -44,11 +46,38 @@ namespace kocmoc
 			void setModelMatrix(glm::mat4 _modelMatrix);
 
 		private:
+
+			/** A texture wrapper */
+			struct RenderTexture
+			{
+				const Symbol name;
+				const scene::PolyMesh::Texture texture;
+				const GLuint handle;
+				const GLuint textureUnit;
+
+				RenderTexture(Symbol _name, scene::PolyMesh::Texture _texture, GLuint _handle, GLuint _textureUnit)
+					: name(_name)
+					, texture(_texture)
+					, handle(_handle)
+					, textureUnit(_textureUnit)
+				{};
+			};
+
+			typedef std::vector<RenderTexture > TextureList;
+
+			TextureList textures;
+
 			glm::mat4 modelMatrix;
 
 			bool isUploaded;
 
 			void uploadData(void);
+
+			/**
+			 * upload the shader and set params
+			 */
+			void setUpShader(void);
+
 			GLuint vaoHandle;
 			uint triangulatedVertexIndexCount;
 
