@@ -127,5 +127,6 @@ namespace kocmoc
 		scene::Octree* octree;
 		
 		renderer::RenderMesh* mesh;
+		scene::SceneNode* rootNode;
 	};
 }

@@ -1,10 +1,3 @@
-/*
- * SceneLoader.cpp
- *
- *  Created on: 15 Nov 2010
- *      Author: simon
- */
-
 #include "SceneLoader.hpp"
 
 #include <util/Property.hpp>
@@ -13,7 +6,7 @@
 #include <COLLADAFW.h>
 
 using namespace kocmoc::loader;
-using kocmoc::scene::PolyMeshNode;
+using kocmoc::scene::RenderMeshNode;
 using std::string;
 
 
@@ -47,7 +40,7 @@ SceneLoader::~SceneLoader()
 	// TODO Auto-generated destructor stub
 }
 
-PolyMeshNode* SceneLoader::load(string name)
+RenderMeshNode* SceneLoader::load(string name)
 {
 	std::cout << "trying to load: " << name << std::endl;
 

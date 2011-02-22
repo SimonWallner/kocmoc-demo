@@ -8,11 +8,11 @@
 #include <renderer/ShadowMap.hpp>
 #include <renderer/RenderMesh.hpp>
 #include <loader/ImageLoader.hpp>
-//#include <loader/SceneLoader.hpp>
+#include <loader/SceneLoader.hpp>
 #include <util/util.hpp>
 #include <util/Property.hpp>
 #include <scene/SceneNode.hpp>
-#include <scene/PolyMeshNode.hpp>
+#include <scene/RenderMeshNode.hpp>
 #include <scene/Octree.hpp>
 #include <scene/OctreeNode.hpp>
 #include <input/Gamepad.hpp>
@@ -27,9 +27,9 @@ using kocmoc::renderer::ShaderManager;
 using kocmoc::renderer::ShadowMap;
 using kocmoc::renderer::FrameBuffer;
 using kocmoc::loader::ImageLoader;
-//using kocmoc::loader::SceneLoader;
+using kocmoc::loader::SceneLoader;
 using kocmoc::camera::FilmCamera;
-using kocmoc::scene::PolyMeshNode;
+using kocmoc::scene::RenderMeshNode;
 using kocmoc::scene::SceneNode;
 using kocmoc::scene::Octree;
 using kocmoc::scene::OctreeNode;
@@ -102,7 +102,15 @@ void Kocmoc::init()
 	//octree = new Octree(vec3(0), 10);
 	//octree->insert(util::generator::generateTriangle());
 
-	mesh = util::generator::generateTriangle();
+	rootNode = new SceneNode("root node");
+
+	RenderMeshNode* starsNode = new RenderMeshNode("stars node");
+	mesh = util::generator::generateStars();
+	starsNode->add(mesh);
+	rootNode->add(starsNode);
+
+	rootNode->add(SceneLoader::getInstance().load("texture_test.dae"));
+
 
 	{ /* inputs */
 		gamepad = new input::Gamepad(camera);
@@ -191,7 +199,7 @@ void Kocmoc::start()
 void Kocmoc::draw()
 {
 	//octree->renderDebug(mat4(1), camera);
-	mesh->draw(mat4(1), camera);
+	rootNode->draw(mat4(1), camera);
 }
 
 void Kocmoc::drawOverlays()

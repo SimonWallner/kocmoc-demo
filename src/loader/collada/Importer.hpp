@@ -1,7 +1,7 @@
 /*
  * Importer to read collada files using openCollada
  *
- * Code based on the xray collada viewer by H.Fink
+ * Code based on the xray collada viewer by H.Fink (http://www.hfink.eu/collada/xray)
  */
 
 #ifndef KOCMOC_LOADER_COLLADA_IMPORTER_HPP_
@@ -13,14 +13,11 @@
 
 #include <vector>
 
-using COLLADAFW::String;
-using COLLADAFW::Geometry;
-
 namespace kocmoc
 {
 	namespace scene
 	{
-		class PolyMeshNode;
+		class RenderMeshNode;
 	}
 
 	namespace loader
@@ -42,7 +39,7 @@ namespace kocmoc
 				/**
 				 * Get the resulting scene
 				 */
-				scene::PolyMeshNode* getSceneNode(void);
+				scene::RenderMeshNode* getSceneNode(void);
 
 
 				// overwrite functions from IWriter
@@ -57,11 +54,11 @@ namespace kocmoc
 				continue to to load. The writer should undo all operations that have been performed.
 				@param errorMessage A message containing informations about the error that occurred.
 				*/
-				void cancel(const String& errorMessage);
+				void cancel(const COLLADAFW::String& errorMessage);
 
 				/** When this method is called, the writer must write the geometry.
 				@return The writer should return true, if writing succeeded, false otherwise.*/
-				bool writeGeometry(const Geometry* geometry);
+				bool writeGeometry(const COLLADAFW::Geometry* geometry);
 
 			
 
@@ -83,7 +80,7 @@ namespace kocmoc
 				virtual bool writeKinematicsScene( const COLLADAFW::KinematicsScene* kinematicsScene );
 
 			private:
-				scene::PolyMeshNode* scene;
+				scene::RenderMeshNode* scene;
 
 				/** Ordered set of textures
 				 * 1. diffuse

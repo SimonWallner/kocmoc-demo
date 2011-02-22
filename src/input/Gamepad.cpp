@@ -119,10 +119,10 @@ void Gamepad::poll(void)
 		}
 
 		if (buttons[4] == GLFW_PRESS) // left bumber, turn ccw
-			camera->rotate(-30.0f * (float)clock->lastFrameDuration());
+			camera->rotate(-60.0f * (float)clock->lastFrameDuration());
 
 		if (buttons[5] == GLFW_PRESS) // right bumber, turn cw
-			camera->rotate(30.0 * (float)clock->lastFrameDuration());
+			camera->rotate(60.0 * (float)clock->lastFrameDuration());
 
 		//if (buttons[0] == GLFW_PRESS) // A button, start animation
 		//	Kocmoc::getInstance().getAnimationClock()->play();

@@ -1,7 +1,6 @@
-#ifndef KOCMOC_SCENE_POLY_MESH_NODE_HPP_
-#define KOCMOC_SCENE_POLY_MESH_NODE_HPP_
+#ifndef KOCMOC_SCENE_RENDER_MESH_NODE_HPP_
+#define KOCMOC_SCENE_RENDER_MESH_NODE_HPP_
 
-#include "PolyMesh.hpp"
 #include "SceneNode.hpp"
 
 #include <common.hpp>
@@ -18,6 +17,7 @@ namespace kocmoc
 	namespace renderer
 	{
 		class Shader;
+		class RenderMesh;
 	}
 
 	namespace scene
@@ -26,22 +26,22 @@ namespace kocmoc
 		/**
 		 * ...
 		 */
-		class PolyMeshNode : public SceneNode
+		class RenderMeshNode : public SceneNode
 		{
-			typedef std::list<PolyMesh* > PolyMeshPointerList;
+			typedef std::list<renderer::RenderMesh* > RenderMeshPointerList;
 			
 		public:
-			PolyMeshNode(std::string _name = "scene node");
-			~PolyMeshNode(void);
+			RenderMeshNode(std::string _name = "render mesh node");
+			~RenderMeshNode(void);
 
 			void add(SceneNode* node) {SceneNode::add(node);};
-			void add(PolyMesh* mesh);
+			void add(renderer::RenderMesh* mesh);
 		
 			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
 			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
 
 		private:
-			PolyMeshPointerList polyMeshList;
+			RenderMeshPointerList renderMeshList;
 
 			/** The transformation matrix of this node */
 			glm::mat4 transformation;
