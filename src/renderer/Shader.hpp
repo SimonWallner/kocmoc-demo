@@ -33,38 +33,52 @@ namespace kocmoc
 		{
 		public:
 
+			// TODO: rename fields
 			struct VertexAttributeSemantic
 			{
 				/** the attribute name in the mesh */
 				Symbol attributeName;
 
 				/** the attribute location/name in the shader */
-				std::string attributeLocation;
+				std::string attributeShaderName;
 
 				/** the attribute index in the shader used while linking */
-				GLuint attributeIndex;
+				GLuint attributeLocation;
 
 				/** Construct a new instance with the fields above */
 				VertexAttributeSemantic(Symbol _attributeName,
-					std::string(_attributeLocation),
-					GLuint _attributeIndex)
+					std::string(_attributeShaderName),
+					GLuint _attributeLocation)
 					: attributeName(_attributeName)
+					, attributeShaderName(_attributeShaderName)
 					, attributeLocation(_attributeLocation)
-					, attributeIndex(_attributeIndex)
 				{};
 			};
 
+			/**
+			 * A texture semantic describes what texture name (referencing
+			 * a texture in the \c PolyMesh) is bound to which sampler name
+			 * in the shader.
+			 *
+			 * As with the vertex attributes some insine knowledge about the 
+			 * referenced \c PolyMesh is required.
+			 */
 			struct TextureSemantic
 			{
-				/** The texture name in the mesh??? */
-				Symbol name;
+				/** The texture name in the poly mesh */
+				Symbol textureName;
 
 				/** the location in the shader, i.e. the uniform name */
-				std::string textureLocation;
+				std::string samplerName;
 
+				TextureSemantic(Symbol _textureName, std::string _samplerName)
+					: textureName(_textureName)
+					, samplerName(_samplerName)
+				{};
 			};
 
-			typedef std::vector<VertexAttributeSemantic> VertexAttributeSemanticList;
+			typedef std::vector<VertexAttributeSemantic > VertexAttributeSemanticList;
+			typedef std::vector<TextureSemantic > TextureSemanticList;
 
 			/**
 			 * Load and compile the files into a shader. All shaders are assumed
@@ -153,6 +167,16 @@ namespace kocmoc
 			 */
 			VertexAttributeSemanticList getSemantics(void) const {return vertexAttributeSemanticList;};
 
+			/**
+			 * Add a texture semantic.
+			 */
+			void addTextureSemantic(TextureSemantic semantic);
+
+			/** 
+			 * Retrieve a list of texture semantics
+			 */
+			TextureSemanticList getTextureSemantics(void) const {return textureSemanticList;};
+
 			bool getIsUploaded(void) const {return isUploaded;};
 
 		private:
@@ -162,7 +186,7 @@ namespace kocmoc
 			 */
 			bool isUploaded;
 
-			void setParams(void);
+			//void setParams(void);
 
 			std::string pathPrefix;
 
@@ -183,6 +207,7 @@ namespace kocmoc
 			void destroy(void);
 
 			VertexAttributeSemanticList vertexAttributeSemanticList;
+			TextureSemanticList textureSemanticList;
 		};
 	}
 }

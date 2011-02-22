@@ -6,6 +6,7 @@
 #include <renderer/ShaderManager.hpp>
 #include <renderer/FrameBuffer.hpp>
 #include <renderer/ShadowMap.hpp>
+#include <renderer/RenderMesh.hpp>
 #include <loader/ImageLoader.hpp>
 //#include <loader/SceneLoader.hpp>
 #include <util/util.hpp>

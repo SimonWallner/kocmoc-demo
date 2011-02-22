@@ -3,8 +3,8 @@
 
 #include "meshUtils.hpp"
 
-#include <renderer/RenderMesh.hpp>
 #include <Symbol.hpp>
+#include <types.hpp>
 
 #include <map>
 
@@ -32,9 +32,6 @@ namespace kocmoc
 		 */
 
 		// TODO textures
-		// TODO make split a friend utility function
-		// TODO externalize all function into other classes, keep dependencies to a minimum
-		//		remove draw/render methods
 
 		class PolyMesh
 		{
@@ -42,11 +39,8 @@ namespace kocmoc
 			friend SplitResult splitMesh();
 
 		public:
-
 			
-
-			/**
-			 * The vertex attribute struct.
+			/** The vertex attribute struct.
 			 * It holds together all the data needed for such an attribute.
 			 *
 			 * @note	All fields in this structure are const. This should be nice

@@ -137,6 +137,17 @@ void FrameBuffer::setupShader()
 	shader->upload();
 
 	shader->bind();
+
+	GLint location;
+	if ((location = shader->get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 0);
+	if ((location = shader->get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 1);
+	if ((location = shader->get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 2);
+	if ((location = shader->get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
+		glUniform1i(location, 3);
+
 	{
 		GLint location;
 		

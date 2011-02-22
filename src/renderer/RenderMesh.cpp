@@ -6,6 +6,7 @@
 #include <scene/LineGizmo.hpp>
 #include <camera/Camera.hpp>
 #include <util/util.hpp>
+#include <loader/ImageLoader.hpp>
 
 #include <gtx/inverse_transpose.hpp>
 
@@ -15,6 +16,7 @@ using namespace kocmoc::renderer;
 using kocmoc::scene::PolyMesh;
 using kocmoc::scene::LineGizmo;
 using kocmoc::camera::Camera;
+using kocmoc::loader::ImageLoader;
 
 using glm::mat4;
 using glm::mat3;
@@ -72,11 +74,11 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
 	
 
-	for (TextureList::const_iterator ci = textures.begin();
-		ci != textures.end();
+	for (RenderTextureList::const_iterator ci = renderTextures.begin();
+		ci != renderTextures.end();
 		ci++)
 	{
-		glActiveTexture(ci->textureUnit);
+		glActiveTexture(GL_TEXTURE0 + ci->textureUnit);
 		glBindTexture(GL_TEXTURE_2D, ci->handle);
 	}
 
@@ -94,6 +96,9 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 void RenderMesh::uploadData()
 {
+	// TODO: streamline the setup process in one location
+	setUpTextures();
+
 	glGenVertexArrays(1, &vaoHandle);
 	glBindVertexArray(vaoHandle);
 
@@ -126,8 +131,8 @@ void RenderMesh::uploadData()
 		glGenBuffers(1, &handle);
 		glBindBuffer(GL_ARRAY_BUFFER, handle);
 		glBufferData(GL_ARRAY_BUFFER, dataLength * sizeof(float), reindexedData, GL_STATIC_DRAW);
-		glVertexAttribPointer(ci->attributeIndex, attribute.stride, GL_FLOAT, GL_FALSE, 0, NULL);
-		glEnableVertexAttribArray(ci->attributeIndex);
+		glVertexAttribPointer(ci->attributeLocation, attribute.stride, GL_FLOAT, GL_FALSE, 0, NULL);
+		glEnableVertexAttribArray(ci->attributeLocation);
 
 		delete[] reindexedData;
 	}
@@ -178,4 +183,31 @@ void RenderMesh::uploadData()
 	delete[] reindexedIndices;
 
 	isUploaded = true;
+}
+
+void RenderMesh::setUpTextures()
+{
+	GLuint textureUnit = 0;
+	shader->bind();
+
+	Shader::TextureSemanticList semantics = shader->getTextureSemantics();
+	
+	for (Shader::TextureSemanticList::const_iterator ci = semantics.begin();
+		ci != semantics.end();
+		ci++)
+	{
+		const PolyMesh::Texture texture = mesh->textures.find(ci->textureName)->second;
+		GLuint handle = ImageLoader::getInstance().loadImage(texture.fileName);
+
+		RenderTexture renderTexture(handle, textureUnit);
+		renderTextures.push_back(renderTexture);
+
+		GLint location = shader->get_uniform_location(ci->samplerName);
+		if (location >= 0)
+			glUniform1i(location, textureUnit);
+
+		textureUnit++;
+	}
+
+	shader->unbind();
 }

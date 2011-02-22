@@ -1,4 +1,4 @@
-
+#include "meshUtils.hpp"
 //PolyMesh::SplitResult PolyMesh::split(double d, vec3 n)
 //{
 //	vector<vec3> positionsInside;

@@ -60,7 +60,7 @@ bool Shader::upload()
 
 	isUploaded = true;
 	
-	setParams();
+	//setParams();
 	
 	return isUploaded;
 }
@@ -139,7 +139,7 @@ void Shader::link(void)
 		ci != vertexAttributeSemanticList.end();
 		ci++)
 	{
-		glBindAttribLocation(programHandle, ci->attributeIndex, ci->attributeLocation.c_str());
+		glBindAttribLocation(programHandle, ci->attributeLocation, ci->attributeShaderName.c_str());
 	}
 	glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
 
@@ -188,26 +188,31 @@ void Shader::shader_log(GLuint shader)
 	}
 };
 
-void Shader::setParams()
-{
-	bind();
-	
-	GLint location;
-	if ((location = get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
-		glUniform1i(location, 0);
-	if ((location = get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
-		glUniform1i(location, 1);
-	if ((location = get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
-		glUniform1i(location, 2);
-	if ((location = get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
-		glUniform1i(location, 3);
-
-	unbind();
-}
+//void Shader::setParams()
+//{
+//	bind();
+//	
+//	GLint location;
+//	if ((location = get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
+//		glUniform1i(location, 0);
+//	if ((location = get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
+//		glUniform1i(location, 1);
+//	if ((location = get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
+//		glUniform1i(location, 2);
+//	if ((location = get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
+//		glUniform1i(location, 3);
+//
+//	unbind();
+//}
 
 void Shader::addSemantic(VertexAttributeSemantic semantic)
 {
 	vertexAttributeSemanticList.push_back(semantic);
+}
+
+void Shader::addTextureSemantic(TextureSemantic semantic)
+{
+	textureSemanticList.push_back(semantic);
 }
 
 void Shader::bind() const

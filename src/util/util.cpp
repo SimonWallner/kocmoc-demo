@@ -434,7 +434,7 @@ namespace kocmoc
 				PolyMesh::VertexAttribute color(3, 9, colors, indices, true);
 				mesh->addVertexAttribute(symbolize("color"), color);
 
-				PolyMesh::VertexAttribute uv(3, 9, uvs, indices, true);
+				PolyMesh::VertexAttribute uv(2, 6, uvs, indices, true);
 				mesh->addVertexAttribute(symbolize("uv"), uv);
 
 				Shader *shader = ShaderManager::getInstance().load("textured.vert", "textured.frag");
@@ -445,6 +445,7 @@ namespace kocmoc
 
 				PolyMesh::Texture diffuse("uv_color.png");
 				mesh->addTexture(symbolize("diffuse"), diffuse);
+				shader->addTextureSemantic(Shader::TextureSemantic(symbolize("diffuse"), "sTexture"));
 
 				return new RenderMesh(mesh, shader);
 			}

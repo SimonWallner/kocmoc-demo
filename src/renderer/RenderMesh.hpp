@@ -50,22 +50,18 @@ namespace kocmoc
 			/** A texture wrapper */
 			struct RenderTexture
 			{
-				const Symbol name;
-				const scene::PolyMesh::Texture texture;
 				const GLuint handle;
 				const GLuint textureUnit;
 
-				RenderTexture(Symbol _name, scene::PolyMesh::Texture _texture, GLuint _handle, GLuint _textureUnit)
-					: name(_name)
-					, texture(_texture)
-					, handle(_handle)
+				RenderTexture(GLuint _handle, GLuint _textureUnit)
+					: handle(_handle)
 					, textureUnit(_textureUnit)
 				{};
 			};
 
-			typedef std::vector<RenderTexture > TextureList;
+			typedef std::vector<RenderTexture > RenderTextureList;
 
-			TextureList textures;
+			RenderTextureList renderTextures;
 
 			glm::mat4 modelMatrix;
 
@@ -73,10 +69,14 @@ namespace kocmoc
 
 			void uploadData(void);
 
-			/**
-			 * upload the shader and set params
+			/** Set up the textures.
+			 * 
+			 * - read bindings from shader
+			 * - fetch specified textures from poly mesh
+			 * - load these textures 
+			 * - store in render textures
 			 */
-			void setUpShader(void);
+			void setUpTextures(void);
 
 			GLuint vaoHandle;
 			uint triangulatedVertexIndexCount;
