@@ -185,11 +185,46 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		PolyMesh::VertexAttribute vertexPositions(3, positionCount, positionsArray, vertexIndexArray, true);
 		PolyMesh* polyMesh = new PolyMesh(primitiveCount, vertexIndexCount, fiaArray, vertexPositions);
 
-		
-		// add shader and texture
+		// uvs
+		PolyMesh::VertexAttribute uv(2, uvCount, uvPositions, uvIndexArray, true);
+		polyMesh->addVertexAttribute(symbolize("uv"), uv);
+
+		// normals
+		PolyMesh::VertexAttribute normal(3, normalCount, normalPositions, normalIndexArray, true);
+		polyMesh->addVertexAttribute(symbolize("normal"), normal);
+
+		// create shader and vertex semantcs
 		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
 		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"), VERTEX_ATTR_NAME_POSITION, 0));
+		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv"), VERTEX_ATTR_NAME_UV0, 1));
+		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("normal"), VERTEX_ATTR_NAME_NORMAL, 2));
 
+
+		// textures and texture semantics
+		// load first 3 textures to diffuse, specular, normal if existant
+		if (textures.size() >= 1)
+		{
+			PolyMesh::Texture tex(textures[0]);
+			polyMesh->addTexture(symbolize("diffuse"), tex);
+			shader->addTextureSemantic(Shader::TextureSemantic(symbolize("diffuse"), DIFFUSE_SAMPLER_NAME));
+		}
+
+		if (textures.size() >= 2)
+		{
+			PolyMesh::Texture tex(textures[1]);
+			polyMesh->addTexture(symbolize("specular"), tex);
+			shader->addTextureSemantic(Shader::TextureSemantic(symbolize("specular"), SPECULAR_SAMPLER_NAME));
+		}
+
+		if (textures.size() >= 3)
+		{
+			PolyMesh::Texture tex(textures[2]);
+			polyMesh->addTexture(symbolize("normal"), tex);
+			shader->addTextureSemantic(Shader::TextureSemantic(symbolize("normal"), NORMAL_SAMPLER_NAME));
+		}
+
+
+		
 		//GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0], true);
 		//GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1], true);
 		//GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
