@@ -1,4 +1,4 @@
-#include "RenderMesh.hpp"
+﻿#include "RenderMesh.hpp"
 
 #include "Shader.hpp"
 
@@ -66,9 +66,14 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	if ((location = shader->get_uniform_location("cameraPosition")) >= 0)
 		glUniform3fv(location, 1, glm::value_ptr(camera->getPosition()));
 
-	if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-	if ((location = shader->get_uniform_location("viewMatrix")) >= 0)		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-	if ((location = shader->get_uniform_location("modelMatrix")) >= 0)		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
+	if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+
+	if ((location = shader->get_uniform_location("viewMatrix")) >= 0)
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+
+	if ((location = shader->get_uniform_location("modelMatrix")) >= 0)
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
 
 	if (location = shader->get_uniform_location("normalMatrix") >= 0)
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
