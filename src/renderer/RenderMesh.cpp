@@ -62,6 +62,7 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 	shader->bind();
 
+	
 	GLint location;
 	if ((location = shader->get_uniform_location("cameraPosition")) >= 0)
 		glUniform3fv(location, 1, glm::value_ptr(camera->getPosition()));
@@ -83,8 +84,22 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		ci != renderTextures.end();
 		ci++)
 	{
+
 		glActiveTexture(GL_TEXTURE0 + ci->textureUnit);
 		glBindTexture(GL_TEXTURE_2D, ci->handle);
+	}
+
+
+	{ // FIXME: remove this! used for easy shader reloading.
+		GLint location;
+		if ((location = shader->get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
+			glUniform1i(location, 0);
+		if ((location = shader->get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
+			glUniform1i(location, 1);
+		if ((location = shader->get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
+			glUniform1i(location, 2);
+		if ((location = shader->get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
+			glUniform1i(location, 3);
 	}
 
 

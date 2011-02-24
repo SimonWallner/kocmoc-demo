@@ -27,7 +27,7 @@ void main(void)
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 
 
-	if ((shadowUV.z/2+0.5) < (texture(sShadow, shadowUV.xy / 2 + 0.5).x + bias))
+	if (true)//((shadowUV.z/2+0.5) < (texture(sShadow, shadowUV.xy / 2 + 0.5).x + bias))
 	{
 		vec3 specularColor = texture(sSpecular, texCoord0).rgb;
 		float shinyness = texture(sSpecular, texCoord0).a * 50.0f + 5.0f;
@@ -45,7 +45,11 @@ void main(void)
 		vec3 specularTerm = diffuseFactor * specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
 
 		fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
+		fragmentColor0 = vec4(diffuseTerm + ambientTerm, 1);
 	}
 	else 
+	{
 		fragmentColor0 = vec4(ambientTerm, 1);
+		fragmentColor0 = vec4(0, 1, 0, 1);
+	}
 }
