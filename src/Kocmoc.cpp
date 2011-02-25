@@ -38,6 +38,7 @@ using kocmoc::camera::OrthoCamera;
 using kocmoc::time::Clock;
 using kocmoc::util::Property;
 using kocmoc::util::generator::generateTriangle;
+using kocmoc::util::generator::generateStars;
 
 using glm::vec3;
 using glm::mat4;
@@ -104,8 +105,8 @@ void Kocmoc::init()
 	// octree scene stuff
 	rootNode = new SceneNode("root node");
 
-	Octree* octree = new Octree(vec3(0), 100);
-	octree->insert(generateTriangle());
+	Octree* octree = new Octree(vec3(0), 10);
+	octree->insert(generateStars());
 	OctreeNode* octreeNode = new OctreeNode(octree);
 
 	rootNode->add(octreeNode);

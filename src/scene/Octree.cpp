@@ -12,10 +12,11 @@ using kocmoc::util::generator::generateUnitCube;
 using kocmoc::camera::Camera;
 using kocmoc::renderer::RenderMesh;
 using kocmoc::scene::PolyMesh;
-using kocmoc::scene::SplitResult;
-using kocmoc::scene::splitMesh;
+using kocmoc::scene::meshUtils::SplitResult;
+using kocmoc::scene::meshUtils::splitMesh;
 
 using glm::vec3;
+using glm::dvec3;
 using glm::mat4;
 
 using std::vector;
@@ -34,12 +35,15 @@ Octree::Octree(vec3 _origin, double _size)
 
 void Octree::insert(RenderMesh* mesh)
 {
-	totalVertexCount += mesh->mesh->vertexIndexCount;
+	if (mesh == NULL) 
+		return;
+
 
 	if (isLeaf)
 	{
 		content.push_back(mesh);
 
+		totalVertexCount += mesh->mesh->vertexIndexCount;
 		if (totalVertexCount > KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD)
 		{
 			isLeaf = false;
@@ -65,44 +69,52 @@ void Octree::insert(RenderMesh* mesh)
 		vec3 distance = vec3(0) - origin;
 
 		// X
-		SplitResult resultX = splitMesh(mesh->mesh, distance.x, vec3(1, 0, 0));
+		SplitResult resultX = splitMesh(mesh->mesh, distance.x, dvec3(1, 0, 0));
 		PolyMesh* inside = resultX.inside;
 		PolyMesh* outside = resultX.outside;
 
 		// Y
-		SplitResult insideY = splitMesh(inside, distance.y, vec3(0, 1, 0));
+		SplitResult insideY = splitMesh(inside, distance.y, dvec3(0, 1, 0));
 		PolyMesh* insideInside = insideY.inside;
 		PolyMesh* insideOutside = insideY.outside;
 
-		SplitResult outsideY = splitMesh(outside, distance.y, vec3(0, 1, 0));
+		SplitResult outsideY = splitMesh(outside, distance.y, dvec3(0, 1, 0));
 		PolyMesh* outsideInside = outsideY.inside;
 		PolyMesh* outsideOutside = outsideY.outside;
 
 		// Z
-		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, vec3(0, 0, 1));
+		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, dvec3(0, 0, 1));
 		PolyMesh* iii = insideInsideZ.inside;
 		PolyMesh* iio = insideInsideZ.outside;
 
-		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, vec3(0, 0, 1));
+		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, dvec3(0, 0, 1));
 		PolyMesh* ioi = insideOutsideZ.inside;
 		PolyMesh* ioo = insideOutsideZ.outside;
 
-		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, vec3(0, 0, 1));
+		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, dvec3(0, 0, 1));
 		PolyMesh* oii = outsideInsideZ.inside;
 		PolyMesh* oio = outsideInsideZ.outside;
 
-		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, vec3(0, 0, 1));
+		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, dvec3(0, 0, 1));
 		PolyMesh* ooi = outsideOutsideZ.inside;
 		PolyMesh* ooo = outsideOutsideZ.outside;
 
-		children[0]->insert(new RenderMesh(ooo, mesh->shader));
-		children[0]->insert(new RenderMesh(ioo, mesh->shader));
-		children[0]->insert(new RenderMesh(iio, mesh->shader));
-		children[0]->insert(new RenderMesh(oio, mesh->shader));
-		children[0]->insert(new RenderMesh(ooi, mesh->shader));
-		children[0]->insert(new RenderMesh(ioi, mesh->shader));
-		children[0]->insert(new RenderMesh(iii, mesh->shader));
-		children[0]->insert(new RenderMesh(oii, mesh->shader));
+		if (ooo != NULL)
+			children[0]->insert(new RenderMesh(ooo, mesh->shader));
+		if (ioo != NULL)
+			children[0]->insert(new RenderMesh(ioo, mesh->shader));
+		if (iio != NULL)
+			children[0]->insert(new RenderMesh(iio, mesh->shader));
+		if (oio != NULL)
+			children[0]->insert(new RenderMesh(oio, mesh->shader));
+		if (ooi != NULL)
+			children[0]->insert(new RenderMesh(ooi, mesh->shader));
+		if (ioi != NULL)
+			children[0]->insert(new RenderMesh(ioi, mesh->shader));
+		if (iii != NULL)
+			children[0]->insert(new RenderMesh(iii, mesh->shader));
+		if (oii != NULL)
+			children[0]->insert(new RenderMesh(oii, mesh->shader));
 	}
 }
 

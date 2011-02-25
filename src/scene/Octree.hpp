@@ -13,7 +13,7 @@
 
 #include <vector>
 
-#define KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD 0
+#define KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD 20
 
 namespace kocmoc
 {

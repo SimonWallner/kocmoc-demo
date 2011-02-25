@@ -11,44 +11,38 @@ using kocmoc::util::geometry::intersect;
 using kocmoc::util::geometry::lerp;
 
 using glm::dvec3;
-
-
 using glm::vec3;
 
-SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const double d, const vec3 n)
+using std::vector;
+
+SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const double d, const dvec3 n)
 {
-	//vector<vec3> positionsInside;
-	//vector<vec3> positionsOutside;
-
-	//vector<vec3> uvInside;
-	//vector<vec3> uvOutside;
-
-	//vector<vec3> nInside;
-	//vector<vec3> nOutside;
-
-	//vector<uint> firstIndexInside;
-	//vector<uint> firstIndexOutside;
-
-	//firstIndexInside.push_back(0);
-	//firstIndexOutside.push_back(0);
-
-	//uint fiInside = 0;
-	//uint oldfiInside = 0;
-	//uint fiOutside = 0;
-	//uint oldfiOutside = 0;
-
-	//uint primitiveCountInside = 0;
-	//uint primitiveCountOutside = 0;
+	if (mesh == NULL)
+	{
+		SplitResult result = {NULL, NULL};
+		return result;
+	}
 
 	AttributeBufferMap insideAttributeBufferMap;
 	AttributeBufferMap outsideAttributeBufferMap;
-	for (PolyMesh::VertexAttributeMap.const_iterator ci = mesh->vertexAttributes.begin();
+
+	for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
 		ci != mesh->vertexAttributes.end();
 		ci++)
 	{
 		insideAttributeBufferMap[ci->first] = AttributeBuffer();
 		outsideAttributeBufferMap[ci->first] = AttributeBuffer();
 	}
+
+	uint insideFirstIndex = 0;
+	uint oldInsideFirstIndex = 0;
+	vector<uint > insideFirstIndexVector;
+	insideFirstIndexVector.push_back(0);
+
+	uint outsideFirstIndex = 0;
+	uint oldOutsideFirstIndex = 0;
+	vector<uint > outsideFirstIndexVector;
+	outsideFirstIndexVector.push_back(0);
 
 	PolyMesh::VertexAttribute position = mesh->vertexAttributes.find(symbolize("position"))->second;
 
@@ -76,176 +70,236 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 			{
 				if (inside(d, n, p2)) // inside-inside
 				{
-					// for each attribute
-					for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
-						ci != mesh->vertexAttributes.end();
-						ci++)
-					{
-						// add current point, i.e. p1
-						//...
+					transferAttributes(insideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
+					insideFirstIndex++;
 
 					//positionsInside.push_back(p1);
 					//uvInside.push_back(uv1);
 					//nInside.push_back(n1);
 					//fiInside++;
-				
 				}
 				else // inside-outside
 				{
+					transferAttributes(insideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
+					insideFirstIndex++;
+
 					double r = intersect(d, n, p1, p2);
-					vec3 iP = lerp(r, p1, p2);
-					//vec3 iUV = lerp(r, uv1, uv2);
-					//vec3 iN = lerp(r, n1, n2);
+					lerpTransferAttributes(insideAttributeBufferMap,
+						outsideAttributeBufferMap, mesh->vertexAttributes,
+						currentIndex, nextIndex, r);
+					insideFirstIndex++;
+					outsideFirstIndex++;
 
-					positionsInside.push_back(p1);
-					//uvInside.push_back(uv1);
-					//nInside.push_back(n1);
-					fiInside++;
+					//vec3 iP = lerp(r, p1, p2);
+					////vec3 iUV = lerp(r, uv1, uv2);
+					////vec3 iN = lerp(r, n1, n2);
+
+					//positionsInside.push_back(p1);
+					////uvInside.push_back(uv1);
+					////nInside.push_back(n1);
+					//fiInside++;
 				
-					positionsInside.push_back(iP);
-					//uvInside.push_back(iUV);
-					//nInside.push_back(iN);
-					fiInside++;
+					//positionsInside.push_back(iP);
+					////uvInside.push_back(iUV);
+					////nInside.push_back(iN);
+					//fiInside++;
 
-					positionsOutside.push_back(iP);
-					//uvOutside.push_back(iUV);
-					//nOutside.push_back(iN);
-					fiOutside++;
-
+					//positionsOutside.push_back(iP);
+					////uvOutside.push_back(iUV);
+					////nOutside.push_back(iN);
+					//fiOutside++;
 				}
 			}
 			else // outside
 			{
 				if (inside(d, n, p2)) // outside-inside
 				{
+					transferAttributes(outsideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
+					outsideFirstIndex++;
+
 					double r = intersect(d, n, p1, p2);
-					vec3 iP = lerp(r, p1, p2);
-					//vec3 iUV = lerp(r, uv1, uv2);
-					//vec3 iN = lerp(r, n1, n2);
+					lerpTransferAttributes(insideAttributeBufferMap,
+						outsideAttributeBufferMap, mesh->vertexAttributes,
+						currentIndex, nextIndex, r);
+					insideFirstIndex++;
+					outsideFirstIndex++;
 
-					positionsInside.push_back(iP);
-					//uvInside.push_back(iUV);
-					//nInside.push_back(iN);
-					fiInside++;
-					
-					positionsOutside.push_back(p1);
-					//uvOutside.push_back(uv1);
-					//nOutside.push_back(n1);
-					fiOutside++;
+					//vec3 iP = lerp(r, p1, p2);
+					////vec3 iUV = lerp(r, uv1, uv2);
+					////vec3 iN = lerp(r, n1, n2);
 
-					positionsOutside.push_back(iP);
-					//uvOutside.push_back(iUV);
-					//nOutside.push_back(iN);
-					fiOutside++;
+					//positionsInside.push_back(iP);
+					////uvInside.push_back(iUV);
+					////nInside.push_back(iN);
+					//fiInside++;
+					//
+					//positionsOutside.push_back(p1);
+					////uvOutside.push_back(uv1);
+					////nOutside.push_back(n1);
+					//fiOutside++;
+
+					//positionsOutside.push_back(iP);
+					////uvOutside.push_back(iUV);
+					////nOutside.push_back(iN);
+					//fiOutside++;
 				}
 				else // outside-outside
 				{
-					positionsOutside.push_back(p1);
-					//uvOutside.push_back(uv1);
-					//nOutside.push_back(n1);
-					fiOutside++;
+					transferAttributes(outsideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
+					outsideFirstIndex++;
+
+					//positionsOutside.push_back(p1);
+					////uvOutside.push_back(uv1);
+					////nOutside.push_back(n1);
+					//fiOutside++;
 				}
 			}
 		}
 
-		if (oldfiInside < fiInside) // vertices added!
+		if (oldInsideFirstIndex < insideFirstIndex) // vertices added!
 		{
-			firstIndexInside.push_back(fiInside);
-			primitiveCountInside++;
-			oldfiInside = fiInside;
+			insideFirstIndexVector.push_back(insideFirstIndex);
+			oldInsideFirstIndex = insideFirstIndex;
 		}
-		if (oldfiOutside < fiOutside) // vertices added!
+		if (oldOutsideFirstIndex < outsideFirstIndex) // vertices added!
 		{
-			firstIndexOutside.push_back(fiOutside);
-			primitiveCountOutside++;
-			oldfiOutside = fiOutside;
+			outsideFirstIndexVector.push_back(outsideFirstIndex);
+			oldOutsideFirstIndex = outsideFirstIndex;
 		}
 	}
 
-	SplitResult result;
+	SplitResult result = {NULL, NULL};
 
 	// inside
-	result.inside = new PolyMesh(primitiveCountInside, positionsInside.size(), positionsInside.size() * 3);
-	double* iPositions = new double[positionsInside.size()];
-	//double* iUV = new double[positionsInside.size()];
-	//double* iNormals = new double[positionsInside.size()];
-	uint* iIndices = new uint[positionsInside.size()];
-
-	for (uint i = 0; i < positionsInside.size(); i++)
+	if (insideFirstIndexVector.size() > 1)
 	{
-		vec3 p = positionsInside[i];
-		//vec3 uv = uvInside[i];
-		//vec3 n = nInside[i];
+		uint* insideFirstIndexArray = new uint[insideFirstIndexVector.size()];
+		for (uint i = 0; i < insideFirstIndexVector.size(); i++)
+			insideFirstIndexArray[i] = insideFirstIndexVector[i];
 
-		iPositions[i*3] = p.x;
-		iPositions[i*3+1] = p.y;
-		iPositions[i*3+2] = p.z;
+		PolyMesh* insideMesh = new PolyMesh(insideFirstIndexVector.size() - 1, insideFirstIndex, insideFirstIndexArray);
+		// for each attribute
+		for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
+		ci != mesh->vertexAttributes.end();
+		ci++)
+		{
+			Symbol attributeName = ci->first;
+			uint stride = ci->second.stride;
 
-		//iUV[i] = uv.x;
-		//iUV[i] = uv.y;
-		//iUV[i] = uv.z;
+			AttributeBuffer sourceBuffer = insideAttributeBufferMap[attributeName];
 
-		//iNormals[i] = n.x;
-		//iNormals[i] = n.y;
-		//iNormals[i] = n.z;
+			double* data = new double[sourceBuffer.nextIndex * stride];
+			for (uint i = 0; i < sourceBuffer.nextIndex * stride; i++)
+				data[i] = sourceBuffer.data[i];
 
-		iIndices[i] = i; // brute force indexing !!!
+			uint* indices = new uint[insideFirstIndex];
+			for (uint i = 0; i < insideFirstIndex; i++)
+				indices[i] = sourceBuffer.indices[i];
+
+			PolyMesh::VertexAttribute attribute(stride, sourceBuffer.nextIndex * stride, data, indices, true);
+			insideMesh->addVertexAttribute(attributeName, attribute);
+		}
 	}
-	result.inside->setFirstIndexArray(&firstIndexInside[0]);
-	result.inside->setVertexPositions(iPositions);
-	result.inside->setVertexIndexArray(iIndices);
-	//result.inside->setNormalIndexArray(iFia);
-	//result.inside->setNormalPositions(iNormals);
-	//result.inside->setUVIndexArray(iFia);
-	//result.inside->setUVPositions(iUV);
-	//result.inside->setNormalPositions(iNormals);
 
-	result.inside->setDiffuseTexture(diffuseTextureHandle);
-	result.inside->setSpecularTexture(specularTextureHandle);
-	result.inside->setNormalTexture(normalTextureHandle);
-	result.inside->setShader(shader);
 
 
 	// outside
-	result.outside = new PolyMesh(primitiveCountOutside, positionsOutside.size(), positionsOutside.size() * 3);
-	double* oPositions = new double[positionsOutside.size()];
-	//double* oUV = new double[positionsOutside.size()];
-	//double* oNormals = new double[positionsOutside.size()];
-	uint* oIndices = new uint[positionsOutside.size()];
-
-	for (uint i = 0; i < positionsOutside.size(); i++)
+	if (outsideFirstIndexVector.size() > 1)
 	{
-		vec3 p = positionsOutside[i];
-		//vec3 uv = uvOutside[i];
-		//vec3 n = nOutside[i];
+		uint* outsideFirstIndexArray = new uint[outsideFirstIndexVector.size()];
+		for (uint i = 0; i < outsideFirstIndexVector.size(); i++)
+			outsideFirstIndexArray[i] = outsideFirstIndexVector[i];
 
-		oPositions[i*3] = p.x;
-		oPositions[i*3+1] = p.y;
-		oPositions[i*3+2] = p.z;
+		PolyMesh* outsideMesh = new PolyMesh(outsideFirstIndexVector.size() - 1, outsideFirstIndex, outsideFirstIndexArray);
+		// for each attribute
+		for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
+		ci != mesh->vertexAttributes.end();
+		ci++)
+		{
+			Symbol attributeName = ci->first;
+			uint stride = ci->second.stride;
 
-		//oUV[i] = uv.x;
-		//oUV[i] = uv.y;
-		//oUV[i] = uv.z;
+			AttributeBuffer sourceBuffer = outsideAttributeBufferMap[attributeName];
 
-		//oNormals[i] = n.x;
-		//oNormals[i] = n.y;
-		//oNormals[i] = n.z;
+			double* data = new double[sourceBuffer.nextIndex * stride];
+			for (uint i = 0; i < sourceBuffer.nextIndex * stride; i++)
+				data[i] = sourceBuffer.data[i];
 
-		oIndices[i] = i; // brute force indexing !!!
+			uint* indices = new uint[outsideFirstIndex];
+			for (uint i = 0; i < outsideFirstIndex; i++)
+				indices[i] = sourceBuffer.indices[i];
+
+			PolyMesh::VertexAttribute attribute(stride, sourceBuffer.nextIndex * stride, data, indices, true);
+			outsideMesh->addVertexAttribute(attributeName, attribute);
+		}
 	}
-	result.outside->setFirstIndexArray(&firstIndexOutside[0]);
-	result.outside->setVertexPositions(oPositions);
-	result.outside->setVertexIndexArray(oIndices);
-	//result.outside->setNormalIndexArray(oFia);
-	//result.outside->setNormalPositions(oNormals);
-	//result.outside->setUVIndexArray(oFia);
-	//result.outside->setUVPositions(oUV);
-	//result.outside->setNormalPositions(oNormals);
-
-	result.outside->setDiffuseTexture(diffuseTextureHandle);
-	result.outside->setSpecularTexture(specularTextureHandle);
-	result.outside->setNormalTexture(normalTextureHandle);
-	result.outside->setShader(shader);
 
 	return result;
+}
+
+void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBufferMap,
+	const PolyMesh::VertexAttributeMap& vertexAttributes, const uint currentIndex)
+{
+
+	// for each attribute
+	for (PolyMesh::VertexAttributeMap::const_iterator ci = vertexAttributes.begin();
+		ci != vertexAttributes.end();
+		ci++)
+	{
+		// add current point, i.e. p1
+		PolyMesh::VertexAttribute sourceAttribute = ci->second;
+		AttributeBuffer& targetBuffer = targetBufferMap[ci->first];
+
+		if (targetBuffer.indexMap.find(sourceAttribute.indices[currentIndex]) == targetBuffer.indexMap.end())
+		{
+			// write index
+			targetBuffer.indices.push_back(targetBuffer.nextIndex);
+			// write mapping
+			targetBuffer.indexMap[currentIndex] = targetBuffer.nextIndex;
+			// write attribute data
+			for (uint k = 0; k < sourceAttribute.stride; k++)
+			{
+				targetBuffer.data.push_back(sourceAttribute.attributeData[currentIndex*sourceAttribute.stride + k]);
+			}
+			// increment index
+			targetBuffer.nextIndex++;
+		}
+		else
+		{
+			targetBuffer.indices.push_back(targetBuffer.indexMap[currentIndex]);
+		}
+	}
+}
+
+void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& insideTargetBufferMap,
+	AttributeBufferMap& outsideTargetBufferMap,
+	const PolyMesh::VertexAttributeMap& vertexAttributes,
+	const uint currentIndex,
+	const uint nextIndex,
+	const double r)
+{
+	// for each attribute
+	for (PolyMesh::VertexAttributeMap::const_iterator ci = vertexAttributes.begin();
+		ci != vertexAttributes.end();
+		ci++)
+	{
+		PolyMesh::VertexAttribute sourceAttribute = ci->second;
+		AttributeBuffer& insideTargetBuffer = insideTargetBufferMap[ci->first];
+		AttributeBuffer& outsideTargetBuffer = insideTargetBufferMap[ci->first];
+
+		// add nu index
+		insideTargetBuffer.indices.push_back(insideTargetBuffer.nextIndex);
+		outsideTargetBuffer.indices.push_back(outsideTargetBuffer.nextIndex);
+
+		// lerp and write data
+		for (uint k = 0; k < sourceAttribute.stride; k++)
+		{
+			double result = lerp(r,
+				sourceAttribute.attributeData[currentIndex*sourceAttribute.stride + k],
+				sourceAttribute.attributeData[nextIndex*sourceAttribute.stride + k]);
+
+			insideTargetBuffer.data.push_back(result);
+			outsideTargetBuffer.data.push_back(result);
+		}
+	}
 }

@@ -1,10 +1,12 @@
 #ifndef KOCMOC_SCENE_POLY_MESH_HPP_
 #define KOCMOC_SCENE_POLY_MESH_HPP_
 
-#include "meshUtils.hpp"
+//#include "meshUtils.hpp"
 
 #include <Symbol.hpp>
 #include <types.hpp>
+
+#include <glm.hpp>
 
 #include <map>
 
@@ -17,6 +19,15 @@ namespace kocmoc
 
 	namespace scene
 	{
+		class PolyMesh;
+
+		namespace meshUtils
+		{
+			struct SplitResult;
+
+			SplitResult splitMesh(const PolyMesh* mesh, const double d, const glm::dvec3 n);
+		}
+
 		/**
 		 * The \c PolyMesh acts as the canonical basis for polygonal meshes.
 		 *
@@ -36,7 +47,7 @@ namespace kocmoc
 		class PolyMesh
 		{
 			friend class renderer::RenderMesh;
-			friend kocmoc::scene::meshUtils::SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const double d, const glm::vec3 n);
+			friend meshUtils::SplitResult meshUtils::splitMesh(const PolyMesh* mesh, const double d, const glm::dvec3 n);
 
 		public:
 			
@@ -185,6 +196,20 @@ namespace kocmoc
 			BoundingBox calculateBoundingBox(void) const;
 
 		private:
+
+			/**
+			 * Create a new \c PolyMesh.
+			 *
+			 * Private ctor just like the public but without the mandatory position
+			 * vertex attribute.
+			 * 
+			 * @param	primitiveCount	the number of primitives (polygons, etc...)
+			 * @param	vertexIndexCount	the number of vertex indices
+			 * @param	firstIndexArray		The array that points to the first index of every primitive
+			 */
+			PolyMesh(uint primitiveCount, uint vertexIndexCount,
+				uint* firstIndexArray);
+
 
 			typedef std::pair<Symbol, VertexAttribute > VertexAttributePair;
 			typedef std::pair<Symbol, Texture > TexturePair;

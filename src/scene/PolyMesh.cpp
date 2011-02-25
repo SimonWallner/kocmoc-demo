@@ -18,6 +18,13 @@ PolyMesh::PolyMesh(uint _primitiveCount, uint _vertexIndexCount,
 	vertexAttributes.insert(VertexAttributePair(symbolize("position"), vertexPositions));
 }
 
+PolyMesh::PolyMesh(uint _primitiveCount, uint _vertexIndexCount,
+	uint* _firstIndexArray)
+	: primitiveCount(_primitiveCount)
+	, vertexIndexCount(_vertexIndexCount)
+	, firstIndexArray(_firstIndexArray)
+{}
+
 PolyMesh::~PolyMesh()
 {
 	for (VertexAttributeMap::const_iterator ci = vertexAttributes.begin();

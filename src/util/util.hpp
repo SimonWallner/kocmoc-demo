@@ -68,19 +68,23 @@ namespace kocmoc
 			 * normal vector that is pointing towards the outside
 			 * @return true iff the point is inside or directly on the plane
 			 */
-			bool inside(double d, glm::vec3 n, glm::dvec3 point);
+			bool inside(const double d, const glm::dvec3& n, const glm::dvec3& point);
 
 			/**
 			 * calculate the intersection parameter for a later
 			 * linear mix. It is assumed that there is a valid 
 			 * intersection point!
 			 */
-			double intersect(double d, glm::vec3 n, glm::dvec3 p1, glm::dvec3 p2);
+			double intersect(const double d, const glm::dvec3& n, const glm::dvec3& p1, const glm::dvec3& p2);
 
 			/**
 			 * linear combination 
 			 */
-			glm::vec3 lerp(double r, glm::dvec3 v1, glm::dvec3 v2);
+			template <typename T >
+			T lerp(const double r, const T& v1, const T& v2)
+			{
+				return (v1 * r) + (v2 * (1-r));
+			}
 		}
 	}
 }
