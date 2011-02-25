@@ -36,7 +36,7 @@ namespace kocmoc
 		class PolyMesh
 		{
 			friend class renderer::RenderMesh;
-			friend SplitResult splitMesh();
+			friend kocmoc::scene::meshUtils::SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const double d, const glm::vec3 n);
 
 		public:
 			

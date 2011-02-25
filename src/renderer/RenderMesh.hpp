@@ -36,6 +36,7 @@ namespace kocmoc
 		class RenderMesh
 		{
 		public:
+			// TODO: rename to polyMesh
 			const scene::PolyMesh* mesh;
 			Shader* shader;
 
@@ -44,6 +45,8 @@ namespace kocmoc
 			void draw(glm::mat4 parentTransform, camera::Camera *camera);
 
 			void setModelMatrix(glm::mat4 _modelMatrix);
+
+			uint getVertexCount(void);
 
 		private:
 

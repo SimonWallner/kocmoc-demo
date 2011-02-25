@@ -124,9 +124,6 @@ namespace kocmoc
 
 		void drawOverlays(void);
 
-		scene::Octree* octree;
-		
-		renderer::RenderMesh* mesh;
 		scene::SceneNode* rootNode;
 	};
 }

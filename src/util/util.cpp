@@ -21,6 +21,7 @@ using kocmoc::loader::ImageLoader;
 using glm::vec4;
 using glm::mat4;
 using glm::vec3;
+using glm::dvec3;
 
 using std::string;
 using std::vector;
@@ -453,14 +454,14 @@ namespace kocmoc
 
 		namespace geometry
 		{
-			bool inside(double d, vec3 n, vec3 point)
+			bool inside(double d, vec3 n, dvec3 point)
 			{
 				double distance = ::glm::dot(point, n) - d;
 				return (distance < 0);
 			}
 
 
-			double intersect(double d, vec3 n, vec3 p1, vec3 p2)
+			double intersect(double d, vec3 n, dvec3 p1, dvec3 p2)
 			{
 				double d1 = ::glm::dot(p1, n) -d;
 				double d2 = ::glm::dot(p2, n) -d;
@@ -471,7 +472,7 @@ namespace kocmoc
 			/**
 			 * linear combination 
 			 */
-			vec3 mix(float r, vec3 v1, vec3 v2)
+			vec3 lerp(double r, dvec3 v1, dvec3 v2)
 			{
 				return (v1 * r) + (v2 * (1-r));
 			}

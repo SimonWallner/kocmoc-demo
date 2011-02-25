@@ -5,7 +5,6 @@
  * A Simple octree impelemntation to handle PolyMeshes
  */
 
-#include "PolyMesh.hpp"
 #include "LineGizmo.hpp"
 
 #include <types.hpp>
@@ -21,6 +20,11 @@ namespace kocmoc
 	namespace camera
 	{
 		class Camera;
+	}
+
+	namespace renderer
+	{
+		class RenderMesh;
 	}
 
 	namespace scene
@@ -57,29 +61,32 @@ namespace kocmoc
 			 * to lower levels of the tree.
 			 */
 
-			void insert(PolyMesh* mesh);
+			void insert(renderer::RenderMesh* mesh);
 			
 
 			/**
 			 * Traverse the octree and return the content as a collection
 			 * @param maxRecursionDepth define the maximum number of recursion.
 			 */
-			std::vector<PolyMesh* > traverse(uint maxRecursionDepth);
+			//std::vector<PolyMesh* > traverse(uint maxRecursionDepth);
 
 			/**
 			 * render the contents of this tree, i.e. issue render calls on its
 			 * contents.
 			 */
-			void render(void);
+			void draw(glm::mat4 parentTransform, camera::Camera* camera);
 
 			/**
 			 * render debug stuff, like bounding boxes, etc...
 			 */
-			void renderDebug(glm::mat4 parentTransform, camera::Camera* camera);
+			void drawDebug(glm::mat4 parentTransform, camera::Camera* camera);
 
 		private:
+
+			typedef std::vector<renderer::RenderMesh* > ContentList;
+
 			/** The content of this cell */
-			std::vector<PolyMesh* > content;
+			ContentList content;
 
 			/** The total vertex count of of the subtree (splitting overhead 
 			 * is not counted. */

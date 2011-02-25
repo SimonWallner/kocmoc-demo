@@ -37,6 +37,7 @@ using kocmoc::input::Gamepad;
 using kocmoc::camera::OrthoCamera;
 using kocmoc::time::Clock;
 using kocmoc::util::Property;
+using kocmoc::util::generator::generateTriangle;
 
 using glm::vec3;
 using glm::mat4;
@@ -79,40 +80,40 @@ void Kocmoc::stop(){
 
 void Kocmoc::init()
 {
-	// user camera
-	camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
-		vec3(0, 0, 0), // target
-		vec3(0, 1, 0));  // up
-	float aspectRatio = (float)util::Property("aspectRatio") / ((float)Context::getInstance().width / (float)Context::getInstance().height);
-	if (aspectRatio > 1) // horizontal letter box
-		camera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
-	else
-		camera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
+	{ // user camera
+		camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
+			vec3(0, 0, 0), // target
+			vec3(0, 1, 0));  // up
+		float aspectRatio = (float)util::Property("aspectRatio") / ((float)Context::getInstance().width / (float)Context::getInstance().height);
+		if (aspectRatio > 1) // horizontal letter box
+			camera->setGateInPixel(Context::getInstance().width, (float)Context::getInstance().height / aspectRatio);
+		else
+			camera->setGateInPixel((float)Context::getInstance().width * aspectRatio, Context::getInstance().height);
 
-	camera->setFocalLength(util::Property("cameraFocalLength35"));
-	camera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
-	camera->updateMatrixes();
+		camera->setFocalLength(util::Property("cameraFocalLength35"));
+		camera->setFilterMarginInPixel(util::Property("horizontalMargin"), util::Property("verticalMargin"));
+		camera->updateMatrixes();
 
-	// ortho cam
-	orthoCamera = new OrthoCamera(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
-	orthoCamera->updateMatrixes();
-	shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
+		// ortho cam
+		orthoCamera = new OrthoCamera(vec3(0, 0, 0), vec3(-1, -1, -1), vec3(0, 1, 0));
+		orthoCamera->updateMatrixes();
+		shadowShader = ShaderManager::getInstance().load("shadow.vert", "shadow.frag");
+	}
 
 
-	//octree = new Octree(vec3(0), 10);
-	//octree->insert(util::generator::generateTriangle());
-
+	// octree scene stuff
 	rootNode = new SceneNode("root node");
 
-	RenderMeshNode* starsNode = new RenderMeshNode("stars node");
-	mesh = util::generator::generateStars();
-	starsNode->add(mesh);
-	rootNode->add(starsNode);
+	Octree* octree = new Octree(vec3(0), 100);
+	octree->insert(generateTriangle());
+	OctreeNode* octreeNode = new OctreeNode(octree);
+
+	rootNode->add(octreeNode);
 
 	rootNode->add(SceneLoader::getInstance().load("texture_test.dae"));
 
 
-	{ /* inputs */
+	{ // inputs 
 		gamepad = new input::Gamepad(camera);
 		useGamepad = gamepad->init();
 		useMouse = util::Property("enableMouse");
@@ -120,16 +121,19 @@ void Kocmoc::init()
 			glfwDisable(GLFW_MOUSE_CURSOR);
 	}
 
-	fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight(), camera->getGateWidth(), camera->getGateHeight());
-	fbo->setupShader();
-	shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
+	{
+		fbo = new FrameBuffer(camera->getFrameWidth(), camera->getFrameHeight(), camera->getGateWidth(), camera->getGateHeight());
+		fbo->setupShader();
+		shadowMap = new ShadowMap(util::Property("shadowMapWidth"), util::Property("shadowMapHeight"));
+	}
 	
-	
-	clock = new Clock();
-	if (util::Property("useFixedFrameRate"))
-		clock->start(1.0/(float)util::Property("fixedFrameRate"));
-	else
-		clock->start();
+	{
+		clock = new Clock();
+		if (util::Property("useFixedFrameRate"))
+			clock->start(1.0/(float)util::Property("fixedFrameRate"));
+		else
+			clock->start();
+	}
 
 	running = true;
 	
@@ -172,8 +176,8 @@ void Kocmoc::start()
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, shadowMap->getTextureHandle());
+		//glActiveTexture(GL_TEXTURE3);
+		//glBindTexture(GL_TEXTURE_2D, shadowMap->getTextureHandle());
 		draw();
 
 

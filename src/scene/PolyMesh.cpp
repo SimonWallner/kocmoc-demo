@@ -42,7 +42,6 @@ void PolyMesh::addTexture(Symbol name, Texture texture)
 	textures.insert(TexturePair(name, texture));
 }
 
-
 PolyMesh::BoundingBox PolyMesh::calculateBoundingBox() const
 {
 	double minX, minY, minZ;

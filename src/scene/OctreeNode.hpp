@@ -5,6 +5,11 @@
 
 namespace kocmoc
 {
+	namespace renderer
+	{
+		class RenderMesh;
+	}
+
 	namespace scene
 	{
 		class Octree;
@@ -12,11 +17,12 @@ namespace kocmoc
 		class OctreeNode : public SceneNode
 		{
 		public:
-			OctreeNode(std::string name = "octree node");
+			OctreeNode(Octree* octree, std::string name = "octree node");
 
-			//void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
-			//void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
-
+			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
+			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
+			
+			void add(SceneNode* node) {SceneNode::add(node);};
 		private:
 			Octree* octree;
 		};

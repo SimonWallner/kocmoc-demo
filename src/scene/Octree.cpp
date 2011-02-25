@@ -2,12 +2,18 @@
 
 #include <util/util.hpp>
 #include <camera/Camera.hpp>
+#include <renderer/RenderMesh.hpp>
+#include <scene/meshUtils.hpp>
 
 using namespace kocmoc::scene;
 
 using kocmoc::util::generator::generateOriginGizmo;
 using kocmoc::util::generator::generateUnitCube;
 using kocmoc::camera::Camera;
+using kocmoc::renderer::RenderMesh;
+using kocmoc::scene::PolyMesh;
+using kocmoc::scene::SplitResult;
+using kocmoc::scene::splitMesh;
 
 using glm::vec3;
 using glm::mat4;
@@ -26,9 +32,9 @@ Octree::Octree(vec3 _origin, double _size)
 }
 
 
-void Octree::insert(kocmoc::scene::PolyMesh* mesh)
+void Octree::insert(RenderMesh* mesh)
 {
-	totalVertexCount += mesh->vertexIndexCount;
+	totalVertexCount += mesh->mesh->vertexIndexCount;
 
 	if (isLeaf)
 	{
@@ -59,58 +65,69 @@ void Octree::insert(kocmoc::scene::PolyMesh* mesh)
 		vec3 distance = vec3(0) - origin;
 
 		// X
-		//PolyMesh::SplitResult resultX = mesh->split(distance.x, vec3(1, 0, 0));
-		//PolyMesh* inside = resultX.inside;
-		//PolyMesh* outside = resultX.outside;
+		SplitResult resultX = splitMesh(mesh->mesh, distance.x, vec3(1, 0, 0));
+		PolyMesh* inside = resultX.inside;
+		PolyMesh* outside = resultX.outside;
 
-		//// Y
-		//PolyMesh::SplitResult insideY = inside->split(distance.y, vec3(0, 1, 0));
-		//PolyMesh* insideInside = insideY.inside;
-		//PolyMesh* insideOutside = insideY.outside;
+		// Y
+		SplitResult insideY = splitMesh(inside, distance.y, vec3(0, 1, 0));
+		PolyMesh* insideInside = insideY.inside;
+		PolyMesh* insideOutside = insideY.outside;
 
-		//PolyMesh::SplitResult outsideY = outside->split(distance.y, vec3(0, 1, 0));
-		//PolyMesh* outsideInside = outsideY.inside;
-		//PolyMesh* outsideOutside = outsideY.outside;
+		SplitResult outsideY = splitMesh(outside, distance.y, vec3(0, 1, 0));
+		PolyMesh* outsideInside = outsideY.inside;
+		PolyMesh* outsideOutside = outsideY.outside;
 
-		//// Z
-		//PolyMesh::SplitResult insideInsideZ = insideInside->split(distance.z, vec3(0, 0, 1));
-		//PolyMesh* iii = insideInsideZ.inside;
-		//PolyMesh* iio = insideInsideZ.outside;
+		// Z
+		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, vec3(0, 0, 1));
+		PolyMesh* iii = insideInsideZ.inside;
+		PolyMesh* iio = insideInsideZ.outside;
 
-		//PolyMesh::SplitResult insideOutsideZ = insideOutside->split(distance.z, vec3(0, 0, 1));
-		//PolyMesh* ioi = insideOutsideZ.inside;
-		//PolyMesh* ioo = insideOutsideZ.outside;
+		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, vec3(0, 0, 1));
+		PolyMesh* ioi = insideOutsideZ.inside;
+		PolyMesh* ioo = insideOutsideZ.outside;
 
-		//PolyMesh::SplitResult outsideInsideZ = outsideInside->split(distance.z, vec3(0, 0, 1));
-		//PolyMesh* oii = outsideInsideZ.inside;
-		//PolyMesh* oio = outsideInsideZ.outside;
+		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, vec3(0, 0, 1));
+		PolyMesh* oii = outsideInsideZ.inside;
+		PolyMesh* oio = outsideInsideZ.outside;
 
-		//PolyMesh::SplitResult outsideOutsideZ = outsideOutside->split(distance.z, vec3(0, 0, 1));
-		//PolyMesh* ooi = outsideOutsideZ.inside;
-		//PolyMesh* ooo = outsideOutsideZ.outside;
+		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, vec3(0, 0, 1));
+		PolyMesh* ooi = outsideOutsideZ.inside;
+		PolyMesh* ooo = outsideOutsideZ.outside;
 
-		//children[0]->insert(ooo);
-		//children[0]->insert(ioo);
-		//children[0]->insert(iio);
-		//children[0]->insert(oio);
-		//children[0]->insert(ooi);
-		//children[0]->insert(ioi);
-		//children[0]->insert(iii);
-		//children[0]->insert(oii);
+		children[0]->insert(new RenderMesh(ooo, mesh->shader));
+		children[0]->insert(new RenderMesh(ioo, mesh->shader));
+		children[0]->insert(new RenderMesh(iio, mesh->shader));
+		children[0]->insert(new RenderMesh(oio, mesh->shader));
+		children[0]->insert(new RenderMesh(ooi, mesh->shader));
+		children[0]->insert(new RenderMesh(ioi, mesh->shader));
+		children[0]->insert(new RenderMesh(iii, mesh->shader));
+		children[0]->insert(new RenderMesh(oii, mesh->shader));
 	}
 }
 
-void Octree::renderDebug(mat4 parentTransform, Camera* camera)
+void Octree::drawDebug(mat4 parentTransform, Camera* camera)
 {
 	mat4 translate = glm::translate(origin);
 	mat4 scale = glm::scale(vec3(size * 2));
+	mat4 originScale = glm::scale(vec3(size / 4));
 
 	boundingBox->draw(translate * scale, camera);
-	originGizmo->draw(translate, camera);
+	originGizmo->draw(translate * originScale, camera);
 
 	if (!isLeaf)
 	{
 		for (uint i = 0; i < 8; i++)
-			children[i]->renderDebug(parentTransform, camera);
+			children[i]->drawDebug(parentTransform, camera);
+	}
+}
+
+void Octree::draw(mat4 parentTransform, Camera* camera)
+{
+	for (ContentList::const_iterator ci = content.begin();
+		ci != content.end();
+		ci++)
+	{
+		(*ci)->draw(parentTransform, camera);
 	}
 }
