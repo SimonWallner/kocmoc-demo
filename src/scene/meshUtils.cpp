@@ -55,8 +55,8 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 		// for each vertex
 		for (uint j = 0; j < primitiveLength; j++)
 		{
-			uint currentIndex = firstIndex + j;
-			uint nextIndex = firstIndex + ((j+1) % primitiveLength);
+			uint currentIndex = position.indices[firstIndex + j];
+			uint nextIndex = position.indices[firstIndex + ((j+1) % primitiveLength)];
 
 			dvec3 p1 = dvec3(position.attributeData[currentIndex*3],
 							position.attributeData[currentIndex*3 + 1],
@@ -72,11 +72,6 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 				{
 					transferAttributes(insideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
 					insideFirstIndex++;
-
-					//positionsInside.push_back(p1);
-					//uvInside.push_back(uv1);
-					//nInside.push_back(n1);
-					//fiInside++;
 				}
 				else // inside-outside
 				{
@@ -89,25 +84,6 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 						currentIndex, nextIndex, r);
 					insideFirstIndex++;
 					outsideFirstIndex++;
-
-					//vec3 iP = lerp(r, p1, p2);
-					////vec3 iUV = lerp(r, uv1, uv2);
-					////vec3 iN = lerp(r, n1, n2);
-
-					//positionsInside.push_back(p1);
-					////uvInside.push_back(uv1);
-					////nInside.push_back(n1);
-					//fiInside++;
-				
-					//positionsInside.push_back(iP);
-					////uvInside.push_back(iUV);
-					////nInside.push_back(iN);
-					//fiInside++;
-
-					//positionsOutside.push_back(iP);
-					////uvOutside.push_back(iUV);
-					////nOutside.push_back(iN);
-					//fiOutside++;
 				}
 			}
 			else // outside
@@ -123,35 +99,11 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 						currentIndex, nextIndex, r);
 					insideFirstIndex++;
 					outsideFirstIndex++;
-
-					//vec3 iP = lerp(r, p1, p2);
-					////vec3 iUV = lerp(r, uv1, uv2);
-					////vec3 iN = lerp(r, n1, n2);
-
-					//positionsInside.push_back(iP);
-					////uvInside.push_back(iUV);
-					////nInside.push_back(iN);
-					//fiInside++;
-					//
-					//positionsOutside.push_back(p1);
-					////uvOutside.push_back(uv1);
-					////nOutside.push_back(n1);
-					//fiOutside++;
-
-					//positionsOutside.push_back(iP);
-					////uvOutside.push_back(iUV);
-					////nOutside.push_back(iN);
-					//fiOutside++;
 				}
 				else // outside-outside
 				{
 					transferAttributes(outsideAttributeBufferMap, mesh->vertexAttributes, currentIndex);
 					outsideFirstIndex++;
-
-					//positionsOutside.push_back(p1);
-					////uvOutside.push_back(uv1);
-					////nOutside.push_back(n1);
-					//fiOutside++;
 				}
 			}
 		}
@@ -259,7 +211,7 @@ void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBuff
 			// write attribute data
 			for (uint k = 0; k < sourceAttribute.stride; k++)
 			{
-				targetBuffer.data.push_back(sourceAttribute.attributeData[currentIndex*sourceAttribute.stride + k]);
+				targetBuffer.data.push_back(sourceAttribute.attributeData[currentIndex * sourceAttribute.stride + k]);
 			}
 			// increment index
 			targetBuffer.nextIndex++;
