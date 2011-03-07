@@ -28,9 +28,9 @@ namespace kocmoc
 		 */
 		class RenderMeshNode : public SceneNode
 		{
-			typedef std::list<renderer::RenderMesh* > RenderMeshPointerList;
-			
 		public:
+			typedef std::list<renderer::RenderMesh* > RenderMeshPointerList;
+
 			RenderMeshNode(std::string _name = "render mesh node");
 			~RenderMeshNode(void);
 
@@ -39,6 +39,8 @@ namespace kocmoc
 		
 			void draw(glm::mat4 transform, camera::Camera* camera, renderer::Shader* shader = NULL);
 			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
+
+			const RenderMeshPointerList& getRenderMeshList(void) {return renderMeshList;};
 
 		private:
 			RenderMeshPointerList renderMeshList;

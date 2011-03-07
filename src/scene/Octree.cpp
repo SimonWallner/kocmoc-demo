@@ -99,22 +99,23 @@ void Octree::insert(RenderMesh* mesh)
 		PolyMesh* ooi = outsideOutsideZ.inside;
 		PolyMesh* ooo = outsideOutsideZ.outside;
 
+
 		if (ooo != NULL)
 			children[0]->insert(new RenderMesh(ooo, mesh->shader));
 		if (ioo != NULL)
-			children[0]->insert(new RenderMesh(ioo, mesh->shader));
+			children[1]->insert(new RenderMesh(ioo, mesh->shader));
 		if (iio != NULL)
-			children[0]->insert(new RenderMesh(iio, mesh->shader));
+			children[2]->insert(new RenderMesh(iio, mesh->shader));
 		if (oio != NULL)
-			children[0]->insert(new RenderMesh(oio, mesh->shader));
+			children[3]->insert(new RenderMesh(oio, mesh->shader));
 		if (ooi != NULL)
-			children[0]->insert(new RenderMesh(ooi, mesh->shader));
+			children[4]->insert(new RenderMesh(ooi, mesh->shader));
 		if (ioi != NULL)
-			children[0]->insert(new RenderMesh(ioi, mesh->shader));
+			children[5]->insert(new RenderMesh(ioi, mesh->shader));
 		if (iii != NULL)
-			children[0]->insert(new RenderMesh(iii, mesh->shader));
+			children[6]->insert(new RenderMesh(iii, mesh->shader));
 		if (oii != NULL)
-			children[0]->insert(new RenderMesh(oii, mesh->shader));
+			children[7]->insert(new RenderMesh(oii, mesh->shader));
 	}
 }
 
@@ -136,10 +137,18 @@ void Octree::drawDebug(mat4 parentTransform, Camera* camera)
 
 void Octree::draw(mat4 parentTransform, Camera* camera)
 {
-	for (ContentList::const_iterator ci = content.begin();
-		ci != content.end();
-		ci++)
+	if (!isLeaf)
 	{
-		(*ci)->draw(parentTransform, camera);
+		for (uint i = 0; i < 8; i++)
+			children[i]->draw(parentTransform, camera);
+	}
+	else 
+	{
+		for (ContentList::const_iterator ci = content.begin();
+			ci != content.end();
+			ci++)
+		{
+			(*ci)->draw(parentTransform, camera);
+		}
 	}
 }

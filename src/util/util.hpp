@@ -74,16 +74,19 @@ namespace kocmoc
 			 * calculate the intersection parameter for a later
 			 * linear mix. It is assumed that there is a valid 
 			 * intersection point!
+			 * @return 0 iff the intersection is in p1, 1 iff the intersection is in
+			 *		p2, (0, 1) in between.
 			 */
 			double intersect(const double d, const glm::dvec3& n, const glm::dvec3& p1, const glm::dvec3& p2);
 
 			/**
 			 * linear combination 
+			 * @return v1 iff r == 0, v2 iff r == 1, and a mix if r is in (0, 1).
 			 */
 			template <typename T >
 			T lerp(const double r, const T& v1, const T& v2)
 			{
-				return (v1 * r) + (v2 * (1-r));
+				return (v1 * (1-r)) + (v2 * r);
 			}
 		}
 	}

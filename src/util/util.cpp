@@ -459,5 +459,6 @@ double util::geometry::intersect(const double d, const dvec3& n, const dvec3& p1
 	double d1 = glm::dot(p1, n) -d;
 	double d2 = glm::dot(p2, n) -d;
 
-	return d2 / (d1 + d2);
+
+	return d1 / (d1 - d2);
 }

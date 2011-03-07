@@ -189,7 +189,15 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 		}
 	}
 
-	PolyMesh::BoundingBox bb = mesh->calculateBoundingBox();
+	for (PolyMesh::TextureMap::const_iterator ci = mesh->textures.begin();
+		ci != mesh->textures.end();
+		ci++)
+	{
+		if (result.inside != NULL)
+			result.inside->addTexture(ci->first, ci->second);
+		if (result.outside != NULL)
+			result.outside->addTexture(ci->first, ci->second);
+	}
 	return result;
 }
 
@@ -250,9 +258,9 @@ void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& inside
 		// lerp and write data
 		for (uint k = 0; k < sourceAttribute.stride; k++)
 		{
-			double result = lerp(r,
-				sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k],
-				sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k]);
+			double v1 = sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k];
+			double v2 = sourceAttribute.attributeData[sourceAttribute.indices[nextIndex] * sourceAttribute.stride + k];
+			double result = lerp(r, v1, v2);
 
 			insideTargetBuffer.data.push_back(result);
 			outsideTargetBuffer.data.push_back(result);

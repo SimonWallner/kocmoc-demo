@@ -105,14 +105,24 @@ void Kocmoc::init()
 	// octree scene stuff
 	rootNode = new SceneNode("root node");
 
-	//Octree* octree = new Octree(vec3(0), 400);
+	Octree* octree = new Octree(vec3(0), 100);
 	//octree->insert(generateStars());
-	//OctreeNode* octreeNode = new OctreeNode(octree);
 
-	//rootNode->add(octreeNode);
+	RenderMeshNode* triangle = SceneLoader::getInstance().load("triangle.dae");
+	const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
+	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
+		ci != list.end();
+		ci++)
+	{
+		octree->insert((*ci));
+	}
 
-	rootNode->add(SceneLoader::getInstance().load("triangle.dae"));
+	OctreeNode* octreeNode = new OctreeNode(octree);
 
+	rootNode->add(octreeNode);
+
+
+	//rootNode->add(SceneLoader::getInstance().load("triangle.dae"));
 
 	{ // inputs 
 		gamepad = new input::Gamepad(camera);

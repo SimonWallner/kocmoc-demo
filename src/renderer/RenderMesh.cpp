@@ -216,17 +216,21 @@ void RenderMesh::setUpTextures()
 		ci != semantics.end();
 		ci++)
 	{
-		const PolyMesh::Texture texture = mesh->textures.find(ci->textureName)->second;
-		GLuint handle = ImageLoader::getInstance().loadImage(texture.fileName);
+		const PolyMesh::TextureMap::const_iterator ti = mesh->textures.find(ci->textureName);
+		if (ti != mesh->textures.end())
+		{
+			const PolyMesh::Texture& texture = ti->second;
+			GLuint handle = ImageLoader::getInstance().loadImage(texture.fileName);
 
-		RenderTexture renderTexture(handle, textureUnit);
-		renderTextures.push_back(renderTexture);
+			RenderTexture renderTexture(handle, textureUnit);
+			renderTextures.push_back(renderTexture);
 
-		GLint location = shader->get_uniform_location(ci->samplerName);
-		if (location >= 0)
-			glUniform1i(location, textureUnit);
+			GLint location = shader->get_uniform_location(ci->samplerName);
+			if (location >= 0)
+				glUniform1i(location, textureUnit);
 
-		textureUnit++;
+			textureUnit++;
+		}
 	}
 
 	shader->unbind();
