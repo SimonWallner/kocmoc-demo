@@ -55,16 +55,19 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 		// for each vertex
 		for (uint j = 0; j < primitiveLength; j++)
 		{
-			uint currentIndex = position.indices[firstIndex + j];
-			uint nextIndex = position.indices[firstIndex + ((j+1) % primitiveLength)];
+			uint currentIndex = firstIndex + j;
+			uint nextIndex = firstIndex + ((j+1) % primitiveLength);
 
-			dvec3 p1 = dvec3(position.attributeData[currentIndex*3],
-							position.attributeData[currentIndex*3 + 1],
-							position.attributeData[currentIndex*3 + 2]);
+			uint currentPositionIndex = position.indices[currentIndex];
+			uint nextPositionIndex = position.indices[nextIndex];
 
-			dvec3 p2 = dvec3(position.attributeData[nextIndex*3],
-							position.attributeData[nextIndex*3 + 1],
-							position.attributeData[nextIndex*3 + 2]);
+			dvec3 p1 = dvec3(position.attributeData[currentPositionIndex*3],
+							position.attributeData[currentPositionIndex*3 + 1],
+							position.attributeData[currentPositionIndex*3 + 2]);
+
+			dvec3 p2 = dvec3(position.attributeData[nextPositionIndex*3],
+							position.attributeData[nextPositionIndex*3 + 1],
+							position.attributeData[nextPositionIndex*3 + 2]);
 
 			if (inside(d, n, p1))
 			{
@@ -123,13 +126,13 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 	SplitResult result = {NULL, NULL};
 
 	// inside
-	if (insideFirstIndexVector.size() > 1)
+	if (insideFirstIndexVector.size() > 1) // test if there are any vertices in this half
 	{
 		uint* insideFirstIndexArray = new uint[insideFirstIndexVector.size()];
 		for (uint i = 0; i < insideFirstIndexVector.size(); i++)
 			insideFirstIndexArray[i] = insideFirstIndexVector[i];
 
-		PolyMesh* insideMesh = new PolyMesh(insideFirstIndexVector.size() - 1, insideFirstIndex, insideFirstIndexArray);
+		result.inside = new PolyMesh(insideFirstIndexVector.size() - 1, insideFirstIndex, insideFirstIndexArray);
 		// for each attribute
 		for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
 		ci != mesh->vertexAttributes.end();
@@ -149,20 +152,20 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 				indices[i] = sourceBuffer.indices[i];
 
 			PolyMesh::VertexAttribute attribute(stride, sourceBuffer.nextIndex * stride, data, indices, true);
-			insideMesh->addVertexAttribute(attributeName, attribute);
+			result.inside->addVertexAttribute(attributeName, attribute);
 		}
 	}
 
 
 
 	// outside
-	if (outsideFirstIndexVector.size() > 1)
+	if (outsideFirstIndexVector.size() > 1) // test if there are any vertices in this half
 	{
 		uint* outsideFirstIndexArray = new uint[outsideFirstIndexVector.size()];
 		for (uint i = 0; i < outsideFirstIndexVector.size(); i++)
 			outsideFirstIndexArray[i] = outsideFirstIndexVector[i];
 
-		PolyMesh* outsideMesh = new PolyMesh(outsideFirstIndexVector.size() - 1, outsideFirstIndex, outsideFirstIndexArray);
+		result.outside = new PolyMesh(outsideFirstIndexVector.size() - 1, outsideFirstIndex, outsideFirstIndexArray);
 		// for each attribute
 		for (PolyMesh::VertexAttributeMap::const_iterator ci = mesh->vertexAttributes.begin();
 		ci != mesh->vertexAttributes.end();
@@ -182,10 +185,11 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 				indices[i] = sourceBuffer.indices[i];
 
 			PolyMesh::VertexAttribute attribute(stride, sourceBuffer.nextIndex * stride, data, indices, true);
-			outsideMesh->addVertexAttribute(attributeName, attribute);
+			result.outside->addVertexAttribute(attributeName, attribute);
 		}
 	}
 
+	PolyMesh::BoundingBox bb = mesh->calculateBoundingBox();
 	return result;
 }
 
@@ -211,7 +215,7 @@ void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBuff
 			// write attribute data
 			for (uint k = 0; k < sourceAttribute.stride; k++)
 			{
-				targetBuffer.data.push_back(sourceAttribute.attributeData[currentIndex * sourceAttribute.stride + k]);
+				targetBuffer.data.push_back(sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k]);
 			}
 			// increment index
 			targetBuffer.nextIndex++;
@@ -237,7 +241,7 @@ void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& inside
 	{
 		PolyMesh::VertexAttribute sourceAttribute = ci->second;
 		AttributeBuffer& insideTargetBuffer = insideTargetBufferMap[ci->first];
-		AttributeBuffer& outsideTargetBuffer = insideTargetBufferMap[ci->first];
+		AttributeBuffer& outsideTargetBuffer = outsideTargetBufferMap[ci->first];
 
 		// add nu index
 		insideTargetBuffer.indices.push_back(insideTargetBuffer.nextIndex);
@@ -247,8 +251,8 @@ void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& inside
 		for (uint k = 0; k < sourceAttribute.stride; k++)
 		{
 			double result = lerp(r,
-				sourceAttribute.attributeData[currentIndex*sourceAttribute.stride + k],
-				sourceAttribute.attributeData[nextIndex*sourceAttribute.stride + k]);
+				sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k],
+				sourceAttribute.attributeData[sourceAttribute.indices[currentIndex] * sourceAttribute.stride + k]);
 
 			insideTargetBuffer.data.push_back(result);
 			outsideTargetBuffer.data.push_back(result);

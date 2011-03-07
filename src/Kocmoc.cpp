@@ -105,13 +105,13 @@ void Kocmoc::init()
 	// octree scene stuff
 	rootNode = new SceneNode("root node");
 
-	Octree* octree = new Octree(vec3(0), 10);
-	octree->insert(generateStars());
-	OctreeNode* octreeNode = new OctreeNode(octree);
+	//Octree* octree = new Octree(vec3(0), 400);
+	//octree->insert(generateStars());
+	//OctreeNode* octreeNode = new OctreeNode(octree);
 
-	rootNode->add(octreeNode);
+	//rootNode->add(octreeNode);
 
-	rootNode->add(SceneLoader::getInstance().load("texture_test.dae"));
+	rootNode->add(SceneLoader::getInstance().load("triangle.dae"));
 
 
 	{ // inputs 

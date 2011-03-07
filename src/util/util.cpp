@@ -1,4 +1,4 @@
-#include "util.hpp"
+﻿#include "util.hpp"
 #include "Property.hpp"
 
 #include <loader/ImageLoader.hpp>

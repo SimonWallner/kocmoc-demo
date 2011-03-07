@@ -1,4 +1,4 @@
-#include "Octree.hpp"
+﻿#include "Octree.hpp"
 
 #include <util/util.hpp>
 #include <camera/Camera.hpp>
@@ -67,7 +67,7 @@ void Octree::insert(RenderMesh* mesh)
 	else
 	{
 		vec3 distance = vec3(0) - origin;
-
+		
 		// X
 		SplitResult resultX = splitMesh(mesh->mesh, distance.x, dvec3(1, 0, 0));
 		PolyMesh* inside = resultX.inside;
