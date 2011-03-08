@@ -13,7 +13,7 @@
 
 #include <vector>
 
-#define KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD 100
+#define KOCMOC_SCENE_OCTREE_SPLIT_THRESHOLD 0
 
 namespace kocmoc
 {
@@ -59,9 +59,11 @@ namespace kocmoc
 			/**
 			 * Insert a polyMesh into the octree. Upon insertion it might be split and added
 			 * to lower levels of the tree.
+			 * @param maxRecursionDepth limit the recursion depth, default = -1 for
+			 *		infinite recursions. If 0 is reached the method returns.
 			 */
 
-			void insert(renderer::RenderMesh* mesh);
+			void insert(renderer::RenderMesh* mesh, int maxRecursionDepth = -1);
 			
 
 			/**

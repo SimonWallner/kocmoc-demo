@@ -108,13 +108,13 @@ void Kocmoc::init()
 	Octree* octree = new Octree(vec3(0), 100);
 	//octree->insert(generateStars());
 
-	RenderMeshNode* triangle = SceneLoader::getInstance().load("triangle.dae");
+	RenderMeshNode* triangle = SceneLoader::getInstance().load("cube.dae");
 	const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
 	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
 		ci != list.end();
 		ci++)
 	{
-		octree->insert((*ci));
+		octree->insert((*ci), 1);
 	}
 
 	OctreeNode* octreeNode = new OctreeNode(octree);

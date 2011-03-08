@@ -33,9 +33,12 @@ Octree::Octree(vec3 _origin, double _size)
 }
 
 
-void Octree::insert(RenderMesh* mesh)
+void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 {
 	if (mesh == NULL) 
+		return;
+
+	if (maxRecursionDepth == 0)
 		return;
 
 
@@ -59,7 +62,7 @@ void Octree::insert(RenderMesh* mesh)
 			children[7] = new Octree(origin + vec3(size/2, -size/2, -size/2), size/2);
 
 			for (uint i = 0; i < content.size(); i++)
-				insert(content[i]);
+				insert(content[i], maxRecursionDepth);
 
 			content.clear();
 		}
@@ -101,21 +104,21 @@ void Octree::insert(RenderMesh* mesh)
 
 
 		if (ooo != NULL)
-			children[0]->insert(new RenderMesh(ooo, mesh->shader));
+			children[0]->insert(new RenderMesh(ooo, mesh->shader), maxRecursionDepth-1);
 		if (ioo != NULL)
-			children[1]->insert(new RenderMesh(ioo, mesh->shader));
+			children[1]->insert(new RenderMesh(ioo, mesh->shader), maxRecursionDepth-1);
 		if (iio != NULL)
-			children[2]->insert(new RenderMesh(iio, mesh->shader));
+			children[2]->insert(new RenderMesh(iio, mesh->shader), maxRecursionDepth-1);
 		if (oio != NULL)
-			children[3]->insert(new RenderMesh(oio, mesh->shader));
+			children[3]->insert(new RenderMesh(oio, mesh->shader), maxRecursionDepth-1);
 		if (ooi != NULL)
-			children[4]->insert(new RenderMesh(ooi, mesh->shader));
+			children[4]->insert(new RenderMesh(ooi, mesh->shader), maxRecursionDepth-1);
 		if (ioi != NULL)
-			children[5]->insert(new RenderMesh(ioi, mesh->shader));
+			children[5]->insert(new RenderMesh(ioi, mesh->shader), maxRecursionDepth-1);
 		if (iii != NULL)
-			children[6]->insert(new RenderMesh(iii, mesh->shader));
+			children[6]->insert(new RenderMesh(iii, mesh->shader), maxRecursionDepth-1);
 		if (oii != NULL)
-			children[7]->insert(new RenderMesh(oii, mesh->shader));
+			children[7]->insert(new RenderMesh(oii, mesh->shader), maxRecursionDepth-1);
 	}
 }
 
