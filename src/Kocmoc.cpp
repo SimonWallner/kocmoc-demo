@@ -75,6 +75,7 @@ bool Kocmoc::isRunning(){
 
 void Kocmoc::stop(){
 	running = false;
+	std::cout << "shut down in progress" << std::endl;
 }
 
 
@@ -105,24 +106,26 @@ void Kocmoc::init()
 	// octree scene stuff
 	rootNode = new SceneNode("root node");
 
-	Octree* octree = new Octree(vec3(0), 20);
+	Octree* octree = new Octree(vec3(0), 10);
 	//octree->insert(generateStars());
 
-	RenderMeshNode* triangle = SceneLoader::getInstance().load("cube.dae");
+	RenderMeshNode* triangle = SceneLoader::getInstance().load("kocmoc.dae");
 	const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
 	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
 		ci != list.end();
 		ci++)
 	{
-		octree->insert((*ci), 7);
+		octree->insert((*ci), 4);
 	}
+	std::cout << "finished with octree inserting" << std::endl;
 
 	OctreeNode* octreeNode = new OctreeNode(octree);
 
 	rootNode->add(octreeNode);
 
 
-	//rootNode->add(SceneLoader::getInstance().load("cube.dae"));
+	//rootNode->add(SceneLoader::getInstance().load("kocmoc.dae"));
+	
 
 	{ // inputs 
 		gamepad = new input::Gamepad(camera);
@@ -213,8 +216,9 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	//octree->renderDebug(mat4(1), camera);
+	//glFinish();
 	rootNode->draw(mat4(1), camera);
+	//kocmoc::util::gl::timedFinish();
 }
 
 void Kocmoc::drawOverlays()

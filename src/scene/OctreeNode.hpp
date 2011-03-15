@@ -2,6 +2,7 @@
 #define KOCMOC_SCENE_OCTREE_NODE_HPP_
 
 #include "SceneNode.hpp"
+#include <Symbol.hpp>
 
 namespace kocmoc
 {
@@ -25,6 +26,8 @@ namespace kocmoc
 			void add(SceneNode* node) {SceneNode::add(node);};
 		private:
 			Octree* octree;
+			Symbol drawDebugSymbol;
+
 		};
 	}
 }

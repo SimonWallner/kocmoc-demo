@@ -15,6 +15,7 @@ using std::string;
 OctreeNode::OctreeNode(Octree* _octree, string _name)
 	: octree(_octree)
 	, SceneNode(_name)
+	, drawDebugSymbol(symbolize("debugDrawOctree"))
 {}
 
 

@@ -52,8 +52,8 @@ modelName = kocmoc.dae
 
 
 # star generator
-starsCount = 400
-starsDomain = 200
+starsCount = 1000
+starsDomain = 1000
 starsSize = 7
 
 # debug settings

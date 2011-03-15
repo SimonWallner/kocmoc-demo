@@ -89,6 +89,16 @@ namespace kocmoc
 				return (v1 * (1-r)) + (v2 * r);
 			}
 		}
+
+		namespace gl
+		{
+			/**
+			 * issues a glFinish call and times the time it takes to return from
+			 * it. This should give an approximate figure about the pipeline
+			 * condition.
+			 */
+			void timedFinish(void);
+		}
 	}
 }
 

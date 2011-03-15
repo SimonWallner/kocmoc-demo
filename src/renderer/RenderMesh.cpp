@@ -90,17 +90,17 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	}
 
 
-	{ // FIXME: remove this! used for easy shader reloading.
-		GLint location;
-		if ((location = shader->get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
-			glUniform1i(location, 0);
-		if ((location = shader->get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
-			glUniform1i(location, 1);
-		if ((location = shader->get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
-			glUniform1i(location, 2);
-		if ((location = shader->get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
-			glUniform1i(location, 3);
-	}
+	//{ // FIXME: remove this! used for easy shader reloading.
+	//	GLint location;
+	//	if ((location = shader->get_uniform_location(DIFFUSE_SAMPLER_NAME)) > 0)
+	//		glUniform1i(location, 0);
+	//	if ((location = shader->get_uniform_location(SPECULAR_SAMPLER_NAME)) > 0)
+	//		glUniform1i(location, 1);
+	//	if ((location = shader->get_uniform_location(NORMAL_SAMPLER_NAME)) > 0)
+	//		glUniform1i(location, 2);
+	//	if ((location = shader->get_uniform_location(SHADOW_SAMPLER_NAME)) > 0)
+	//		glUniform1i(location, 3);
+	//}
 
 
 	glBindVertexArray(vaoHandle);
@@ -110,8 +110,8 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	shader->unbind();
 
 	// extras, debug etc...
-	originGizmo->draw(leafTransform, camera);
-	boundingBox->draw(leafTransform * bbTransform, camera);
+	//originGizmo->draw(leafTransform, camera);
+	//boundingBox->draw(leafTransform * bbTransform, camera);
 }
 
 void RenderMesh::uploadData()

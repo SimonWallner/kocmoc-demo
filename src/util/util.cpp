@@ -7,6 +7,8 @@
 #include <scene/PolyMesh.hpp>
 #include <scene/LineGizmo.hpp>
 
+#include <common.hpp>
+
 #include <fstream>
 #include <string>
 
@@ -461,4 +463,11 @@ double util::geometry::intersect(const double d, const dvec3& n, const dvec3& p1
 
 
 	return d1 / (d1 - d2);
+}
+
+void util::gl::timedFinish()
+{
+	double now = glfwGetTime();
+	glFinish();
+	std::cout << "time elapsed to finish: " << glfwGetTime() - now << std::endl;
 }
