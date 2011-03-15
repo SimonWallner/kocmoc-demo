@@ -28,7 +28,7 @@ Octree::Octree(vec3 _origin, double _size)
 	, isLeaf(true)
 	, totalVertexCount(0)
 {
-	boundingBox = generateUnitCube();
+	boundingBox = generateUnitCube(vec3(1.0f, 1.0f, 0.0f));
 	originGizmo = generateOriginGizmo();
 }
 
@@ -75,53 +75,53 @@ void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 		vec3 distance = vec3(0) - origin;
 		
 		// X
-		SplitResult resultX = splitMesh(mesh->mesh, distance.x, dvec3(1, 0, 0));
+		SplitResult resultX = splitMesh(mesh->mesh, distance.x, dvec3(-1, 0, 0));
 		PolyMesh* inside = resultX.inside;
 		PolyMesh* outside = resultX.outside;
 
 		// Y
-		SplitResult insideY = splitMesh(inside, distance.y, dvec3(0, 1, 0));
+		SplitResult insideY = splitMesh(inside, distance.y, dvec3(0, -1, 0));
 		PolyMesh* insideInside = insideY.inside;
 		PolyMesh* insideOutside = insideY.outside;
 
-		SplitResult outsideY = splitMesh(outside, distance.y, dvec3(0, 1, 0));
+		SplitResult outsideY = splitMesh(outside, distance.y, dvec3(0, -1, 0));
 		PolyMesh* outsideInside = outsideY.inside;
 		PolyMesh* outsideOutside = outsideY.outside;
 
 		// Z
-		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, dvec3(0, 0, 1));
+		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* iii = insideInsideZ.inside;
 		PolyMesh* iio = insideInsideZ.outside;
 
-		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, dvec3(0, 0, 1));
+		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* ioi = insideOutsideZ.inside;
 		PolyMesh* ioo = insideOutsideZ.outside;
 
-		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, dvec3(0, 0, 1));
+		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* oii = outsideInsideZ.inside;
 		PolyMesh* oio = outsideInsideZ.outside;
 
-		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, dvec3(0, 0, 1));
+		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* ooi = outsideOutsideZ.inside;
 		PolyMesh* ooo = outsideOutsideZ.outside;
 
 
-		if (ooo != NULL)
-			children[0]->insert(new RenderMesh(ooo, mesh->shader), maxRecursionDepth-1);
-		if (ioo != NULL)
-			children[1]->insert(new RenderMesh(ioo, mesh->shader), maxRecursionDepth-1);
-		if (iio != NULL)
-			children[2]->insert(new RenderMesh(iio, mesh->shader), maxRecursionDepth-1);
-		if (oio != NULL)
-			children[3]->insert(new RenderMesh(oio, mesh->shader), maxRecursionDepth-1);
-		if (ooi != NULL)
-			children[4]->insert(new RenderMesh(ooi, mesh->shader), maxRecursionDepth-1);
-		if (ioi != NULL)
-			children[5]->insert(new RenderMesh(ioi, mesh->shader), maxRecursionDepth-1);
 		if (iii != NULL)
-			children[6]->insert(new RenderMesh(iii, mesh->shader), maxRecursionDepth-1);
+			children[0]->insert(new RenderMesh(iii, mesh->shader), maxRecursionDepth-1);
 		if (oii != NULL)
-			children[7]->insert(new RenderMesh(oii, mesh->shader), maxRecursionDepth-1);
+			children[1]->insert(new RenderMesh(oii, mesh->shader), maxRecursionDepth-1);
+		if (ooi != NULL)
+			children[2]->insert(new RenderMesh(ooi, mesh->shader), maxRecursionDepth-1);
+		if (ioi != NULL)
+			children[3]->insert(new RenderMesh(ioi, mesh->shader), maxRecursionDepth-1);
+		if (iio != NULL)
+			children[4]->insert(new RenderMesh(iio, mesh->shader), maxRecursionDepth-1);
+		if (oio != NULL)
+			children[5]->insert(new RenderMesh(oio, mesh->shader), maxRecursionDepth-1);
+		if (ooo != NULL)
+			children[6]->insert(new RenderMesh(ooo, mesh->shader), maxRecursionDepth-1);
+		if (ioo != NULL)
+			children[7]->insert(new RenderMesh(ioo, mesh->shader), maxRecursionDepth-1);
 	}
 }
 

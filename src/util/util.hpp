@@ -56,7 +56,7 @@ namespace kocmoc
 			/**
 			 * Generates a unit cube to arround the origin 
 			 */
-			kocmoc::scene::LineGizmo* generateUnitCube();
+			kocmoc::scene::LineGizmo* generateUnitCube(glm::vec3 color = glm::vec3(1));
 
 			kocmoc::renderer::RenderMesh* generateTriangle();
 		}

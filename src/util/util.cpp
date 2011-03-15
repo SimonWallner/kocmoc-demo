@@ -262,7 +262,7 @@ LineGizmo* util::generator::generateOriginGizmo()
 	return  new LineGizmo(vertexPositions, vertexColors, 30, indices, 12);
 }
 
-LineGizmo* util::generator::generateUnitCube()
+LineGizmo* util::generator::generateUnitCube(glm::vec3 color)
 {
 	float *vertexPositions = new float[24];
 	float *vertexColors = new float[24];
@@ -300,37 +300,37 @@ LineGizmo* util::generator::generateUnitCube()
 	vertexPositions[22] = -0.5f;
 	vertexPositions[23] = -0.5f;
 				
-	vertexColors[0] = 1.0f;
-	vertexColors[1] = 1.0f;
-	vertexColors[2] = 1.0f;
+	vertexColors[0] = color.r;
+	vertexColors[1] = color.g;
+	vertexColors[2] = color.b;
 
-	vertexColors[3] = 1.0f;
-	vertexColors[4] = 1.0f;
-	vertexColors[5] = 1.0f;
+	vertexColors[3] = color.r;
+	vertexColors[4] = color.g;
+	vertexColors[5] = color.b;
 
-	vertexColors[6] = 1.0f;
-	vertexColors[7] = 1.0f;
-	vertexColors[8] = 1.0f;
+	vertexColors[6] = color.r;
+	vertexColors[7] = color.g;
+	vertexColors[8] = color.b;
 
-	vertexColors[9] = 1.0f;
-	vertexColors[10] = 1.0f;
-	vertexColors[11] = 1.0f;
+	vertexColors[9] = color.r;
+	vertexColors[10] = color.g;
+	vertexColors[11] = color.b;
 
-	vertexColors[12] = 1.0f;
-	vertexColors[13] = 1.0f;
-	vertexColors[14] = 1.0f;
+	vertexColors[12] = color.r;
+	vertexColors[13] = color.g;
+	vertexColors[14] = color.b;
 
-	vertexColors[15] = 1.0f;
-	vertexColors[16] = 1.0f;
-	vertexColors[17] = 1.0f;
+	vertexColors[15] = color.r;
+	vertexColors[16] = color.g;
+	vertexColors[17] = color.b;
 
-	vertexColors[18] = 1.0f;
-	vertexColors[19] = 1.0f;
-	vertexColors[20] = 1.0f;
+	vertexColors[18] = color.r;
+	vertexColors[19] = color.g;
+	vertexColors[20] = color.b;
 
-	vertexColors[21] = 1.0f;
-	vertexColors[22] = 1.0f;
-	vertexColors[23] = 1.0f;
+	vertexColors[21] = color.r;
+	vertexColors[22] = color.g;
+	vertexColors[23] = color.b;
 
 	uint *indices =  new uint[24];
 	indices[0] = 0;
