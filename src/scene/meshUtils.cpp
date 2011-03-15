@@ -229,7 +229,7 @@ void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBuff
 			}
 
 			// increment next index
-			targetBuffer.nextIndex++;
+			++targetBuffer.nextIndex;
 		}
 		else
 		{
@@ -268,5 +268,9 @@ void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& inside
 			insideTargetBuffer.data.push_back(result);
 			outsideTargetBuffer.data.push_back(result);
 		}
+
+		// increment index
+		++insideTargetBuffer.nextIndex;
+		++outsideTargetBuffer.nextIndex;
 	}
 }
