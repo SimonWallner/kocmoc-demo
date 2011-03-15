@@ -39,7 +39,10 @@ void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 		return;
 
 	if (maxRecursionDepth == 0)
+	{
+		content.push_back(mesh);
 		return;
+	}
 
 
 	if (isLeaf)

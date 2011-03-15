@@ -122,7 +122,7 @@ void Kocmoc::init()
 	rootNode->add(octreeNode);
 
 
-	//rootNode->add(SceneLoader::getInstance().load("triangle.dae"));
+	//rootNode->add(SceneLoader::getInstance().load("cube.dae"));
 
 	{ // inputs 
 		gamepad = new input::Gamepad(camera);

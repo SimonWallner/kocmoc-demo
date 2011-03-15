@@ -16,8 +16,12 @@ namespace kocmoc
 	{
 		namespace meshUtils
 		{
+			/** This map mapps from the old indices to the indices of the newly 
+			 * created mesh (per attribute  basis) */
 			typedef std::map<uint, uint > IndexMap;
 
+			/** Holds a pointer to the inside and outside mesh of a split.
+			 * One mesh might be null */
 			struct SplitResult
 			{
 				PolyMesh* inside;

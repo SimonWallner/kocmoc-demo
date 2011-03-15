@@ -126,7 +126,10 @@ namespace kocmoc
 			 * 
 			 * A cube for instance has a \c vertexIndecCount of 24 (4 sides * 4
 			 * vertices per plane). However This cube would only have 8 unique
-			 * vertex positions. 
+			 * vertex positions.
+			 *
+			 * It's the number of primitives of a certain kind times their vertex
+			 * count. cube: 6 quads == 6 * 4 = 24
 			 *
 			 * @note	the \c vertexIndexCount defines the length of the vertex index
 			 *			arrays and it is constant.

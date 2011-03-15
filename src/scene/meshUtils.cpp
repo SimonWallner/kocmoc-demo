@@ -213,26 +213,27 @@ void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBuff
 		PolyMesh::VertexAttribute sourceAttribute = ci->second;
 		AttributeBuffer& targetBuffer = targetBufferMap[ci->first];
 
-		uint attributeIndex = sourceAttribute.indices[currentIndex];
+		uint currentAttributeIndex = sourceAttribute.indices[currentIndex];
 
-		IndexMap::const_iterator needle = targetBuffer.indexMap.find(currentIndex);
+		IndexMap::const_iterator needle = targetBuffer.indexMap.find(currentAttributeIndex);
 		if (needle == targetBuffer.indexMap.end())
 		{
 			// write index
 			targetBuffer.indices.push_back(targetBuffer.nextIndex);
 			// write mapping
-			targetBuffer.indexMap[currentIndex] = targetBuffer.nextIndex;
+			targetBuffer.indexMap[currentAttributeIndex] = targetBuffer.nextIndex;
 			// write attribute data
 			for (uint k = 0; k < sourceAttribute.stride; k++)
 			{
-				targetBuffer.data.push_back(sourceAttribute.attributeData[attributeIndex * sourceAttribute.stride + k]);
+				targetBuffer.data.push_back(sourceAttribute.attributeData[currentAttributeIndex * sourceAttribute.stride + k]);
 			}
-			// increment index
+
+			// increment next index
 			targetBuffer.nextIndex++;
 		}
 		else
 		{
-			targetBuffer.indices.push_back(targetBuffer.indexMap[needle->second]);
+			targetBuffer.indices.push_back(needle->second);
 		}
 	}
 }
