@@ -1,6 +1,6 @@
 // Vertex Shader – file "base.vert"
 
-#version 150 core
+#version 130
 
 in  vec3 inPosition;
 in	vec2 inTexCoord0;

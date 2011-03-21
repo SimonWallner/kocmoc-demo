@@ -38,13 +38,13 @@ void Context::setupGLFW()
 	if (!glfwInit())
 		throw Exception("FATAL: Failed to initialize glfw!");
 
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8);
 	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
 
 	// Set flags so GLFW gives us a forward-compatible context.
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
-	glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
-	glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
+	//glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
+	//glfwOpenWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 
 	//getAvailableResolutions();
 		
@@ -53,9 +53,9 @@ void Context::setupGLFW()
 		24, 8, // depth, stencil
 		windowMode) != GL_TRUE)
 	{
-			throw Exception("Failed to initialize OpenGL window.");
+		throw Exception("Failed to initialize OpenGL window.");
 	}
-
+	
 	glfwSetWindowPos(200, 20);
 	glfwSetWindowTitle("KOCMOC");
 
@@ -65,17 +65,14 @@ void Context::setupGLFW()
 
 	if (gl3wInit()) 
 		throw Exception("failed to initialize OpenGL");
+	
 	if (!gl3wIsSupported(3, 2)) 
-		throw Exception("OpenGL 3.2 not supported");
+		cout << "OpenGL 3.2 not supported" << endl;
+
+	if (!gl3wIsSupported(3, 0)) 
+		throw Exception("OpenGL 3.0 not supported");
 
 	cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
-
-	//GLenum err = glewInit();
-	//if (GLEW_OK != err) {
-	//	/* Problem: glewInit failed, something is seriously wrong. */
-	//	cout <<  "Error: " << glewGetErrorString(err) << endl;
-	//	throw Exception("Failed to init glew (glewInit)!");
-	//}
 
 #endif
 

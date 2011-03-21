@@ -1,9 +1,9 @@
 // Vertex Shader – file "base.vert"
 
-#version 150 core
+#version 130
 
-in  vec3 inPosition;
-in	vec2 inTexCoord0;
+in vec3 inPosition;
+in vec2 inTexCoord0;
 
 out vec2 texCoord0;
 

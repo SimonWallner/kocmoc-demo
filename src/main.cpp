@@ -15,9 +15,9 @@ int main (void)
 				<< "   *           .                          .                          .        " << std::endl
 				<< "                             .                   .                         " << std::endl
 				<< "           .                                                    *           " << std::endl  
-      			<< ".                                        .                               " << std::endl 
+				<< ".                                        .                               " << std::endl 
 				<< "                    .              .                  .                 .        " << std::endl
-   				<< "                                                                      " << std::endl
+				<< "                                                                      " << std::endl
 				<< "                                                                             " << std::endl
 				<< "         .           *                      .                 .                " << std::endl
 				<< "                               .           *                                   " << std::endl
@@ -62,6 +62,6 @@ int main (void)
 		return 1;
 	}
 
-    glfwTerminate();
-    return 0;
+	glfwTerminate();
+	return 0;
 }

@@ -1,6 +1,6 @@
 // Fragment Shader – file "base.frag"
 
-#version 150 core
+#version 130
 
 in vec2 texCoord0;
 
@@ -59,7 +59,7 @@ void main(void)
 		float delta = distance(texCoord0, vec2(0.5f, 0.5f));
 		float darkening = 1 - pow(delta, power) * attenuation;
 
-		color = color * vec4(darkening.xxx, 1);
+		color = color * vec4(darkening, darkening, darkening, 1);
 	}
 
 	if (colorCorrection == 1)

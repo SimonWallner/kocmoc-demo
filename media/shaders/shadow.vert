@@ -1,6 +1,6 @@
 // Vertex Shader – file "shadow.vert"
 
-#version 150 core
+#version 130
 
 in  vec4 inPosition;
 

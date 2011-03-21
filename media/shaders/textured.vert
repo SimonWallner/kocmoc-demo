@@ -1,6 +1,6 @@
 // Vertex Shader - file "textured.vert"
 
-#version 150 core
+#version 130
 
 in  vec4 inPosition;
 in	vec2 inUV;

@@ -26,6 +26,7 @@ if(WIN32)
 	configure_file(${PROJECT_SOURCE_DIR}/external/devIL/lib/ILU.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
 	configure_file(${PROJECT_SOURCE_DIR}/external/devIL/lib/ILUT.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
 	configure_file(${PROJECT_SOURCE_DIR}/external/freealut/lib/alut.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
+	configure_file(${PROJECT_SOURCE_DIR}/external/openal/lib/OpenAL32.dll ${EXECUTABLE_OUTPUT_PATH} COPYONLY)
 endif(WIN32)
 
 

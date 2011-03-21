@@ -1,6 +1,6 @@
 // Vertex Shader - file "vertexColor.vert"
 
-#version 150 core
+#version 130
 
 in  vec4 inPosition;
 in	vec3 inColor;

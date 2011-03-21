@@ -1,6 +1,6 @@
 // Fragment Shader – file "shadow.frag"
 
-#version 150 core
+#version 130
 
 out vec4 fragmentColor0;
 

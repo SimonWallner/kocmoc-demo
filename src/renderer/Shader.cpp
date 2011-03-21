@@ -45,6 +45,7 @@ bool Shader::upload()
 
 
 	// Compile the shaders
+	cout << "compiling shader pair: " << vertexShaderName << " | " << fragmentShaderName << endl;
 	vertexShader = compile(GL_VERTEX_SHADER, vertexShaderSource);
 	if (vertexShader == 0)
 		return false;

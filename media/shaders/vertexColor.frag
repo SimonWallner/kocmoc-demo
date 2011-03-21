@@ -1,6 +1,6 @@
 // Fragment Shader – file "vertexColor.frag"
 
-#version 150 core
+#version 130
 
 in vec4 exColor;
 

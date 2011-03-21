@@ -1,6 +1,6 @@
 // Fragment Shader – file "base.frag"
 
-#version 150 core
+#version 130
 
 in vec2 texCoord0;
 in vec3 fragmentNormal;

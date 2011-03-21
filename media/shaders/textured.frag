@@ -1,6 +1,6 @@
 // Fragment Shader – file "textured.frag"
 
-#version 150 core
+#version 130
 
 in vec2 exUV;
 
