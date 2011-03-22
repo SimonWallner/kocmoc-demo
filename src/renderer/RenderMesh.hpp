@@ -41,6 +41,7 @@ namespace kocmoc
 			Shader* shader;
 
 			RenderMesh(scene::PolyMesh* mesh, Shader* shader);
+			~RenderMesh(void);
 
 			void draw(glm::mat4 parentTransform, camera::Camera *camera);
 
@@ -88,6 +89,15 @@ namespace kocmoc
 			scene::LineGizmo* boundingBox;
 
 			glm::mat4 bbTransform;
+
+			// uniform locations
+			GLint uniformCameraPosition;
+			GLint uniformProjectionMatrix;
+			GLint uniformViewMatrix;
+			GLint uniformModelMatrix;
+			GLint uniformNormalMatrix;
+
+			bool debugDrawMeshGizmo;
 		};
 	}
 }

@@ -3,6 +3,7 @@
 #include <util/util.hpp>
 #include <camera/Camera.hpp>
 #include <renderer/RenderMesh.hpp>
+#include <renderer/Shader.hpp>
 #include <scene/meshUtils.hpp>
 
 using namespace kocmoc::scene;
@@ -11,6 +12,7 @@ using kocmoc::util::generator::generateOriginGizmo;
 using kocmoc::util::generator::generateUnitCube;
 using kocmoc::camera::Camera;
 using kocmoc::renderer::RenderMesh;
+using kocmoc::renderer::Shader;
 using kocmoc::scene::PolyMesh;
 using kocmoc::scene::meshUtils::SplitResult;
 using kocmoc::scene::meshUtils::splitMesh;
@@ -44,6 +46,7 @@ void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 		return;
 	}
 
+	std::cout << ".";
 
 	if (isLeaf)
 	{
@@ -105,23 +108,25 @@ void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 		PolyMesh* ooi = outsideOutsideZ.inside;
 		PolyMesh* ooo = outsideOutsideZ.outside;
 
-
+		Shader* shader = mesh->shader;
+		delete mesh;
+		
 		if (iii != NULL)
-			children[0]->insert(new RenderMesh(iii, mesh->shader), maxRecursionDepth-1);
+			children[0]->insert(new RenderMesh(iii, shader), maxRecursionDepth-1);
 		if (oii != NULL)
-			children[1]->insert(new RenderMesh(oii, mesh->shader), maxRecursionDepth-1);
+			children[1]->insert(new RenderMesh(oii, shader), maxRecursionDepth-1);
 		if (ooi != NULL)
-			children[2]->insert(new RenderMesh(ooi, mesh->shader), maxRecursionDepth-1);
+			children[2]->insert(new RenderMesh(ooi, shader), maxRecursionDepth-1);
 		if (ioi != NULL)
-			children[3]->insert(new RenderMesh(ioi, mesh->shader), maxRecursionDepth-1);
+			children[3]->insert(new RenderMesh(ioi, shader), maxRecursionDepth-1);
 		if (iio != NULL)
-			children[4]->insert(new RenderMesh(iio, mesh->shader), maxRecursionDepth-1);
+			children[4]->insert(new RenderMesh(iio, shader), maxRecursionDepth-1);
 		if (oio != NULL)
-			children[5]->insert(new RenderMesh(oio, mesh->shader), maxRecursionDepth-1);
+			children[5]->insert(new RenderMesh(oio, shader), maxRecursionDepth-1);
 		if (ooo != NULL)
-			children[6]->insert(new RenderMesh(ooo, mesh->shader), maxRecursionDepth-1);
+			children[6]->insert(new RenderMesh(ooo, shader), maxRecursionDepth-1);
 		if (ioo != NULL)
-			children[7]->insert(new RenderMesh(ioo, mesh->shader), maxRecursionDepth-1);
+			children[7]->insert(new RenderMesh(ioo, shader), maxRecursionDepth-1);
 	}
 }
 

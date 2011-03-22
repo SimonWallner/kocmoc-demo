@@ -57,7 +57,8 @@ starsDomain = 1000
 starsSize = 7
 
 # debug settings
-debugShowGizmo = 0
+debugDrawMeshGizmo = 1
+debugDrawOctreeGizmo = 1
 
 # post processing stuff
 enableColorCorrection = 0

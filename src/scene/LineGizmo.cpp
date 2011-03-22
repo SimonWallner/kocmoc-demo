@@ -25,7 +25,7 @@ LineGizmo::LineGizmo(float* vertexPositions, float* vertexColors, uint length,
 	shader->upload();
 
 	glGenVertexArrays(1, &vaoHandle);
-	GLuint* vboHandles = new GLuint[3];
+	vboHandles = new GLuint[3];
 	glGenBuffers(3, vboHandles);
 
 	glBindVertexArray(vaoHandle);
@@ -46,15 +46,28 @@ LineGizmo::LineGizmo(float* vertexPositions, float* vertexColors, uint length,
 	glBindVertexArray(0);
 }
 
+LineGizmo::~LineGizmo()
+{
+	glDeleteBuffers(3, vboHandles);
+	glDeleteVertexArrays(1, &vaoHandle);
+
+	delete[] vboHandles;
+}
+
 void LineGizmo::draw(glm::mat4 leafTransform, Camera *camera)
 {
 	shader->bind();
 	{
 		GLint location;
 
-		if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
-		if ((location = shader->get_uniform_location("viewMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
-		if ((location = shader->get_uniform_location("modelMatrix")) >= 0)			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
+		if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+
+		if ((location = shader->get_uniform_location("viewMatrix")) >= 0)
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+
+		if ((location = shader->get_uniform_location("modelMatrix")) >= 0)
+			glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
 	
 		glBindVertexArray(vaoHandle);
 		glDrawElements(GL_LINES, indexCount, GL_UNSIGNED_INT, NULL);

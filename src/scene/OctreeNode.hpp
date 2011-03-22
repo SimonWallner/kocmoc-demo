@@ -24,10 +24,10 @@ namespace kocmoc
 			void draw(camera::Camera* camera, renderer::Shader* shader = NULL);
 			
 			void add(SceneNode* node) {SceneNode::add(node);};
+
 		private:
 			Octree* octree;
-			Symbol drawDebugSymbol;
-
+			bool debugDrawOctreeGizmo;
 		};
 	}
 }

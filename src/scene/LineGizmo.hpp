@@ -34,8 +34,11 @@ namespace kocmoc
 			LineGizmo(float* vertexPositions, float* vertexColors, uint length,
 				uint* indices, uint indexCount);
 
+			~LineGizmo(void);
+
 			void draw(glm::mat4 leaftTransform, camera::Camera *camera);
 		private:
+			GLuint* vboHandles;
 			GLuint vaoHandle;
 			renderer::Shader* shader;
 			uint indexCount;

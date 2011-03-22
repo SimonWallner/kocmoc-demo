@@ -4,6 +4,8 @@
 #include <util/util.hpp>
 
 #include <glm.hpp>
+#include <iostream>
+
 
 using namespace kocmoc::scene::meshUtils;
 using kocmoc::util::geometry::inside;
@@ -22,6 +24,8 @@ SplitResult kocmoc::scene::meshUtils::splitMesh(const PolyMesh* mesh, const doub
 		SplitResult result = {NULL, NULL};
 		return result;
 	}
+
+	std::cout << "*";
 
 	AttributeBufferMap insideAttributeBufferMap;
 	AttributeBufferMap outsideAttributeBufferMap;

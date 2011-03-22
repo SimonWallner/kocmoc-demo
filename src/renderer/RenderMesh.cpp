@@ -6,6 +6,7 @@
 #include <scene/LineGizmo.hpp>
 #include <camera/Camera.hpp>
 #include <util/util.hpp>
+#include <util/Property.hpp>
 #include <loader/ImageLoader.hpp>
 
 #include <gtx/inverse_transpose.hpp>
@@ -17,6 +18,7 @@ using kocmoc::scene::PolyMesh;
 using kocmoc::scene::LineGizmo;
 using kocmoc::camera::Camera;
 using kocmoc::loader::ImageLoader;
+using kocmoc::util::Property;
 
 using glm::mat4;
 using glm::mat3;
@@ -31,6 +33,7 @@ RenderMesh::RenderMesh(PolyMesh* _mesh, Shader* _shader)
 	, shader(_shader)
 	, modelMatrix(mat4(1))
 	, isUploaded(false)
+	, debugDrawMeshGizmo(Property("debugDrawMeshGizmo"))
 {
 	originGizmo = util::generator::generateOriginGizmo();
 	boundingBox = util::generator::generateUnitCube();
@@ -42,6 +45,13 @@ RenderMesh::RenderMesh(PolyMesh* _mesh, Shader* _shader)
 	bbTransform = glm::scale(glm::translate(center), scale);
 };
 
+RenderMesh::~RenderMesh()
+{
+	delete originGizmo;
+	delete boundingBox;
+	delete mesh;
+}
+
 void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 {
 	modelMatrix = _modelMatrix;
@@ -51,7 +61,15 @@ void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 {
 	if (shader->getIsUploaded() == false)
+	{
 		shader->upload();
+
+		uniformProjectionMatrix = shader->get_uniform_location("projectionMatrix");
+		uniformViewMatrix = shader->get_uniform_location("viewMatrix");
+		uniformModelMatrix = shader->get_uniform_location("modelMatrix");
+		uniformNormalMatrix = shader->get_uniform_location("normalMatrix");
+	}
+
 
 	if (isUploaded == false)
 		uploadData();
@@ -64,20 +82,20 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 	
 	GLint location;
-	if ((location = shader->get_uniform_location("cameraPosition")) >= 0)
-		glUniform3fv(location, 1, glm::value_ptr(camera->getPosition()));
+	if (uniformCameraPosition >= 0)
+		glUniform3fv(uniformCameraPosition, 1, glm::value_ptr(camera->getPosition()));
 
-	if ((location = shader->get_uniform_location("projectionMatrix")) >= 0)
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
+	if (uniformProjectionMatrix >= 0)
+		glUniformMatrix4fv(uniformProjectionMatrix, 1, GL_FALSE, glm::value_ptr(camera->getProjectionMatrix()));
 
-	if ((location = shader->get_uniform_location("viewMatrix")) >= 0)
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
+	if (uniformViewMatrix >= 0)
+		glUniformMatrix4fv(uniformViewMatrix, 1, GL_FALSE, glm::value_ptr(camera->getViewMatrix()));
 
-	if ((location = shader->get_uniform_location("modelMatrix")) >= 0)
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(leafTransform));
+	if (uniformModelMatrix >= 0)
+		glUniformMatrix4fv(uniformModelMatrix, 1, GL_FALSE, glm::value_ptr(leafTransform));
 
-	if (location = shader->get_uniform_location("normalMatrix") >= 0)
-		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
+	if (uniformNormalMatrix >= 0)
+		glUniformMatrix3fv(uniformNormalMatrix, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
 	
 
 	for (RenderTextureList::const_iterator ci = renderTextures.begin();
@@ -110,8 +128,11 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	shader->unbind();
 
 	// extras, debug etc...
-	//originGizmo->draw(leafTransform, camera);
-	//boundingBox->draw(leafTransform * bbTransform, camera);
+	if (debugDrawMeshGizmo)
+	{
+		originGizmo->draw(leafTransform, camera);
+		boundingBox->draw(leafTransform * bbTransform, camera);
+	}
 }
 
 void RenderMesh::uploadData()
