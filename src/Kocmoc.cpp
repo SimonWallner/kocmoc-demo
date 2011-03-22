@@ -113,23 +113,23 @@ void Kocmoc::init()
 	rootNodeOctree = new SceneNode("root node Octree");
 
 	Octree* octree = new Octree(vec3(0), 10);
-	//octree->insert(generateStars());
+	octree->insert(generateStars(), 0);
 
-	RenderMeshNode* triangle = SceneLoader::getInstance().load("kocmoc.dae");
-	const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
-	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
-		ci != list.end();
-		ci++)
-	{
-		octree->insert((*ci), 1);
-	}
+	//RenderMeshNode* triangle = SceneLoader::getInstance().load("suzanne-127k.dae");
+	//const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
+	//for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
+	//	ci != list.end();
+	//	ci++)
+	//{
+	//	octree->insert((*ci), 0);
+	//}
 	std::cout << "finished with octree inserting" << std::endl;
 	OctreeNode* octreeNode = new OctreeNode(octree);
 	rootNodeOctree->add(octreeNode);
 
 
 	rootNodeNormal = new SceneNode("root node normal");
-	rootNodeNormal->add(SceneLoader::getInstance().load("kocmoc.dae"));
+	//rootNodeNormal->add(SceneLoader::getInstance().load("suzanne-32k.dae"));
 
 	
 
@@ -297,8 +297,9 @@ void Kocmoc::pollKeyboard(void)
 	if (glfwGetKey('3'))
 		paramMapBool[symbolize("debugDrawOctreeGizmo")] = !paramMapBool[symbolize("debugDrawOctreeGizmo")];
 
+	if (glfwGetKey('4'))
+		paramMapBool[symbolize("viewFrustumCulling")] = !paramMapBool[symbolize("viewFrustumCulling")];
 }
-
 
 void Kocmoc::pollMouse()
 {

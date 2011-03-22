@@ -19,6 +19,7 @@ using kocmoc::scene::meshUtils::SplitResult;
 using kocmoc::scene::meshUtils::splitMesh;
 
 using glm::vec3;
+using glm::vec4;
 using glm::dvec3;
 using glm::mat4;
 
@@ -153,9 +154,22 @@ void Octree::drawDebug(mat4 parentTransform, Camera* camera)
 	}
 }
 
-void Octree::draw(mat4 parentTransform, Camera* camera)
+void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 {
-	if (!Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] || true) // VFC implies visibility
+	uint visibleSamples = 0;
+	mat4 viewProjection = camera->getProjectionMatrix() * camera->getViewMatrix();
+
+	visibleSamples += isVisible(origin + vec3(size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(size, size, -size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(size, -size, size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(size, -size, -size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(-size, size, size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(-size, size, -size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(-size, -size, size), viewProjection);
+	visibleSamples += isVisible(origin + vec3(-size, -size, -size), viewProjection);
+
+
+	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || visibleSamples > 0) // (VFC && cull) implies visibility
 	{
 		if (!isLeaf)
 		{
@@ -172,4 +186,13 @@ void Octree::draw(mat4 parentTransform, Camera* camera)
 			}
 		}
 	}
+}
+
+bool Octree::isVisible(vec3 sample, mat4 viewProjection)
+{
+	vec4 projectedSample = viewProjection * vec4(sample, 1);
+	projectedSample = projectedSample / projectedSample.w;
+
+	return (projectedSample.x > -1 && projectedSample.y > -1 && projectedSample.z > -1
+		&& projectedSample.x < 1 && projectedSample.y < 1 && projectedSample.z < 1);
 }

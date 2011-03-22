@@ -52,9 +52,9 @@ modelName = kocmoc.dae
 
 
 # star generator
-starsCount = 1000
-starsDomain = 1000
-starsSize = 7
+starsCount = 1000000
+starsDomain = 20
+starsSize = 0.01
 
 # debug settings
 # ...
@@ -67,8 +67,10 @@ enableVignetting = 1
 # camera settings
 cameraFocalLength35 = 21
 aspectRatio = 1.7777777778
-horizontalMargin = 85
-verticalMargin = 45
+# horizontalMargin = 85
+# verticalMargin = 45
+horizontalMargin = 0
+verticalMargin = 0
 
 # shadwo map
 shadowMapWidth = 2048

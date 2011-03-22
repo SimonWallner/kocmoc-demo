@@ -70,7 +70,7 @@ namespace kocmoc
 			 * render the contents of this tree, i.e. issue render calls on its
 			 * contents.
 			 */
-			void draw(glm::mat4 parentTransform, camera::Camera* camera);
+			void draw(glm::mat4 parentTransform, camera::Camera* camera, bool cull = true);
 
 			/**
 			 * render debug stuff, like bounding boxes, etc...
@@ -104,6 +104,12 @@ namespace kocmoc
 			LineGizmo* originGizmo;
 
 			bool isLeaf;
+
+			/**
+			 * test if a point is visible in the frustum defined by the matrix
+			 */
+			bool isVisible(glm::vec3 sample, glm::mat4 viewProjection);
+
 		};
 	}
 }
