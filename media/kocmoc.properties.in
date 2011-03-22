@@ -38,7 +38,7 @@ enableMouse = 0
 captureMouse = 0
 
 wireframe = 0
-backFaceCulling = 0
+backFaceCulling = 1
 
 # mission control stuff
 # missionControlServerPort = 65001

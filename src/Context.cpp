@@ -168,7 +168,7 @@ void Context::clearBuffers()
 void Context::setWireframe(bool enable)
 {
 	wireframeMode = enable;
-	cout << "toggle wireframe mode: " << wireframeMode << endl;
+//	cout << "toggle wireframe mode: " << wireframeMode << endl;
 
 	if(wireframeMode)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
