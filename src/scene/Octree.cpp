@@ -76,40 +76,46 @@ void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 	else
 	{
 		vec3 distance = vec3(0) - origin;
+		Shader* shader = mesh->shader;
 		
 		// X
 		SplitResult resultX = splitMesh(mesh->mesh, distance.x, dvec3(-1, 0, 0));
 		PolyMesh* inside = resultX.inside;
 		PolyMesh* outside = resultX.outside;
+		delete mesh;
 
 		// Y
 		SplitResult insideY = splitMesh(inside, distance.y, dvec3(0, -1, 0));
 		PolyMesh* insideInside = insideY.inside;
 		PolyMesh* insideOutside = insideY.outside;
+		delete inside;
 
 		SplitResult outsideY = splitMesh(outside, distance.y, dvec3(0, -1, 0));
 		PolyMesh* outsideInside = outsideY.inside;
 		PolyMesh* outsideOutside = outsideY.outside;
+		delete outside;
 
 		// Z
 		SplitResult insideInsideZ = splitMesh(insideInside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* iii = insideInsideZ.inside;
 		PolyMesh* iio = insideInsideZ.outside;
+		delete insideInside;
 
 		SplitResult insideOutsideZ = splitMesh(insideOutside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* ioi = insideOutsideZ.inside;
 		PolyMesh* ioo = insideOutsideZ.outside;
+		delete insideOutside;
 
 		SplitResult outsideInsideZ = splitMesh(outsideInside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* oii = outsideInsideZ.inside;
 		PolyMesh* oio = outsideInsideZ.outside;
+		delete outsideInside;
 
 		SplitResult outsideOutsideZ = splitMesh(outsideOutside, distance.z, dvec3(0, 0, -1));
 		PolyMesh* ooi = outsideOutsideZ.inside;
 		PolyMesh* ooo = outsideOutsideZ.outside;
+		delete outsideOutside;
 
-		Shader* shader = mesh->shader;
-		delete mesh;
 		
 		if (iii != NULL)
 			children[0]->insert(new RenderMesh(iii, shader), maxRecursionDepth-1);

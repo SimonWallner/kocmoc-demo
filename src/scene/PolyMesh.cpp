@@ -37,6 +37,7 @@ PolyMesh::~PolyMesh()
 			delete[] (*ci).second.indices;
 		}
 	}
+	delete[] firstIndexArray;
 }
 
 void PolyMesh::addVertexAttribute(Symbol name, VertexAttribute attribute)

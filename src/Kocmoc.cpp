@@ -115,7 +115,7 @@ void Kocmoc::init()
 		ci != list.end();
 		ci++)
 	{
-		octree->insert((*ci), 5);
+		octree->insert((*ci), 4);
 	}
 	std::cout << "finished with octree inserting" << std::endl;
 
