@@ -67,12 +67,6 @@ namespace kocmoc
 			
 
 			/**
-			 * Traverse the octree and return the content as a collection
-			 * @param maxRecursionDepth define the maximum number of recursion.
-			 */
-			//std::vector<PolyMesh* > traverse(uint maxRecursionDepth);
-
-			/**
 			 * render the contents of this tree, i.e. issue render calls on its
 			 * contents.
 			 */

@@ -1,6 +1,10 @@
+#include "Symbol.hpp"
+
 #include <common.hpp>
 #include <time/Timer.hpp>
 #include <camera/OrthoCamera.hpp>
+
+#include <map>
 
 namespace kocmoc
 {
@@ -81,6 +85,11 @@ namespace kocmoc
 		 * Get the main clock 
 		 */
 		time::Clock* getClock(void);
+
+
+		// general easy to use public parameter map
+		typedef std::map<Symbol, bool> ParamMapBool;
+		static ParamMapBool paramMapBool;
 	
 	private:
 
@@ -124,6 +133,7 @@ namespace kocmoc
 
 		void drawOverlays(void);
 
-		scene::SceneNode* rootNode;
+		scene::SceneNode* rootNodeOctree;
+		scene::SceneNode* rootNodeNormal;
 	};
 }

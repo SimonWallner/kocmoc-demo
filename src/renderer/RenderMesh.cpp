@@ -8,6 +8,7 @@
 #include <util/util.hpp>
 #include <util/Property.hpp>
 #include <loader/ImageLoader.hpp>
+#include <Kocmoc.hpp>
 
 #include <gtx/inverse_transpose.hpp>
 
@@ -81,7 +82,6 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	shader->bind();
 
 	
-	GLint location;
 	if (uniformCameraPosition >= 0)
 		glUniform3fv(uniformCameraPosition, 1, glm::value_ptr(camera->getPosition()));
 
@@ -128,7 +128,7 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	shader->unbind();
 
 	// extras, debug etc...
-	if (debugDrawMeshGizmo)
+	if (kocmoc::Kocmoc::paramMapBool[symbolize("debugDrawMeshGizmo")])
 	{
 		originGizmo->draw(leafTransform, camera);
 		boundingBox->draw(leafTransform * bbTransform, camera);

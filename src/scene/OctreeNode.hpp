@@ -27,7 +27,6 @@ namespace kocmoc
 
 		private:
 			Octree* octree;
-			bool debugDrawOctreeGizmo;
 		};
 	}
 }

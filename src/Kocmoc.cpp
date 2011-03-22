@@ -44,6 +44,7 @@ using glm::vec3;
 using glm::mat4;
 
 Kocmoc* Kocmoc::instance = NULL;
+Kocmoc::ParamMapBool Kocmoc::paramMapBool;
 
 Kocmoc& Kocmoc::getInstance(void)
 {
@@ -62,6 +63,11 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
+
+	paramMapBool[symbolize("renderOctree")] = true;
+	paramMapBool[symbolize("debugDrawMeshGizmo")] = true;
+	paramMapBool[symbolize("debugDrawOctreeGizmo")] = true;
+	paramMapBool[symbolize("viewFrustumCulling")] = true;
 }
 
 Kocmoc::~Kocmoc()
@@ -104,7 +110,7 @@ void Kocmoc::init()
 
 
 	// octree scene stuff
-	rootNode = new SceneNode("root node");
+	rootNodeOctree = new SceneNode("root node Octree");
 
 	Octree* octree = new Octree(vec3(0), 10);
 	//octree->insert(generateStars());
@@ -115,16 +121,16 @@ void Kocmoc::init()
 		ci != list.end();
 		ci++)
 	{
-		octree->insert((*ci), 2);
+		octree->insert((*ci), 1);
 	}
 	std::cout << "finished with octree inserting" << std::endl;
-
 	OctreeNode* octreeNode = new OctreeNode(octree);
+	rootNodeOctree->add(octreeNode);
 
-	rootNode->add(octreeNode);
 
+	rootNodeNormal = new SceneNode("root node normal");
+	rootNodeNormal->add(SceneLoader::getInstance().load("kocmoc.dae"));
 
-	//rootNode->add(SceneLoader::getInstance().load("kocmoc.dae"));
 	
 
 	{ // inputs 
@@ -216,9 +222,10 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	//glFinish();
-	rootNode->draw(mat4(1), camera);
-	//kocmoc::util::gl::timedFinish();
+	if (paramMapBool[symbolize("renderOctree")])
+		rootNodeOctree->draw(mat4(1), camera);
+	else 
+		rootNodeNormal->draw(mat4(1), camera);
 }
 
 void Kocmoc::drawOverlays()
@@ -280,6 +287,15 @@ void Kocmoc::pollKeyboard(void)
 	
 	if (glfwGetKey('D'))
 		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
+
+	if (glfwGetKey('1'))
+		paramMapBool[symbolize("renderOctree")] = !paramMapBool[symbolize("renderOctree")];
+
+	if (glfwGetKey('2'))
+		paramMapBool[symbolize("debugDrawMeshGizmo")] = !paramMapBool[symbolize("debugDrawMeshGizmo")];
+
+	if (glfwGetKey('3'))
+		paramMapBool[symbolize("debugDrawOctreeGizmo")] = !paramMapBool[symbolize("debugDrawOctreeGizmo")];
 
 }
 

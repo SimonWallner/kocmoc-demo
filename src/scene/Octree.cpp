@@ -5,6 +5,7 @@
 #include <renderer/RenderMesh.hpp>
 #include <renderer/Shader.hpp>
 #include <scene/meshUtils.hpp>
+#include <Kocmoc.hpp>
 
 using namespace kocmoc::scene;
 
@@ -154,18 +155,21 @@ void Octree::drawDebug(mat4 parentTransform, Camera* camera)
 
 void Octree::draw(mat4 parentTransform, Camera* camera)
 {
-	if (!isLeaf)
+	if (!Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] || true) // VFC implies visibility
 	{
-		for (uint i = 0; i < 8; i++)
-			children[i]->draw(parentTransform, camera);
-	}
-	else 
-	{
-		for (ContentList::const_iterator ci = content.begin();
-			ci != content.end();
-			ci++)
+		if (!isLeaf)
 		{
-			(*ci)->draw(parentTransform, camera);
+			for (uint i = 0; i < 8; i++)
+				children[i]->draw(parentTransform, camera);
+		}
+		else 
+		{
+			for (ContentList::const_iterator ci = content.begin();
+				ci != content.end();
+				ci++)
+			{
+				(*ci)->draw(parentTransform, camera);
+			}
 		}
 	}
 }
