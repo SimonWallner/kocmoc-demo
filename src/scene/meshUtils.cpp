@@ -214,7 +214,7 @@ void kocmoc::scene::meshUtils::transferAttributes(AttributeBufferMap& targetBuff
 		ci != vertexAttributes.end();
 		ci++)
 	{
-		PolyMesh::VertexAttribute sourceAttribute = ci->second;
+		const PolyMesh::VertexAttribute& sourceAttribute = ci->second;
 		AttributeBuffer& targetBuffer = targetBufferMap[ci->first];
 
 		uint currentAttributeIndex = sourceAttribute.indices[currentIndex];
@@ -254,7 +254,7 @@ void kocmoc::scene::meshUtils::lerpTransferAttributes(AttributeBufferMap& inside
 		ci != vertexAttributes.end();
 		ci++)
 	{
-		PolyMesh::VertexAttribute sourceAttribute = ci->second;
+		const PolyMesh::VertexAttribute& sourceAttribute = ci->second;
 		AttributeBuffer& insideTargetBuffer = insideTargetBufferMap[ci->first];
 		AttributeBuffer& outsideTargetBuffer = outsideTargetBufferMap[ci->first];
 
