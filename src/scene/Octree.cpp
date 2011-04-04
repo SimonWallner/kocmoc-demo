@@ -157,7 +157,7 @@ void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 {
 	mat4 viewProjection = camera->getProjectionMatrix() * camera->getViewMatrix();
 
-	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || isVisible(viewProjection)) // (VFC && cull) implies visibility
+	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || true) // (VFC && cull) implies visibility
 	{
 		if (!isLeaf)
 		{
@@ -188,11 +188,12 @@ bool Octree::isVisible(const mat4 projection)
 	vec4 c7 = projection * vec4(origin + vec3(-size, -size, size), 1);
 	vec4 c8 = projection * vec4(origin + vec3(-size, -size, -size), 1);
 
-	return	(!(c1.x < -c1.w && c2.x < -c2.w && c3.x < -c3.w && c4.x < -c4.w && c5.x < -c5.w && c6.x < -c6.w && c7.x < -c7.w && c8.x < -c8.w) &&
-			 !(c1.x >  c1.w && c2.x >  c2.w && c3.x >  c3.w && c4.x >  c4.w && c5.x >  c5.w && c6.x >  c6.w && c7.x >  c7.w && c8.x >  c8.w) && 
-			 !(c1.y < -c1.w && c2.y < -c2.w && c3.y < -c3.w && c4.y < -c4.w && c5.y < -c5.w && c6.y < -c6.w && c7.y < -c7.w && c8.y < -c8.w) &&
-			 !(c1.y >  c1.w && c2.y >  c2.w && c3.y >  c3.w && c4.y >  c4.w && c5.y >  c5.w && c6.y >  c6.w && c7.y >  c7.w && c8.y >  c8.w) && 
-			 !(c1.z < -c1.w && c2.z < -c2.w && c3.z < -c3.w && c4.z < -c4.w && c5.z < -c5.w && c6.z < -c6.w && c7.z < -c7.w && c8.z < -c8.w) &&
-			 !(c1.z >  c1.w && c2.z >  c2.w && c3.z >  c3.w && c4.z >  c4.w && c5.z >  c5.w && c6.z >  c6.w && c7.z >  c7.w && c8.z >  c8.w));
-		
+	bool visible = (!((c1.x < -c1.w) && (c2.x < -c2.w) && (c3.x < -c3.w) && (c4.x < -c4.w) && (c5.x < -c5.w) && (c6.x < -c6.w) && (c7.x < -c7.w) && (c8.x < -c8.w)) &&
+					!((c1.x >  c1.w) && (c2.x >  c2.w) && (c3.x >  c3.w) && (c4.x >  c4.w) && (c5.x >  c5.w) && (c6.x >  c6.w) && (c7.x >  c7.w) && (c8.x >  c8.w)) &&
+					!((c1.y < -c1.w) && (c2.y < -c2.w) && (c3.y < -c3.w) && (c4.y < -c4.w) && (c5.y < -c5.w) && (c6.y < -c6.w) && (c7.y < -c7.w) && (c8.y < -c8.w)) &&
+					!((c1.y >  c1.w) && (c2.y >  c2.w) && (c3.y >  c3.w) && (c4.y >  c4.w) && (c5.y >  c5.w) && (c6.y >  c6.w) && (c7.y >  c7.w) && (c8.y >  c8.w)) &&
+					!((c1.z < -c1.w) && (c2.z < -c2.w) && (c3.z < -c3.w) && (c4.z < -c4.w) && (c5.z < -c5.w) && (c6.z < -c6.w) && (c7.z < -c7.w) && (c8.z < -c8.w)) &&
+					!((c1.z >  c1.w) && (c2.z >  c2.w) && (c3.z >  c3.w) && (c4.z >  c4.w) && (c5.z >  c5.w) && (c6.z >  c6.w) && (c7.z >  c7.w) && (c8.z >  c8.w)));
+
+	return visible;
 }

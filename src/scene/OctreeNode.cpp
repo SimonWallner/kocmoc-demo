@@ -30,7 +30,7 @@ void OctreeNode::draw(glm::mat4 parentTransform, Camera *camera, Shader *shader)
 	glm::mat4 childTransform = parentTransform * transformation;
 
 	octree->draw(childTransform, camera);
-
+	
 	if (Kocmoc::paramMapBool[symbolize("debugDrawOctreeGizmo")])
 		octree->drawDebug(childTransform, camera);
 

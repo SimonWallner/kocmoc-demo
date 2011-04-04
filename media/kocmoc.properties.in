@@ -45,7 +45,7 @@ backFaceCulling = 1
 
 # general stuff
 nearPlane = -0.1
-farPlane = -6000
+farPlane = -300
 
 # the model
 modelName = kocmoc.dae
