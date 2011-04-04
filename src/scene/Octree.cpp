@@ -180,27 +180,19 @@ bool Octree::isVisible(mat4 projection)
 {
 	// project each corner cN
 	vec4 c1 = projection * vec4(origin + vec3(size,	size, size), 1);
-	c1 = c1 / c1.w;
 	vec4 c2 = projection * vec4(origin + vec3(size,	size, -size), 1);
-	c2 = c2 / c2.w;
 	vec4 c3 = projection * vec4(origin + vec3(size,	-size, size), 1);
-	c3 = c3 / c3.w;
 	vec4 c4 = projection * vec4(origin + vec3(size,	-size, -size), 1);
-	c4 = c4 / c4.w;
 	vec4 c5 = projection * vec4(origin + vec3(-size ,size, size), 1);
-	c5 = c5 / c5.w;
 	vec4 c6 = projection * vec4(origin + vec3(-size, size, -size), 1);
-	c6 = c6 / c6.w;
 	vec4 c7 = projection * vec4(origin + vec3(-size, -size, size), 1);
-	c7 = c7 / c7.w;
 	vec4 c8 = projection * vec4(origin + vec3(-size, -size, -size), 1);
-	c8 = c8 / c8.w;
 
-	return	(!(c1.x < -1 && c2.x < -1 && c3.x < -1 && c4.x < -1 && c5.x < -1 && c6.x < -1 && c7.x < -1 && c8.x < -1) &&
-			 !(c1.x >  1 && c2.x >  1 && c3.x >  1 && c4.x >  1 && c5.x >  1 && c6.x >  1 && c7.x >  1 && c8.x >  1) && 
-			 !(c1.y < -1 && c2.y < -1 && c3.y < -1 && c4.y < -1 && c5.y < -1 && c6.y < -1 && c7.y < -1 && c8.y < -1) &&
-			 !(c1.y >  1 && c2.y >  1 && c3.y >  1 && c4.y >  1 && c5.y >  1 && c6.y >  1 && c7.y >  1 && c8.y >  1) && 
-			 !(c1.z < -1 && c2.z < -1 && c3.z < -1 && c4.z < -1 && c5.z < -1 && c6.z < -1 && c7.z < -1 && c8.z < -1) &&
-			 !(c1.z >  1 && c2.z >  1 && c3.z >  1 && c4.z >  1 && c5.z >  1 && c6.z >  1 && c7.z >  1 && c8.z >  1));
+	return	(!(c1.x < -c1.w && c2.x < -c2.w && c3.x < -c3.w && c4.x < -c4.w && c5.x < -c5.w && c6.x < -c6.w && c7.x < -c7.w && c8.x < -c8.w) &&
+			 !(c1.x >  c1.w && c2.x >  c2.w && c3.x >  c3.w && c4.x >  c4.w && c5.x >  c5.w && c6.x >  c6.w && c7.x >  c7.w && c8.x >  c8.w) && 
+			 !(c1.y < -c1.w && c2.y < -c2.w && c3.y < -c3.w && c4.y < -c4.w && c5.y < -c5.w && c6.y < -c6.w && c7.y < -c7.w && c8.y < -c8.w) &&
+			 !(c1.y >  c1.w && c2.y >  c2.w && c3.y >  c3.w && c4.y >  c4.w && c5.y >  c5.w && c6.y >  c6.w && c7.y >  c7.w && c8.y >  c8.w) && 
+			 !(c1.z < -c1.w && c2.z < -c2.w && c3.z < -c3.w && c4.z < -c4.w && c5.z < -c5.w && c6.z < -c6.w && c7.z < -c7.w && c8.z < -c8.w) &&
+			 !(c1.z >  c1.w && c2.z >  c2.w && c3.z >  c3.w && c4.z >  c4.w && c5.z >  c5.w && c6.z >  c6.w && c7.z >  c7.w && c8.z >  c8.w));
 		
 }

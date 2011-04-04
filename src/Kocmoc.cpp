@@ -289,16 +289,28 @@ void Kocmoc::pollKeyboard(void)
 		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey('1'))
+	{
 		paramMapBool[symbolize("renderOctree")] = !paramMapBool[symbolize("renderOctree")];
+		std::cout << "octree rendering is: " << paramMapBool[symbolize("renderOctree")] << std::endl;
+	}
 
 	if (glfwGetKey('2'))
+	{
 		paramMapBool[symbolize("debugDrawMeshGizmo")] = !paramMapBool[symbolize("debugDrawMeshGizmo")];
+		std::cout << "drawing debug mesh gizmos is: " << paramMapBool[symbolize("debugDrawMeshGizmo")] << std::endl;
+	}
 
 	if (glfwGetKey('3'))
+	{
 		paramMapBool[symbolize("debugDrawOctreeGizmo")] = !paramMapBool[symbolize("debugDrawOctreeGizmo")];
+		std::cout << "drawing debug octree gizmos is: " << paramMapBool[symbolize("debugDrawOctreeGizmo")] << std::endl;
+	}
 
 	if (glfwGetKey('4'))
+	{
 		paramMapBool[symbolize("viewFrustumCulling")] = !paramMapBool[symbolize("viewFrustumCulling")];
+		std::cout << "fiew frustum culling is: " << paramMapBool[symbolize("viewFrustumCulling")] << std::endl;
+	}
 }
 
 void Kocmoc::pollMouse()
