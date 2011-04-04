@@ -28,15 +28,18 @@ void Timer::tic()
 	frameTimes[index] = delta;
 
 	lastFrame = glfwGetTime();
+	print();
 }
 
 void Timer::print(void)
 {
-	GLdouble sum = 0;
+	float sum = 0;
 	for (unsigned int i = 0; i < AVERAGE_N_FRAMES; i++)
 		sum += frameTimes[i];
 
-	GLdouble average = sum / AVERAGE_N_FRAMES;
-
-	std::cout << average * 1000 << "ms | " << 1 / average << "fps" << std::endl;
+	float average = sum / AVERAGE_N_FRAMES;
+	char buff[50];
+	sprintf(buff, "%4.3f ms | %4.2f fps",  average * 1000, 1 / average);
+	glfwSetWindowTitle(buff);
+	//std::cout << average * 1000 << "ms | " << 1 / average << "fps" << std::endl;
 }

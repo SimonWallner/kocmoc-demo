@@ -36,7 +36,6 @@ Octree::Octree(vec3 _origin, double _size)
 	originGizmo = generateOriginGizmo();
 }
 
-
 void Octree::insert(RenderMesh* mesh, int maxRecursionDepth)
 {
 	if (mesh == NULL) 
@@ -156,20 +155,9 @@ void Octree::drawDebug(mat4 parentTransform, Camera* camera)
 
 void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 {
-	uint visibleSamples = 0;
 	mat4 viewProjection = camera->getProjectionMatrix() * camera->getViewMatrix();
 
-	visibleSamples += isVisible(origin + vec3(size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(size, size, -size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(size, -size, size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(size, -size, -size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(-size, size, size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(-size, size, -size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(-size, -size, size), viewProjection);
-	visibleSamples += isVisible(origin + vec3(-size, -size, -size), viewProjection);
-
-
-	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || visibleSamples > 0) // (VFC && cull) implies visibility
+	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || isVisible(viewProjection)) // (VFC && cull) implies visibility
 	{
 		if (!isLeaf)
 		{
@@ -188,11 +176,31 @@ void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 	}
 }
 
-bool Octree::isVisible(vec3 sample, mat4 viewProjection)
+bool Octree::isVisible(mat4 projection)
 {
-	vec4 projectedSample = viewProjection * vec4(sample, 1);
-	projectedSample = projectedSample / projectedSample.w;
+	// project each corner cN
+	vec4 c1 = projection * vec4(origin + vec3(size,	size, size), 1);
+	c1 = c1 / c1.w;
+	vec4 c2 = projection * vec4(origin + vec3(size,	size, -size), 1);
+	c2 = c2 / c2.w;
+	vec4 c3 = projection * vec4(origin + vec3(size,	-size, size), 1);
+	c3 = c3 / c3.w;
+	vec4 c4 = projection * vec4(origin + vec3(size,	-size, -size), 1);
+	c4 = c4 / c4.w;
+	vec4 c5 = projection * vec4(origin + vec3(-size ,size, size), 1);
+	c5 = c5 / c5.w;
+	vec4 c6 = projection * vec4(origin + vec3(-size, size, -size), 1);
+	c6 = c6 / c6.w;
+	vec4 c7 = projection * vec4(origin + vec3(-size, -size, size), 1);
+	c7 = c7 / c7.w;
+	vec4 c8 = projection * vec4(origin + vec3(-size, -size, -size), 1);
+	c8 = c8 / c8.w;
 
-	return (projectedSample.x > -1 && projectedSample.y > -1 && projectedSample.z > -1
-		&& projectedSample.x < 1 && projectedSample.y < 1 && projectedSample.z < 1);
+	return	(!(c1.x < -1 && c2.x < -1 && c3.x < -1 && c4.x < -1 && c5.x < -1 && c6.x < -1 && c7.x < -1 && c8.x < -1) &&
+			 !(c1.x >  1 && c2.x >  1 && c3.x >  1 && c4.x >  1 && c5.x >  1 && c6.x >  1 && c7.x >  1 && c8.x >  1) && 
+			 !(c1.y < -1 && c2.y < -1 && c3.y < -1 && c4.y < -1 && c5.y < -1 && c6.y < -1 && c7.y < -1 && c8.y < -1) &&
+			 !(c1.y >  1 && c2.y >  1 && c3.y >  1 && c4.y >  1 && c5.y >  1 && c6.y >  1 && c7.y >  1 && c8.y >  1) && 
+			 !(c1.z < -1 && c2.z < -1 && c3.z < -1 && c4.z < -1 && c5.z < -1 && c6.z < -1 && c7.z < -1 && c8.z < -1) &&
+			 !(c1.z >  1 && c2.z >  1 && c3.z >  1 && c4.z >  1 && c5.z >  1 && c6.z >  1 && c7.z >  1 && c8.z >  1));
+		
 }

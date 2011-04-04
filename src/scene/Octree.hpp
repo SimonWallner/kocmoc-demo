@@ -106,9 +106,11 @@ namespace kocmoc
 			bool isLeaf;
 
 			/**
-			 * test if a point is visible in the frustum defined by the matrix
+			 * Test if the AABB is visible in the given projection
+			 * brute force implementation. Project corners and then check each 
+			 * corner against every plane.
 			 */
-			bool isVisible(glm::vec3 sample, glm::mat4 viewProjection);
+			bool isVisible(glm::mat4 projection);
 
 		};
 	}
