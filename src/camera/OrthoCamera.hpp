@@ -21,9 +21,9 @@ namespace kocmoc
 			~OrthoCamera(void);
 
 			// override fuctions from camera
-			glm::mat4 getViewMatrix() {return viewMatrix;};
-			glm::mat4 getProjectionMatrix() {return projectionMatrix;};
-			glm::mat4 getUntraslatedViewMatrix(){return glm::mat4(1);};
+			const glm::mat4 getViewMatrix() {return viewMatrix;};
+			const glm::mat4 getProjectionMatrix() {return projectionMatrix;};
+			const glm::mat4 getUntraslatedViewMatrix(){return glm::mat4(1);};
 			void updateMatrixes();
 
 			void setFocus(glm::vec3 focus);

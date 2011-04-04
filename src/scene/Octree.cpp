@@ -176,7 +176,7 @@ void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 	}
 }
 
-bool Octree::isVisible(mat4 projection)
+bool Octree::isVisible(const mat4 projection)
 {
 	// project each corner cN
 	vec4 c1 = projection * vec4(origin + vec3(size,	size, size), 1);

@@ -17,9 +17,9 @@ namespace kocmoc
 			~OverlayCamera(void);
 
 			// override functions
-			glm::mat4 getViewMatrix() {return viewMatrix;};
-			glm::mat4 getProjectionMatrix() {return projectionMatrix;};
-			glm::mat4 getUntraslatedViewMatrix(){return viewMatrix;};
+			const glm::mat4 getViewMatrix() {return viewMatrix;};
+			const glm::mat4 getProjectionMatrix() {return projectionMatrix;};
+			const glm::mat4 getUntraslatedViewMatrix(){return viewMatrix;};
 			void updateMatrixes();
 
 		private:

@@ -24,21 +24,21 @@ namespace kocmoc
 			 * Get the view matrix of this camera
 			 * @return the view matrix of the camera
 			 */
-			virtual glm::mat4 getViewMatrix() = 0;
+			virtual const glm::mat4 getViewMatrix() = 0;
 
 			/**
 			 * Get the projection matrix of this camera
 			 */
-			virtual glm::mat4 getProjectionMatrix() = 0;
+			virtual const glm::mat4 getProjectionMatrix() = 0;
 
 			/**
 			 * Get the untranslated view matrix that only reflects the viewing
 			 * direction. made for the skybox.
 			 * @return the untranslated view matrix
 			 */
-			virtual glm::mat4 getUntraslatedViewMatrix() = 0;
+			virtual const glm::mat4 getUntraslatedViewMatrix() = 0;
 
-			virtual glm::vec3 getPosition(void) {return glm::vec3(0.0f);};
+			virtual const glm::vec3 getPosition(void) {return glm::vec3(0.0f);};
 
 			/**
 			 * Update the view matrix of this camera with the current values. 

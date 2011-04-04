@@ -43,17 +43,17 @@ FilmCamera::~FilmCamera()
 	// TODO Auto-generated destructor stub
 }
 
-mat4 FilmCamera::getProjectionMatrix()
+const mat4 FilmCamera::getProjectionMatrix()
 {
 	return projectionMatrix;
 }
 
-mat4 FilmCamera::getViewMatrix()
+const mat4 FilmCamera::getViewMatrix()
 {
 	return viewMatrix;
 }
 
-mat4 FilmCamera::getUntraslatedViewMatrix()
+const mat4 FilmCamera::getUntraslatedViewMatrix()
 {
 	return untranslatedViewMatrix;
 }

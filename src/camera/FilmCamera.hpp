@@ -71,13 +71,13 @@ namespace kocmoc
 			float getAngleOfView(void) {return angleOfView;};
 
 			// override fuctions from camera
-			glm::mat4 getViewMatrix();
-			glm::mat4 getProjectionMatrix();
-			glm::mat4 getUntraslatedViewMatrix();
+			const glm::mat4 getViewMatrix();
+			const glm::mat4 getProjectionMatrix();
+			const glm::mat4 getUntraslatedViewMatrix();
 			void updateMatrixes();
 
 			/** get the cameras eye position */
-			glm::vec3 getPosition(void) {return eyePosition;};
+			const glm::vec3 getPosition(void) {return eyePosition;};
 
 
 			/**

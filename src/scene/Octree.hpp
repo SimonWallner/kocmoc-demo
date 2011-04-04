@@ -110,7 +110,7 @@ namespace kocmoc
 			 * brute force implementation. Project corners and then check each 
 			 * corner against every plane.
 			 */
-			bool isVisible(glm::mat4 projection);
+			bool isVisible(const glm::mat4 projection);
 
 		};
 	}
