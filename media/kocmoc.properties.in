@@ -36,6 +36,7 @@ fullscreen = 0
 
 enableMouse = 0
 captureMouse = 0
+gamepadSpeed = 10
 
 wireframe = 0
 backFaceCulling = 1
@@ -45,19 +46,21 @@ backFaceCulling = 1
 
 # general stuff
 nearPlane = -0.1
-farPlane = -300
+farPlane = -20000
 
 # the model
 modelName = kocmoc.dae
+octreeDepth = 4
 
 
 # star generator
-starsCount = 1000
-starsDomain = 40
-starsSize = 0.3
+starsCount = 1600000
+starsDomain = 1000
+starsSize = 1
 
 # debug settings
-# ...
+debugDrawMeshGizmo = 0
+debugDrawOctreeGizmo = 0
 
 # post processing stuff
 enableColorCorrection = 0

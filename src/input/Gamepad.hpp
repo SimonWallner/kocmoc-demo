@@ -45,6 +45,7 @@ namespace kocmoc
 			int numButtons;
 			int numAxes;
 			GLfloat deadZone;
+			float gamepadSpeed;
 
 			bool enableGamepad;
 

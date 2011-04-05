@@ -6,6 +6,7 @@
 #include <loader/ImageLoader.hpp>
 #include <time/Clock.hpp>
 #include <camera/FilmCamera.hpp>
+#include <util/Property.hpp>
 
 #include <math.h>
 
@@ -25,6 +26,7 @@ Gamepad::Gamepad(FilmCamera* _camera) :
 	camera(_camera)
 {
 	deadZone = 0.20f;
+	gamepadSpeed = util::Property("gamepadSpeed");
 }
 
 Gamepad::~Gamepad()
@@ -77,10 +79,10 @@ void Gamepad::poll(void)
 		Clock * clock = Kocmoc::getInstance().getClock();
 
 		if (abs(pos[0]) > deadZone) // left stick right
-			camera->dolly(vec3(pos[0] * 15.0f, 0, 0) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(pos[0] * 15.0f * gamepadSpeed, 0, 0) * (float)clock->lastFrameDuration());
 
 		if (abs(pos[1]) > deadZone) // left stick up
-			camera->dolly(vec3(0, 0, pos[1] * 15.0f) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(0, 0, pos[1] * 15.0f * gamepadSpeed) * (float)clock->lastFrameDuration());
 
 		if (abs(pos[3]) > deadZone) // right stick down
 			camera->tumble(0, -pos[3] * 4.0f * (float)clock->lastFrameDuration());
@@ -89,7 +91,7 @@ void Gamepad::poll(void)
 			camera->tumble(pos[4] * 4.0 * (float)clock->lastFrameDuration(), 0);
 
 		if (abs(pos[2]) > deadZone) // trigger
-			camera->dolly(vec3(0, -pos[2] * 15.0f, 0) * (float)clock->lastFrameDuration());
+			camera->dolly(vec3(0, -pos[2] * 15.0f * gamepadSpeed, 0) * (float)clock->lastFrameDuration());
 
 		unsigned char *buttons = new unsigned char[numButtons];
 		glfwGetJoystickButtons(numJoystick, buttons, numButtons);

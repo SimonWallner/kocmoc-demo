@@ -258,3 +258,8 @@ void RenderMesh::setUpTextures()
 
 	shader->unbind();
 }
+
+uint RenderMesh::getVertexCount()
+{
+	return mesh->vertexIndexCount;
+}

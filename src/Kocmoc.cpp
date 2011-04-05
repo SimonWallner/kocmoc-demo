@@ -66,8 +66,8 @@ Kocmoc::Kocmoc()
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 
 	paramMapBool[symbolize("renderOctree")] = true;
-	paramMapBool[symbolize("debugDrawMeshGizmo")] = true;
-	paramMapBool[symbolize("debugDrawOctreeGizmo")] = true;
+	paramMapBool[symbolize("debugDrawMeshGizmo")] = Property("debugDrawMeshGizmo");
+	paramMapBool[symbolize("debugDrawOctreeGizmo")] = Property("debugDrawOctreeGizmo");
 	paramMapBool[symbolize("viewFrustumCulling")] = true;
 }
 
@@ -124,9 +124,15 @@ void Kocmoc::init()
 
 	// octree scene stuff
 	rootNodeOctree = new SceneNode("root node Octree");
-	Octree* octree = new Octree(vec3(0), 20);
+	Octree* octree = new Octree(vec3(0), 500);
 	
-	octree->insert(generateStars(), 3);
+	RenderMesh* stars = generateStars();
+	uint vertices = stars->getVertexCount();
+	uint prim = stars->mesh->primitiveCount;
+	double time = glfwGetTime();
+	octree->insert(stars, Property("octreeDepth"));
+	double delta = glfwGetTime() - time;
+	std::cout << "inserting " << vertices << " vertices (" << prim << "primitves) took " << delta << "second" << std::endl;
 
 	RenderMeshNode* kocmoc = SceneLoader::getInstance().load("kocmoc.dae");
 	const RenderMeshNode::RenderMeshPointerList list = kocmoc->getRenderMeshList();
@@ -134,7 +140,7 @@ void Kocmoc::init()
 		ci != list.end();
 		ci++)
 	{
-		octree->insert((*ci), 3);
+		octree->insert((*ci), Property("octreeDepth"));
 	}
 	std::cout << "finished with octree inserting" << std::endl;
 	OctreeNode* octreeNode = new OctreeNode(octree);

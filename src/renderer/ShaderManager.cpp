@@ -35,13 +35,15 @@ Shader* ShaderManager::load(const string &vertexShaderFile, const string &fragme
 	// disable caching for now!
 	// TODO: reenable caching, use unique signature of files and semantics
 
-	//ShaderCache::const_iterator ci = cache.find(key);
-	//if (ci != cache.end()) // cache hit!
-	//{
-	//	//if (_DEBUG)
-	//	//	cout << " found in cache!" << endl;
-	//	return ci->second;
-	//}
+	ShaderCache::const_iterator ci = cache.find(key);
+	if (ci != cache.end()) // cache hit!
+	{
+		//if (_DEBUG)
+		//	cout << " found in cache!" << endl;
+		return ci->second;
+	}
+
+
 
 	Shader *shader = new Shader(vertexShaderFile, fragmentShaderFile);
 
