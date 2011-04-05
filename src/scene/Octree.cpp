@@ -157,7 +157,7 @@ void Octree::draw(mat4 parentTransform, Camera* camera, bool cull)
 {
 	mat4 viewProjection = camera->getProjectionMatrix() * camera->getViewMatrix();
 
-	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || true) // (VFC && cull) implies visibility
+	if (!(Kocmoc::paramMapBool[symbolize("viewFrustumCulling")] && cull) || isVisible(viewProjection)) // (VFC && cull) implies visibility
 	{
 		if (!isLeaf)
 		{

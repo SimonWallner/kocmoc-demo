@@ -26,6 +26,7 @@ using namespace kocmoc;
 using kocmoc::renderer::ShaderManager;
 using kocmoc::renderer::ShadowMap;
 using kocmoc::renderer::FrameBuffer;
+using kocmoc::renderer::RenderMesh;
 using kocmoc::loader::ImageLoader;
 using kocmoc::loader::SceneLoader;
 using kocmoc::camera::FilmCamera;
@@ -109,14 +110,26 @@ void Kocmoc::init()
 	}
 
 
+
+	// loading and generation
+	RenderMeshNode* starsNode = new RenderMeshNode();
+	starsNode->add(generateStars());
+
+
+	// non octree scene node
+	rootNodeNormal = new SceneNode("root node normal");
+	rootNodeNormal->add(SceneLoader::getInstance().load("kocmoc.dae"));
+	rootNodeNormal->add(starsNode);
+
+
 	// octree scene stuff
 	rootNodeOctree = new SceneNode("root node Octree");
+	Octree* octree = new Octree(vec3(0), 20);
+	
+	octree->insert(generateStars(), 3);
 
-	Octree* octree = new Octree(vec3(0), 10);
-	//octree->insert(generateStars(), 0);
-
-	RenderMeshNode* triangle = SceneLoader::getInstance().load("kocmoc.dae");
-	const RenderMeshNode::RenderMeshPointerList list = triangle->getRenderMeshList();
+	RenderMeshNode* kocmoc = SceneLoader::getInstance().load("kocmoc.dae");
+	const RenderMeshNode::RenderMeshPointerList list = kocmoc->getRenderMeshList();
 	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
 		ci != list.end();
 		ci++)
@@ -126,12 +139,10 @@ void Kocmoc::init()
 	std::cout << "finished with octree inserting" << std::endl;
 	OctreeNode* octreeNode = new OctreeNode(octree);
 	rootNodeOctree->add(octreeNode);
-
-
-	rootNodeNormal = new SceneNode("root node normal");
-	//rootNodeNormal->add(SceneLoader::getInstance().load("suzanne-32k.dae"));
-
 	
+
+
+
 
 	{ // inputs 
 		gamepad = new input::Gamepad(camera);

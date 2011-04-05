@@ -34,6 +34,7 @@ RenderMesh::RenderMesh(PolyMesh* _mesh, Shader* _shader)
 	, shader(_shader)
 	, modelMatrix(mat4(1))
 	, isUploaded(false)
+	, uniformsAreSet(false)
 	, debugDrawMeshGizmo(Property("debugDrawMeshGizmo"))
 {
 	originGizmo = util::generator::generateOriginGizmo();
@@ -62,15 +63,16 @@ void RenderMesh::setModelMatrix(mat4 _modelMatrix)
 void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 {
 	if (shader->getIsUploaded() == false)
-	{
 		shader->upload();
 
+	if (!uniformsAreSet)
+	{
 		uniformProjectionMatrix = shader->get_uniform_location("projectionMatrix");
 		uniformViewMatrix = shader->get_uniform_location("viewMatrix");
 		uniformModelMatrix = shader->get_uniform_location("modelMatrix");
 		uniformNormalMatrix = shader->get_uniform_location("normalMatrix");
+		uniformsAreSet = true;
 	}
-
 
 	if (isUploaded == false)
 		uploadData();
