@@ -69,6 +69,9 @@ Kocmoc::Kocmoc()
 	paramMapBool[symbolize("debugDrawMeshGizmo")] = Property("debugDrawMeshGizmo");
 	paramMapBool[symbolize("debugDrawOctreeGizmo")] = Property("debugDrawOctreeGizmo");
 	paramMapBool[symbolize("viewFrustumCulling")] = true;
+
+	mouseSpeed = Property("mouseSpeed");
+	keyboardSpeed = Property("keyboardSpeed");
 }
 
 Kocmoc::~Kocmoc()
@@ -294,16 +297,16 @@ void Kocmoc::pollKeyboard(void)
 
 
 	if (glfwGetKey('W'))
-		camera->dolly(vec3(0, 0, 4.0f) * (float)clock->lastFrameDuration());
+		camera->dolly(vec3(0, 0, 4.0f) * keyboardSpeed * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey('S'))
-		camera->dolly(vec3(0, 0, -4.0f) * (float)clock->lastFrameDuration());
+		camera->dolly(vec3(0, 0, -4.0f) * keyboardSpeed * (float)clock->lastFrameDuration());
 	
 	if (glfwGetKey('A'))
-		camera->dolly(vec3(-4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
+		camera->dolly(vec3(-4.0f, 0, 0.0f) * keyboardSpeed * (float)clock->lastFrameDuration());
 	
 	if (glfwGetKey('D'))
-		camera->dolly(vec3(4.0f, 0, 0.0f) * (float)clock->lastFrameDuration());
+		camera->dolly(vec3(4.0f, 0, 0.0f) * keyboardSpeed * (float)clock->lastFrameDuration());
 
 	if (glfwGetKey('1'))
 	{
@@ -335,8 +338,8 @@ void Kocmoc::pollMouse()
 	int newX, newY;
 	glfwGetMousePos(&newX, &newY);
 
-	camera->tumble((newX - mouseOldX) * (float)clock->lastFrameDuration() * 0.1f
-		, (newY - mouseOldY) * -(float)clock->lastFrameDuration() * 0.1f);
+	camera->tumble((newX - mouseOldX) * (float)clock->lastFrameDuration() * 0.1f * mouseSpeed 
+		, (newY - mouseOldY) * -(float)clock->lastFrameDuration() * 0.1f * mouseSpeed);
 
 	mouseOldX = newX;
 	mouseOldY = newY;

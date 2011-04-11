@@ -114,6 +114,8 @@ namespace kocmoc
 		input::Gamepad* gamepad;
 		bool useGamepad;
 		bool useMouse;
+		float mouseSpeed;
+		float keyboardSpeed;
 
 		renderer::FrameBuffer* fbo;
 		renderer::ShadowMap* shadowMap;
