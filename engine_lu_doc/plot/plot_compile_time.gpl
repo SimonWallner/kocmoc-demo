@@ -1,0 +1,55 @@
+# plot timing results for the VFC demo
+
+# set terminal latex
+# set output "eg2.tex"
+
+set size ratio 1
+set key right bottom
+set xlabel 'number of stars'
+set ylabel 'seconds'
+set format x "%2.0f"
+set xtics 400000
+
+set multiplot;
+set size 0.5, 1;
+
+# model fitting functions
+lm(x) = la*x + lb
+qm(x) = qa*x**2 + qb*x + qc  
+
+# -----------------------------------------------------------------------------------
+# first plot
+set origin 0.0,0.0;
+set title 'compile time at tree depth = 3'
+
+
+
+fit lm(x) 'data/depth_3.dat' using 1:2 via la, lb
+qa = 0.1
+qb = la
+qc = lb
+fit qm(x) 'data/depth_3.dat' using 1:2 via qa, qb, qc
+
+
+plot 'data/depth_3.dat' using 1:2 title 'compile time in sec' with points, \
+	la*x + lb title 'linear model',\
+	qa*x**2 + qb*x + qc title 'quadratic model'
+
+# ------------------------------------------------------------------------------------
+# next plot
+set title 'compile time at tree depth = 4'
+
+set origin 0.5,0.0;
+la = 1
+lb = 20
+fit lm(x) 'data/depth_4.dat' using 1:2 via la, lb
+qa = 0.1
+qb = la
+qc = lb
+
+fit qm(x) 'data/depth_4.dat' using 1:2 via qa, qb, qc
+
+plot 'data/depth_4.dat' using 1:2 title 'compile time in sec' with points, \
+	la*x + lb title 'linear model',\
+	qa*x**2 + qb*x + qc title 'quadratic model'
+unset multiplot

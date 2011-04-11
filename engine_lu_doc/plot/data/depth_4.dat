@@ -1,0 +1,7 @@
+# star count | compile time in seconds | average case VFC ms | best case VFC | frame time ms
+
+100000		342		5.5		46		3.9
+200000		344		5.5		46		6.2
+400000		356		5.5		45		10.4
+800000		375		5.5		46		24.0
+1600000		421		5.8		52		46
