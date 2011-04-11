@@ -1,14 +1,14 @@
 # plot timing results for the VFC demo
 
-# set terminal latex
-# set output "eg2.tex"
+set terminal latex
+set output "frame-time-plot.tex"
 
 set size ratio 1
-set key top left
+set key below
 set xlabel 'number of stars'
 set ylabel 'ms'
 set format x "%2.0f"
-set xtics 400000
+set xtics 800000
 
 
 set multiplot;

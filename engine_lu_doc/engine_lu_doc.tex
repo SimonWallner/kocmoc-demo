@@ -1,4 +1,5 @@
 \documentclass[a4, 12pt]{scrartcl}
+\usepackage{graphicx}
 
 \begin{document}
 \title{Implementation Notes and Results of a simple Octree Implementation with View Frustum Culling}
@@ -42,8 +43,21 @@ The octree is traversed top-down and invisible nodes are ignored. This results i
 Performance figures have been captured in a single run on the development machine\footnote{Win7 64bit, Intel E7400 dual core 2.8GHz, 4k ram, ATI Radeon 4830}.
 
 
+\begin{figure}
+\centering
+\begin{scriptsize}
+\input{plot/compile-time-plot.tex}
+\end{scriptsize}
+\caption{compile times of the octree}
+\end{figure}
 
-
+\begin{figure}
+\centering
+\begin{scriptsize}
+\input{plot/frame-time-plot.tex}
+\end{scriptsize}
+\caption{frame times of the octree}
+\end{figure}
 
 
 \section{Sources}
