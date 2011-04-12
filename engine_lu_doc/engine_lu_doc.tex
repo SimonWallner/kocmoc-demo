@@ -12,15 +12,15 @@ This report provides details on the implementation as well as results of a simpl
 \end{abstract}
 
 \section{Motivation}
-In a typical scene less than 50\% of the vertices in the scene contribute to the final rendering. In order to taking load off the vertex engine in the GPU and offloading it to the CPU view frustum culling can be used. Objects outside the viewing frustum are culled and are not sent to the GPU for rendering.
+In a typical scene less than 50\% of the vertices in the scene contribute to the final rendering. In order to take load off the vertex engine and offloading it to the CPU, view frustum culling can be used. Objects outside the viewing frustum are culled and are not sent to the GPU for rendering.
 
-To accelerate the identification of objects that can be culled a octree is used that discretizes the scene into blocks on which the culling decision is performed.
+To accelerate the identification of objects that can be culled a \emph{octree} is used that discretises the scene into blocks on which the culling decision is performed.
 
 \section{Implementation}
-The octree and FVC (view frustum culling) has been integrated in an existing code base that was previously used for the \emph{real time rendering lab course}.\emph{A video of the resulting demo can be viewed here: \texttt{http://vimeo.com/19202087}}. A few details have been changed and other features have been added during this project.
+The octree and FVC (view frustum culling) has been integrated in an existing code base that was previously used for the \emph{real time rendering lab course}. A video of the resulting demo can be viewed here: \texttt{http://vimeo.com/19202087}. A few details have been changed and other features have been added during this project.
 
 \subsection{Mesh Representation}
-A \emph{struct-of-arrays} structure is used as the internal mesh representation. The previously hard coded vertex attributes have been replaced with arbitrary vertex attributes and arbitrary 2d textures have been added. Vertex attribute and texture semantics can specified in the shader and are then combined into a \texttt{RenderMesh} for rendering.
+A \emph{struct-of-arrays} structure is used as the internal mesh representation. The previously hard coded vertex attributes have been replaced with arbitrary vertex attributes and arbitrary 2d textures have been added. Vertex attribute semantics and texture semantics can be specified in the shader and are then combined into a \texttt{RenderMesh} for rendering.
 
 \subsection{Collada Model Loading}
 Limited support for loading Collada scenes is provided as long as they adhere to certain constraints (constraints on vertex attributes and textures, general materials and transformations are not supported). During loading the scene is converted into the internal canonical representation. A simple scene graph is used to hold meshes together and simplify rendering.
@@ -42,39 +42,75 @@ The octree is traversed top-down and invisible nodes are ignored. This results i
 \subsection{Performance}
 Performance figures have been captured in a single run on the development machine\footnote{Win7 64bit, Intel E7400 dual core 2.8GHz, 4k ram, ATI Radeon 4830}.
 
+To test the performance a randomly generated star field has been generated and inserted into the octree. Each star consists of simple regular tetrahedron with 4 triangles and 12 vertices (4 unique vertices). The stars have no other vertex attributes  other than position.  
 
-\begin{figure}
+
+\begin{figure}[hbtp]
 \centering
 \begin{scriptsize}
 \input{plot/compile-time-plot.tex}
 \end{scriptsize}
 \caption{compile times of the octree}
+\label{fig:compile-time}
 \end{figure}
 
-\begin{figure}
+Figure \ref{fig:compile-time} shows the compile time of the octree for depths of 3 and 4. From the diagram it can be seen that the time complexity is linear in the number of stars. With increasing insertion depth the time complexity rises sharply. 
+
+\begin{figure}[hbtp]
 \centering
 \begin{scriptsize}
 \input{plot/frame-time-plot.tex}
 \end{scriptsize}
 \caption{frame times of the octree}
+\label{fig:frame-time}
 \end{figure}
 
+Figure \ref{fig:frame-time} illustrates the frame time of the view frustum culling and the naive rendering. VFC average case\footnote{Camera centred approximately at the center of the octree.} frame times are significantly lower than naive rendering frame times in most of the cases. VFC worst case\footnote{octree completely visible} is roughly similar to the naive frame time for $d = 3$ but significantly higher for $d = 4$.
 
-\section{Sources}
+\subsection{Discussion}
+Octree view frustum culling can greatly reduce frame time especially in cases where there is a lot of stress on the vertex engine of the GPU. Worst case performance however can be significantly higher than naive rendering. 
 
-
-
-
-
-
-% further improvements
-% - model matrixes
+All in all, octree fiew frustum culling is a useful optimization that should perform fine in standard situations.
 
 
+\section{Future Work/Further improvements}
+Right now the presented implementation is in an early stage and has a few shortcomings:
+\begin{itemize}
+\item Model matrixes are not applied onto a mesh upon insertion into the tree.
+\item Insertion depth is either defined at the function call or decided at a per node basis. If a node exceeds a certain threshold it will be subdivided. It would be better to control insertion depth on a per mesh basis, in order to keep batch sizes reasonable. 
+\item Each mesh in in node is drawn in it's own draw call. It would be better to batch these calls together to improve performance. This could be done by determining visibility in a first pass and then batched rendering in a second pass (to reduce draw calls and state changes).
+\end{itemize}
 
 
+\section{Compiling and Running the Demo}
+All source files are hosted in a public repository at github\footnote{\texttt{https://github.com/SimonWallner/kocmoc-demo}} in the \emph{city} branch. \emph{CMake} is used as a build tool and it should compile with Visual Studio 2010. More detailed instructions on how to build it can be found in the readme file.
 
-\end{document}}
+\subsection{Running}
+The application should start directly from the supplied package\footnote{OpenAL might be required, the redist installer is included in the package}. Application behaviour can be controlled via the \texttt{kocmoc.properties} file (resolution, fullscreen mode, debug output, ...).
+
+The camera is either controlled via mouse and WASD or a gamepad (preferably an XBox 360 gamepad). Special function keys include
+\begin{description}
+\item[1] toggle octree rendering (stars may jump do to different random distribution)
+\item[2] toggle mesh AABB debug rendering
+\item[3] toggle octree debug rendering
+\item[4] toggle view frustum culling
+
+\item[F3] toggle wireframe mode
+\item[F5] toggle non-planar projection post processing effect
+\item[F6] toggle vignetting post processing effect
+
+\item[.] take screen shot
+
+\end{description}
+
+\section{License}
+All source code is licensed under the MIT license, all art assets are licensed under the creative commons 3.0 license. More detailed information can be found in the \texttt{license.txt} file in the repository.
+
+This document is licesed under the \emph{creative commons attribution share alike 3.0} license.
+
+\copyright 2010-2011 Simon Wallner, some rights reserved. 
+
+\end{document}
 
 
 
