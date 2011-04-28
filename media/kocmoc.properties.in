@@ -51,7 +51,7 @@ nearPlane = -0.1
 farPlane = -20000
 
 # the model
-modelName = terrain.dae
+modelName = terrain_01.dae
 octreeDepth = 3
 
 

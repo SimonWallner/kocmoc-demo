@@ -118,17 +118,15 @@ void Kocmoc::init()
 	// non octree scene node
 	rootNodeNormal = new SceneNode("root node normal");
 	rootNodeNormal->add(SceneLoader::getInstance().load(Property("modelName")));
+	//rootNodeNormal->add(SceneLoader::getInstance().load("sky.dae"));
 
 
 	// octree scene stuff
-	Octree* octree = new Octree(vec3(0), 500);
-	
+	//Octree* octree = new Octree(vec3(0), 2000);
+	//
 	//double time = glfwGetTime();
-	//double delta = glfwGetTime() - time;
-	//std::cout << "inserting " << vertices << " vertices (" << prim << "primitves) took " << delta << "second" << std::endl;
-
-	RenderMeshNode* kocmoc = SceneLoader::getInstance().load(Property("modelName"));
-	const RenderMeshNode::RenderMeshPointerList list = kocmoc->getRenderMeshList();
+	//RenderMeshNode* kocmoc = SceneLoader::getInstance().load(Property("modelName"));
+	//const RenderMeshNode::RenderMeshPointerList list = kocmoc->getRenderMeshList();
 	//for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
 	//	ci != list.end();
 	//	ci++)
@@ -136,8 +134,10 @@ void Kocmoc::init()
 	//	octree->insert((*ci), Property("octreeDepth"));
 	//}
 	//std::cout << "finished with octree inserting" << std::endl;
+	//double delta = glfwGetTime() - time;
+	//std::cout << "inserting took " << delta << "second" << std::endl;
 	//OctreeNode* octreeNode = new OctreeNode(octree);
-	//rootNodeOctree->add(octreeNode);
+	//rootNodeNormal->add(octreeNode);
 	
 
 
