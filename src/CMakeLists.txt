@@ -50,10 +50,10 @@ endif (WIN32)
 
 
 add_definitions(-DWIN32_LEAN_AND_MEAN -DNOMINMAX)
-add_executable(city-test ${SOURCE_FILES})
+add_executable(RTVIS ${SOURCE_FILES})
 
 set (TARGET_LINK_LIBRARIES 
-	city-test
+	RTVIS
 	glfw
 	OpenCOLLADAFramework
 	OpenCOLLADASaxFrameworkLoader

@@ -145,10 +145,6 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		}
 
 		
-		//poly->setVertexIndexArray(vertexIndexArray);
-		//poly->setNormalIndexArray(normalIndexArray);
-		//poly->setUVIndexArray(uvIndexArray);
-
 
 		// attributes
 		// positions...
@@ -159,7 +155,6 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		for (unsigned int i = 0; i < positionCount; i++)
 			positionsArray[i] = static_cast<double >(positionsData[i]);
 
-		//poly->setVertexPositions(positionsArray);
 
 		// uv
 		unsigned int uvCount = mesh->getUVCoords().getFloatValues()->getCount();
@@ -169,17 +164,15 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		for (unsigned int i = 0; i < uvCount; i++)
 			uvPositions[i] = static_cast<double >(uvData[i]);
 
-		//poly->setUVPositions(uvPositions);
 
 		// normals
-		unsigned int normalCount = mesh->getNormalsCount();
+		unsigned int normalCount = mesh->getNormals().getFloatValues()->getCount();
 		double *normalPositions = new double[normalCount];
 		const float *normalData = mesh->getNormals().getFloatValues()->getData();
 
 		for (unsigned int i = 0; i < normalCount; i++)
 			normalPositions[i] = static_cast<double >(normalData[i]);
 
-		//poly->setNormalPositions(normalPositions);
 
 
 		PolyMesh::VertexAttribute vertexPositions(3, positionCount, positionsArray, vertexIndexArray, true);

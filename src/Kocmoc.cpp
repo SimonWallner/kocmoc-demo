@@ -114,40 +114,30 @@ void Kocmoc::init()
 
 
 
-	// loading and generation
-	RenderMeshNode* starsNode = new RenderMeshNode();
-	starsNode->add(generateStars());
-
 
 	// non octree scene node
 	rootNodeNormal = new SceneNode("root node normal");
-	rootNodeNormal->add(SceneLoader::getInstance().load("kocmoc.dae"));
-	rootNodeNormal->add(starsNode);
+	rootNodeNormal->add(SceneLoader::getInstance().load(Property("modelName")));
 
 
 	// octree scene stuff
-	rootNodeOctree = new SceneNode("root node Octree");
 	Octree* octree = new Octree(vec3(0), 500);
 	
-	RenderMesh* stars = generateStars();
-	uint vertices = stars->getVertexCount();
-	uint prim = stars->mesh->primitiveCount;
-	double time = glfwGetTime();
-	octree->insert(stars, Property("octreeDepth"));
-	double delta = glfwGetTime() - time;
-	std::cout << "inserting " << vertices << " vertices (" << prim << "primitves) took " << delta << "second" << std::endl;
+	//double time = glfwGetTime();
+	//double delta = glfwGetTime() - time;
+	//std::cout << "inserting " << vertices << " vertices (" << prim << "primitves) took " << delta << "second" << std::endl;
 
-	RenderMeshNode* kocmoc = SceneLoader::getInstance().load("kocmoc.dae");
+	RenderMeshNode* kocmoc = SceneLoader::getInstance().load(Property("modelName"));
 	const RenderMeshNode::RenderMeshPointerList list = kocmoc->getRenderMeshList();
-	for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
-		ci != list.end();
-		ci++)
-	{
-		octree->insert((*ci), Property("octreeDepth"));
-	}
-	std::cout << "finished with octree inserting" << std::endl;
-	OctreeNode* octreeNode = new OctreeNode(octree);
-	rootNodeOctree->add(octreeNode);
+	//for (RenderMeshNode::RenderMeshPointerList::const_iterator ci = list.begin();
+	//	ci != list.end();
+	//	ci++)
+	//{
+	//	octree->insert((*ci), Property("octreeDepth"));
+	//}
+	//std::cout << "finished with octree inserting" << std::endl;
+	//OctreeNode* octreeNode = new OctreeNode(octree);
+	//rootNodeOctree->add(octreeNode);
 	
 
 
@@ -242,10 +232,7 @@ void Kocmoc::start()
 
 void Kocmoc::draw()
 {
-	if (paramMapBool[symbolize("renderOctree")])
-		rootNodeOctree->draw(mat4(1), camera);
-	else 
-		rootNodeNormal->draw(mat4(1), camera);
+	rootNodeNormal->draw(mat4(1), camera);
 }
 
 void Kocmoc::drawOverlays()

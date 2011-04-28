@@ -26,7 +26,7 @@ soundsRootFolder = ${MEDIA_PATH}/sounds/
 scriptsRootFolder = ${MEDIA_PATH}/scripts/
 
 # alternative paths, that are not in the repo
-alternativeModelsRootFolder = C:/Users/Simon/Uni/kocmoc/alternative/
+alternativeModelsRootFolder = C:/Users/Simon/Uni/RTVIS/extra/
 
 
 # screen resolution and weather to start in full screen mode or not
@@ -51,7 +51,7 @@ nearPlane = -0.1
 farPlane = -20000
 
 # the model
-modelName = kocmoc.dae
+modelName = terrain.dae
 octreeDepth = 3
 
 
@@ -72,10 +72,9 @@ enableVignetting = 1
 # camera settings
 cameraFocalLength35 = 21
 aspectRatio = 1.7777777778
-# horizontalMargin = 85
-# verticalMargin = 45
-horizontalMargin = 0
-verticalMargin = 0
+horizontalMargin = 85
+verticalMargin = 45
+
 
 # shadwo map
 shadowMapWidth = 2048

@@ -20,7 +20,7 @@ out vec4 fragmentColor0;
 void main(void)
 {
 	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
-	const vec3 ambientIntensity = vec3(0.03f, 0.03f, 0.03f);
+	const vec3 ambientIntensity = vec3(0.1f, 0.1f, 0.1f);
 	const float bias = 0.01;
 
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
@@ -33,7 +33,7 @@ void main(void)
 		float shinyness = texture(sSpecular, texCoord0).a * 50.0f + 5.0f;
 		vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
 		vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
-
+		transformed = fragmentNormal;
 
 		float diffuseFactor =  max(dot(-lightDirection, transformed.xyz), 0);
 		vec3 diffuseTerm = diffuseColor * diffuseFactor;
@@ -46,6 +46,7 @@ void main(void)
 
 		fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 		fragmentColor0 = vec4(diffuseTerm + ambientTerm, 1);
+		
 	}
 	else 
 	{
