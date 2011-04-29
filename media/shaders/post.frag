@@ -16,7 +16,8 @@ out vec4 fragmentColor0;
 
 void main(void)
 {
-	const float barrelParam = 0.7;
+//	const float barrelParam = 0.7;
+	const float barrelParam = 0.8;
 	float aspectRatio = dimension.x / dimension.y;
 
 	vec4 color;
@@ -53,7 +54,7 @@ void main(void)
 
 	if (vignetting == 1)
 	{
-		float attenuation = 2.0f;
+		float attenuation = 3.0f;
 		float power = 4.7;
 	
 		float delta = distance(texCoord0, vec2(0.5f, 0.5f));

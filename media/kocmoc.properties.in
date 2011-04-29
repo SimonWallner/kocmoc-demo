@@ -70,7 +70,7 @@ enableNonPlanarProjection = 1
 enableVignetting = 1
 
 # camera settings
-cameraFocalLength35 = 21
+cameraFocalLength35 = 16
 aspectRatio = 1.7777777778
 horizontalMargin = 85
 verticalMargin = 45

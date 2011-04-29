@@ -19,5 +19,22 @@ out vec4 fragmentColor0;
 
 void main(void)
 {
-	fragmentColor0 = vec4(.4, 0.8, 1, 1);
+	vec3 sunDirection = normalize(vec3(1.0, 1.0, 1.0));
+	vec3 sunIntensity = vec3(1.0, 1.0, 1.0);
+	float g = -0.75;
+	float kR = 0;
+	float kM = 0;
+	float pi = 3.141592653589793238462643383279502884197169;
+
+	float red = 600E-9;
+	float green = 550E-9;
+	float blue = 450E-9;
+	
+
+	vec3 viewingDirection = normalize(worldSpacePosition - cameraPosition);
+
+	fragmentColor0 = vec4(max(0, dot(sunDirection, viewingDirection)), 0, 0, 1);
+	
+//	fragmentColor0 = vec4(.4, 0.8, 1, 1);
+
 }
