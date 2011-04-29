@@ -53,6 +53,8 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 	std::vector<unsigned int> normalIndices;
 	unsigned int firstIndex = 0;
 
+	std::string material; // only the last material per geometry is used.
+
 
 	if (geometry->getType() == COLLADAFW::Geometry::GEO_TYPE_MESH)
 	{
@@ -93,6 +95,8 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 					firstIndices.push_back(firstIndex);
 					firstIndex += meshPrimitive->getGroupedVerticesVertexCount(j);
 				}
+
+				material = meshPrimitive->getMaterial();
 			}
 		}
 
@@ -106,20 +110,6 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		unsigned int primitiveCount = firstIndices.size() - 1;
 		unsigned int vertexIndexCount = vertexIndices.size();
 		unsigned int vertexCount = mesh->getPositions().getValuesCount()/3; // stride = 3
-	
-		//PolyMesh* poly = new PolyMesh(primitiveCount, vertexIndexCount, vertexCount);
-
-
-	
-
-		// UV...
-		//double *uvArray = new double[mesh->getUVCoords().getFloatValues()->getCount()];
-		//const float *uvData = mesh->getUVCoords().getFloatValues()->getData();
-
-		//for (unsigned int i = 0; i < mesh->getUVCoords().getFloatValues()->getCount(); i++)
-		//	uvArray[i] = static_cast<double >(uvData[i]);
-
-		//poly->setUVIndexArray(uvArray);
 		
 
 
@@ -127,8 +117,6 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		unsigned int *fiaArray = new unsigned int[firstIndices.size()];
 		for (unsigned int i = 0; i < firstIndices.size(); i++)
 			fiaArray[i] = firstIndices[i];
-
-		//poly->setFirstIndexArray(fiaArray);
 
 
 		// indices...
@@ -187,7 +175,7 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 		polyMesh->addVertexAttribute(symbolize("normal"), normal);
 
 		// create shader and vertex semantcs
-		Shader *shader = ShaderManager::getInstance().load("base.vert", "base.frag");
+		Shader *shader = ShaderManager::getInstance().load(material + ".vert", material + ".frag");
 		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("position"), VERTEX_ATTR_NAME_POSITION, 0));
 		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("uv"), VERTEX_ATTR_NAME_UV0, 1));
 		shader->addSemantic(Shader::VertexAttributeSemantic(symbolize("normal"), VERTEX_ATTR_NAME_NORMAL, 2));
@@ -216,14 +204,6 @@ bool Importer::writeGeometry (const COLLADAFW::Geometry* geometry)
 			shader->addTextureSemantic(Shader::TextureSemantic(symbolize("normal"), NORMAL_SAMPLER_NAME));
 		}
 
-
-		
-		//GLuint diffuseTex = ImageLoader::getInstance().loadImage(textures[0], true);
-		//GLuint specularTex = ImageLoader::getInstance().loadImage(textures[1], true);
-		//GLuint normalTex = ImageLoader::getInstance().loadImage(textures[2]);
-		//poly->setDiffuseTexture(diffuseTex);
-		//poly->setSpecularTexture(specularTex);
-		//poly->setNormalTexture(normalTex);
 
 		RenderMesh* renderMesh = new RenderMesh(polyMesh, shader);
 
