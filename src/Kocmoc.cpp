@@ -72,6 +72,10 @@ Kocmoc::Kocmoc()
 
 	mouseSpeed = Property("mouseSpeed");
 	keyboardSpeed = Property("keyboardSpeed");
+
+	azimuthAngle = 0;
+	elevationAngle = 2;
+	updateSunDirection();
 }
 
 Kocmoc::~Kocmoc()
@@ -93,8 +97,8 @@ void Kocmoc::stop(){
 void Kocmoc::init()
 {
 	{ // user camera
-		camera = new FilmCamera(vec3(0.0f, 0.0f, 15.0f), //eye
-			vec3(0, 0, 0), // target
+		camera = new FilmCamera(vec3(-15.0f, 40.0f, 0.0f), //eye
+			vec3(0, 40.0f, 0), // target
 			vec3(0, 1, 0));  // up
 		float aspectRatio = (float)util::Property("aspectRatio") / ((float)Context::getInstance().width / (float)Context::getInstance().height);
 		if (aspectRatio > 1) // horizontal letter box
@@ -318,6 +322,43 @@ void Kocmoc::pollKeyboard(void)
 		paramMapBool[symbolize("viewFrustumCulling")] = !paramMapBool[symbolize("viewFrustumCulling")];
 		std::cout << "fiew frustum culling is: " << paramMapBool[symbolize("viewFrustumCulling")] << std::endl;
 	}
+
+
+	// sun control
+	if (glfwGetKey(GLFW_KEY_UP))
+	{
+		elevationAngle += 90.0f * (float)clock->lastFrameDuration();
+		std::cout << "elevation angle: " << elevationAngle << std::endl;
+		updateSunDirection();
+	}
+	if (glfwGetKey(GLFW_KEY_DOWN))
+	{
+		elevationAngle -= 090.0f * (float)clock->lastFrameDuration();
+		std::cout << "elevation angle: " << elevationAngle << std::endl;
+		updateSunDirection();
+	}
+	if (glfwGetKey(GLFW_KEY_LEFT))
+	{
+		azimuthAngle += 90.0f * (float)clock->lastFrameDuration();
+		std::cout << "azimuth angle: " << azimuthAngle << std::endl;
+		updateSunDirection();
+	}
+	if (glfwGetKey(GLFW_KEY_RIGHT))
+	{
+		azimuthAngle -= 90.0f * (float)clock->lastFrameDuration();
+		std::cout << "azimuth angle: " << azimuthAngle << std::endl;
+		updateSunDirection();
+	}
+}
+
+void Kocmoc::updateSunDirection()
+{
+	mat4 elevation = glm::rotate(elevationAngle, vec3(0, 0, 1));
+	mat4 rotation = glm::rotate(azimuthAngle, vec3(0, 1, 0));
+
+
+	sunDirection = vec3(rotation * elevation * glm::vec4(1, 0, 0, 1));
+
 }
 
 void Kocmoc::pollMouse()

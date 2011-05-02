@@ -10,7 +10,6 @@
 #include <loader/ImageLoader.hpp>
 #include <Kocmoc.hpp>
 
-#include <gtx/inverse_transpose.hpp>
 
 #include <vector>
 
@@ -24,7 +23,6 @@ using kocmoc::util::Property;
 using glm::mat4;
 using glm::mat3;
 using glm::dvec3;
-using glm::gtx::inverse_transpose::inverseTranspose;
 
 using std::vector;
 
@@ -71,6 +69,8 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		uniformViewMatrix = shader->get_uniform_location("viewMatrix");
 		uniformModelMatrix = shader->get_uniform_location("modelMatrix");
 		uniformNormalMatrix = shader->get_uniform_location("normalMatrix");
+		uniformSunDirection = shader->get_uniform_location("sunDirection");
+		uniformCameraPosition = shader->get_uniform_location("cameraPosition");
 		uniformsAreSet = true;
 	}
 
@@ -78,7 +78,8 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		uploadData();
 
 	mat4 leafTransform = parentTransform * modelMatrix;
-	mat3 normalMatrix = inverseTranspose(mat3(modelMatrix));
+	//mat3 normalMatrix = inverseTranspose(mat3(modelMatrix));
+	mat3 normalMatrix = glm::inverse(glm::transpose(mat3(modelMatrix)));
 
 
 	shader->bind();
@@ -98,6 +99,9 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 
 	if (uniformNormalMatrix >= 0)
 		glUniformMatrix3fv(uniformNormalMatrix, 1, GL_FALSE, glm::value_ptr(normalMatrix));	
+
+	if (uniformSunDirection >= 0)
+		glUniform3fv(uniformSunDirection, 1, glm::value_ptr(Kocmoc::getInstance().sunDirection));	
 	
 
 	for (RenderTextureList::const_iterator ci = renderTextures.begin();

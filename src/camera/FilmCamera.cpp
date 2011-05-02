@@ -2,7 +2,6 @@
 
 #include <util/Property.hpp>
 
-#include <gtc/matrix_projection.hpp> 
 #include <math.h>
 
 

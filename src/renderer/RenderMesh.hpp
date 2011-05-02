@@ -96,6 +96,7 @@ namespace kocmoc
 			GLint uniformViewMatrix;
 			GLint uniformModelMatrix;
 			GLint uniformNormalMatrix;
+			GLint uniformSunDirection;
 			bool uniformsAreSet;
 
 			bool debugDrawMeshGizmo;

@@ -90,6 +90,8 @@ namespace kocmoc
 		// general easy to use public parameter map
 		typedef std::map<Symbol, bool> ParamMapBool;
 		static ParamMapBool paramMapBool;
+
+		glm::vec3 sunDirection;
 	
 	private:
 
@@ -136,5 +138,10 @@ namespace kocmoc
 		void drawOverlays(void);
 
 		scene::SceneNode* rootNodeNormal;
+
+		// attention: angles are in degrees!!! (glm wants it that way)
+		float azimuthAngle;
+		float elevationAngle;
+		void updateSunDirection(void);
 	};
 }

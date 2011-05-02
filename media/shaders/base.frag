@@ -46,6 +46,10 @@ void main(void)
 
 		fragmentColor0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 		fragmentColor0 = vec4(diffuseTerm + ambientTerm, 1);
+
+		
+		fragmentColor0 = vec4((length(worldSpacePosition - cameraPosition)/2000.).xxx, 1);
+//		fragmentColor0 = vec4((cameraPosition+10.5)/100, 1);
 		
 	}
 	else 
