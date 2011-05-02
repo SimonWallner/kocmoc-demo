@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2005-01-27
 // Updated : 2010-02-03
@@ -32,7 +32,7 @@ namespace detail
 		size_type i
 	)
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -43,7 +43,7 @@ namespace detail
 		size_type i
 	) const
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -348,18 +348,18 @@ namespace detail
     template <typename T> 
     inline tmat3x3<T> & tmat3x3<T>::operator++ ()
     {
-	    this->value[0]++;
-	    this->value[1]++;
-        this->value[2]++;
+	    ++this->value[0];
+	    ++this->value[1];
+        ++this->value[2];
 	    return *this;
     }
 
     template <typename T> 
     inline tmat3x3<T> & tmat3x3<T>::operator-- ()
     {
-	    this->value[0]--;
-	    this->value[1]--;
-        this->value[2]--;
+	    --this->value[0];
+	    --this->value[1];
+        --this->value[2];
 	    return *this;
     }
 
@@ -377,7 +377,7 @@ namespace detail
         T S20 = value[2][0];
         T S21 = value[2][1];
         T S22 = value[2][2];
-
+/*
         tmat3x3<T> Inverse(
             + (S11 * S22 - S21 * S12),
             - (S10 * S22 - S20 * S12),
@@ -388,6 +388,17 @@ namespace detail
             + (S01 * S12 - S11 * S02),
             - (S00 * S12 - S10 * S02),
             + (S00 * S11 - S10 * S01));
+*/
+        tmat3x3<T> Inverse(
+            S11 * S22 - S21 * S12,
+            S12 * S20 - S22 * S10,
+            S10 * S21 - S20 * S11,
+            S02 * S21 - S01 * S22,
+            S00 * S22 - S02 * S20,
+            S01 * S20 - S00 * S21,
+            S12 * S01 - S11 * S02,
+            S10 * S02 - S12 * S00,
+            S11 * S00 - S10 * S01);
 
         T Determinant = S00 * (S11 * S22 - S21 * S12)
                       - S10 * (S01 * S22 - S21 * S02)
@@ -665,6 +676,29 @@ namespace detail
             m[1] - T(1),
             m[2] - T(1));
     }
+
+	//////////////////////////////////////
+	// Boolean operators
+
+	template <typename T> 
+	inline bool operator==
+	(
+		tmat3x3<T> const & m1, 
+		tmat3x3<T> const & m2
+	)
+	{
+		return (m1[0] == m2[0]) && (m1[1] == m2[1]) && (m1[2] == m2[2]);
+	}
+
+	template <typename T> 
+	inline bool operator!=
+	(
+		tmat3x3<T> const & m1, 
+		tmat3x3<T> const & m2
+	)
+	{
+		return (m1[0] != m2[0]) || (m1[1] != m2[1]) || (m1[2] != m2[2]);
+	}
 
 } //namespace detail
 } //namespace glm

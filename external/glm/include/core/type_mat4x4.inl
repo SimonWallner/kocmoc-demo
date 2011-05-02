@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2005-01-27
 // Updated : 2010-02-05
@@ -32,7 +32,7 @@ namespace detail
 		size_type i
 	)
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -43,7 +43,7 @@ namespace detail
 		size_type i
 	) const
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -413,7 +413,7 @@ namespace detail
         value_type SubFactor16 = this->value[1][0] * this->value[2][3] - this->value[2][0] * this->value[1][3];
         value_type SubFactor17 = this->value[1][0] * this->value[2][2] - this->value[2][0] * this->value[1][2];
         value_type SubFactor18 = this->value[1][0] * this->value[2][1] - this->value[2][0] * this->value[1][1];
-
+/*
         tmat4x4<T> Inverse(
             + (this->value[1][1] * SubFactor00 - this->value[1][2] * SubFactor01 + this->value[1][3] * SubFactor02),
             - (this->value[1][0] * SubFactor00 - this->value[1][2] * SubFactor03 + this->value[1][3] * SubFactor04),
@@ -434,6 +434,27 @@ namespace detail
             + (this->value[0][0] * SubFactor13 - this->value[0][2] * SubFactor16 + this->value[0][3] * SubFactor17),
             - (this->value[0][0] * SubFactor14 - this->value[0][1] * SubFactor16 + this->value[0][3] * SubFactor18),
             + (this->value[0][0] * SubFactor15 - this->value[0][1] * SubFactor17 + this->value[0][2] * SubFactor18));
+*/
+        tmat4x4<T> Inverse(
+            + this->value[1][1] * SubFactor00 - this->value[1][2] * SubFactor01 + this->value[1][3] * SubFactor02,
+            - this->value[1][0] * SubFactor00 + this->value[1][2] * SubFactor03 - this->value[1][3] * SubFactor04,
+            + this->value[1][0] * SubFactor01 - this->value[1][1] * SubFactor03 + this->value[1][3] * SubFactor05,
+            - this->value[1][0] * SubFactor02 + this->value[1][1] * SubFactor04 - this->value[1][2] * SubFactor05,
+
+            - this->value[0][1] * SubFactor00 + this->value[0][2] * SubFactor01 - this->value[0][3] * SubFactor02,
+            + this->value[0][0] * SubFactor00 - this->value[0][2] * SubFactor03 + this->value[0][3] * SubFactor04,
+            - this->value[0][0] * SubFactor01 + this->value[0][1] * SubFactor03 - this->value[0][3] * SubFactor05,
+            + this->value[0][0] * SubFactor02 - this->value[0][1] * SubFactor04 + this->value[0][2] * SubFactor05,
+
+            + this->value[0][1] * SubFactor06 - this->value[0][2] * SubFactor07 + this->value[0][3] * SubFactor08,
+            - this->value[0][0] * SubFactor06 + this->value[0][2] * SubFactor09 - this->value[0][3] * SubFactor10,
+            + this->value[0][0] * SubFactor11 - this->value[0][1] * SubFactor09 + this->value[0][3] * SubFactor12,
+            - this->value[0][0] * SubFactor08 + this->value[0][1] * SubFactor10 - this->value[0][2] * SubFactor12,
+
+            - this->value[0][1] * SubFactor13 + this->value[0][2] * SubFactor14 - this->value[0][3] * SubFactor15,
+            + this->value[0][0] * SubFactor13 - this->value[0][2] * SubFactor16 + this->value[0][3] * SubFactor17,
+            - this->value[0][0] * SubFactor14 + this->value[0][1] * SubFactor16 - this->value[0][3] * SubFactor18,
+            + this->value[0][0] * SubFactor15 - this->value[0][1] * SubFactor17 + this->value[0][2] * SubFactor18);
 
         value_type Determinant = 
 			+ this->value[0][0] * Inverse[0][0] 
@@ -710,6 +731,29 @@ namespace detail
             m[2] - typename tmat4x4<T>::value_type(1),
             m[3] - typename tmat4x4<T>::value_type(1));
     }
+
+	//////////////////////////////////////
+	// Boolean operators
+
+	template <typename T> 
+	inline bool operator==
+	(
+		tmat4x4<T> const & m1, 
+		tmat4x4<T> const & m2
+	)
+	{
+		return (m1[0] == m2[0]) && (m1[1] == m2[1]) && (m1[2] == m2[2]) && (m1[3] == m2[3]);
+	}
+
+	template <typename T> 
+	inline bool operator!=
+	(
+		tmat4x4<T> const & m1, 
+		tmat4x4<T> const & m2
+	)
+	{
+		return (m1[0] != m2[0]) || (m1[1] != m2[1]) || (m1[2] != m2[2]) || (m1[3] != m2[3]);
+	}
 
 } //namespace detail
 } //namespace glm

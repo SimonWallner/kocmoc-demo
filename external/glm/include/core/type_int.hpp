@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2008-08-22
 // Updated : 2008-09-17
@@ -10,33 +10,20 @@
 #ifndef glm_core_type_int
 #define glm_core_type_int
 
-#include "../setup.hpp"
+#include "setup.hpp"
 #include "_detail.hpp"
 
 namespace glm
 {
 	namespace detail
 	{
-#if defined(GLM_COMPILER) && (GLM_COMPILER & GLM_COMPILER_VC)
-		typedef signed __int64						highp_int_t;
-		typedef unsigned __int64					highp_uint_t;
-#elif(defined(GLM_COMPILER) && (GLM_COMPILER & GLM_COMPILER_GCC))
-		__extension__ typedef signed long long		highp_int_t;
-		__extension__ typedef unsigned long long	highp_uint_t;
-//#	if GLM_MODEL == GLM_MODEL_64
-//		typedef signed long							highp_int_t;
-//		typedef unsigned long						highp_uint_t;
-//#   elif GLM_MODEL == GLM_MODEL_32
-//		__extension__ typedef signed long long		highp_int_t;
-//		__extension__ typedef unsigned long long	highp_uint_t;
-//#	endif//GLM_MODEL
-#elif(defined(GLM_COMPILER_BC))
-		typedef Int64								highp_int_t;
-		typedef Uint64								highp_uint_t;
-#else
-		typedef signed long	long					highp_int_t;
-		typedef unsigned long long					highp_uint_t;
-#endif//GLM_COMPILER
+		typedef signed short			lowp_int_t;
+		typedef signed int				mediump_int_t;
+		typedef sint64					highp_int_t;
+
+		typedef unsigned short			lowp_uint_t;
+		typedef unsigned int			mediump_uint_t;
+		typedef uint64					highp_uint_t;
 
 		GLM_DETAIL_IS_INT(signed char);
 		GLM_DETAIL_IS_INT(signed short);
@@ -49,75 +36,72 @@ namespace glm
 		GLM_DETAIL_IS_UINT(unsigned int);
 		GLM_DETAIL_IS_UINT(unsigned long);
 		GLM_DETAIL_IS_UINT(highp_uint_t);
-
-		typedef signed short			lowp_int_t;
-		typedef signed int				mediump_int_t;
-		typedef detail::highp_int_t		highp_int_t;
-
-		typedef unsigned short			lowp_uint_t;
-		typedef unsigned int			mediump_uint_t;
-		typedef detail::highp_uint_t	highp_uint_t;
 	}
 	//namespace detail
 
 	namespace core{
 	namespace type{
 
+	///namespace for precision stuff.
 	namespace precision
 	{
 		//! Low precision signed integer. 
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
+		//! \ingroup core_precision
 		typedef detail::lowp_int_t				lowp_int;
 		//! Medium precision signed integer. 
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
-		typedef detail::mediump_int_t			mediump_int;
+		//! \ingroup core_precision
+		typedef detail::mediump_int_t				mediump_int;
 		//! High precision signed integer.
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
+		//! \ingroup core_precision
 		typedef detail::highp_int_t				highp_int;
 
 		//! Low precision unsigned integer. 
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
+		//! \ingroup core_precision
 		typedef detail::lowp_uint_t				lowp_uint;
 		//! Medium precision unsigned integer. 
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
+		//! \ingroup core_precision
 		typedef detail::mediump_uint_t			mediump_uint;
 		//! High precision unsigned integer. 
-		//! There is no garanty on the actual precision.
+		//! There is no guarantee on the actual precision.
 		//! From GLSL 1.30.8 specification.
-		typedef detail::highp_uint_t			highp_uint;
+		//! \ingroup core_precision
+		typedef detail::highp_uint_t				highp_uint;
 	}
 	//namespace precision
 
-#ifndef GLM_PRECISION 
+#if(!defined(GLM_PRECISION_HIGHP_INT) && !defined(GLM_PRECISION_MEDIUMP_INT) && !defined(GLM_PRECISION_LOWP_INT))
 	typedef precision::mediump_int				int_t;
-#elif(GLM_PRECISION & GLM_PRECISION_HIGHP_INT)
-	typedef precision::highp_int				int_t;
-#elif(GLM_PRECISION & GLM_PRECISION_MEDIUMP_INT)
+#elif(defined(GLM_PRECISION_HIGHP_INT) && !defined(GLM_PRECISION_MEDIUMP_INT) && !defined(GLM_PRECISION_LOWP_INT))
+	typedef precision::highp_int					int_t;
+#elif(!defined(GLM_PRECISION_HIGHP_INT) && defined(GLM_PRECISION_MEDIUMP_INT) && !defined(GLM_PRECISION_LOWP_INT))
 	typedef precision::mediump_int				int_t;
-#elif(GLM_PRECISION & GLM_PRECISION_LOWP_INT)
+#elif(!defined(GLM_PRECISION_HIGHP_INT) && !defined(GLM_PRECISION_MEDIUMP_INT) && defined(GLM_PRECISION_LOWP_INT))
 	typedef precision::lowp_int					int_t;
 #else
-	typedef mediump_int							int_t;
-#	pragma message("GLM message: Precisson undefined for signed integer number.");
-#endif//GLM_PRECISION
+#	error "GLM error: multiple default precision requested for signed interger types"
+#endif
 
-#ifndef GLM_PRECISION 
+#if(!defined(GLM_PRECISION_HIGHP_UINT) && !defined(GLM_PRECISION_MEDIUMP_UINT) && !defined(GLM_PRECISION_LOWP_UINT))
 	typedef precision::mediump_uint				uint_t;
-#elif(GLM_PRECISION & GLM_PRECISION_HIGHP_UINT)
-	typedef precision::highp_uint				uint_t;
-#elif(GLM_PRECISION & GLM_PRECISION_MEDIUMP_UINT)
+#elif(defined(GLM_PRECISION_HIGHP_UINT) && !defined(GLM_PRECISION_MEDIUMP_UINT) && !defined(GLM_PRECISION_LOWP_UINT))
+	typedef precision::highp_uint					uint_t;
+#elif(!defined(GLM_PRECISION_HIGHP_UINT) && defined(GLM_PRECISION_MEDIUMP_UINT) && !defined(GLM_PRECISION_LOWP_UINT))
 	typedef precision::mediump_uint				uint_t;
-#elif(GLM_PRECISION & GLM_PRECISION_LOWP_UINT)
-	typedef precision::lowp_uint				uint_t;
+#elif(!defined(GLM_PRECISION_HIGHP_UINT) && !defined(GLM_PRECISION_MEDIUMP_UINT) && defined(GLM_PRECISION_LOWP_UINT))
+	typedef precision::lowp_uint					uint_t;
 #else
-	typedef precision::mediump_uint				uint_t;
-#	pragma message("GLM message: Precisson undefined for unsigned integer number.");
-#endif//GLM_PRECISION
+#	error "GLM error: multiple default precision requested for unsigned interger types"
+#endif
 
 	//! Unsigned integer. 
 	//! From GLSL 1.30.8 specification section 4.1.3 Integers.

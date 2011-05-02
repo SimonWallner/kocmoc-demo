@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2006-10-01
 // Updated : 2010-02-03
@@ -32,7 +32,7 @@ namespace detail
 		size_type i
 	)
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -43,7 +43,7 @@ namespace detail
 		size_type i
 	) const
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -514,7 +514,7 @@ namespace detail
         T const SrcB13 = m2[1][3];
 
         tmat2x2<T> Result(tmat2x2<T>::null);
-        Result[0][0] = SrcA00 * SrcB00 + SrcA01 * SrcB01 + SrcA20 * SrcB02 + SrcA30 * SrcB03;
+        Result[0][0] = SrcA00 * SrcB00 + SrcA10 * SrcB01 + SrcA20 * SrcB02 + SrcA30 * SrcB03;
         Result[0][1] = SrcA01 * SrcB00 + SrcA11 * SrcB01 + SrcA21 * SrcB02 + SrcA31 * SrcB03;
         Result[1][0] = SrcA00 * SrcB10 + SrcA10 * SrcB11 + SrcA20 * SrcB12 + SrcA30 * SrcB13;
         Result[1][1] = SrcA01 * SrcB10 + SrcA11 * SrcB11 + SrcA21 * SrcB12 + SrcA31 * SrcB13;
@@ -590,6 +590,29 @@ namespace detail
             m[2] - typename tmat4x2<T>::value_type(1),
             m[3] - typename tmat4x2<T>::value_type(1));
     }
+
+	//////////////////////////////////////
+	// Boolean operators
+
+	template <typename T> 
+	inline bool operator==
+	(
+		tmat4x2<T> const & m1, 
+		tmat4x2<T> const & m2
+	)
+	{
+		return (m1[0] == m2[0]) && (m1[1] == m2[1]) && (m1[2] == m2[2]) && (m1[3] == m2[3]);
+	}
+
+	template <typename T> 
+	inline bool operator!=
+	(
+		tmat4x2<T> const & m1, 
+		tmat4x2<T> const & m2
+	)
+	{
+		return (m1[0] != m2[0]) || (m1[1] != m2[1]) || (m1[2] != m2[2]) || (m1[3] != m2[3]);
+	}
 
 } //namespace detail
 } //namespace glm

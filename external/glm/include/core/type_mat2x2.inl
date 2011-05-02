@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2005-01-16
 // Updated : 2010-02-11
@@ -32,7 +32,7 @@ namespace detail
 		size_type i
 	)
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -43,7 +43,7 @@ namespace detail
 		size_type i
 	) const
 	{
-		assert(i < col_size());
+		assert(i < this->row_size());
 		return this->value[i];
 	}
 
@@ -436,6 +436,10 @@ namespace detail
             m[1] * s);
     }
 
+	//     X
+	//     X
+	// X X
+	// X X
     template <typename T> 
     inline tmat2x2<T> operator* 
 	(	
@@ -460,6 +464,9 @@ namespace detail
             m[0][1] * v.x + m[1][1] * v.y);
     }
 
+	//		X X
+	//		X X
+	// X X 
     template <typename T> 
     inline typename tmat2x2<T>::row_type operator* 
 	(
@@ -468,8 +475,8 @@ namespace detail
 	)
     {
         return detail::tvec2<T>(
-            m[0][0] * v.x + m[0][1] * v.y,
-            m[1][0] * v.x + m[1][1] * v.y);
+            v.x * m[0][0] + v.y * m[0][1],
+            v.x * m[1][0] + v.y * m[1][1]);
     }
 
 	template <typename T>
@@ -575,6 +582,29 @@ namespace detail
             m[0] - T(1),
             m[1] - T(1));
     }
+
+	//////////////////////////////////////
+	// Boolean operators
+
+	template <typename T> 
+	inline bool operator==
+	(
+		tmat2x2<T> const & m1, 
+		tmat2x2<T> const & m2
+	)
+	{
+		return (m1[0] == m2[0]) && (m1[1] == m2[1]);
+	}
+
+	template <typename T> 
+	inline bool operator!=
+	(
+		tmat2x2<T> const & m1, 
+		tmat2x2<T> const & m2
+	)
+	{
+		return (m1[0] != m2[0]) || (m1[1] != m2[1]);
+	}
 
 } //namespace detail
 } //namespace glm

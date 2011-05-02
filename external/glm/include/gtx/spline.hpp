@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenGL Mathematics Copyright (c) 2005 - 2010 G-Truc Creation (www.g-truc.net)
+// OpenGL Mathematics Copyright (c) 2005 - 2011 G-Truc Creation (www.g-truc.net)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Created : 2007-01-25
 // Updated : 2009-02-19
@@ -17,6 +17,10 @@
 #include "../glm.hpp"
 #include "../gtx/optimum_pow.hpp"
 
+#if(defined(GLM_MESSAGES) && !defined(glm_ext))
+#	pragma message("GLM: GLM_GTX_spline extension included")
+#endif
+
 namespace glm
 {
     namespace gtx{
@@ -25,35 +29,40 @@ namespace glm
     {
 		using namespace gtx::optimum_pow;
 
-        //! Return a point from a catmull rom curve.
+		/// \addtogroup gtx_spline
+		///@{
+
+		//! Return a point from a catmull rom curve.
 		//! From GLM_GTX_spline extension.
 		template <typename genType> 
 		genType catmullRom(
-			const genType& v1, 
-			const genType& v2, 
-			const genType& v3, 
-			const genType& v4, 
-			const GLMvalType& s);
+			genType const & v1, 
+			genType const & v2, 
+			genType const & v3, 
+			genType const & v4, 
+			typename genType::value_type const & s);
 		
 		//! Return a point from a hermite curve.
 		//! From GLM_GTX_spline extension.
         template <typename genType> 
 		genType hermite(
-			const genType& v1, 
-			const genType& t1, 
-			const genType& v2, 
-			const genType& t2, 
-			const GLMvalType& s);
+			genType const & v1, 
+			genType const & t1, 
+			genType const & v2, 
+			genType const & t2, 
+			typename genType::value_type const & s);
 		
         //! Return a point from a cubic curve. 
 		//! From GLM_GTX_spline extension.
 		template <typename genType> 
 		genType cubic(
-			const genType& v1, 
-			const genType& v2, 
-			const genType& v3, 
-			const genType& v4, 
-			const GLMvalType& s);
+			genType const & v1, 
+			genType const & v2, 
+			genType const & v3, 
+			genType const & v4, 
+			typename genType::value_type const & s);
+
+		///@}
 
 	}//namespace spline
     }//namespace gtx
