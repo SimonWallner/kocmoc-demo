@@ -63,7 +63,7 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	if (shader->getIsUploaded() == false)
 		shader->upload();
 
-	if (!uniformsAreSet)
+	if (!uniformsAreSet || true)
 	{
 		uniformProjectionMatrix = shader->get_uniform_location("projectionMatrix");
 		uniformViewMatrix = shader->get_uniform_location("viewMatrix");
