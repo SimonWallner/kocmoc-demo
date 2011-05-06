@@ -111,7 +111,7 @@ void main(void)
 
 		// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0);
+		fragmentColor0 = vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0) * 5;
 //		fragmentColor0 = vec4(LinR, LinG, LinB, 0);
 
 		fragmentColor0.w = 1;
