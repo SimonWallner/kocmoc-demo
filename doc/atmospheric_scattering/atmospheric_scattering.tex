@@ -4,10 +4,28 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+
+
 \author{Simon Wallner}
 \title{Implementation of Real Time Atmospheric Scattering}
+
+
 \begin{document}
 \maketitle
+
+
 \section{Mathematical and Physical Background}
-asdfasdf
+Rayleigh scattering phase function \cite{Preetham03Modeling-skylight}
+\begin{equation}
+f_R(\theta) = \frac{3}{16\pi} (1 + cos^2\theta)
+\end{equation}
+
+Henyey-Greenstein Approximation of the Mie scattering phase function: \cite{HenyeyGreenstein41Diffuse-radiation, Preetham03Modeling-skylight}
+\begin{equation}
+f_{HG}(\theta) = \frac{1}{4\pi} \frac{1 - g^2}{(1 - 2g\cos \theta + g^2) ^{3/2}}
+\end{equation}
+
+
+\bibliographystyle{apalike}
+\bibliography{literature}
 \end{document}
