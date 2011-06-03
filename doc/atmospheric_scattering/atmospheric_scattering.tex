@@ -1,0 +1,106 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[utf8x]{inputenc}
+\usepackage{ucs}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\e}[1]{\ensuremath{\times 10^{#1}}}
+
+
+\author{Simon Wallner}
+\title{Implementation of Real Time Atmospheric Scattering}
+
+
+\begin{document}
+\maketitle
+
+
+\section{Mathematical and Physical Background}
+Rayleigh scattering phase function \cite{Preetham03Modeling-skylight}
+\begin{equation}
+f_R(\theta) = \frac{3}{16\pi} (1 + cos^2\theta)
+\end{equation}
+
+Henyey-Greenstein Approximation of the Mie scattering phase function: \cite{HenyeyGreenstein41Diffuse-radiation, Preetham03Modeling-skylight}
+\begin{equation}
+f_{HG}(\theta) = \frac{1}{4\pi} \frac{1 - g^2}{(1 - 2g\cos \theta + g^2) ^{3/2}}
+\end{equation}
+
+
+\subsection{Extinction}
+Extinction in constant mediums can be calculated with the exponential function. 
+
+\begin{equation}
+F_{ex}(s) = e^{-\beta_{ex}s}
+\end{equation}
+
+where $s$ is the length of the ray in the medium, and $\beta_{ex}$ is the extinction coefficient. In the case of atmospheric scattering it is usually wave-length-dependent. The extinction coefficient is the sum of the absorption and out scattering.
+
+\begin{equation}
+\beta_{sc}(\theta) = \beta_{sc} f(\theta)
+\end{equation}
+
+
+\subsection{Optical Mass}
+Optical mass of a medium is given by \cite{Preetham03Modeling-skylight}
+
+\begin{equation}
+m = \int^s_0 \rho(x)dx
+\end{equation}
+It is the mass of the medium along a path of unit cross section with medium density $\rho(x)$
+
+\emph{Optical length} is optical mass divided by the density of earth's atmosphere at base height $\rho_0$
+\begin{equation}
+l = \frac{1}{\rho_0} \int^s_0 \rho(x)dx
+\end{equation}
+
+
+\subsection{Rayleigh Scattering coefficient}
+The total $\beta$ and angular $\beta(\theta)$ Rayleigh scattering coefficients are given by \cite{Preetham03Modeling-skylight}
+\begin{gather}
+\beta = \frac{8 \pi^3(n^2 - 1)^2}{3N\lambda^4} \left(\frac{6 + 3 p_n}{6 - 7 p_n} \right) \\
+\beta(\theta) = \frac{\pi^3(n^2 - 1)^2}{2N\lambda^4} \left(\frac{6 + 3 p_n}{6 - 7 p_n} \right) (1 +  \cos^2 \theta)
+\end{gather}
+where $n$ is the refractive index of air ($n = 1.0003$), $N$ is the number of molecules per unit volume ($N = 2.545x10^{25}$) and $p_n$ is the depolarization factor for air ($p_n = 0.0035$)
+
+\subsection{RGB Wavelengths}
+According to \cite{Preetham03Modeling-skylight}:
+\begin{align}
+\lambda_{blue} =& 400\e{-9}m \\
+\lambda_{green} =& 530\e{-9}m \\
+\lambda_{red} =& 700\e{-9}m
+\end{align}
+
+\subsection{Mie Scattering coefficient}
+\begin{equation}
+\beta = 0.434 c \pi \left(\frac{2 \pi}{\lambda}\right)^{v-2}K
+\end{equation}
+
+where $c$ is the concentration factor in the range of $6\e{-17}$ and $25\e{-17}$, $v$ is the \emph{Junge exponent} ($v = 4 $ for a standard sky model) and  $K$ varies from $0.656$ to $0.69$ depending on the wavelength $\lambda$.
+
+
+\section{In-Scattering}
+\cite{Preetham03Modeling-skylight}:
+
+\begin{equation}
+L_s = f * L_0 + L_{in}
+\end{equation}
+
+Where $f$ is the extinction coefficient, $L_0$ is the radiance at the end of the ray, $L_{in}$ is the radiance scattered into the ray over the path s.
+
+With a few simplifications (single scattering, constant density atmosphere) $L_{in}$ can be formulated as 
+\begin{equation}
+L_{in} = E^s \frac{\beta(\omega, \omega_s)}{\beta} (1 - e^{-\beta s})
+\end{equation}
+
+
+
+
+
+
+
+
+\bibliographystyle{apalike}
+\bibliography{literature}
+\end{document}
