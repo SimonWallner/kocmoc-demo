@@ -205,9 +205,13 @@ void Kocmoc::start()
 		//glClear(GL_DEPTH_BUFFER_BIT);
 		//rootNode->draw(orthoCamera, shadowShader);
 		
-		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, fbo->getFBOHandle());
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
+
+		// TODO: move up/out of loop
+		GLenum buffers[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+		glDrawBuffers(2, buffers);
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		//glActiveTexture(GL_TEXTURE3);
@@ -215,6 +219,7 @@ void Kocmoc::start()
 		draw();
 
 
+		glEnable(GL_FRAMEBUFFER_SRGB);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glViewport(0, 0, Context::getInstance().width, Context::getInstance().height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

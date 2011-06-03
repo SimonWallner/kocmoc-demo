@@ -142,6 +142,7 @@ void Shader::link(void)
 		glBindAttribLocation(programHandle, ci->attributeLocation, ci->attributeShaderName.c_str());
 	}
 	glBindFragDataLocation(programHandle, 0, FRAGMENT_DATA_LOCATION_0_NAME);
+	glBindFragDataLocation(programHandle, 1, FRAGMENT_DATA_LOCATION_1_NAME);
 
 
 	glLinkProgram(programHandle);

@@ -4,7 +4,14 @@
 
 using namespace kocmoc::time;
 
-Clock::Clock() {}
+Clock::Clock()
+	: lastTickTime(0.0)
+	, startTime(0.0)
+	, scheduleInterval(0.0)
+	, nextScheduledEvent(0.0)
+	, lastScheduledEvent(0.0)
+	, frameDuration(0.0)
+{}
 
 void Clock::start(double _scheduleInterval)
 {

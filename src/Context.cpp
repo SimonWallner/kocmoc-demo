@@ -153,6 +153,8 @@ void Context::setGLStates()
 	glEnable(GL_LINE_SMOOTH);
 
 	setWireframe(util::Property("wireframe"));	
+
+	glClampColor(GL_CLAMP_READ_COLOR, GL_FIXED_ONLY);
 }
 
 void Context::swapBuffers()

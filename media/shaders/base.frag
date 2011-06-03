@@ -17,6 +17,7 @@ uniform vec3 cameraPosition;
 uniform vec3 sunDirection;
 
 out vec4 fragmentColor0;
+out float fragmentColor1;
 
 void main(void)
 {
@@ -122,4 +123,6 @@ void main(void)
 		fragmentColor0 = vec4(ambientTerm, 1);
 		fragmentColor0 = vec4(0, 1, 0, 1);
 	}
+
+	fragmentColor1 = fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f;  
 }

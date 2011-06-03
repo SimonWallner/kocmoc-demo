@@ -4,8 +4,10 @@
 
 #include <Context.hpp>
 #include <Kocmoc.hpp>
+#include <time/Clock.hpp>
 #include <loader/ImageLoader.hpp>
 #include <util/Property.hpp>
+#include <util/util.hpp>
 #include <camera/FilmCamera.hpp>
 
 using namespace kocmoc::renderer;
@@ -14,7 +16,8 @@ using kocmoc::loader::ImageLoader;
 
 using std::cout;
 using std::endl;
-
+using kocmoc::util::math::sign;
+using kocmoc::util::math::min;
 
 FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int _gateHeight)
 	: frameWidth(_frameWidth * 2)
@@ -24,6 +27,9 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	, enableColorCorrection(util::Property("enableColorCorrection"))
 	, enableNonPlanarProjection(util::Property("enableNonPlanarProjection"))
 	, enableVignetting(util::Property("enableVignetting"))
+	, logAdaptationPerS(util::Property("logAdaptationPerS"))
+	, evBias(util::Property("evBias"))
+	, currentAdaptation(0.0f)
 {
 	// generate fbo
 	glGenFramebuffers(1, &fboHandle);
@@ -38,7 +44,7 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	// create and bind texture
 	glGenTextures(1, &textureHandle);
 	glBindTexture(GL_TEXTURE_2D, textureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_SRGB8, frameWidth, frameHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, frameWidth, frameHeight, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -47,6 +53,20 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureHandle, 0);
 
+
+	// create and bind log Y texture
+	glGenTextures(1, &logYTextureHandle);
+	glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, frameWidth, frameHeight, 0, GL_RED, GL_FLOAT, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, logYTextureHandle, 0);
+
+
 	check();
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -54,6 +74,8 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	createQuad();
 
 	colorLUTHandle = ImageLoader::getInstance().loadImage3D("LUT32.png", false);
+
+	maxMipLevel = uint(log(float(((frameWidth > frameHeight) ? frameWidth : frameHeight))) / log(2.0f));
 }
 
 void FrameBuffer::check()
@@ -184,6 +206,11 @@ GLuint FrameBuffer::getTextureHandle()
 	return textureHandle;
 }
 
+GLuint FrameBuffer::getLogYHandle()
+{
+	return logYTextureHandle;
+}
+
 GLuint FrameBuffer::getFBOHandle()
 {
 	return fboHandle;
@@ -193,7 +220,33 @@ void FrameBuffer::drawFBO()
 {
 	shader->bind();
 	setFBOTexture();
+
 	
+	// read average log Y from texture
+	glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
+	glGenerateMipmap(GL_TEXTURE_2D);
+		
+	GLfloat average;
+	glGetTexImage(GL_TEXTURE_2D, maxMipLevel, GL_RED, GL_FLOAT, &average);
+
+	float dLum = average - currentAdaptation; // increase --> positive dLum
+	int s = sign(dLum);
+	float a = abs(dLum);
+	float x = min(1.0f, 2.0f);
+	float d = Kocmoc::getInstance().getClock()->lastFrameDuration();
+
+	float change = sign(dLum) * min<float>(logAdaptationPerS * Kocmoc::getInstance().getClock()->lastFrameDuration(), abs(dLum));
+	currentAdaptation += change;
+
+	GLuint location;
+	if ((location = shader->get_uniform_location("evBias")) >= 0)
+			glUniform1f(location, evBias);
+
+	if ((location = shader->get_uniform_location("logLuminance")) >= 0)
+		glUniform1f(location, currentAdaptation);
+	
+
+
 	glBindVertexArray(vao_id);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 	glBindVertexArray(0);
@@ -208,7 +261,7 @@ void FrameBuffer::setFBOTexture()
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureHandle);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		//glGenerateMipmap(GL_TEXTURE_2D);
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_3D, colorLUTHandle);

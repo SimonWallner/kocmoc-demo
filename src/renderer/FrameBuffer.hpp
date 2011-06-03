@@ -9,6 +9,9 @@ namespace kocmoc
 	{
 		class Shader;
 
+		/**
+		 * quick and dirty frame buffer with HDR support
+		 */
 		class FrameBuffer
 		{
 		public:
@@ -26,6 +29,7 @@ namespace kocmoc
 
 			GLuint getTextureHandle();
 			GLuint getFBOHandle();
+			GLuint getLogYHandle();
 			virtual void drawFBO();
 
 			void toggleColorCorrection(void);
@@ -40,8 +44,11 @@ namespace kocmoc
 		private:
 		
 			GLuint textureHandle;
+			GLuint logYTextureHandle;
 			GLuint depthbufferHandle; 
 			GLint colorLUTHandle;
+
+			uint maxMipLevel;
 
 			Shader *shader;
 
@@ -59,6 +66,10 @@ namespace kocmoc
 			bool enableColorCorrection;
 			bool enableNonPlanarProjection;
 			bool enableVignetting;
+
+			float evBias;
+			float logAdaptationPerS;
+			float currentAdaptation;
 		};
 	}
 }

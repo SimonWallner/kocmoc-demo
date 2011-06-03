@@ -12,7 +12,17 @@ uniform int vignetting;
 uniform ivec2 dimension;
 uniform float angleOfView;
 
+uniform float logLuminance;
+uniform float evBias;
+
 out vec4 fragmentColor0;
+
+vec4 tonemap(vec4 hdr)
+{
+	vec3 c = hdr.rgb;
+	
+	return vec4(c / exp(logLuminance), hdr.a);
+}
 
 void main(void)
 {
@@ -63,6 +73,11 @@ void main(void)
 		color = color * vec4(darkening.xxx, 1);
 	}
 
+
+	// hdr tonemapping 
+	color = tonemap(color);
+
+	
 	if (colorCorrection == 1)
 		fragmentColor0 = texture(sColorLUT, color.rbg + 1.0f/64.0f); // need to change channels in the lookup
 	else 

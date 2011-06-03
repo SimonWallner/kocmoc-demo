@@ -13,6 +13,7 @@
 #define VERTEX_ATTR_NAME_COLOR			"inColor"
 
 #define FRAGMENT_DATA_LOCATION_0_NAME	"fragmentColor0"
+#define FRAGMENT_DATA_LOCATION_1_NAME	"fragmentColor1"
 
 #define DIFFUSE_SAMPLER_NAME			"sDiffuse"
 #define SPECULAR_SAMPLER_NAME			"sSpecular"
