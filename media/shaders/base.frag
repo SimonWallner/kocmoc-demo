@@ -22,8 +22,8 @@ out float fragmentColor1;
 void main(void)
 {
 	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
-	const vec3 ambientIntensity = vec3(0.1f, 0.1f, 0.1f);
-	const float sunIntensity = 10.0f;
+	const float sunIntensity = 100.0f;
+	const float ambientIntensity = sunIntensity * 0.1f;
 	const float bias = 0.01;
 
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;

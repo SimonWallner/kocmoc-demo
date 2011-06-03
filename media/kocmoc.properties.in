@@ -67,7 +67,7 @@ debugDrawOctreeGizmo = 0
 # post processing stuff
 enableColorCorrection = 0
 enableNonPlanarProjection = 1
-enableVignetting = 1
+enableVignetting = 0
 
 # camera settings
 cameraFocalLength35 = 16

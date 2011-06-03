@@ -46,7 +46,7 @@ void main(void)
 	const float Kb = 0.666f;
 	const float v = 4.0f;
 
-	const float sunIntensity = 10.0f;
+	const float sunIntensity = 100.0f;
 
 
 	// extinction (absorbtion + out scattering)
@@ -59,7 +59,7 @@ void main(void)
 	float bmBlue = 0.434 * c * pi * pow((2 * pi) / blue, v - 2) * Kb;
 
 		
-	float distance = 10.0E5;;
+	float distance = 10.0E5;
 	float Fr = exp(-(brRed + bmRed) * distance);
 	float Fg = exp(-(brGreen + bmGreen) * distance);
 	float Fb = exp(-(brBlue + bmBlue) * distance);

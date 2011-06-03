@@ -2,6 +2,7 @@
 
 #version 150 core
 
+
 in vec2 texCoord0;
 
 uniform sampler2D sTex0;
@@ -20,13 +21,19 @@ out vec4 fragmentColor0;
 
 vec4 tonemap(vec4 hdr)
 {
-	float contrast = 1.0f;
-	float bias = -2.0f;
+	float contrast = 6.0f;
+	float bias = 0.5f;
+	float stretch = 1.0f;
 
 	vec3 c = hdr.rgb;
+	float low = exp(logLuminance - bias - contrast/2);
+	float high = exp(logLuminance - bias + contrast/2);
 
-	vec3 ldr = exp((log(hdr.rgb) + contrast/2.0f - logLuminance + bias) / contrast);
+
+
+	vec3 ldr = (hdr.rgb - low) / (high - low);
 	return vec4(ldr, hdr.a);
+
 }
 
 void main(void)
