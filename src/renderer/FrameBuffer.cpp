@@ -29,6 +29,7 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	, enableVignetting(util::Property("enableVignetting"))
 	, logAdaptationPerS(util::Property("logAdaptationPerS"))
 	, evBias(util::Property("evBias"))
+	, logContrast(util::Property("logContrast"))
 	, currentAdaptation(0.0f)
 {
 	// generate fbo
@@ -193,6 +194,9 @@ void FrameBuffer::setupShader()
 
 		if ((location = shader->get_uniform_location("angleOfView")) >= 0)
 			glUniform1f(location, Kocmoc::getInstance().getCamera()->getAngleOfView());
+
+		if ((location = shader->get_uniform_location("logContrast")) >= 0)
+			glUniform1f(location, logContrast);
 	}
 	shader->unbind();
 }

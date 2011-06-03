@@ -70,6 +70,7 @@ namespace kocmoc
 			float evBias;
 			float logAdaptationPerS;
 			float currentAdaptation;
+			float logContrast;
 		};
 	}
 }

@@ -23,6 +23,7 @@ void main(void)
 {
 	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
 	const vec3 ambientIntensity = vec3(0.1f, 0.1f, 0.1f);
+	const float sunIntensity = 10.0f;
 	const float bias = 0.01;
 
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
@@ -37,8 +38,9 @@ void main(void)
 		vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
 		transformed = fragmentNormal;
 
-		float diffuseFactor =  max(dot(-lightDirection, transformed.xyz), 0);
+		float diffuseFactor =  sunIntensity * max(dot(-lightDirection, transformed.xyz), 0);
 		vec3 diffuseTerm = diffuseColor * diffuseFactor;
+		diffuseTerm = vec3(diffuseFactor);
 
 
 		vec3 viewVector = normalize(cameraPosition - worldSpacePosition);
@@ -92,7 +94,7 @@ void main(void)
 
 		// in scattering
 
-		float sunIntensity = 0.5f;
+		float sunIntensity = 1.0f;
 		float g = 0.74;
 
 		float cosTheta = dot(normalize(worldSpacePosition - cameraPosition), sunDirection);
@@ -112,7 +114,7 @@ void main(void)
 
 		// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-		fragmentColor0 = vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0) * 5;
+		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0) * 5;
 //		fragmentColor0 = vec4(LinR, LinG, LinB, 0);
 
 		fragmentColor0.w = 1;
@@ -124,5 +126,5 @@ void main(void)
 		fragmentColor0 = vec4(0, 1, 0, 1);
 	}
 
-	fragmentColor1 = fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f;  
+	fragmentColor1 = log(fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f);  
 }

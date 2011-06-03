@@ -14,14 +14,19 @@ uniform float angleOfView;
 
 uniform float logLuminance;
 uniform float evBias;
+uniform float logContrast;
 
 out vec4 fragmentColor0;
 
 vec4 tonemap(vec4 hdr)
 {
+	float contrast = 1.0f;
+	float bias = -2.0f;
+
 	vec3 c = hdr.rgb;
-	
-	return vec4(c / exp(logLuminance), hdr.a);
+
+	vec3 ldr = exp((log(hdr.rgb) + contrast/2.0f - logLuminance + bias) / contrast);
+	return vec4(ldr, hdr.a);
 }
 
 void main(void)
