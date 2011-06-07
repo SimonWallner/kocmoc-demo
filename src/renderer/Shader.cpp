@@ -145,7 +145,8 @@ GLuint Shader::compile (GLenum type, const std::string &source)
 
 	if (status != GL_TRUE)
 	{
-		cout << "Shader compilation failed." << endl;
+		cout << "Shader compilation failed: (" << vertexShaderName << ", "
+			 << fragmentShaderName << ")" << endl;
 		shader_log(shaderHandle);
 	}
 

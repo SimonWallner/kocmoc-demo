@@ -18,6 +18,7 @@ using std::cout;
 using std::endl;
 using kocmoc::util::math::sign;
 using kocmoc::util::math::min;
+using kocmoc::util::math::max;
 
 FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int _gateHeight)
 	: frameWidth(_frameWidth * 2)
@@ -232,6 +233,9 @@ void FrameBuffer::drawFBO()
 		
 	GLfloat average;
 	glGetTexImage(GL_TEXTURE_2D, maxMipLevel, GL_RED, GL_FLOAT, &average);
+
+	// enforce hard boarders to compensate +- INF fuck-up.
+	average = min<float>(max<float>(0, average), 10);
 
 	float dLum = average - currentAdaptation; // increase --> positive dLum
 	int s = sign(dLum);

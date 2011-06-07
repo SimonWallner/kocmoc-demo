@@ -22,6 +22,12 @@ const float Kg = 0.678f;
 const float Kb = 0.666f;
 const float v = 4.0f;
 
+const float g = 0.75;
+
+// optical length at zenith for molecules
+const float rayleighZenithLength = 8.4E3;
+const vec3 up = vec3(0, 1, 0);
+
 
 /**
  * Compute total rayleigh coefficient for a given wavelength
@@ -41,3 +47,17 @@ float totalMie(float lambda, float K)
 {
 	return 0.434 * c * pi * pow((2 * pi) / lambda, v - 2) * K;
 }
+
+float rayleighPhase(float cosTheta)
+{
+	return (3.0f / 16.0f*pi) * (1.0f + cosTheta*cosTheta);
+}
+
+float miePhase(float cosTheta)
+{
+	return (1.0f / 4.0f*pi) * ((1.0f - g*g) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
+}
+
+
+
+

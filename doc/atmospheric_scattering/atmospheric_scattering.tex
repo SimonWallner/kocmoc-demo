@@ -74,7 +74,7 @@ According to \cite{Preetham03Modeling-skylight}:
 
 \subsection{Mie Scattering coefficient}
 \begin{equation}
-\beta = 0.434 c \pi \left(\frac{2 \pi}{\lambda}\right)^{v-2}K
+\beta = 0.434 c \pi \left(\frac{2 \pi}{\lambda}\right)^{v-2}K(\lambda)
 \end{equation}
 
 where $c$ is the concentration factor in the range of $6\e{-17}$ and $25\e{-17}$, $v$ is the \emph{Junge exponent} ($v = 4 $ for a standard sky model) and  $K$ varies from $0.656$ to $0.69$ depending on the wavelength $\lambda$.
@@ -88,6 +88,11 @@ L_s = f * L_0 + L_{in}
 \end{equation}
 
 Where $f$ is the extinction coefficient, $L_0$ is the radiance at the end of the ray, $L_{in}$ is the radiance scattered into the ray over the path s.
+
+In the case of sky light $L_0 = 0$, this equation simplifies to 
+\begin{equation}
+L_s = L_{in}
+\end{equation} 
 
 With a few simplifications (single scattering, constant density atmosphere) $L_{in}$ can be formulated as 
 \begin{equation}

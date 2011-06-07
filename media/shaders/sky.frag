@@ -27,11 +27,6 @@ const float sunIntensity = 100.0f;
 
 void main(void)
 {
-
-	// --- atmospheric scattering starts here ---
-
-
-
 	// extinction (absorbtion + out scattering)
 	// rayleigh coefficients
 	float brRed = totalRayleigh(red);
@@ -44,38 +39,43 @@ void main(void)
 	float bmBlue = totalMie(blue, Kb);
 
 
-	// combined extinction factor
-	float distance = 10.0E5;
-	float Fr = exp(-(brRed + bmRed) * distance);
-	float Fg = exp(-(brGreen + bmGreen) * distance);
-	float Fb = exp(-(brBlue + bmBlue) * distance);
 
+	// optical length
+	float zenithAngle = acos(dot(up, normalize(worldSpacePosition - vec3(0, 0, 0))));
+	float s = rayleighZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0f) / pi), -1.253));
+	//s = 0;
+
+	// combined extinction factor	
+	float Fr = exp(-(brRed + bmRed) * s);
+	float Fg = exp(-(brGreen + bmGreen) * s);
+	float Fb = exp(-(brBlue + bmBlue) * s);
 
 
 	// in scattering
-	float g = 0.74;
 
 	float cosTheta = dot(normalize(worldSpacePosition - cameraPosition), sunDirection);
-	
-	float brThetaRed = (3.0f / 16.0f*pi) * brRed * (1.0f + cosTheta*cosTheta);
-	float brThetaGreen = (3.0f / 16.0f*pi) * brGreen * (1.0f + cosTheta*cosTheta);
-	float brThetaBlue = (3.0f / 16.0f*pi) * brBlue * (1.0f + cosTheta*cosTheta);
 
-	float bmThetaRed = (1.0f / 4.0f*pi) * bmRed * (pow(1.0f - g, 2) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
-	float bmThetaGreen = (1.0f / 4.0f*pi) * bmGreen * (pow(1.0f - g, 2) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
-	float bmThetaBlue = (1.0f / 4.0f*pi) * bmBlue * (pow(1.0f - g, 2) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));		
+	float rPhase = rayleighPhase(cosTheta);
+	float brThetaRed = brRed * rPhase;
+	float brThetaGreen = brGreen * rPhase;
+	float brThetaBlue = brBlue * rPhase;
+
+	float bmThetaRed = bmRed * miePhase(cosTheta);
+	float bmThetaGreen = bmGreen * miePhase(cosTheta);
+	float bmThetaBlue = bmBlue * miePhase(cosTheta);		
 
 
-	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - exp(-(brRed + bmRed) * distance));
-	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - exp(-(brGreen + bmGreen) * distance));
-	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - exp(-(brBlue + bmBlue) * distance));
+	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - exp(-(brRed + bmRed) * s));
+	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - exp(-(brGreen + bmGreen) * s));
+	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - exp(-(brBlue + bmBlue) * s));
 
 	// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-	fragmentColor0 = + vec4(LinR, LinG, LinB, 0);
+	//fragmentColor0 = + vec4(LinR, LinG, LinB, 0);
 
-	fragmentColor0.w = 1;
+	//fragmentColor0.w = 1;
 	
 	fragmentColor1 = log(fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f);  
 
+	fragmentColor0 = vec4(2.1f);
 }
