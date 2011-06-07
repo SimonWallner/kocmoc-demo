@@ -1,6 +1,8 @@
 #ifndef KOCMOC_UTIL_UTIL_HPP_
 #define KOCMOC_UTIL_UTIL_HPP_
 
+#include <types.hpp>
+#include <Exception.hpp>
 
 #include <glm.hpp>
 
@@ -120,6 +122,20 @@ namespace kocmoc
 			{
 				return (v1 < v2 ? v1 : v2);
 			}
+		}
+
+		namespace parser
+		{
+			/**
+			 * parse the shader and resolve #pragma includes
+			 * @param shaderName the file name of the shader
+			 * @param pathPrefix the local path to the include directory
+			 * @param includeCounter the number of the included file, used
+			 *		for the #line annotation. lineNumber:includeNumber.
+			 *		Base file should be 0.
+			 * @return a string with resolved includes and #line annotations
+			 */
+			std::string parseShader(std::string shaderName, std::string pathPrefix, uint includeCounter = 0) throw(kocmoc::Exception);
 		}
 	}
 }

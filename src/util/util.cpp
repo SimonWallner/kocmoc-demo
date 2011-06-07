@@ -10,6 +10,7 @@
 #include <common.hpp>
 
 #include <fstream>
+#include <sstream>
 #include <string>
 
 using namespace kocmoc;
@@ -20,6 +21,7 @@ using kocmoc::renderer::Shader;
 using kocmoc::renderer::ShaderManager;
 using kocmoc::renderer::RenderMesh;
 using kocmoc::loader::ImageLoader;
+using kocmoc::Exception;
 
 using glm::vec4;
 using glm::mat4;
@@ -471,3 +473,54 @@ void util::gl::timedFinish()
 	glFinish();
 	std::cout << "time elapsed to finish: " << glfwGetTime() - now << std::endl;
 }
+
+
+void getNextLine(std::istream& is, std::string& line) 
+{
+	getline(is, line);
+}
+
+std::string util::parser::parseShader(std::string shaderName, std::string pathPrefix, uint includeCounter) throw(Exception)
+{
+	string relativePath = pathPrefix + shaderName;
+	uint includeDepth = includeCounter;
+
+
+	std::ifstream file(relativePath);
+	if (!file)
+		throw Exception("Cannot read shader file: '" + relativePath + "'");
+
+	std::stringstream out;
+
+	uint lineCounter = 1;
+	uint includeCnt = 0;
+
+	if (includeDepth != 0)
+		out << "#line " << lineCounter << " " << includeDepth << std::endl;
+
+	while (!file.eof())
+	{
+		string line = "";
+		getNextLine(file, line);
+		int pos = line.find("#pragma include ");
+		if (pos == 0)
+		{
+			string includeName = line.substr(16); // all after "#pragma include "
+			out << util::parser::parseShader(includeName, pathPrefix, includeDepth + ++includeCnt);
+			out << "#line " << lineCounter + 1 << " " << includeDepth << std::endl;
+		}
+		else
+			out << line << std::endl;
+
+
+		// add #line AFTER #version
+		pos = line.find("#version");
+		if (pos == 0)
+			out << "#line " << lineCounter + 1 << " " << includeDepth << std::endl;
+
+		++lineCounter;
+	}
+
+	return out.str();
+}
+

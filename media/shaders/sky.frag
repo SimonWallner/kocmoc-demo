@@ -19,54 +19,40 @@ uniform vec3 sunDirection;
 out vec4 fragmentColor0;
 out float fragmentColor1;
 
+
+#pragma include scattering.glsl
+
+const float sunIntensity = 100.0f;
+
+
 void main(void)
 {
 
 	// --- atmospheric scattering starts here ---
-		// unit is m, unless otherwise noted.
 
-	const float e = 2.71828182845904523536028747135266249775724709369995957f;
-	const float pi = 3.141592653589793238462643383279502884197169;
-
-	const float n = 1.0003; // refractive index of air
-	const float N = 2.545E25; // number of molecules per unit volume for air at
-						// 288.15K and 1013mb (sea level -45 celsius)
-	const float pn = 0.035;	// depolatization factor for standard air
-
-	// wavelength in m
-	const float red = 680E-9;
-	const float green = 550E-9;
-	const float blue = 450E-9;
-
-	// mie stuff
-	const float T = 1.0f;
-	const float c = (0.6544 * T - 0.6510) * 10E-16;
-	const float Kr = 0.686f;
-	const float Kg = 0.678f;
-	const float Kb = 0.666f;
-	const float v = 4.0f;
-
-	const float sunIntensity = 100.0f;
 
 
 	// extinction (absorbtion + out scattering)
-	float brRed = (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(red, 4) * (6 - 7 * pn));
-	float brGreen = (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(green, 4) * (6 - 7 * pn));
-	float brBlue = (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(blue, 4) * (6 - 7 * pn));
-	
-	float bmRed = 0.434 * c * pi * pow((2 * pi) / red, v - 2) * Kr;
-	float bmGreen = 0.434 * c * pi * pow((2 * pi) / green, v - 2) * Kg;
-	float bmBlue = 0.434 * c * pi * pow((2 * pi) / blue, v - 2) * Kb;
+	// rayleigh coefficients
+	float brRed = totalRayleigh(red);
+	float brGreen = totalRayleigh(green);
+	float brBlue = totalRayleigh(blue);
 
-		
+	// mie coefficients
+	float bmRed = totalMie(red, Kr);
+	float bmGreen = totalMie(green, Kg);
+	float bmBlue = totalMie(blue, Kb);
+
+
+	// combined extinction factor
 	float distance = 10.0E5;
 	float Fr = exp(-(brRed + bmRed) * distance);
 	float Fg = exp(-(brGreen + bmGreen) * distance);
 	float Fb = exp(-(brBlue + bmBlue) * distance);
 
-	// in scattering
 
-	
+
+	// in scattering
 	float g = 0.74;
 
 	float cosTheta = dot(normalize(worldSpacePosition - cameraPosition), sunDirection);

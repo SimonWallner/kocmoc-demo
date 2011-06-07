@@ -2,11 +2,13 @@
 
 #include <util/Property.hpp>
 #include <util/util.hpp>
+#include <Exception.hpp>
 
 #include <fstream>
 #include <cassert>
 
 using namespace kocmoc::renderer;
+using kocmoc::Exception;
 using std::string;
 using std::cerr;
 using std::cout;
@@ -25,23 +27,48 @@ bool Shader::upload()
 		destroy();
 
 	// Load the shader files
-	string vertexShaderPath = pathPrefix + vertexShaderName;
 	string vertexShaderSource;
-	if (util::file_exists(vertexShaderPath)) {
-		vertexShaderSource = util::read_file(vertexShaderPath);
-	} else {
-		cerr << "Vertex shader file " << vertexShaderPath <<" does not exist." << endl;
+	string fragmentShaderSource;
+
+	try 
+	{
+		vertexShaderSource = util::parser::parseShader(vertexShaderName, pathPrefix);
+	}
+	catch (Exception& e)
+	{
+		cerr << "Vertex shader " << vertexShaderName <<" failed to parse. Cause:" << endl;
+		cerr << e.getMessage() << endl;
 		return false;
 	}
 
-	string fragmentShaderPath = pathPrefix + fragmentShaderName;
-	string fragmentShaderSource;
-	if (util::file_exists(fragmentShaderPath)) {
-		fragmentShaderSource = util::read_file(fragmentShaderPath);
-	} else {
-		cerr << "Fragment shader file " << fragmentShaderPath <<" does not exist." << endl;
+	try 
+	{
+		fragmentShaderSource = util::parser::parseShader(fragmentShaderName, pathPrefix);
+	}
+	catch (Exception& e)
+	{
+		cerr << "Fragment shader " << fragmentShaderName <<" failed to parse. Cause:" << endl;
+		cerr << e.getMessage() << endl;
 		return false;
 	}
+
+	//if (util::file_exists(vertexShaderPath))
+	//{
+	//	//vertexShaderSource = util::read_file(vertexShaderPath);
+	//} else {
+	//	cerr << "Vertex shader file " << vertexShaderPath <<" does not exist." << endl;
+	//	return false;
+	//}
+
+	//string fragmentShaderSource;
+	//if (util::file_exists(fragmentShaderPath))
+	//{
+	//	//fragmentShaderSource = util::read_file(fragmentShaderPath);
+	//	fragmentShaderSource = util::parser::parseShader(fragmentShaderName, pathPrefix);
+	//} else {
+	//	cerr << "Fragment shader file " << fragmentShaderPath <<" does not exist." << endl;
+	//	return false;
+	//}
 
 
 	// Compile the shaders

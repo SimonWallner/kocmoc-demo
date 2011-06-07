@@ -2,7 +2,6 @@
 
 #version 150 core
 
-
 in vec2 texCoord0;
 
 uniform sampler2D sTex0;
