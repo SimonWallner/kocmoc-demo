@@ -25,19 +25,19 @@ void main(void)
 {
 	const float ambientIntensity = sunIntensity * 0.1f;
 
-	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
+	vec3 diffuseColor = vec3(0.5f);//texture(sDiffuse, texCoord0).rgb;
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 
 
 	vec3 specularColor = texture(sSpecular, texCoord0).rgb;
 	float shinyness = texture(sSpecular, texCoord0).a * 50.0f + 5.0f;
-	vec3 normal = texture2D(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
+	vec3 normal = texture(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
 	vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
 	transformed = fragmentNormal;
 
 	float diffuseFactor =  sunIntensity * max(dot(sunDirection, transformed.xyz), 0);
 	vec3 diffuseTerm = diffuseColor * diffuseFactor;
-	diffuseTerm = vec3(diffuseFactor);
+	//diffuseTerm = vec3(diffuseFactor);
 
 
 	vec3 viewVector = normalize(cameraPosition - worldSpacePosition);

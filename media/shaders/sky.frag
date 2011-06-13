@@ -72,13 +72,11 @@ void main(void)
 
 
 	// composition
-//		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
 
-	vec4 L0;
+	vec4 L0 = vec4(0);
 	if (cosTheta > sunAngularDiameterCos)
-		L0 = vec4(vec3(sunIntensity), 0);
-	else
-		L0 = vec4(0);
+		L0 += vec4(vec3(sunIntensity), 0);
+
 		
 	fragmentColor0 = L0 + vec4(LinR, LinG, LinB, 1);
 	
