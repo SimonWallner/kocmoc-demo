@@ -41,14 +41,14 @@ void main(void)
 	// optical length
 	// cutoff angle at 90 to avoid singularity in next formula.
 	float zenithAngle = acos(max(0, dot(up, normalize(worldSpacePosition - vec3(0, 0, 0)))));
-	float s = rayleighZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0f) / pi), -1.253));
+	float sR = rayleighZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0f) / pi), -1.253));
+	float sM = mieZenithLength / (cos(zenithAngle) + 0.15 * pow(93.885 - ((zenithAngle * 180.0f) / pi), -1.253));
 
-	//s = 0;
 
 	// combined extinction factor	
-	float Fr = exp(-(brRed + bmRed) * s);
-	float Fg = exp(-(brGreen + bmGreen) * s);
-	float Fb = exp(-(brBlue + bmBlue) * s);
+	float Fr = exp(-(brRed * sR + bmRed * sM));
+	float Fg = exp(-(brGreen * sR + bmGreen * sM));
+	float Fb = exp(-(brBlue * sR + bmBlue * sM));
 
 
 	// in scattering
@@ -60,21 +60,29 @@ void main(void)
 	float brThetaGreen = brGreen * rPhase;
 	float brThetaBlue = brBlue * rPhase;
 
-	float mPhase =  miePhase(cosTheta);
+	float mPhase = hgPhase(cosTheta);
 	float bmThetaRed = bmRed * mPhase;
 	float bmThetaGreen = bmGreen * mPhase;
 	float bmThetaBlue = bmBlue * mPhase;		
 
 
-	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - exp(-(brRed + bmRed) * s));
-	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - exp(-(brGreen + bmGreen) * s));
-	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - exp(-(brBlue + bmBlue) * s));
+	float LinR = sunIntensity * ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * (1.0f - Fr);
+	float LinG = sunIntensity * ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * (1.0f - Fr);
+	float LinB = sunIntensity * ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * (1.0f - Fr);
+
 
 	// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-	fragmentColor0 = vec4(LinR, LinG, LinB, 1);
+
+	vec4 L0;
+	if (cosTheta > sunAngularDiameterCos)
+		L0 = vec4(vec3(sunIntensity), 0);
+	else
+		L0 = vec4(0);
+		
+	fragmentColor0 = L0 + vec4(LinR, LinG, LinB, 1);
 	
-//	fragmentColor0 = vec4(s);
+//	fragmentColor0 = vec4(mPhase);
 //	fragmentColor0.a = 1;
 
 	fragmentColor1 = logLuminance(fragmentColor0);  

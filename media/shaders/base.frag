@@ -78,7 +78,7 @@ void main(void)
 	float brThetaGreen = brGreen * rPhase;
 	float brThetaBlue = brBlue * rPhase;
 
-	float mPhase =  miePhase(cosTheta);
+	float mPhase =  hgPhase(cosTheta);
 	float bmThetaRed = bmRed * mPhase;
 	float bmThetaGreen = bmGreen * mPhase;
 	float bmThetaBlue = bmBlue * mPhase;	
