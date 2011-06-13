@@ -23,10 +23,7 @@ out float fragmentColor1;
 
 void main(void)
 {
-	const vec3 lightDirection = normalize(vec3(-1.0f, -1.0f, -1.0f));
-	const float sunIntensity = 100.0f;
 	const float ambientIntensity = sunIntensity * 0.1f;
-
 
 	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
@@ -38,18 +35,17 @@ void main(void)
 	vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
 	transformed = fragmentNormal;
 
-	float diffuseFactor =  sunIntensity * max(dot(-lightDirection, transformed.xyz), 0);
+	float diffuseFactor =  sunIntensity * max(dot(sunDirection, transformed.xyz), 0);
 	vec3 diffuseTerm = diffuseColor * diffuseFactor;
 	diffuseTerm = vec3(diffuseFactor);
 
 
 	vec3 viewVector = normalize(cameraPosition - worldSpacePosition);
-	vec3 reflected = normalize(reflect(lightDirection, transformed.xyz));
+//	vec3 reflected = normalize(reflect(sunDirection, transformed.xyz));
+//	vec3 specularTerm = diffuseFactor * specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
+//	vec4 L0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 
-	vec3 specularTerm = diffuseFactor * specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
-
-	vec4 L0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
-	L0 = vec4(diffuseTerm + ambientTerm, 1);
+	vec4 L0 = vec4(diffuseTerm + ambientTerm, 1);
 
 
 	// --- atmospheric scattering starts here ---

@@ -28,6 +28,11 @@ const float g = 0.75;
 const float rayleighZenithLength = 8.4E3;
 const vec3 up = vec3(0, 1, 0);
 
+const float sunIntensity = 100.0f;
+
+
+
+
 
 /**
  * Compute total rayleigh coefficient for a given wavelength

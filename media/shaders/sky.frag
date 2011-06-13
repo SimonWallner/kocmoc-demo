@@ -23,8 +23,6 @@ out vec4 fragmentColor0;
 out float fragmentColor1;
 
 
-const float sunIntensity = 100.0f;
-
 void main(void)
 {
 	// extinction (absorbtion + out scattering)
