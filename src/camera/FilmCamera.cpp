@@ -63,6 +63,9 @@ void FilmCamera::updateMatrixes()
 	aspectRatio = (float)getFrameWidth()/(float)getFrameHeight();
 	float extendedAOV = (atan(tan(angleOfView/2) * (((float)width + 2*horizontalMargin) / width))) * 2;
 
+	// FIXME: dirty hack, make new camera model with phi, theta orientation
+	upVector = vec3(0, 1, 0);
+
 	vec3 s = glm::normalize(glm::cross(targetVector, upVector));
 	vec3 u = glm::normalize(glm::cross(s, targetVector));
 
