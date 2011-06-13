@@ -67,8 +67,8 @@ void main(void)
 
 
 	float LinR = sunIntensity * ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * (1.0f - Fr);
-	float LinG = sunIntensity * ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * (1.0f - Fr);
-	float LinB = sunIntensity * ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * (1.0f - Fr);
+	float LinG = sunIntensity * ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * (1.0f - Fg);
+	float LinB = sunIntensity * ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * (1.0f - Fb);
 
 
 	// composition
