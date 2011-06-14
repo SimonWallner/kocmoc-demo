@@ -60,7 +60,7 @@ float rayleighPhase(float cosTheta)
  */
 float totalMie(float lambda, float K)
 {
-	return 0.0f;
+//	return 0.0f;
 	return 0.434 * c * pi * pow((2 * pi) / lambda, v - 2) * K;
 }
 
@@ -68,7 +68,7 @@ float totalMie(float lambda, float K)
 // Henyey-Greenstein approximation
 float hgPhase(float cosTheta)
 {
-	return 0.0f;
+//	return 0.0f;
 	return (1.0f / (4.0f*pi)) * ((1.0f - g*g) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
 }
 

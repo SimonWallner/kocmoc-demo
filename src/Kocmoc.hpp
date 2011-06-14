@@ -92,6 +92,8 @@ namespace kocmoc
 		static ParamMapBool paramMapBool;
 
 		glm::vec3 sunDirection;
+		float reileighCoefficient;
+		float mieCoefficient;
 	
 	private:
 

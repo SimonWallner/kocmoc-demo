@@ -71,6 +71,8 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		uniformNormalMatrix = shader->get_uniform_location("normalMatrix");
 		uniformSunDirection = shader->get_uniform_location("sunDirection");
 		uniformCameraPosition = shader->get_uniform_location("cameraPosition");
+		uniformReileighCoefficient = shader->get_uniform_location("reileighCoefficient");
+		uniformMieCoefficient = shader->get_uniform_location("mieCoefficient");
 		uniformsAreSet = true;
 	}
 
@@ -103,6 +105,11 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	if (uniformSunDirection >= 0)
 		glUniform3fv(uniformSunDirection, 1, glm::value_ptr(Kocmoc::getInstance().sunDirection));	
 	
+	if (uniformReileighCoefficient >= 0)
+		glUniform1f(uniformReileighCoefficient, Kocmoc::getInstance().reileighCoefficient);	
+
+	if (uniformMieCoefficient >= 0)
+		glUniform1f(uniformMieCoefficient, Kocmoc::getInstance().mieCoefficient);	
 
 	for (RenderTextureList::const_iterator ci = renderTextures.begin();
 		ci != renderTextures.end();

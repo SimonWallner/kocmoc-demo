@@ -18,6 +18,8 @@ uniform sampler2D sShadow;
 uniform mat3 normalMatrix;
 uniform vec3 cameraPosition;
 uniform vec3 sunDirection;
+uniform float reileighCoefficient;
+uniform float mieCoefficient;
 
 out vec4 fragmentColor0;
 out float fragmentColor1;
@@ -27,14 +29,14 @@ void main(void)
 {
 	// extinction (absorbtion + out scattering)
 	// rayleigh coefficients
-	float brRed = totalRayleigh(red);
-	float brGreen = totalRayleigh(green);
-	float brBlue = totalRayleigh(blue);
+	float brRed = totalRayleigh(red) * reileighCoefficient;
+	float brGreen = totalRayleigh(green) * reileighCoefficient;
+	float brBlue = totalRayleigh(blue) * reileighCoefficient;
 
 	// mie coefficients
-	float bmRed = totalMie(red, Kr);
-	float bmGreen = totalMie(green, Kg);
-	float bmBlue = totalMie(blue, Kb);
+	float bmRed = totalMie(red, Kr) * mieCoefficient;
+	float bmGreen = totalMie(green, Kg) * mieCoefficient;
+	float bmBlue = totalMie(blue, Kb) * mieCoefficient;
 
 
 

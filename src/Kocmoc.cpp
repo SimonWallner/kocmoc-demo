@@ -40,6 +40,8 @@ using kocmoc::time::Clock;
 using kocmoc::util::Property;
 using kocmoc::util::generator::generateTriangle;
 using kocmoc::util::generator::generateStars;
+using kocmoc::util::math::min;
+using kocmoc::util::math::max;
 
 using glm::vec3;
 using glm::mat4;
@@ -62,6 +64,8 @@ void Kocmoc::Destroy()
 }
 
 Kocmoc::Kocmoc()
+	: reileighCoefficient(1.0f)
+	, mieCoefficient(1.0f)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 
@@ -262,7 +266,9 @@ void Kocmoc::pollKeyboard(void)
 		<< "\t F6: toggle vignetting post" << std::endl
 		<< "\t F7: toggle color correction post" << std::endl
 		<< "\t '.': take screenshot" << std::endl
-		<< "\t R: reload shaders/textures/etc..." << std::endl;
+		<< "\t R: reload shaders/textures/etc..." << std::endl
+		<< "\t Arrow keys: move sun " << std::endl
+		<< "\t I/O, K/L: decrease/increase Reileigh and Mie scattering" << std::endl;
 
 	if (glfwGetKey(GLFW_KEY_F3))
 		Context::getInstance().setWireframe(!Context::getInstance().getWireframe());
@@ -353,6 +359,34 @@ void Kocmoc::pollKeyboard(void)
 		azimuthAngle -= 90.0f * (float)clock->lastFrameDuration();
 		std::cout << "azimuth angle: " << azimuthAngle << std::endl;
 		updateSunDirection();
+	}
+
+	// Reileigh coefficient
+	if (glfwGetKey('I'))
+	{
+		reileighCoefficient -= 0.5f * (float)clock->lastFrameDuration();
+		reileighCoefficient = max(reileighCoefficient, 0.0f);
+		std::cout << "Reileigh coefficient: " << reileighCoefficient << std::endl;
+	}
+	if (glfwGetKey('O'))
+	{
+		reileighCoefficient += 0.5f * (float)clock->lastFrameDuration();
+		reileighCoefficient = min(reileighCoefficient, 2.0f);
+		std::cout << "Reileigh coefficient: " << reileighCoefficient << std::endl;
+	}
+
+	// Mie coefficient
+	if (glfwGetKey('K'))
+	{
+		mieCoefficient -= 0.5f * (float)clock->lastFrameDuration();
+		mieCoefficient = max(mieCoefficient, 0.0f);
+		std::cout << "Mie coefficient: " << mieCoefficient << std::endl;
+	}
+	if (glfwGetKey('L'))
+	{
+		mieCoefficient += 0.5f * (float)clock->lastFrameDuration();
+		mieCoefficient = min(mieCoefficient, 2.0f);
+		std::cout << "Mie coefficient: " << mieCoefficient << std::endl;
 	}
 }
 

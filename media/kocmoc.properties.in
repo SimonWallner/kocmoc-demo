@@ -84,7 +84,7 @@ orthoHeight = 1000
 orthoDepth = 1000
 
 # HDR
-logAdaptationPerS = 10
+logAdaptationPerS = 1
 evBias = 0.0
 logContrast = 6
 
