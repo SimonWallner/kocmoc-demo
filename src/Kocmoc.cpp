@@ -66,6 +66,8 @@ void Kocmoc::Destroy()
 Kocmoc::Kocmoc()
 	: reileighCoefficient(1.0f)
 	, mieCoefficient(1.0f)
+	, mieDirectionalG(0.75f)
+	, turbidity(1.0f)
 {
 	glfwGetMousePos(&mouseOldX, &mouseOldY);
 
@@ -268,7 +270,9 @@ void Kocmoc::pollKeyboard(void)
 		<< "\t '.': take screenshot" << std::endl
 		<< "\t R: reload shaders/textures/etc..." << std::endl
 		<< "\t Arrow keys: move sun " << std::endl
-		<< "\t I/O, K/L: decrease/increase Reileigh and Mie scattering" << std::endl;
+		<< "\t I/O, K/L: decrease/increase Reileigh and Mie scattering" << std::endl
+		<< "\t H/J: decrease/increase directional constant g of HG phase function" << std::endl
+		<< "\t F/G: decrease/increase turbidity" << std::endl;
 
 	if (glfwGetKey(GLFW_KEY_F3))
 		Context::getInstance().setWireframe(!Context::getInstance().getWireframe());
@@ -387,6 +391,34 @@ void Kocmoc::pollKeyboard(void)
 		mieCoefficient += 0.5f * (float)clock->lastFrameDuration();
 		mieCoefficient = min(mieCoefficient, 2.0f);
 		std::cout << "Mie coefficient: " << mieCoefficient << std::endl;
+	}
+
+	// directional constant g
+	if (glfwGetKey('H'))
+	{
+		mieDirectionalG -= 0.5f * (float)clock->lastFrameDuration();
+		mieDirectionalG = max(mieDirectionalG, -0.99f);
+		std::cout << "HG directional constant: " << mieDirectionalG << std::endl;
+	}
+	if (glfwGetKey('J'))
+	{
+		mieDirectionalG += 0.5f * (float)clock->lastFrameDuration();
+		mieDirectionalG = min(mieDirectionalG, 0.99f);
+		std::cout << "HG directional constant: " << mieDirectionalG << std::endl;
+	}
+
+	// turbidity
+	if (glfwGetKey('F'))
+	{
+		turbidity -= 2.0f * (float)clock->lastFrameDuration();
+		turbidity = max(turbidity, 0.0f);
+		std::cout << "turbidity: " << turbidity << std::endl;
+	}
+	if (glfwGetKey('G'))
+	{
+		turbidity += 2.0f * (float)clock->lastFrameDuration();
+		turbidity = min(turbidity, 20.0f);
+		std::cout << "turbidity: " << turbidity << std::endl;
 	}
 }
 

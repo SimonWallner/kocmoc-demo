@@ -20,6 +20,8 @@ uniform vec3 cameraPosition;
 uniform vec3 sunDirection;
 uniform float reileighCoefficient;
 uniform float mieCoefficient;
+uniform float mieDirectionalG;
+uniform float turbidity;
 
 out vec4 fragmentColor0;
 out float fragmentColor1;
@@ -34,9 +36,9 @@ void main(void)
 	float brBlue = totalRayleigh(blue) * reileighCoefficient;
 
 	// mie coefficients
-	float bmRed = totalMie(red, Kr) * mieCoefficient;
-	float bmGreen = totalMie(green, Kg) * mieCoefficient;
-	float bmBlue = totalMie(blue, Kb) * mieCoefficient;
+	float bmRed = totalMie(red, Kr, turbidity) * mieCoefficient;
+	float bmGreen = totalMie(green, Kg, turbidity) * mieCoefficient;
+	float bmBlue = totalMie(blue, Kb, turbidity) * mieCoefficient;
 
 
 
@@ -62,7 +64,7 @@ void main(void)
 	float brThetaGreen = brGreen * rPhase;
 	float brThetaBlue = brBlue * rPhase;
 
-	float mPhase = hgPhase(cosTheta);
+	float mPhase = hgPhase(cosTheta, mieDirectionalG);
 	float bmThetaRed = bmRed * mPhase;
 	float bmThetaGreen = bmGreen * mPhase;
 	float bmThetaBlue = bmBlue * mPhase;		

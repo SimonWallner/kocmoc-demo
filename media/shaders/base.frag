@@ -19,6 +19,8 @@ uniform vec3 cameraPosition;
 uniform vec3 sunDirection;
 uniform float reileighCoefficient;
 uniform float mieCoefficient;
+uniform float mieDirectionalG;
+uniform float turbidity;
 
 out vec4 fragmentColor0;
 out float fragmentColor1;
@@ -50,6 +52,9 @@ void main(void)
 	vec4 L0 = vec4(diffuseTerm + ambientTerm, 1);
 
 
+
+
+
 	// --- atmospheric scattering starts here ---
 
 
@@ -60,15 +65,15 @@ void main(void)
 	float brBlue = totalRayleigh(blue) * reileighCoefficient;
 
 	// mie coefficients
-	float bmRed = totalMie(red, Kr) * mieCoefficient;
-	float bmGreen = totalMie(green, Kg) * mieCoefficient;
-	float bmBlue = totalMie(blue, Kb) * mieCoefficient;
+	float bmRed = totalMie(red, Kr, turbidity) * mieCoefficient;
+	float bmGreen = totalMie(green, Kg, turbidity) * mieCoefficient;
+	float bmBlue = totalMie(blue, Kb, turbidity) * mieCoefficient;
 
 		
 	float distance = length(worldSpacePosition - cameraPosition);
-	float Fr = exp(-(brRed + bmRed) * distance);
-	float Fg = exp(-(brGreen + bmGreen) * distance);
-	float Fb = exp(-(brBlue + bmBlue) * distance);
+	float Fr = exp(-((brRed + bmRed) * distance));
+	float Fg = exp(-((brGreen + bmGreen) * distance));
+	float Fb = exp(-((brBlue + bmBlue) * distance));
 
 	// in scattering
 
@@ -80,19 +85,19 @@ void main(void)
 	float brThetaGreen = brGreen * rPhase;
 	float brThetaBlue = brBlue * rPhase;
 
-	float mPhase =  hgPhase(cosTheta);
+	float mPhase =  hgPhase(cosTheta, mieDirectionalG);
 	float bmThetaRed = bmRed * mPhase;
 	float bmThetaGreen = bmGreen * mPhase;
 	float bmThetaBlue = bmBlue * mPhase;	
 
-	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - exp(-(brRed + bmRed) * distance));
-	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - exp(-(brGreen + bmGreen) * distance));
-	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - exp(-(brBlue + bmBlue) * distance));
+	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - Fr);
+	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - Fg);
+	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - Fb);
 
 	// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-	fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0) * 5;
-//	fragmentColor0 = vec4(distance);
+	fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0);
+	//fragmentColor0 = vec4(Fr, Fg, Fb, 1);
 
 	fragmentColor0.w = 1;
 

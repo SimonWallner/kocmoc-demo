@@ -73,6 +73,8 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 		uniformCameraPosition = shader->get_uniform_location("cameraPosition");
 		uniformReileighCoefficient = shader->get_uniform_location("reileighCoefficient");
 		uniformMieCoefficient = shader->get_uniform_location("mieCoefficient");
+		uniformMieDirectionalG = shader->get_uniform_location("mieDirectionalG");
+		uniformTurbidity = shader->get_uniform_location("turbidity");
 		uniformsAreSet = true;
 	}
 
@@ -111,11 +113,17 @@ void RenderMesh::draw(mat4 parentTransform, Camera *camera)
 	if (uniformMieCoefficient >= 0)
 		glUniform1f(uniformMieCoefficient, Kocmoc::getInstance().mieCoefficient);	
 
+	if (uniformMieDirectionalG >= 0)
+		glUniform1f(uniformMieDirectionalG, Kocmoc::getInstance().mieDirectionalG);
+	
+	if (uniformTurbidity >= 0)
+		glUniform1f(uniformTurbidity, Kocmoc::getInstance().turbidity);
+
+
 	for (RenderTextureList::const_iterator ci = renderTextures.begin();
 		ci != renderTextures.end();
 		ci++)
 	{
-
 		glActiveTexture(GL_TEXTURE0 + ci->textureUnit);
 		glBindTexture(GL_TEXTURE_2D, ci->handle);
 	}

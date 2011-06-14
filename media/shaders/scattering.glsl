@@ -15,15 +15,11 @@ const float green = 550E-9;
 const float blue = 450E-9;
 
 // mie stuff
-//T as in Turibidity
-const float T = 1.0f;
-const float c = (0.6544 * T - 0.6510) * 10E-16;
 const float Kr = 0.686f;
 const float Kg = 0.678f;
 const float Kb = 0.666f;
 const float v = 4.0f;
 
-const float g = 0.75;
 
 // optical length at zenith for molecules
 const float rayleighZenithLength = 8.4E3;
@@ -56,19 +52,19 @@ float rayleighPhase(float cosTheta)
  * total mie scattering coefficient
  * @param lambda wavelength in m
  * @param K some scattering param
+ * @param T turbidity, somewhere in the range of 0 to 20
 
  */
-float totalMie(float lambda, float K)
+float totalMie(float lambda, float K, float T)
 {
-//	return 0.0f;
+	float c = (0.2f * T ) * 10E-18;
 	return 0.434 * c * pi * pow((2 * pi) / lambda, v - 2) * K;
 }
 
 
 // Henyey-Greenstein approximation
-float hgPhase(float cosTheta)
+float hgPhase(float cosTheta, float g)
 {
-//	return 0.0f;
 	return (1.0f / (4.0f*pi)) * ((1.0f - g*g) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
 }
 

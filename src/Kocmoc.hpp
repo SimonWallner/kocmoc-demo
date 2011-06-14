@@ -94,6 +94,8 @@ namespace kocmoc
 		glm::vec3 sunDirection;
 		float reileighCoefficient;
 		float mieCoefficient;
+		float mieDirectionalG;
+		float turbidity;
 	
 	private:
 

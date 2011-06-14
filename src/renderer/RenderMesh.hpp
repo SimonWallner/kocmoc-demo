@@ -99,6 +99,8 @@ namespace kocmoc
 			GLint uniformSunDirection;
 			GLint uniformReileighCoefficient;
 			GLint uniformMieCoefficient;
+			GLint uniformMieDirectionalG;
+			GLint uniformTurbidity;
 			bool uniformsAreSet;
 
 			bool debugDrawMeshGizmo;
