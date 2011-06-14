@@ -49,6 +49,8 @@ namespace kocmoc
 			GLint colorLUTHandle;
 
 			uint maxMipLevel;
+			int averageWidth;
+			int averageHeight;
 
 			Shader *shader;
 

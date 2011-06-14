@@ -65,6 +65,11 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+	maxMipLevel = uint(log(float(((frameWidth > frameHeight) ? frameWidth : frameHeight))) / log(2.0f));
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, maxMipLevel - 2, GL_TEXTURE_WIDTH, &averageWidth);
+	glGetTexLevelParameteriv(GL_TEXTURE_2D, maxMipLevel - 2, GL_TEXTURE_HEIGHT, &averageHeight);
 	
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, logYTextureHandle, 0);
 
@@ -77,7 +82,8 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 
 	colorLUTHandle = ImageLoader::getInstance().loadImage3D("LUT32.png", false);
 
-	maxMipLevel = uint(log(float(((frameWidth > frameHeight) ? frameWidth : frameHeight))) / log(2.0f));
+	
+
 }
 
 void FrameBuffer::check()
@@ -231,8 +237,15 @@ void FrameBuffer::drawFBO()
 	glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
 	glGenerateMipmap(GL_TEXTURE_2D);
 		
-	GLfloat average;
-	glGetTexImage(GL_TEXTURE_2D, maxMipLevel, GL_RED, GL_FLOAT, &average);
+	GLfloat* data = new GLfloat[averageWidth * averageHeight];
+	glGetTexImage(GL_TEXTURE_2D, maxMipLevel - 2, GL_RED, GL_FLOAT, data);
+
+	GLfloat average = 0;
+	for (uint i = 0; i < averageWidth * averageHeight; i++)
+	{
+		average += data[i];
+	}
+	average /= (averageWidth * averageHeight);
 
 	// enforce hard boarders to compensate +- INF fuck-up.
 	average = min<float>(max<float>(0, average), 10);
