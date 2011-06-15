@@ -9,15 +9,12 @@ const float N = 2.545E25; // number of molecules per unit volume for air at
 						// 288.15K and 1013mb (sea level -45 celsius)
 const float pn = 0.035;	// depolatization factor for standard air
 
-// wavelength of used primaries
-const float red = 680E-9;
-const float green = 550E-9;
-const float blue = 450E-9;
+// wavelength of used primaries, according to preetham
+const vec3 lambda = vec3(680E-9, 550E-9, 450E-9);
 
 // mie stuff
-const float Kr = 0.686f;
-const float Kg = 0.678f;
-const float Kb = 0.666f;
+// K coefficient for the primaries
+const vec3 K = vec3(0.686f, 0.678f, 0.666f);
 const float v = 4.0f;
 
 
@@ -34,44 +31,45 @@ const float sunAngularDiameterCos = 0.999956676946448443553574619906976478926848
 
 
 /**
- * Compute total rayleigh coefficient for a given wavelength
+ * Compute total rayleigh coefficient for a set of wavelengths (usually
+ * the tree primaries)
  * @param lambda wavelength in m
  */
-float totalRayleigh(float lambda)
+vec3 totalRayleigh(vec3 lambda)
 {
-	return (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(lambda, 4) * (6 - 7 * pn));
+	return (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(lambda, vec3(4)) * (6 - 7 * pn));
 }
 
-
+/** Reileight phase function as a function of cos(theta)
+ */
 float rayleighPhase(float cosTheta)
 {
-	return (3.0f / 16.0f*pi) * (1.0f + cosTheta*cosTheta);
+	// FIXME add braces
+	return (3.0f / 16.0f*pi) * (1.0f + pow(cosTheta, 2));
 }
 
 /**
  * total mie scattering coefficient
- * @param lambda wavelength in m
- * @param K some scattering param
+ * @param lambda set of wavelengths in m
+ * @param K corresponding scattering param
  * @param T turbidity, somewhere in the range of 0 to 20
 
  */
-float totalMie(float lambda, float K, float T)
+vec3 totalMie(vec3 lambda, vec3 K, float T)
 {
 	float c = (0.2f * T ) * 10E-18;
-	return 0.434 * c * pi * pow((2 * pi) / lambda, v - 2) * K;
+	return 0.434 * c * pi * pow((2 * pi) / lambda, vec3(v - 2)) * K;
 }
 
 
-// Henyey-Greenstein approximation
+/**
+ * Henyey-Greenstein approximation as a function of cos(theta)
+ * @param cosTheta 
+ * @param g goemetric constant that defines the shape of the ellipse.
+ */
 float hgPhase(float cosTheta, float g)
 {
-	return (1.0f / (4.0f*pi)) * ((1.0f - g*g) / pow(1.0f + g*g - 2.0f*g*cosTheta, 1.5));
+	return (1.0f / (4.0f*pi)) * ((1.0f - g*g) / pow(1.0f + pow(g, 2) - 2.0f*g*cosTheta, 1.5));
 }
-
-float inScatter(float angularScattering, float totalScattering, float s)
-{
-	return (angularScattering / totalScattering) * (1.0f - exp(-totalScattering * s));
-}
-
 
 

@@ -60,20 +60,15 @@ void main(void)
 
 	// extinction (absorbtion + out scattering)
 	// rayleigh coefficients
-	float brRed = totalRayleigh(red) * reileighCoefficient;
-	float brGreen = totalRayleigh(green) * reileighCoefficient;
-	float brBlue = totalRayleigh(blue) * reileighCoefficient;
+	vec3 betaR = totalRayleigh(lambda) * reileighCoefficient;
 
 	// mie coefficients
-	float bmRed = totalMie(red, Kr, turbidity) * mieCoefficient;
-	float bmGreen = totalMie(green, Kg, turbidity) * mieCoefficient;
-	float bmBlue = totalMie(blue, Kb, turbidity) * mieCoefficient;
+	vec3 betaM = totalMie(lambda, K, turbidity) * mieCoefficient;
 
 		
 	float distance = length(worldSpacePosition - cameraPosition);
-	float Fr = exp(-((brRed + bmRed) * distance));
-	float Fg = exp(-((brGreen + bmGreen) * distance));
-	float Fb = exp(-((brBlue + bmBlue) * distance));
+	vec3 Fex = exp(-((betaR + betaM) * distance));
+
 
 	// in scattering
 
@@ -81,22 +76,16 @@ void main(void)
 	float cosTheta = dot(normalize(worldSpacePosition - cameraPosition), sunDirection);
 	
 	float rPhase = rayleighPhase(cosTheta);
-	float brThetaRed = brRed * rPhase;
-	float brThetaGreen = brGreen * rPhase;
-	float brThetaBlue = brBlue * rPhase;
+	vec3 betaRTheta = betaR * rPhase;
 
-	float mPhase =  hgPhase(cosTheta, mieDirectionalG);
-	float bmThetaRed = bmRed * mPhase;
-	float bmThetaGreen = bmGreen * mPhase;
-	float bmThetaBlue = bmBlue * mPhase;	
+	float mPhase = hgPhase(cosTheta, mieDirectionalG);
+	vec3 betaMTheta = betaM * mPhase;
 
-	float LinR = ((brThetaRed + bmThetaRed) / (brRed + bmRed)) * sunIntensity * (1.0f - Fr);
-	float LinG = ((brThetaGreen + bmThetaGreen) / (brGreen + bmGreen)) * sunIntensity * (1.0f - Fg);
-	float LinB = ((brThetaBlue + bmThetaBlue) / (brBlue + bmBlue)) * sunIntensity * (1.0f - Fb);
+	vec3 Lin = sunIntensity * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
 
 	// composition
 //		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
-	fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1) + vec4(LinR, LinG, LinB, 0);
+	fragmentColor0 = L0 * vec4(Fex, 1) + vec4(Lin, 0);
 	//fragmentColor0 = vec4(Fr, Fg, Fb, 1);
 
 	fragmentColor0.w = 1;
