@@ -29,7 +29,7 @@ void main(void)
 {
 	const float ambientIntensity = sunIntensity * 0.1f;
 
-	vec3 diffuseColor = vec3(0.5f);//texture(sDiffuse, texCoord0).rgb;
+	vec3 diffuseColor = texture(sDiffuse, texCoord0).rgb;
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
 
 

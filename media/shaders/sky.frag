@@ -70,6 +70,8 @@ void main(void)
 
 		
 	fragmentColor0 = vec4(L0 + Lin, 1);
+	fragmentColor0 = texture(sDiffuse, texCoord0);
+
 	
 //	fragmentColor0 = vec4(mPhase);
 //	fragmentColor0.a = 1;
