@@ -128,6 +128,7 @@ void Kocmoc::init()
 	// non octree scene node
 	rootNodeNormal = new SceneNode("root node normal");
 	rootNodeNormal->add(SceneLoader::getInstance().load(Property("modelName")));
+	rootNodeNormal->add(SceneLoader::getInstance().load("sky.dae"));
 	//rootNodeNormal->add(SceneLoader::getInstance().load("sky.dae"));
 
 

@@ -47,8 +47,8 @@ backFaceCulling = 1
 # missionControlServerPort = 65001
 
 # general stuff
-nearPlane = -0.1
-farPlane = -20000
+nearPlane = -1
+farPlane = -128000
 
 # the model
 modelName = terrain.dae
