@@ -64,16 +64,23 @@ void main(void)
 
 	vec3 Lin = sunE * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
 
+	// nightsky
+	vec3 direction = normalize(worldSpacePosition - cameraPosition);
+	float theta = acos(direction.y); // elevation --> y-axis, [-pi/2, pi/2]
+	float phi = atan(direction.z, direction.x); // azimuth --> x-axis [-pi/2, pi/2]
+	vec2 uv = vec2(phi, theta) / vec2(2*pi, pi) + vec2(0.5f, 0.0f);
+	vec3 L0 = texture(sDiffuse, uv).rgb ;
 
 	// composition
 
-	vec3 L0 = vec3(0);
 	if (cosTheta > sunAngularDiameterCos)
 		L0 += sunE * Fex;
 
 		
 	fragmentColor0 = vec4(L0 + Lin, 1);
-//	fragmentColor0 = texture(sDiffuse, texCoord0);
+//	fragmentColor0 = vec4(uv, 0, 1);
+
+
 
 	
 //	fragmentColor0 = vec4(mPhase);
