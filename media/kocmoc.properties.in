@@ -36,9 +36,9 @@ fullscreen = 0
 
 enableMouse = 0
 captureMouse = 0
-gamepadSpeed = 10
+gamepadSpeed = 500
 mouseSpeed = 10
-keyboardSpeed = 40
+keyboardSpeed = 2000
 
 wireframe = 0
 backFaceCulling = 1
@@ -48,7 +48,7 @@ backFaceCulling = 1
 
 # general stuff
 nearPlane = -1
-farPlane = -128000
+farPlane = -512000
 
 # the model
 modelName = terrain.dae
