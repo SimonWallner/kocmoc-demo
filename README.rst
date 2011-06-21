@@ -56,11 +56,15 @@ Used Libs
  - opencollada
 
 
-License
+License/references
 -------
 All source code is made available under the MIT license (see below). All media files (textures, sounds, etc...) are available under the creative commons CC BY-NC-SA (Attribution-NonCommercial-ShareAlike) license.
 
 Parts of the source code are documented, but it mostly consists of ugly hacks, so where safety glasses and helmelts if you dive into it.
+
+The image of the milky way is courtesy of 
+NASA/Goddard Space Flight Center Scientific Visualization Studio
+http://svs.gsfc.nasa.gov/goto?3572
 
 
 MIT License

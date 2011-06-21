@@ -345,13 +345,13 @@ void Kocmoc::pollKeyboard(void)
 	// sun control
 	if (glfwGetKey(GLFW_KEY_UP))
 	{
-		elevationAngle += 90.0f * (float)clock->lastFrameDuration();
+		elevationAngle += 30.0f * (float)clock->lastFrameDuration();
 		std::cout << "elevation angle: " << elevationAngle << std::endl;
 		updateSunDirection();
 	}
 	if (glfwGetKey(GLFW_KEY_DOWN))
 	{
-		elevationAngle -= 090.0f * (float)clock->lastFrameDuration();
+		elevationAngle -= 30.0f * (float)clock->lastFrameDuration();
 		std::cout << "elevation angle: " << elevationAngle << std::endl;
 		updateSunDirection();
 	}
