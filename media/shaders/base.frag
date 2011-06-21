@@ -7,7 +7,7 @@
 in vec2 texCoord0;
 in vec3 fragmentNormal;
 in vec3 worldSpacePosition;
-in vec3 shadowUV;
+in vec3 sunE;
 
 uniform sampler2D sDiffuse;
 uniform sampler2D sSpecular;
@@ -27,16 +27,12 @@ out float fragmentColor1;
 
 void main(void)
 {
-	
-	float sunE = sunIntensity(dot(sunDirection, vec3(0.0f, 1.0f, 0.0f)));
-	
-	const float ambientIntensity = sunE * 0.1f;
-	
+	const vec3 ambientIntensity = sunE * 0.1f;
 
 	vec3 diffuseColor = vec3(0.5, 0.5, 0.5);
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
-	float diffuseFactor =  sunE * max(dot(sunDirection, fragmentNormal.xyz), 0);
-	vec3 diffuseTerm = diffuseColor * diffuseFactor;
+	float diffuseFactor =  max(dot(sunDirection, fragmentNormal.xyz), 0);
+	vec3 diffuseTerm = diffuseColor * diffuseFactor * sunE;
 
 	vec4 L0 = vec4(diffuseTerm + ambientTerm, 1);
 
@@ -69,5 +65,6 @@ void main(void)
 
 	// composition
 	fragmentColor0 = L0 * vec4(Fex, 1) + vec4(Lin, 0);
+//	fragmentColor0 = vec4(sunE, 1);
 	fragmentColor1 = log(fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f);  
 }
