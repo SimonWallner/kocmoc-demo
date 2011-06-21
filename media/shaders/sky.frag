@@ -29,6 +29,9 @@ out float fragmentColor1;
 
 void main(void)
 {
+	float sunE = sunIntensity(dot(sunDirection, vec3(0.0f, 1.0f, 0.0f)));
+
+	
 	// extinction (absorbtion + out scattering)
 	// rayleigh coefficients
 	vec3 betaR = totalRayleigh(lambda) * reileighCoefficient;
@@ -59,14 +62,14 @@ void main(void)
 	vec3 betaMTheta = betaM * mPhase;
 
 
-	vec3 Lin = sunIntensity * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
+	vec3 Lin = sunE * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
 
 
 	// composition
 
 	vec3 L0 = vec3(0);
 	if (cosTheta > sunAngularDiameterCos)
-		L0 += vec3(sunIntensity);
+		L0 += sunE * Fex;
 
 		
 	fragmentColor0 = vec4(L0 + Lin, 1);

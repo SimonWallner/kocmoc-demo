@@ -27,32 +27,18 @@ out float fragmentColor1;
 
 void main(void)
 {
-	const float ambientIntensity = sunIntensity * 0.1f;
+	
+	float sunE = sunIntensity(dot(sunDirection, vec3(0.0f, 1.0f, 0.0f)));
+	
+	const float ambientIntensity = sunE * 0.1f;
+	
 
-	vec3 diffuseColor = vec3(0.5, 0.5, 0.5);//texture(sDiffuse, texCoord0).rgb;
+	vec3 diffuseColor = vec3(0.5, 0.5, 0.5);
 	vec3 ambientTerm = diffuseColor * ambientIntensity;
-
-
-	vec3 specularColor = texture(sSpecular, texCoord0).rgb;
-	float shinyness = texture(sSpecular, texCoord0).a * 50.0f + 5.0f;
-	vec3 normal = texture(sNormal, texCoord0).xyz * 2 - 1; // unpack to [-1, 1], 
-	vec3 transformed = normalize(normalMatrix * (normal * vec3(-1, 1, -1))); // and flip strangely...???
-	transformed = fragmentNormal;
-
-	float diffuseFactor =  sunIntensity * max(dot(sunDirection, transformed.xyz), 0);
+	float diffuseFactor =  sunE * max(dot(sunDirection, fragmentNormal.xyz), 0);
 	vec3 diffuseTerm = diffuseColor * diffuseFactor;
-	//diffuseTerm = vec3(diffuseFactor);
-
-
-	vec3 viewVector = normalize(cameraPosition - worldSpacePosition);
-//	vec3 reflected = normalize(reflect(sunDirection, transformed.xyz));
-//	vec3 specularTerm = diffuseFactor * specularColor * pow(max(dot(viewVector, reflected), 0), shinyness);
-//	vec4 L0 = vec4(ambientTerm + diffuseTerm + specularTerm, 1);
 
 	vec4 L0 = vec4(diffuseTerm + ambientTerm, 1);
-
-
-
 
 
 	// --- atmospheric scattering starts here ---
@@ -71,8 +57,6 @@ void main(void)
 
 
 	// in scattering
-
-
 	float cosTheta = dot(normalize(worldSpacePosition - cameraPosition), sunDirection);
 	
 	float rPhase = rayleighPhase(cosTheta);
@@ -81,15 +65,9 @@ void main(void)
 	float mPhase = hgPhase(cosTheta, mieDirectionalG);
 	vec3 betaMTheta = betaM * mPhase;
 
-	vec3 Lin = sunIntensity * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
+	vec3 Lin = sunE * ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
 
 	// composition
-//		fragmentColor0 = L0 * vec4(Fr, Fg, Fb, 1);
 	fragmentColor0 = L0 * vec4(Fex, 1) + vec4(Lin, 0);
-	//fragmentColor0 = vec4(Fr, Fg, Fb, 1);
-
-	fragmentColor0.w = 1;
-
-	
 	fragmentColor1 = log(fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f);  
 }

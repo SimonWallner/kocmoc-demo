@@ -41,6 +41,8 @@ namespace kocmoc
 			const int frameWidth;
 			const int frameHeight;
 
+			float getCurrentAdaptation(void);
+
 		private:
 		
 			GLuint textureHandle;

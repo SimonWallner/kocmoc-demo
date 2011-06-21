@@ -188,6 +188,8 @@ void Kocmoc::start()
 		clock->tick();
 		timer.tic();
 
+		//std::cout << "log luminance: " << fbo->getCurrentAdaptation() << std::endl;
+
 		// Check if the window has been closed
 		running = running && glfwGetWindowParam( GLFW_OPENED );
 

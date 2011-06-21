@@ -86,6 +86,11 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 
 }
 
+float FrameBuffer::getCurrentAdaptation()
+{
+	return currentAdaptation;
+}
+
 void FrameBuffer::check()
 {
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
