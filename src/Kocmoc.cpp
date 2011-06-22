@@ -65,7 +65,7 @@ void Kocmoc::Destroy()
 
 Kocmoc::Kocmoc()
 	: reileighCoefficient(1.0f)
-	, mieCoefficient(1.0f)
+	, mieCoefficient(0.053f)
 	, mieDirectionalG(0.75f)
 	, turbidity(1.0f)
 {
@@ -79,8 +79,8 @@ Kocmoc::Kocmoc()
 	mouseSpeed = Property("mouseSpeed");
 	keyboardSpeed = Property("keyboardSpeed");
 
-	azimuthAngle = 0;
-	elevationAngle = 2;
+	azimuthAngle = -27.7;
+	elevationAngle = 2.74;
 	updateSunDirection();
 }
 
@@ -103,8 +103,8 @@ void Kocmoc::stop(){
 void Kocmoc::init()
 {
 	{ // user camera
-		camera = new FilmCamera(vec3(-15.0f, 40.0f, 0.0f), //eye
-			vec3(0, 40.0f, 0), // target
+		camera = new FilmCamera(vec3(-10487.0f, 2358.0f, 13093.0f), //eye
+			vec3(-10487.0f, 2358.0f, 13093.0f) + vec3(0.9901f, 0.0823f, -0.1133f), // target
 			vec3(0, 1, 0));  // up
 		float aspectRatio = (float)util::Property("aspectRatio") / ((float)Context::getInstance().width / (float)Context::getInstance().height);
 		if (aspectRatio > 1) // horizontal letter box
