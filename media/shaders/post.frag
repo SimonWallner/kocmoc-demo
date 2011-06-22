@@ -75,7 +75,7 @@ void main(void)
 
 	if (vignetting == 1)
 	{
-		float attenuation = 3.0f;
+		float attenuation = 5.0f;
 		float power = 4.7;
 	
 		float delta = distance(texCoord0, vec2(0.5f, 0.5f));

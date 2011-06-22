@@ -69,7 +69,7 @@ void main(void)
 	float theta = acos(direction.y); // elevation --> y-axis, [-pi/2, pi/2]
 	float phi = atan(direction.z, direction.x); // azimuth --> x-axis [-pi/2, pi/2]
 	vec2 uv = vec2(phi, theta) / vec2(2*pi, pi) + vec2(0.5f, 0.0f);
-	vec3 L0 = texture(sDiffuse, uv).rgb ;
+	vec3 L0 = texture(sDiffuse, uv).rgb * Fex;
 
 	// composition
 

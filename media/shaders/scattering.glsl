@@ -41,16 +41,23 @@ const float steepness = 0.5f;
  */
 vec3 totalRayleigh(vec3 lambda)
 {
-	return (8 * pow(pi, 3) * pow(n*n - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(lambda, vec3(4)) * (6 - 7 * pn));
+	return (8 * pow(pi, 3) * pow(pow(n, 2) - 1, 2) * (6 + 3 * pn)) / (3 * N * pow(lambda, vec3(4)) * (6 - 7 * pn));
 }
 
 /** Reileight phase function as a function of cos(theta)
  */
 float rayleighPhase(float cosTheta)
 {
-	// FIXME add braces
-
-	return (3.0f / 16.0f*pi) * (1.0f + pow(cosTheta, 2));
+	/**
+	 * NOTE: There are a few scale factors for the phase funtion
+	 * (1) as given bei Preetham, integral = 9/16
+	 * (2) normalized to integral = 1
+	 * (3) nasa: integrates to 9pi / 4, looks best
+	 */
+	 
+//	return (3.0f / (16.0f*pi)) * (1.0f + pow(cosTheta, 2));
+//	return (1.0f / (3.0f*pi)) * (1.0f + pow(cosTheta, 2));
+	return 0.75 * (1.0f + pow(cosTheta, 2));
 }
 
 /**
