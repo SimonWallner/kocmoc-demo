@@ -71,21 +71,11 @@ void main(void)
 	vec2 uv = vec2(phi, theta) / vec2(2*pi, pi) + vec2(0.5f, 0.0f);
 	vec3 L0 = texture(sDiffuse, uv).rgb * Fex;
 
-	// composition
-
+	// composition + solar disc
 	if (cosTheta > sunAngularDiameterCos)
 		L0 += sunE * Fex;
-
-		
-	fragmentColor0 = vec4(L0 + Lin, 1);
-//	fragmentColor0 = vec4(uv, 0, 1);
-
-
-
 	
-//	fragmentColor0 = vec4(mPhase);
-//	fragmentColor0.a = 1;
-
+	fragmentColor0 = vec4(L0 + Lin, 1);
 	fragmentColor1 = logLuminance(fragmentColor0);  
 
 }

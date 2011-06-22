@@ -50,14 +50,14 @@ float rayleighPhase(float cosTheta)
 {
 	/**
 	 * NOTE: There are a few scale factors for the phase funtion
-	 * (1) as given bei Preetham, integral = 9/16
+	 * (1) as given bei Preetham, normalized over the sphere with 4pi sr
 	 * (2) normalized to integral = 1
 	 * (3) nasa: integrates to 9pi / 4, looks best
 	 */
 	 
 //	return (3.0f / (16.0f*pi)) * (1.0f + pow(cosTheta, 2));
 //	return (1.0f / (3.0f*pi)) * (1.0f + pow(cosTheta, 2));
-	return 0.75 * (1.0f + pow(cosTheta, 2));
+	return (3.0f / 4.0f) * (1.0f + pow(cosTheta, 2));
 }
 
 /**
