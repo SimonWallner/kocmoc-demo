@@ -22,7 +22,7 @@ out vec2 texCoord0;
 out vec3 fragmentNormal;
 out vec3 worldSpacePosition;
 out vec3 shadowUV;
-out vec3 sunE;
+out vec3 sunEGround;
 
 
 void main(void)
@@ -64,7 +64,7 @@ void main(void)
 	vec3 Lin = ((betaRTheta + betaMTheta) / (betaR + betaM)) * (1.0f - Fex);
 
 	vec3 sunI = vec3(sunIntensity(dot(sunDirection, up)));
-	sunE = sunI;// * Fex + sunI * Lin;
+	sunEGround = sunI * Fex + sunI * Lin;
 
 }
 

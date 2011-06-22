@@ -69,6 +69,7 @@ float rayleighPhase(float cosTheta)
  */
 vec3 totalMie(vec3 lambda, vec3 K, float T)
 {
+	// not the formula given py Preetham.
 	float c = (0.2f * T ) * 10E-18;
 	return 0.434 * c * pi * pow((2 * pi) / lambda, vec3(v - 2)) * K;
 }
@@ -81,7 +82,7 @@ vec3 totalMie(vec3 lambda, vec3 K, float T)
  */
 float hgPhase(float cosTheta, float g)
 {
-	return (1.0f / (4.0f*pi)) * ((1.0f - g*g) / pow(1.0f + pow(g, 2) - 2.0f*g*cosTheta, 1.5));
+	return (1.0f / (4.0f*pi)) * ((1.0f - pow(g, 2)) / pow(1.0f - 2.0f*g*cosTheta + pow(g, 2), 1.5));
 }
 
 float sunIntensity(float zenithAngleCos)
