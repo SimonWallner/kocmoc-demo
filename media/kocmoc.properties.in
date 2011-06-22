@@ -30,11 +30,11 @@ alternativeModelsRootFolder = C:/Users/Simon/Uni/RTVIS/extra/
 
 
 # screen resolution and weather to start in full screen mode or not
-width = 1280
-height = 720
+width = 640
+height = 360
 fullscreen = 0
 
-enableMouse = 0
+enableMouse = 1
 captureMouse = 0
 gamepadSpeed = 500
 mouseSpeed = 10

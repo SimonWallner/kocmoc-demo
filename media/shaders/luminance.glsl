@@ -4,5 +4,6 @@
  */
 float logLuminance(vec4 c)
 {
+//	return 0.0f;
 	return log(c.r * 0.2126f + c.g * 0.7152f + c.b * 0.0722f);
 }

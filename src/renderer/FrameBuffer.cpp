@@ -235,7 +235,7 @@ GLuint FrameBuffer::getFBOHandle()
 void FrameBuffer::drawFBO()
 {
 	shader->bind();
-	setFBOTexture();
+
 
 	
 	// read average log Y from texture
@@ -256,10 +256,6 @@ void FrameBuffer::drawFBO()
 	average = min<float>(max<float>(0, average), 10);
 
 	float dLum = average - currentAdaptation; // increase --> positive dLum
-	int s = sign(dLum);
-	float a = abs(dLum);
-	float x = min(1.0f, 2.0f);
-	float d = Kocmoc::getInstance().getClock()->lastFrameDuration();
 
 	float change = sign(dLum) * min<float>(logAdaptationPerS * Kocmoc::getInstance().getClock()->lastFrameDuration(), abs(dLum));
 	currentAdaptation += change;
@@ -270,8 +266,10 @@ void FrameBuffer::drawFBO()
 
 	if ((location = shader->get_uniform_location("logLuminance")) >= 0)
 		glUniform1f(location, currentAdaptation);
-	
 
+
+	
+	setFBOTexture();
 
 	glBindVertexArray(vao_id);
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);

@@ -38,7 +38,7 @@ void Context::setupGLFW()
 	if (!glfwInit())
 		throw Exception("FATAL: Failed to initialize glfw!");
 
-	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8);
+//	glfwOpenWindowHint(GLFW_FSAA_SAMPLES, 8);
 	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
 
 	// Set flags so GLFW gives us a forward-compatible context.
@@ -69,6 +69,8 @@ void Context::setupGLFW()
 		throw Exception("OpenGL 3.2 not supported");
 
 	cout << "OpenGL " << glGetString(GL_VERSION) << ", GLSL " << glGetString(GL_SHADING_LANGUAGE_VERSION) << endl;
+	cout << "Vendor: " << glGetString(GL_VENDOR) << endl;
+	cout << "Renderer: " << glGetString(GL_RENDERER) << endl;
 
 	//GLenum err = glewInit();
 	//if (GLEW_OK != err) {
@@ -122,7 +124,7 @@ void Context::testOpenGL()
 	// check if we have a core-profile
 	glGetIntegerv(GL_CONTEXT_PROFILE_MASK, &profile);
 	if (profile == GL_CONTEXT_CORE_PROFILE_BIT)
-		cout << "Context is forward compatible." << endl;
+		cout << "Context is forward compatible/core profile." << endl;
 	else 
 		cout << "Context is NOT forward compatible." << endl;
 
@@ -133,8 +135,8 @@ void Context::testOpenGL()
 
 void Context::setGLStates()
 {
-	glClearColor(0.442047, 0.387623, 0.361867, 1.0f); // tinted gray
-	//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	//glClearColor(0.442047, 0.387623, 0.361867, 1.0f); // tinted gray
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	//glClearColor(0.502052f, 0.736210f, 0.8492514f, 1.0f); // blue
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

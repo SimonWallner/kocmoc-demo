@@ -3,6 +3,7 @@
 #version 150 core
 
 #pragma include scattering.glsl
+#pragma include luminance.glsl
 
 in vec2 texCoord0;
 in vec3 fragmentNormal;
@@ -65,5 +66,5 @@ void main(void)
 
 	// composition
 	fragmentColor0 = L0 * vec4(Fex, 1) + vec4(Lin, 0);
-	fragmentColor1 = log(fragmentColor0.r * 0.2126f + fragmentColor0.g * 0.7152f + fragmentColor0.b * 0.0722f);  
+	fragmentColor1 = logLuminance(fragmentColor0);  
 }

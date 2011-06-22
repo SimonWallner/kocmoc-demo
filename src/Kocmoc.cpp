@@ -277,6 +277,13 @@ void Kocmoc::pollKeyboard(void)
 		<< "\t H/J: decrease/increase directional constant g of HG phase function" << std::endl
 		<< "\t F/G: decrease/increase turbidity" << std::endl;
 
+	if (glfwGetKey('R'))
+	{
+		ShaderManager::getInstance().reloadAll();
+		Kocmoc::getInstance().reload();
+		ImageLoader::getInstance().reload();
+	}
+
 	if (glfwGetKey(GLFW_KEY_F3))
 		Context::getInstance().setWireframe(!Context::getInstance().getWireframe());
 
