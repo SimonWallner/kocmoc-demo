@@ -27,7 +27,7 @@ out float fragmentColor1;
 
 void main(void)
 {
-	const vec3 ambientIntensity = sunEGround * 0.1f;
+	vec3 ambientIntensity = sunEGround * 0.1f;
 
 	vec3 diffuseColor = vec3(0.5, 0.5, 0.5);
 	vec3 ambientTerm = diffuseColor * ambientIntensity;

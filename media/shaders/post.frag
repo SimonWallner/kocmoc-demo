@@ -81,7 +81,7 @@ void main(void)
 		float delta = distance(texCoord0, vec2(0.5f, 0.5f));
 		float darkening = 1 - pow(delta, power) * attenuation;
 
-		color = color * vec4(darkening.xxx, 1);
+		color = color * vec4(vec3(darkening), 1);
 	}
 
 
