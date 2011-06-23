@@ -46,20 +46,7 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	// create and bind texture
 	glGenTextures(1, &textureHandle);
 	glBindTexture(GL_TEXTURE_2D, textureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, frameWidth, frameHeight, 0, GL_RGBA, GL_FLOAT, NULL);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureHandle, 0);
-
-
-	// create and bind log Y texture
-	glGenTextures(1, &logYTextureHandle);
-	glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, frameWidth, frameHeight, 0, GL_RED, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, frameWidth, frameHeight, 0, GL_RGBA, GL_FLOAT, NULL);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -70,8 +57,24 @@ FrameBuffer::FrameBuffer(int _frameWidth, int _frameHeight, int _gateWidth, int 
 	maxMipLevel = uint(log(float(((frameWidth > frameHeight) ? frameWidth : frameHeight))) / log(2.0f));
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, maxMipLevel - 2, GL_TEXTURE_WIDTH, &averageWidth);
 	glGetTexLevelParameteriv(GL_TEXTURE_2D, maxMipLevel - 2, GL_TEXTURE_HEIGHT, &averageHeight);
+
 	
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, logYTextureHandle, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureHandle, 0);
+
+
+	// create and bind log Y texture
+	//glGenTextures(1, &logYTextureHandle);
+	//glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RG16F, frameWidth, frameHeight, 0, GL_RED, GL_FLOAT, NULL);
+
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+
+	//
+		//
+	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, logYTextureHandle, 0);
 
 
 	check();
@@ -239,11 +242,11 @@ void FrameBuffer::drawFBO()
 
 	
 	// read average log Y from texture
-	glBindTexture(GL_TEXTURE_2D, logYTextureHandle);
+	glBindTexture(GL_TEXTURE_2D, fboHandle);
 	glGenerateMipmap(GL_TEXTURE_2D);
 		
 	GLfloat* data = new GLfloat[averageWidth * averageHeight];
-	glGetTexImage(GL_TEXTURE_2D, maxMipLevel - 2, GL_RED, GL_FLOAT, data);
+	glGetTexImage(GL_TEXTURE_2D, maxMipLevel - 2, GL_ALPHA, GL_FLOAT, data);
 
 	GLfloat average = 0;
 	for (uint i = 0; i < averageWidth * averageHeight; i++)

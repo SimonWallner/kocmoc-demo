@@ -24,7 +24,7 @@ uniform float mieDirectionalG;
 uniform float turbidity;
 
 out vec4 fragmentColor0;
-out float fragmentColor1;
+//out float fragmentColor1;
 
 
 void main(void)
@@ -76,6 +76,6 @@ void main(void)
 		L0 += sunE * Fex;
 	
 	fragmentColor0 = vec4(L0 + Lin, 1);
-	fragmentColor1 = logLuminance(fragmentColor0);  
+	fragmentColor0.w = logLuminance(fragmentColor0);  
 
 }

@@ -21,7 +21,7 @@ out vec4 fragmentColor0;
 vec4 tonemap(vec4 hdr)
 {
 	float contrast = 6.0f;
-	float bias = 1.0f;
+	float bias = 1.2f;
 
 
 	vec3 c = hdr.rgb;

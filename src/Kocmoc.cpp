@@ -218,8 +218,8 @@ void Kocmoc::start()
 		glViewport(0, 0, fbo->frameWidth, fbo->frameHeight);
 
 		// TODO: move up/out of loop
-		GLenum buffers[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
-		glDrawBuffers(2, buffers);
+		//GLenum buffers[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+		//glDrawBuffers(2, buffers);
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
