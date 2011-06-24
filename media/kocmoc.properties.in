@@ -34,8 +34,8 @@ width = 1280
 height = 720
 fullscreen = 0
 
-enableMouse = 0
-captureMouse = 0
+enableMouse = 1
+captureMouse = 1
 gamepadSpeed = 500
 mouseSpeed = 10
 keyboardSpeed = 2000
