@@ -5,103 +5,124 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+\usepackage{subfigure}
+\usepackage{graphicx}
+
 \newcommand{\e}[1]{\ensuremath{\times 10^{#1}}}
 
+\parskip1.5ex plus1ex minus0.5ex
 
-\author{Simon Wallner}
-\title{Implementation of Real Time Atmospheric Scattering}
+\author{Simon Wallner\footnote{me@simonwallner.at}}
+\title{Implementation of Rea1l Time Atmospheric Scattering}
 
 
 \begin{document}
 \maketitle
 
 
-\section{Mathematical and Physical Background}
-Rayleigh scattering phase function \cite{Preetham03Modeling-skylight}
+\begin{abstract}
+This document accompanies a small demo implementation of\\ \cite{HoffmanPreetham02Rendering-outdoor}'s atmospheric scattering model. The Implementation tries to follow the paper closely but diverges in some aspects. Below you will find more detail on the general approach, the divergences and where the results differ from the original implementation.
+\end{abstract}
+
+
+\section{Background}
+The atmospheric scattering model \cite{HoffmanPreetham02Rendering-outdoor} was released in 2002 and more information about this approach can also be found in \cite{03ATI-LightScattering} and \cite{Preetham03Modeling-skylight}. Earlier relevant work for this approach is \cite{PreethamShirleySmits99A-practical-analytic}.
+
+The model uses Rayleigh and Mie scattering to model scattering in the earth's atmosphere. A few simplifications are made to make the model work in real time on current and even last generation consumer hardware.
+
+
+\section{Model and Simplifications}
+The model only accounts for single scattering events, and constant density mediums. Earth's curvature is only accounted for and approximated in the skylight computation. In the case of aerial perspective earth is assumed to be flat.
+
+\section{Implementation}
+The demo was implemented with the information found in the above mentioned papers. It is implemented as an OpenGL 3.2 demo, with GLSL shaders. Most of the implementation is done in the fragment shader, although big parts could have been offloaded to the vertex engine for similar results (dependent on scene tessellation).
+
+Computations are done in HDR and a simple log-luminance centred linear tone mapping operator is used as a post process to display the image.
+
+
+
+\subsection{General}
+Atmospheric scattering is highly wavelength dependent, and therefore computations are performed for 3 selected wavelengths. This solution is by no means correct but gives a good looking approximation. The three used primaries are (according to\\ \cite{03ATI-LightScattering}) 400nm, 530nm and 700nm. 
+
+SI units are used throughout the implementation unless otherwise noticed.
+
+\subsection{Divergences}
+The implementation diverges from the papers in a few aspects. The scale factor for the Rayleigh phase function was chosen differently to achieve better looking results. 
+
+The \emph{concentration factor} used in the Mie scattering function was computed differently, as the formula given in \cite{PreethamShirleySmits99A-practical-analytic} did not match the numbers in \cite{03ATI-LightScattering}.
+
+
+
+\subsection{Skylight}
+the curvature of the earth's surface is approximated by the function given in\\ \cite{03ATI-LightScattering}
 \begin{equation}
-f_R(\theta) = \frac{3}{16\pi} (1 + cos^2\theta)
+\frac{l(\theta_s)}{l_{zenith}} = \frac{1}{\cos \theta_s + 0.15(93.885 - \theta_s)^{-1.253}}
 \end{equation}
 
-Henyey-Greenstein Approximation of the Mie scattering phase function: \cite{HenyeyGreenstein41Diffuse-radiation, Preetham03Modeling-skylight}
-\begin{equation}
-f_{HG}(\theta) = \frac{1}{4\pi} \frac{1 - g^2}{(1 - 2g\cos \theta + g^2) ^{3/2}}
-\end{equation}
+where $\theta_s$ is the zenith angle and $l_zenith$ is the optical length of the medium in zenith direction. In the paper these lengths are given as $8.4km$ for molecules (Rayleigh scatterers) and $1.25km$ for aerosols (Mie scatterers).
 
+the above formula is only usefull in the range of $[0, 90]$ degrees and is therefore capped, even though zenith angles of well above $90\deg$ can occur in practice.
 
-\subsection{Extinction}
-Extinction in constant mediums can be calculated with the exponential function. 
+The sky is generally assumed to be black (except for a faint skymap) and sky color is only a result of in-scattering. 
 
-\begin{equation}
-F_{ex}(s) = e^{-\beta_{ex}s}
-\end{equation}
-
-where $s$ is the length of the ray in the medium, and $\beta_{ex}$ is the extinction coefficient. In the case of atmospheric scattering it is usually wave-length-dependent. The extinction coefficient is the sum of the absorption and out scattering.
-
-\begin{equation}
-\beta_{sc}(\theta) = \beta_{sc} f(\theta)
-\end{equation}
-
-
-\subsection{Optical Mass}
-Optical mass of a medium is given by \cite{Preetham03Modeling-skylight}
-
-\begin{equation}
-m = \int^s_0 \rho(x)dx
-\end{equation}
-It is the mass of the medium along a path of unit cross section with medium density $\rho(x)$
-
-\emph{Optical length} is optical mass divided by the density of earth's atmosphere at base height $\rho_0$
-\begin{equation}
-l = \frac{1}{\rho_0} \int^s_0 \rho(x)dx
-\end{equation}
-
-
-\subsection{Rayleigh Scattering coefficient}
-The total $\beta$ and angular $\beta(\theta)$ Rayleigh scattering coefficients are given by \cite{Preetham03Modeling-skylight}
-\begin{gather}
-\beta = \frac{8 \pi^3(n^2 - 1)^2}{3N\lambda^4} \left(\frac{6 + 3 p_n}{6 - 7 p_n} \right) \\
-\beta(\theta) = \frac{\pi^3(n^2 - 1)^2}{2N\lambda^4} \left(\frac{6 + 3 p_n}{6 - 7 p_n} \right) (1 +  \cos^2 \theta)
-\end{gather}
-where $n$ is the refractive index of air ($n = 1.0003$), $N$ is the number of molecules per unit volume ($N = 2.545x10^{25}$) and $p_n$ is the depolarization factor for air ($p_n = 0.0035$)
-
-\subsection{RGB Wavelengths}
-According to \cite{Preetham03Modeling-skylight}:
-\begin{align}
-\lambda_{blue} =& 400\e{-9}m \\
-\lambda_{green} =& 530\e{-9}m \\
-\lambda_{red} =& 700\e{-9}m
-\end{align}
-
-\subsection{Mie Scattering coefficient}
-\begin{equation}
-\beta = 0.434 c \pi \left(\frac{2 \pi}{\lambda}\right)^{v-2}K(\lambda)
-\end{equation}
-
-where $c$ is the concentration factor in the range of $6\e{-17}$ and $25\e{-17}$, $v$ is the \emph{Junge exponent} ($v = 4 $ for a standard sky model) and  $K$ varies from $0.656$ to $0.69$ depending on the wavelength $\lambda$.
-
-
-\section{In-Scattering}
-\cite{Preetham03Modeling-skylight}:
-
-\begin{equation}
-L_s = f * L_0 + L_{in}
-\end{equation}
-
-Where $f$ is the extinction coefficient, $L_0$ is the radiance at the end of the ray, $L_{in}$ is the radiance scattered into the ray over the path s.
-
-In the case of sky light $L_0 = 0$, this equation simplifies to 
-\begin{equation}
-L_s = L_{in}
-\end{equation} 
-
-With a few simplifications (single scattering, constant density atmosphere) $L_{in}$ can be formulated as 
-\begin{equation}
-L_{in} = E^s \frac{\beta(\omega, \omega_s)}{\beta} (1 - e^{-\beta s})
-\end{equation}
+To approximate the earth shadow a very crude approximation is used. The sun light's intensity is attenuated as the sun approaches the horizon. 
 
 
 
+\subsection{Aerial Perspective}
+For aerial perspective the incident light on the ground is first computed by calculating extinction and in-scattering in the direction of the sun. 
 
+This incident light is then used to shade the ground and is then attenuated by the out-scattering as it travels towards the viewer. The atmosphere is assumed to be of constant density at ground level which simplifies computations. In-scattering is also evaluated and added to the result.
+
+
+
+\section{Results and Discussion}
+Although most parts are implemented in the fragment shader, rendering takes only about 10ms per frame on standard consumer hardware\footnote{ATI Radeon 4830} at a resolution of $1280 \times 720$. 
+
+The Result looks pleasing and lifelike for most parameter choices. A big difference however is in situations where the sun is close to the horizon. The typical yellow-reddish sky of the rising and setting sun could not be achieved with the present implementation. 
+
+However, this effect can be clearly seen in the reference demo provided by Preetham and Hoffman. I assume that either my implementation is fundamentally flawed or not all implementation details are revealed in the cited papers.
+
+\begin{figure}[hbtp]
+\centering
+\subfigure[reference]{
+	\includegraphics[width=0.45\columnwidth]{img/sunset-reference}
+}
+\subfigure[result]{
+	\includegraphics[width=0.45\columnwidth]{img/sunset}
+}
+
+\end{figure}
+
+\section{Compilation and Usage}
+All source code can be found in a repository hosted at github\footnote{https://github.com/SimonWallner/kocmoc-demo} in the branch \texttt{RTVIS}. CMake is used as a build tool, and instructions on how to build the project can be found in the \texttt{readme} file.
+
+Currently, the only supported platform is \emph{Windows 7} 32bit, however it should be possible to port it to other platforms without much problems. 
+
+\subsection{controls}
+The application can be configured via a config file found in the media folder\\ (\texttt{kocmoc.properties}). It uses a self-documented syntax and there you can change resolution and window mode, among other settings. 
+
+The most important controls are as follows:
+
+\begin{description}
+\item[F1] print the key mapping to the console
+\item[WASD] move the camera
+\item[mouse] rotate camera
+\item[directional keys] move the sun
+\item[I/O] decrease/increase the Rayleigh scattering coefficient, prints to console
+\item[K/L] decrease/increase the Mie scattering coefficient, prints to console
+\item[H/J] decrease/increase the directional constant g of the Henyey-Greenstein phase function, prints to console
+\item[F/G] decrease/increase turbidity, prints to console
+\item[.] save screenshot to working directory
+
+\end{description}
+
+\section{License}
+All original source code is licensed under the MIT license. You are free to use and copy it without restriction as long as proper credit is given. The full license text can be found in the repo.
+
+The skymap image is courtesy of \emph{f NASA/Goddard Space Flight Center Scientific Visualization Studio\footnote{http://svs.gsfc.nasa.gov/goto?3572}}
+
+Although not demanded by the license, it would be nice to let me know if you are using parts of this project. If you have any questions regarding this project, please feel free to contact me any time via email.
 
 
 
